@@ -1,0 +1,939 @@
+<html>
+  <head>
+    <title>
+      Peg Solitaire
+    </title>
+    
+    <style>
+      A
+      {
+        color:#00FFFF;
+      }
+    </style>
+    
+    <meta property="og:title" content="Peg Solitaire" />
+    <meta property="og:description" content="A simple javascript puzzle game" />
+    <meta property="og:image" content="http://william.hoza.us/images/marbles-small.png" />
+  </head>
+  
+  <body style="margin:0px;background-color:black;" onresize="setSize();" onkeydown="body_keydown(event);" onkeyup="body_keyup(evt);">
+    <audio src="pop.ogg" preload="PRELOAD"></audio>
+    <audio src="oops.ogg" preload="PRELOAD"></audio>
+    <audio src="win.ogg" preload="PRELOAD"></audio>
+    
+    <table style="width:100%;height:100%;color:white;" cellpadding="0px" cellspacing="0px">
+      <tr>
+        <td id="topStuff" style="text-align:center;padding-top:10px;">
+          <div id="topDiv" style="font-size:9pt;font-family:sans-serif;background-color:#303030;display:inline-block;padding:10px;width:700px;">
+            Click and drag to hop the dots over each other horizontally and vertically. Try to get down to just one dot!
+            <br>
+            <div style="margin-bottom:5px;margin-top:5px;" id="configDiv">
+              Board configuration:
+              <select id="configSelect" onchange="configSelect.selectedIndex=this.selectedIndex;configSelect2.selectedIndex=this.selectedIndex;">
+                <option>Easy: Circle (4x4)</option>
+                <option>Easy: Square (4x4)</option>
+                <option>Medium: Square (5x5)</option>
+                <option SELECTED="SELECTED">Medium: English</option>
+                <option>Medium: European (modified &amp; solvable)</option>
+                <option>Medium: Diamond 32</option>
+                <option>Difficult: Square (6x6)</option>
+                <option>Difficult: Wiegleb</option>
+                <option>Difficult: Diamond 41</option>
+                <option>European (unsolvable)</option>
+              </select>
+              <button onclick="configSelect.selectedIndex=configSelect2.selectedIndex;loadConfig();">load</button>
+            </div>
+            more cool stuff: <a href="http://william.hoza.us">http://william.hoza.us</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td valign="middle" style="text-align:center;">
+          <canvas id="canv" width="460px" height="460px" onmousemove="canv_mousemove(event);" onmousedown="canv_mousedown(event);return false;" onmouseup="canv_mouseup(event);">you need a canvas-enabled browser</canvas>
+        </td>
+      </tr>
+      <tr>
+        <td id="bottomStuff" style="text-align:center;padding-bottom:10px;">
+        <button id="undoButton" onclick="undo();" style="font-size:18pt;width:150px;font-weight:bold;">UNDO</button>
+        <button id="redoButton" onclick="redo();" style="font-size:18pt;width:150px;font-weight:bold;">REDO</button>
+        <br>
+        <br>
+<script type="text/javascript"><!--
+google_ad_client = "pub-7377269250431987";
+/* marbles 12/24 */
+google_ad_slot = "6689066471";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+        </td>
+      </tr>
+    </table>
+    
+    <div id="endBox" style="display:none;position:absolute;background-color:black;color:white;padding:10px;width:550px;border:2px solid white;opacity:0.8;">
+      <span id="messageSpan">congrats or too bad?</span>
+      <br>
+      <br>
+    </div>
+    
+    <script type="text/javascript">
+      var canv=$('canv');
+      var ctx=canv.getContext('2d');
+      var topStuff=$('topStuff');
+      var bottomStuff=$('bottomStuff');
+      var topDiv=$('topDiv');
+      var configSelect=$('configSelect');
+      var undoButton=$('undoButton');
+      var redoButton=$('redoButton');
+      var endBox=$('endBox');
+      var messageSpan=$('messageSpan');
+      var configDiv=$('configDiv');
+      var cantUndo=false;
+      var cantRedo=false;
+      var phone=false;
+      
+      var uagent = navigator.userAgent.toLowerCase();
+      if(uagent.search(/android|ipod|iphone/) != -1) phone=true;
+      
+      var configs=[[[0,1,1,0],
+                    [1,1,1,2],
+                    [1,1,1,1],
+                    [0,1,1,0]], //4x4 circle
+                    
+                   [[1,1,1,1],
+                    [1,1,1,1],
+                    [1,1,1,1],
+                    [1,1,2,1]], //4x4 square
+                    
+                   [[1,1,1,1,1],
+                    [1,1,1,1,1],
+                    [1,1,1,1,1],
+                    [1,1,2,1,1],
+                    [1,1,1,1,1]], //5x5 square
+      
+                   [[0,0,1,1,1,0,0],
+                    [0,0,1,1,1,0,0],
+                    [1,1,1,1,1,1,1],
+                    [1,1,1,2,1,1,1],
+                    [1,1,1,1,1,1,1],
+                    [0,0,1,1,1,0,0],
+                    [0,0,1,1,1,0,0]], //english
+                    
+                   [[0,0,1,1,1,0,0],
+                    [0,1,1,1,1,1,0],
+                    [1,1,1,2,1,1,1],
+                    [1,1,1,1,1,1,1],
+                    [1,1,1,1,1,1,1],
+                    [0,1,1,1,1,1,0],
+                    [0,0,1,1,1,0,0]], //euro modified
+                    
+                   [[0,0,0,1,0,0,0],
+                    [0,0,1,1,1,0,0],
+                    [0,1,1,1,1,1,0],
+                    [1,1,1,2,1,1,1],
+                    [1,1,1,1,1,1,1],
+                    [0,1,1,1,1,1,0],
+                    [0,0,1,1,1,0,0],
+                    [0,0,0,1,0,0,0]], //diamond 32
+                    
+                   [[1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,2,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1],
+                    [1,1,1,1,1,1]], //6x6 square
+                    
+                   [[0,0,0,1,1,1,0,0,0],
+                    [0,0,0,1,1,1,0,0,0],
+                    [0,0,0,1,1,1,0,0,0],
+                    [1,1,1,1,1,1,1,1,1],
+                    [1,1,1,1,2,1,1,1,1],
+                    [1,1,1,1,1,1,1,1,1],
+                    [0,0,0,1,1,1,0,0,0],
+                    [0,0,0,1,1,1,0,0,0],
+                    [0,0,0,1,1,1,0,0,0]], //wieglieb
+                    
+                   [[0,0,0,0,1,0,0,0,0],
+                    [0,0,0,1,1,1,0,0,0],
+                    [0,0,1,1,1,1,1,0,0],
+                    [0,1,1,1,1,1,1,1,0],
+                    [1,1,1,1,1,1,2,1,1],
+                    [0,1,1,1,1,1,1,1,0],
+                    [0,0,1,1,1,1,1,0,0],
+                    [0,0,0,1,1,1,0,0,0],
+                    [0,0,0,0,1,0,0,0,0]], //diamond 41
+                   
+                   [[0,0,1,1,1,0,0],
+                    [0,1,1,1,1,1,0],
+                    [1,1,1,1,1,1,1],
+                    [1,1,1,2,1,1,1],
+                    [1,1,1,1,1,1,1],
+                    [0,1,1,1,1,1,0],
+                    [0,0,1,1,1,0,0]]]; //euro unsolvable
+                    
+      var holes=configs[$('configSelect').selectedIndex];
+      
+      var spots=new Array();
+      var size=100;
+      var canvWidth=0;
+      var canvHeight=0;
+      var hoveredBall;
+      var canvMouseIsDown=false;
+      var redrawTime=0;
+      var ballRadiusMultiplier=0.415;
+      var ballHistory=new Array();
+      var historyIndex=0;
+      var ctrlHeld=false;
+      var KEY_CTRL=17;
+      var KEY_Z=90;
+      var KEY_Y=89;
+      
+      function body_keydown(evt)
+      {
+        if(evt.keyCode==KEY_CTRL)
+        {
+          ctrlHeld=true;
+        }
+        else if(ctrlHeld)
+        {
+          if(evt.keyCode==KEY_Z)
+          {
+            undo();
+          }
+          else if(evt.keyCode==KEY_Y)
+          {
+            redo();
+          }
+        }
+      }
+      
+      function body_keyup(evt)
+      {
+        if(evt.keyCode==KEY_CTRL)
+        {
+          ctrlHeld=false;
+        }
+      }
+      
+      function loadConfig()
+      {
+        holes=configs[$('configSelect').selectedIndex];
+        startOver();
+      }
+      
+      function startOver()
+      {
+        ballHistory=new Array();
+        historyIndex=0;
+        lost=false;
+        won=false;
+        init();
+      }
+      
+      function undo()
+      {
+        if(!cantUndo)
+        {
+          historyIndex--;
+          redraw();
+        }
+      }
+      
+      function redo()
+      {
+        if(!cantRedo)
+        {
+          historyIndex++;
+          redraw();
+        }
+      }
+      
+      function initialInit() //teehee
+      {
+        var configClone=configDiv.cloneNode(true);
+        endBox.appendChild(configClone);
+        var configSelect2=configClone.getElementsByTagName("select")[0];
+        configSelect2.id="configSelect2";
+        
+        Object.prototype.clone=function()
+        {
+          var newObj = (this instanceof Array) ? [] : {};
+          for(i in this)
+          {
+            if(i=='clone') continue;
+            
+            if(this[i] && typeof this[i] == "object")
+            {
+              newObj[i] = this[i].clone();
+            }
+            else
+            {
+              newObj[i] = this[i];
+            }
+          }
+          return newObj;
+        };
+        
+        init();
+      }
+      
+      function init()
+      {
+        var index=0;
+        
+        spots=new Array();
+        ballHistory[historyIndex]=new Array();
+        
+        for(var i=0;i<holes.length;i++)
+        {
+          spots[i]=new Array();
+          for(var j=0;j<holes[i].length;j++)
+          {
+            spots[i][j]=new Spot(holes[i][j],j,i);
+            if(holes[i][j]==1)
+            {
+              //there is a hole there and it's not the center
+              index=ballHistory[historyIndex].length;
+              ballHistory[historyIndex][index]=new Ball(j,i);
+            }
+          }
+        }
+        
+        for(i=0;i<ballHistory[historyIndex].length;i++)
+        {
+          ballHistory[historyIndex][i].findAvailableMoves();
+        }
+        
+        ctx.lineCap='round';
+        setSize(); //redraws at end
+      }
+      
+      function setSize()
+      {
+        var tries=0;
+        
+        do
+        {
+          canvWidth=Math.max(document.body.clientWidth,468);
+          canvHeight=document.body.clientHeight-topStuff.offsetHeight-bottomStuff.offsetHeight;
+
+          if(canvWidth<canvHeight)
+          {
+            size=canvWidth/(holes[0].length+1/2);
+            canvHeight=size*(holes.length+1/2);
+          }
+          else
+          {
+            size=canvHeight/(holes.length+1/2);
+            canvWidth=size*(holes[0].length+1/2);
+          }
+
+          canv.width=canvWidth;
+          canv.height=canvHeight;
+          
+          topDiv.style.width=Math.max(canvWidth,468);
+          
+          tries++;
+        } while(canvHeight!=document.body.clientHeight-topStuff.offsetHeight-bottomStuff.offsetHeight && tries<100);
+        
+        redraw();
+      }
+      
+      function sx(ux)
+      {
+        return ux*size+size*3/4;
+      }
+      
+      function sy(uy)
+      {
+        return uy*size+size*3/4;
+      }
+      
+      function ux(sx) //inverse function of sx
+      {
+        return Math.round((sx-size*3/4)/size);
+      }
+      
+      function uy(sy)
+      {
+        return Math.round((sy-size*3/4)/size);
+      }
+      
+      function Ball(x,y)
+      {
+        this.x=x;
+        this.y=y;
+        this.grabbed=false;
+        this.screenX=sx(this.x);
+        this.screenY=sy(this.y);
+        this.availableMoves=new Array();
+        this.moved=false;
+        this.index=0;
+        
+        this.color=hsvToRgb(Math.random()*360,100,100);
+      }
+      
+      Ball.prototype.draw=function()
+      {
+        var r=size*ballRadiusMultiplier;
+        var x=0;
+        var y=0;
+        
+        if(!this.grabbed)
+        {
+          x=sx(this.x);
+          y=sy(this.y);
+        }
+        else
+        {
+          x=this.screenX;
+          y=this.screenY;
+        }
+        
+        ctx.fillStyle=colorString(this.color);
+        ctx.beginPath();
+        ctx.moveTo(x+r,y);
+        ctx.arc(x,y,r,0,Math.PI*2,false);
+        ctx.fill();
+        
+        if(this.hoveredOver)
+        {
+          ctx.fillStyle=colorString(this.color,0.5);
+          ctx.beginPath();
+          ctx.moveTo(x+r*1.08,y);
+          ctx.arc(x,y,r*1.08,0,Math.PI*2,false);
+          ctx.fill();
+        }
+        
+        if(this==hoveredBall)
+        {
+          for(var i=0;i<this.availableMoves.length;i++)
+          {
+            this.availableMoves[i].draw(this.color);
+          }
+        }
+      }
+      
+      Ball.prototype.findAvailableMoves=function()
+      {
+        this.availableMoves=new Array();
+        this.checkForMovementInto(this.x-2,this.y);
+        this.checkForMovementInto(this.x+2,this.y);
+        this.checkForMovementInto(this.x,this.y-2);
+        this.checkForMovementInto(this.x,this.y+2);
+      }
+      
+      
+      Ball.prototype.checkForMovementInto=function(x,y)
+      {
+        //checks if it would be ok for a ball to move into x,y
+        if(spots[y] && spots[y][x] && spots[y][x].hole>=1)
+        {
+          //well, at least there's a hole there.
+          var ballThere=false;
+          var ballInTheMiddle=false;
+          for(var i=0;i<ballHistory[historyIndex].length;i++)
+          {
+            if(ballHistory[historyIndex][i].x==x && ballHistory[historyIndex][i].y==y)
+            {
+              ballThere=true;
+              break;
+            }
+            if(ballHistory[historyIndex][i].x==(this.x+x)/2 && ballHistory[historyIndex][i].y==(this.y+y)/2)
+            {
+              ballInTheMiddle=true;
+            }
+          }
+          
+          if(!ballThere && ballInTheMiddle)
+          {
+            //also, there's no ball there. grood. is there a ball in the middle?
+            this.availableMoves[this.availableMoves.length]=spots[y][x];
+          }
+        }
+      }
+      
+      function colorString(colorArray, opac)
+      {
+        if(opac==1 || opac==undefined)
+        {
+          return "rgb(" + colorArray[0] + ", " + colorArray[1] + ", " + colorArray[2] + ")";
+        }
+        else
+        {
+          return "rgba(" + colorArray[0] + ", " + colorArray[1] + ", " + colorArray[2] + ", " + opac + ")";
+        }
+      }
+      
+      function Spot(hole,x,y)
+      {
+        this.hole=hole;
+        this.available=false;
+        this.x=x;
+        this.y=y;
+      }
+      
+      Spot.prototype.draw=function(color)
+      {
+        var r=size*ballRadiusMultiplier;
+        
+        ctx.strokeStyle=colorString(color);
+        ctx.lineWidth=size*0.02;
+        ctx.beginPath();
+        for(var angle=0;angle<Math.PI*2;angle+=Math.PI*0.1)
+        {
+          ctx.moveTo(sx(this.x)+r*Math.cos(angle), sy(this.y)+r*Math.sin(angle));
+          ctx.arc(sx(this.x), sy(this.y), r, angle,angle+Math.PI*0.05,false);
+        }
+        ctx.stroke();
+      }
+      
+      function drawBoard()
+      {
+        ctx.strokeStyle="#808080";
+        ctx.lineWidth=size*0.04;
+        ctx.beginPath();
+        
+        for(var i=0;i<spots.length;i++)
+        {
+          for(var j=0;j<spots[i].length;j++)
+          {
+            if(spots[i][j].hole>=1)
+            {
+              if(!spots[i-1] || spots[i-1][j].hole==0)
+              {
+                //no hole above.
+                if(!spots[i][j+1] || spots[i][j+1].hole==0)
+                {
+                  //no hole to the right.
+                  ctx.moveTo(sx(j),sy(i)-size/2);
+                  ctx.arc(sx(j),sy(i),size/2,-Math.PI/2,0,false);
+                }
+                else
+                {
+                  if(spots[i-1] && spots[i-1][j+1] && spots[i-1][j+1].hole>=1)
+                  {
+                    //hole to the upper right.
+                    ctx.moveTo(sx(j),sy(i)-size/2);
+                    ctx.arc(sx(j),sy(i-1),size/2,Math.PI/2,0,true);
+                  }
+                  else
+                  {
+                    ctx.moveTo(sx(j),sy(i)-size/2);
+                    ctx.lineTo(sx(j)+size/2,sy(i)-size/2);
+                  }
+                }
+                
+                if(!spots[i][j-1] || spots[i][j-1].hole==0)
+                {
+                  ctx.moveTo(sx(j)-size/2,sy(i));
+                  ctx.arc(sx(j),sy(i),size/2,Math.PI,-Math.PI/2,false);
+                }
+                else
+                {
+                  if(spots[i-1] && spots[i-1][j-1] && spots[i-1][j-1].hole>=1)
+                  {
+                    //hole to the upper left.
+                    ctx.moveTo(sx(j),sy(i)-size/2);
+                    ctx.arc(sx(j),sy(i-1),size/2,Math.PI/2,Math.PI,false);
+                  }
+                  else
+                  {
+                    ctx.moveTo(sx(j)-size/2,sy(i)-size/2);
+                    ctx.lineTo(sx(j),sy(i)-size/2);
+                  }
+                }
+              }
+              
+              if(!spots[i+1] || spots[i+1][j].hole==0)
+              {
+                //no hole below.
+                if(!spots[i][j+1] || spots[i][j+1].hole==0)
+                {
+                  //no hole to the right.
+                  ctx.moveTo(sx(j),sy(i)+size/2);
+                  ctx.arc(sx(j),sy(i),size/2,Math.PI/2,0,true);
+                }
+                else
+                {
+                  if(spots[i+1] && spots[i+1][j+1] && spots[i+1][j+1].hole>=1)
+                  {
+                    //hole to the lower right.
+                    ctx.moveTo(sx(j),sy(i)+size/2);
+                    ctx.arc(sx(j),sy(i+1),size/2,-Math.PI/2,0,false);
+                  }
+                  else
+                  {
+                    ctx.moveTo(sx(j),sy(i)+size/2);
+                    ctx.lineTo(sx(j)+size/2,sy(i)+size/2);
+                  }
+                }
+                
+                if(!spots[i][j-1] || spots[i][j-1].hole==0)
+                {
+                  ctx.moveTo(sx(j)-size/2,sy(i));
+                  ctx.arc(sx(j),sy(i),size/2,Math.PI,Math.PI/2,true);
+                }
+                else
+                {
+                  if(spots[i+1] && spots[i+1][j-1] && spots[i+1][j-1].hole>=1)
+                  {
+                    //hole to the lower left.
+                    ctx.moveTo(sx(j),sy(i)+size/2);
+                    ctx.arc(sx(j),sy(i+1),size/2,-Math.PI/2,Math.PI,true);
+                  }
+                  else
+                  {
+                    ctx.moveTo(sx(j)-size/2,sy(i)+size/2);
+                    ctx.lineTo(sx(j),sy(i)+size/2);
+                  }
+                }
+              }
+              
+              if(!spots[i][j-1] || spots[i][j-1].hole==0)
+              {
+                //no hole to the left.
+                if(spots[i-1] && spots[i-1][j].hole>=1 && (!spots[i-1][j-1] || spots[i-1][j-1].hole==0))
+                {
+                  //hole above, no hole to the upper left.
+                  ctx.moveTo(sx(j)-size/2,sy(i));
+                  ctx.lineTo(sx(j)-size/2,sy(i)-size/2);
+                }
+                
+                if(spots[i+1] && spots[i+1][j].hole>=1 && (!spots[i+1][j-1] || spots[i+1][j-1].hole==0))
+                {
+                  //hole below, no hole to the lower left.
+                  ctx.moveTo(sx(j)-size/2,sy(i));
+                  ctx.lineTo(sx(j)-size/2,sy(i)+size/2);
+                }
+              }
+              
+              if(!spots[i][j+1] || spots[i][j+1].hole==0)
+              {
+                //no hole to the left.
+                if(spots[i-1] && spots[i-1][j].hole>=1 && (!spots[i-1][j+1] || spots[i-1][j+1].hole==0))
+                {
+                  //hole above, no hole to the upper right.
+                  ctx.moveTo(sx(j)+size/2,sy(i));
+                  ctx.lineTo(sx(j)+size/2,sy(i)-size/2);
+                }
+                
+                if(spots[i+1] && spots[i+1][j].hole>=1 && (!spots[i+1][j+1] || spots[i+1][j+1].hole==0))
+                {
+                  //hole below, no hole to the lower right.
+                  ctx.moveTo(sx(j)+size/2,sy(i));
+                  ctx.lineTo(sx(j)+size/2,sy(i)+size/2);
+                }
+              }
+            }
+          }
+        }
+
+        ctx.stroke();
+      }
+      
+      function redraw()
+      {
+        ctx.clearRect(0,0,canvWidth,canvHeight);
+        drawBoard();
+        
+        cantUndo=undoButton.disabled=historyIndex==0;
+        cantRedo=redoButton.disabled=historyIndex==ballHistory.length-1;
+
+        for(var i=0;i<ballHistory[historyIndex].length;i++)
+        {
+          ballHistory[historyIndex][i].index=i;
+          ballHistory[historyIndex][i].draw();
+        }
+        
+        if(ballHistory[historyIndex].won || ballHistory[historyIndex].lost)
+        {
+          endBox.style.display='inline-block';
+          if(ballHistory[historyIndex].won)
+          {
+            messageSpan.innerHTML="Congratulations, YOU WON! Perhaps you'd like to try another board configuration?";
+          }
+          else
+          {
+            messageSpan.innerHTML="You lose. " + ballHistory[historyIndex].length + " dots left. Perhaps you'd like to <a href='#' onclick='startOver();'>try again</a> or try another board configuration?";
+          }
+          endBox.style.left=canv.offsetLeft+canvWidth/2-endBox.offsetWidth/2;
+          endBox.style.top=canv.offsetTop+topStuff.offsetHeight+canvHeight/2-endBox.offsetHeight/2;
+        }
+        else
+        {
+          endBox.style.display='none';
+        }
+        
+        if(hoveredBall) hoveredBall.draw(); //last so it's on top
+        
+        redrawTime=(new Date()).getTime();
+      }
+      
+      function canv_mousemove(evt)
+      {
+        var mx=evt.clientX-canv.offsetLeft;
+        var my=evt.clientY-canv.offsetTop-topStuff.offsetHeight;
+        
+        if(!canvMouseIsDown)
+        {
+          unitX=ux(mx);
+          unitY=uy(my);
+          
+          var dx=mx-sx(unitX);
+          var dy=my-sy(unitY);
+          var withinBallRadius=Math.sqrt(dx*dx+dy*dy)<=size*ballRadiusMultiplier;
+          
+          hoveredBall=null;
+          canv.style.cursor="default";
+          
+          for(var i=0;i<ballHistory[historyIndex].length;i++)
+          {
+            if(withinBallRadius && ballHistory[historyIndex][i].x==unitX && ballHistory[historyIndex][i].y==unitY)
+            {
+              ballHistory[historyIndex][i].hoveredOver=true;
+              hoveredBall=ballHistory[historyIndex][i];
+              canv.style.cursor="pointer";
+            }
+            else
+            {
+              ballHistory[historyIndex][i].hoveredOver=false;
+            }
+          }
+        }
+        else
+        {
+          if(hoveredBall)
+          {
+            hoveredBall.screenX=mx-hoveredBall.grabX;
+            hoveredBall.screenY=my-hoveredBall.grabY;
+            
+            if(hoveredBall.screenX!=sx(hoveredBall.x) || hoveredBall.screenY!=sy(hoveredBall.y))
+            {
+              hoveredBall.moved=true;
+            }
+          }
+        }
+        
+        var curTime=(new Date()).getTime();
+
+        if(curTime-redrawTime>30) redraw();
+      }
+      
+      function canv_mousedown(evt)
+      {
+        canvMouseIsDown=true;
+        if(hoveredBall && !hoveredBall.grabbed)
+        {
+          var mx=evt.clientX-canv.offsetLeft;
+          var my=evt.clientY-canv.offsetTop-topStuff.offsetHeight;
+          
+          hoveredBall.grabX=mx-sx(hoveredBall.x);
+          hoveredBall.grabY=my-sy(hoveredBall.y);
+          
+          hoveredBall.screenX=sx(hoveredBall.x);
+          hoveredBall.screenY=sy(hoveredBall.y);
+          
+          hoveredBall.moved=false;
+          
+          hoveredBall.grabbed=true;
+          canv.style.cursor="move";
+        }
+      }
+      
+      function canv_mouseup(evt)
+      {
+        canvMouseIsDown=false;
+        
+        if(hoveredBall)
+        {
+          if(!phone || hoveredBall.moved)
+          {
+            var newX=ux(hoveredBall.screenX);
+            var newY=uy(hoveredBall.screenY);
+
+            var failed=true;
+            for(var i=0;i<hoveredBall.availableMoves.length;i++)
+            {
+              if(hoveredBall.availableMoves[i].x==newX && hoveredBall.availableMoves[i].y==newY)
+              {
+                failed=false;
+                
+                historyIndex++;
+                
+                if(historyIndex < ballHistory.length)
+                {
+                  ballHistory.splice(historyIndex,ballHistory.length-historyIndex);
+                }
+                
+                ballHistory[historyIndex]=ballHistory[historyIndex-1].clone();
+                hoveredBall.grabbed=false;
+                hoveredBall.hovered=false;
+                hoveredBall=ballHistory[historyIndex][hoveredBall.index];
+                
+                for(var j=0;j<ballHistory[historyIndex].length;j++)
+                {
+                  if(ballHistory[historyIndex][j].x==(hoveredBall.x+newX)/2 && ballHistory[historyIndex][j].y==(hoveredBall.y+newY)/2)
+                  {
+                    ballHistory[historyIndex].splice(j,1);
+                    break;
+                  }
+                }
+                break;
+              }
+            }
+            
+            if(!failed)
+            {
+              hoveredBall.x=newX;
+              hoveredBall.y=newY;
+              
+              playSound('pop.ogg');
+              
+              var canGo=false;
+              
+              for(var i=0;i<ballHistory[historyIndex].length;i++)
+              {
+                ballHistory[historyIndex][i].findAvailableMoves();
+                if(ballHistory[historyIndex][i].availableMoves.length>0)
+                {
+                  canGo=true;
+                }
+              }
+              
+              if(!canGo)
+              {
+                //game's over.
+                if(ballHistory[historyIndex].length==1)
+                {
+                  ballHistory[historyIndex].won=true;
+                  ballHistory[historyIndex].lost=false;
+                  playSound('win.ogg');
+                }
+                else
+                {
+                  ballHistory[historyIndex].lost=true;
+                  ballHistory[historyIndex].won=false;
+                  playSound('oops.ogg');
+                }
+              }
+              else
+              {
+                ballHistory[historyIndex].won=ballHistory[historyIndex].lost=false;
+              }
+            }
+            
+            hoveredBall.grabbed=false;
+            hoveredBall.screenX=sx(hoveredBall.x);
+            hoveredBall.screenY=sy(hoveredBall.y);
+            hoveredBall.hoveredOver=false;
+            hoveredBall=null;
+            canv_mousemove(evt); //to fix the cursor
+          }
+          else
+          {
+            canvMouseIsDown=true; //pretend
+          }
+        }
+        
+        redraw();
+      }
+    
+      function playSound(path)
+      {
+        var player=document.createElement("audio");
+        player.src=path;
+        player.play();
+      }
+    
+      function $(id)
+      {
+        return document.getElementById(id);
+      }
+      
+/**
+ * HSV to RGB color conversion
+ *
+ * H runs from 0 to 360 degrees
+ * S and V run from 0 to 100
+ * 
+ * Ported from the excellent java algorithm by Eugene Vishnevsky at:
+ * http://www.cs.rit.edu/~ncs/color/t_convert.html
+ */
+function hsvToRgb(h, s, v) {
+	var r, g, b;
+	var i;
+	var f, p, q, t;
+	
+	// Make sure our arguments stay in-range
+	h = Math.max(0, Math.min(360, h));
+	s = Math.max(0, Math.min(100, s));
+	v = Math.max(0, Math.min(100, v));
+	
+	// We accept saturation and value arguments from 0 to 100 because that's
+	// how Photoshop represents those values. Internally, however, the
+	// saturation and value are calculated from a range of 0 to 1. We make
+	// That conversion here.
+	s /= 100;
+	v /= 100;
+	
+	if(s == 0) {
+		// Achromatic (grey)
+		r = g = b = v;
+		return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+	}
+	
+	h /= 60; // sector 0 to 5
+	i = Math.floor(h);
+	f = h - i; // factorial part of h
+	p = v * (1 - s);
+	q = v * (1 - s * f);
+	t = v * (1 - s * (1 - f));
+
+	switch(i) {
+		case 0:
+			r = v;
+			g = t;
+			b = p;
+			break;
+			
+		case 1:
+			r = q;
+			g = v;
+			b = p;
+			break;
+			
+		case 2:
+			r = p;
+			g = v;
+			b = t;
+			break;
+			
+		case 3:
+			r = p;
+			g = q;
+			b = v;
+			break;
+			
+		case 4:
+			r = t;
+			g = p;
+			b = v;
+			break;
+			
+		default: // case 5:
+			r = v;
+			g = p;
+			b = q;
+	}
+	
+	return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+      
+      initialInit();
+    </script>
+  </body>
+</html>
