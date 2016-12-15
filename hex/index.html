@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html style = "height: 100%;">
+<head>
+  <style>
+    body {
+      background-color: #404040;
+      height: 100%;
+      margin: 0px;
+    }
+
+    table {
+      width: 100%;
+      height: 100%;
+    }
+
+    td {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body onkeydown = "body_keydown(event)">
+
+<table> <tr> <td>
+  <canvas id="canv" onmousedown = "canv_click(event);">get a new browser yo</canvas>
+</td> </tr> </table>
+
+<script type = "text/javascript">
+  var canv = document.getElementById('canv');
+  var ctx = canv.getContext('2d');
+
+  const CELL_CIRCUMRADIUS = 15;
+  const CELL_INRADIUS = CELL_CIRCUMRADIUS * 0.5 * Math.sqrt(3);
+  const UNCLAIMED = 0;
+  const PLAYER1 = 1;
+  const PLAYER2 = 2;
+  const COLORS = ["#909090", "#FFFFFF", "#000000"];
+  const BOARD_SIZE = 14;
+  const PADDING = CELL_INRADIUS * 4;
+
+  var cells = [];
+  var currentPlayer = PLAYER1;
+  var cw, ch;
+  var moves = [];
+  var redoMoves = [];
+
+  function Cell(x, y) {
+    this.x = x;
+    this.y = y;
+    this.status = UNCLAIMED;
+  }
+  Cell.prototype.draw = function() {
+    ctx.strokeStyle = "#505050";
+    ctx.fillStyle = COLORS[this.status];
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y - CELL_CIRCUMRADIUS);
+
+    for (var i = 1; i <= 6; i++) {
+      var angle = -Math.PI / 2 + i * 2 * Math.PI / 6;
+      ctx.lineTo(this.x + CELL_CIRCUMRADIUS * Math.cos(angle),
+                 this.y + CELL_CIRCUMRADIUS * Math.sin(angle));
+    }
+    ctx.fill();
+    ctx.stroke();
+  }
+  Cell.prototype.contains = function(pX, pY) {
+    var dX = pX - this.x;
+    var dY = pY - this.y;
+    var angle = Math.atan2(dX, dY) + 2 * Math.PI;
+    var angleWithinSector = angle % (2 * Math.PI / 12);
+    var sectorType = Math.floor(angle / (2 * Math.PI / 12)) % 2;
+
+    // In 0-type sectors, the distance increases with angle.
+    // In 1-type sectors, the distance decreases with angle.
+
+    var a = (sectorType == 0)? angleWithinSector : (2 * Math.PI / 12 - angleWithinSector);
+    var distanceFromCenterToEdge = CELL_INRADIUS / Math.cos(a);
+    var distanceFromCenterToP = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+
+    console.assert(distanceFromCenterToEdge <= CELL_CIRCUMRADIUS);
+    return (distanceFromCenterToP <= distanceFromCenterToEdge)
+  }
+
+  function makeMove(cell) {
+    cell.status = currentPlayer;
+    moves.push(cell);
+    switchPlayers();
+  }
+
+  function canv_click(event) {
+    var mx = event.clientX - canv.offsetLeft;
+    var my = event.clientY - canv.offsetTop;
+
+    for (var i = 0; i < cells.length; i++) {
+      for (var j = 0; j < cells[i].length; j++) {
+        if (cells[i][j].contains(mx, my)) {
+          if (cells[i][j].status == UNCLAIMED) {
+            makeMove(cells[i][j]);
+            redoMoves = [];
+            return;
+          }
+        }
+      }
+    }
+  }
+
+  function switchPlayers() {
+    currentPlayer = (currentPlayer == PLAYER1)? PLAYER2 : PLAYER1;
+    drawCells();
+  }
+
+  function body_keydown(event) {
+    if (event.ctrlKey) {
+      if (event.keyCode == 90 && moves.length > 0) { // ctrl z
+        var last = moves.pop();
+        last.status = UNCLAIMED;
+        switchPlayers();
+        redoMoves.push(last);
+      } else if (event.keyCode == 89 && redoMoves.length > 0) {
+        var last = redoMoves.pop();
+        makeMove(last);
+      }
+    }
+  }
+
+  function init() {
+    cw = 3 * (BOARD_SIZE - 1) * CELL_INRADIUS
+      + 2 * CELL_INRADIUS + 2 * PADDING;
+    ch = 1.5 * (BOARD_SIZE - 1) * CELL_CIRCUMRADIUS
+      + 2 * CELL_CIRCUMRADIUS + 2 * PADDING;
+
+    canv.width = cw;
+    canv.height = ch;
+
+    for (var i = 0; i < BOARD_SIZE; i++) {
+      cells[i] = [];
+      for (var j = 0; j < BOARD_SIZE; j++) {
+        var x = CELL_INRADIUS + PADDING + 
+          i * CELL_INRADIUS * 2 + j * CELL_INRADIUS;
+        var y = CELL_CIRCUMRADIUS + PADDING +
+          j * CELL_CIRCUMRADIUS * 1.5;
+
+        cells[i][j] = new Cell(x, y);
+      }
+    }
+
+    drawCells();
+  }
+
+  function drawCells() {
+    ctx.clearRect(0, 0, cw, ch);
+
+    var upperLeft = cells[0][0];
+    var lowerLeft = cells[0][BOARD_SIZE - 1];
+    var upperRight = cells[BOARD_SIZE - 1][0];
+    var lowerRight = cells[BOARD_SIZE - 1][BOARD_SIZE - 1];
+
+    var slantDx = lowerLeft.x - upperLeft.x;
+    var slantDy = lowerLeft.y - upperLeft.y;
+    var straightDx = upperRight.x - upperLeft.x;
+    var straightDy = upperRight.y - upperLeft.y;
+
+    var pSlantDx = slantDx / BOARD_SIZE * 1.5;
+    var pSlantDy = slantDy / BOARD_SIZE * 1.5;
+    var pStraightDx = straightDx / BOARD_SIZE * 1.5;
+    var pStraightDy = straightDy / BOARD_SIZE * 1.5;
+
+    var boundingUpperLeft = [upperLeft.x - pStraightDx - pSlantDx, 
+      upperLeft.y - pStraightDy - pSlantDy];
+    var boundingLowerLeft = [lowerLeft.x - pStraightDx + pSlantDx, 
+      lowerLeft.y + pStraightDy + pSlantDy];
+    var boundingUpperRight = [upperRight.x + pStraightDx - pSlantDx, 
+      upperRight.y - pStraightDy - pSlantDy];
+    var boundingLowerRight = [lowerRight.x + pStraightDx + pSlantDx, 
+      lowerRight.y + pStraightDy + pSlantDy];
+
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    if (currentPlayer == PLAYER1) {
+      ctx.strokeStyle = COLORS[PLAYER1];
+    } else {
+      ctx.strokeStyle = "#505050";
+    }
+    ctx.moveTo(boundingUpperLeft[0], boundingUpperLeft[1]);
+    ctx.lineTo(boundingUpperRight[0], boundingUpperRight[1]);
+    ctx.moveTo(boundingLowerLeft[0], boundingLowerLeft[1]);
+    ctx.lineTo(boundingLowerRight[0], boundingLowerRight[1]);
+    ctx.stroke();
+
+    ctx.beginPath();
+    if (currentPlayer == PLAYER2) {
+      ctx.strokeStyle = COLORS[PLAYER2];
+    } else {
+      ctx.strokeStyle = "#505050";
+    }
+    ctx.moveTo(boundingUpperLeft[0], boundingUpperLeft[1]);
+    ctx.lineTo(boundingLowerLeft[0], boundingLowerLeft[1]);
+    ctx.moveTo(boundingUpperRight[0], boundingUpperRight[1]);
+    ctx.lineTo(boundingLowerRight[0], boundingLowerRight[1]);
+    ctx.stroke();
+
+    for (var i = 0; i < cells.length; i++) {
+      for (var j = 0; j < cells[i].length; j++) {
+        cells[i][j].draw();
+      }
+    }
+  }
+
+  init();
+</script>
+
+</body>
+</html>
