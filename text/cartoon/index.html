@@ -1,0 +1,161 @@
+<html>
+
+<body>
+  <canvas id="canv" width="500px" height="500px" style="border:1px solid black;" onmousemove="canv_mousemove(event);" onmouseout="mx=-10000;my=-10000;">
+    you need a canvas-enabled browser, like Google Chrome
+  </canvas>
+  <canvas id="wordCanv" width="500px" height="500px" style="border:1px solid black;display:none;">
+  </canvas>
+
+  <script type="text/javascript">
+    var pixels=new Array();
+    var canv=$('canv');
+    var ctx=canv.getContext('2d');
+    var imgCanv=$('wordCanv');
+    var imgCtx=wordCanv.getContext('2d');
+    var mx=-10000;
+    var my=-10000;
+    var imageURLValue="";
+    var theImage;
+    
+    function canv_mousemove(evt)
+    {
+      mx=evt.clientX-canv.offsetLeft;
+      my=evt.clientY-canv.offsetTop;
+    }
+    
+    function Pixel(homeX,homeY,r,g,b)
+    {
+      this.homeX=homeX;
+      this.homeY=homeY;
+      this.r=r;
+      this.g=g;
+      this.b=b;
+      
+      this.x=Math.random()*500;
+      this.y=Math.random()*500;
+      
+      //tmp
+      this.xVelocity=Math.random()*10-5;
+      this.yVelocity=Math.random()*10-5;
+    }
+    Pixel.prototype.move=function()
+    {
+      var homeDX=this.homeX-this.x;
+      var homeDY=this.homeY-this.y;
+      var homeDistance=Math.sqrt(Math.pow(homeDX,2) + Math.pow(homeDY,2));
+      var homeForce=homeDistance*0.01;
+      var homeAngle=Math.atan2(homeDY,homeDX);
+      
+      var cursorDX=this.x-mx;
+      var cursorDY=this.y-my;
+      var cursorDistancePow=Math.pow(Math.pow(cursorDX,2) + Math.pow(cursorDY,2),1);
+      var cursorForce=Math.min(10000/cursorDistancePow,10000);
+      var cursorAngle=Math.atan2(cursorDY,cursorDX);
+      
+      if(mx < 0) cursorForce=0;
+      
+      this.xVelocity+=homeForce*Math.cos(homeAngle) + cursorForce*Math.cos(cursorAngle);
+      this.yVelocity+=homeForce*Math.sin(homeAngle) + cursorForce*Math.sin(cursorAngle);
+      
+      this.xVelocity*=0.92;
+      this.yVelocity*=0.92;
+      
+      this.x+=this.xVelocity;
+      this.y+=this.yVelocity;
+    }
+  
+    function $(id)
+    {
+      return document.getElementById(id);
+    }
+    
+    function timer()
+    {
+      for(var i=0;i<pixels.length;i++)
+      {
+        pixels[i].move();
+      }
+      drawPixels();
+      
+      setTimeout(timer,33);
+    }
+    
+    function drawPixels()
+    {
+      var imageData=ctx.createImageData(500,500);
+      for(var i=0;i<pixels.length;i++)
+      {
+        var goodX=Math.floor(pixels[i].x);
+        var goodY=Math.floor(pixels[i].y);
+        
+        if(goodX>=0 && goodX<=500 && goodY>=0 && goodY<=500)
+        {
+          for(var realX=goodX;realX<=goodX+1;realX++)
+          {
+            for(var realY=goodY;realY<=goodY+1;realY++)
+            {
+              var index=(realY*imageData.width + realX)*4;
+              imageData.data[index]=pixels[i].r;
+              imageData.data[index+1]=pixels[i].g;
+              imageData.data[index+2]=pixels[i].b;
+              imageData.data[index+3]=255;
+            }
+          }
+        }
+      }
+      
+      ctx.putImageData(imageData,0,0);
+    }
+    
+    function init()
+    {
+      imageURLValue="duck.jpg";
+      theImage=new Image();
+      
+      theImage.onload=function()
+      {
+        imgCtx.clearRect(0,0,500,500);
+        imgCtx.drawImage(theImage,250-theImage.width/2,250-theImage.height/2);
+        
+        var index=0;
+        
+        var imageData=imgCtx.getImageData(0,0,500,500);
+        for(var x=0;x<imageData.width;x++)
+        {
+          for(var y=0;y<imageData.height;y++)
+          {
+            var i=(y*imageData.width + x)*4;
+            
+            if(imageData.data[i+3]>128)
+            {
+              if(index >= pixels.length)
+              {
+                pixels[index]=new Pixel(x,y, imageData.data[i],imageData.data[i+1],imageData.data[i+2]);
+              }
+              else
+              {
+                pixels[index].homeX=x;
+                pixels[index].homeY=y;
+                pixels[index].r=imageData.data[i];
+                pixels[index].g=imageData.data[i+1];
+                pixels[index].b=imageData.data[i+2];
+              }
+              index++;
+            }
+          }
+        }
+        
+        pixels.splice(index,pixels.length-index);
+      }
+      
+      theImage.src=imageURLValue;
+    }
+    
+    
+    init();
+    timer();
+  </script>
+</body>
+
+</html>

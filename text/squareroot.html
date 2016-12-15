@@ -1,0 +1,54 @@
+<html>
+  <body>
+    <script type="text/javascript">
+      var first;
+      var second;
+      var third;
+      var fourth;
+    
+      setTimeout(init,1000);
+    
+      function init()
+      {
+        first=new Date();
+        for(var i=0;i<1000;i+=0.01)
+        {
+          var x=squareRootApprox(i);
+        }
+        second=new Date();
+        
+        setTimeout(partTwo,1000);
+      }
+      
+      function partTwo()
+      {
+        third=new Date();
+        for(var i=0;i<1000;i+=0.01)
+        {
+          var x=Math.sqrt(i);
+        }
+        fourth=new Date();
+        
+        alert("approx: " + (second.getTime() - first.getTime()) + ", sqrt: " + (fourth.getTime() - third.getTime()));
+      }
+    
+      function squareRootApprox(x)
+      {
+        return babylonianIteration(0, 4, x, x/10);
+      }
+      
+      function babylonianIteration(i, n, S, x)
+      {
+        var newX=(x+S/x)/2;
+        if(i < n)
+        {
+          return babylonianIteration(i+1, n, S, newX);
+        }
+        else
+        {
+          return newX;
+        }
+      }
+    </script>
+  </body>
+</html>
