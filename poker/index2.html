@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+<html style="height:100%;">
+
+<head>
+  <title>
+    Texas Hold 'em Probability Calculator
+  </title>
+  
+  <script type="text/javascript" src="pokerHands.js">
+  </script>
+  
+  <script type="text/javascript" src="holdem.js">
+  </script>
+  
+  <meta property="og:title" content="Texas Hold 'em Probability Calculator" />
+  <meta property="og:description" content="From any set of hole cards and/or community cards, find the probability of winning, tying, or getting a particular hand" />
+  <meta property="og:image" content="http://william.hoza.us/images/poker-mediumsmall.png" />
+  
+  <style>
+    .cardLink
+    {
+      color:#0000FF;
+    }
+    
+    .linkBox
+    {
+      padding:3px;
+      opacity:0.9;
+    }
+    .cardBack, .linkBox
+    {
+      background-color:#C0C0C0;
+    }
+    td.cardBack
+    {
+      border:1px solid black;
+      width:69px;
+      height:94px;
+    }
+    .cardFront
+    {
+      background-color:#FFFFFF;
+      border:none;
+      width:71px;
+      height:96px;
+    }
+  </style>
+</head>
+
+<body onkeydown="body_keydown(event);" onmousedown="doneEditing();" style="height:100%;margin:0px;">
+  <table style="padding:10px;" cellspacing="0px" cellpadding="0px">
+    <tr>
+      <td style="vertical-align:top;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7377269250431987";
+/* poker */
+google_ad_slot = "8934755867";
+google_ad_width = 120;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+      </td>
+      <td style="vertical-align:top;padding-left:10px;">
+        <div style="font-size:20pt;">Texas Hold 'em Probability Calculator</div>
+        <div style="padding-top:10px;padding-bottom:10px;">
+          Click "edit" on a card to assign a value to that card. Cards with
+          no value assigned are treated as being face down with unknown
+          values.
+        </div>
+        <div style="padding-bottom:15px;">
+          Approximate chances are displayed below the cards. The chances are
+          calculated on the fly by simply simulating thousands of games.
+          Figures in <span style="color:green;">green</span> are accurate to
+          within &plusmn;1 percentage point with 95% confidence.*
+        </div>
+        <div id="playersContainer">
+        </div>
+        Players:
+        <select onchange="changeNumberOfPlayers(this.value);">
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+        </select>
+        (including you)
+        <div id="chancesDiv" style="margin-bottom:10px;"></div>
+        <a href="http://william.hoza.us">More cool stuff</a>
+        <hr>
+        <div>
+          *Specifically, for the chances, 0.95 is the
+          <a href="http://en.wikipedia.org/wiki/Coverage_probability">nominal coverage probability</a> 
+          of an
+          <a href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Agresti-Coull_Interval">Agresti-Coull interval</a>
+          with boundaries within 1 percentage point of the rounded
+          estimate. For the expected return, 0.95 is again the coverage
+          probability of a confidence interval with boundaries within 1
+          percentage point of the rounded estimate; this time, the
+          confidence interval is constructed by assuming a normal
+          distribution because I don't know how to calculate anything
+          better. (Can anybody
+          <a href="http://www.reddit.com/r/statistics/comments/wfbac/how_do_i_construct_a_decent_confidence_interval/">help me with the math</a>?)
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/javascript">
+    var playersContainer=document.getElementById('playersContainer');
+    var chancesDiv=document.getElementById('chancesDiv');
+    var cardTDBeingEdited=null;
+    var selectedRank=null;
+    var selectedUnavailableCard=false;
+    
+    var w=null;
+    var g=null;
+    
+    /*
+    var wins=0;
+    var ties=0;
+    var losses=0;
+    */
+    var outcomeCounts=null;
+    var handTypeCounts=null;
+    var outcomeCovarianceMatrix=null;
+  
+    function confidenceInterval95(x, n)
+    {
+      /* This uses the Agresti-Coull approximation. See http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Agresti-Coull_Interval
+       * for the brief words that Wikipedia has on the subject. See
+       * the page labeled "107" on http://www-stat.wharton.upenn.edu/~tcai/paper/Binomial-StatSci.pdf
+       * to understand why it's a good approximation for this. */
+    
+      var retVal=new Object();
+      var z = 1.96; //2.576;
+      var zSquared=Math.pow(z,2);
+      var nTilde=n + zSquared;
+      
+      retVal.center=(x+zSquared/2)/nTilde;
+      retVal.margin=z*Math.sqrt(retVal.center*(1-retVal.center)/nTilde);
+      
+      return retVal;
+    }
+    
+    /*
+    function niceInterval(c)
+    {
+      c.center*=100;
+      c.margin*=100;
+    
+      var a=Math.ceil(Math.log(c.margin)/Math.log(10));
+      //var b=Math.ceil(Math.log(c.center)/Math.log(10));
+      
+      //alert(c.margin + ": " + a + " ; " + c.center + ": " + b);
+      var retVal=new Object();
+      
+      retVal.center=Math.round(c.center*Math.pow(10,-a))*Math.pow(10,a);
+      retVal.margin=Math.pow(10, a);
+      return retVal;
+    }
+    */
+    
+    function chanceText(x, n)
+    {
+      var c=confidenceInterval95(x, n);
+      var chance=Math.round(x/n*100);
+      var spanTagEnd=">";
+      
+      if(chance - (c.center-c.margin)*100 <= 1 && (c.center+c.margin)*100-chance <= 1)
+      {
+        spanTagEnd=" style='color:green;'>";
+      }
+      
+      return "<span title='" + x/n*100 + "%\n(" + (c.center-c.margin)*100 + "%, " + (c.center+c.margin)*100 + "%)'" + spanTagEnd + chance + "%</span>";
+    }
+    
+    function updateChancesDiv()
+    {
+      var total=0;
+      var ties=0;
+      var s="";
+      var expectedReturn=0;
+      var expectedReturnVariance=0;
+      
+      for(var i=0;i<outcomeCounts.length;i++)
+      {
+        total+=outcomeCounts[i];
+        if(i >= 1)
+        {
+          expectedReturn+=outcomeCounts[i]/i;
+        }
+        if(i >= 2)
+        {
+          ties+=outcomeCounts[i];
+        }
+      }
+      expectedReturn*=(g.players.length-1)/total;
+      expectedReturn-=1;
+      
+      if(total>0)
+      {
+        for(var i=0;i<outcomeCounts.length;i++)
+        {
+          for(var j=0;j<outcomeCounts.length;j++)
+          {
+            if(i==j)
+            {
+              outcomeCovarianceMatrix[i][j]=outcomeCounts[i]*(1-outcomeCounts[i]/total)*(1/Math.pow(total,2));
+            }
+            else
+            {
+              outcomeCovarianceMatrix[i][j]=-outcomeCounts[i]*outcomeCounts[j]/total*(1/Math.pow(total,2));
+            }
+          }
+        }
+        
+        for(var i=1;i<outcomeCounts.length;i++)
+        {
+          var toBeAdded=0;
+          for(var j=1;j<outcomeCounts.length;j++)
+          {
+            toBeAdded+=(g.players.length-1)/j*outcomeCovarianceMatrix[i][j];
+          }
+          expectedReturnVariance+=(g.players.length-1)/i*toBeAdded;
+        }
+        
+        var marginOfError=1.96*Math.sqrt(expectedReturnVariance)*100;
+        var lowerBound=(expectedReturn*100-marginOfError);
+        var upperBound=(expectedReturn*100+marginOfError);
+        var roundedExpectedReturn=Math.round(expectedReturn*100);
+        var spanTagEnd='>';
+        
+        if(roundedExpectedReturn-lowerBound <= 1 && upperBound-roundedExpectedReturn <= 1) spanTagEnd=" style='color:green;'>";
+      
+        s+="<span title='" + expectedReturn*100 + "%\n(" + lowerBound + "%, " + upperBound + "%)'" + spanTagEnd + roundedExpectedReturn + "%</span> expected return (assuming all players put in the same amount)<br>"; //TODO: confidence intervals on this guy...
+        s+=chanceText(outcomeCounts[1], total) + " chance of winning<br>";
+        s+=chanceText(outcomeCounts[0], total) + " chance of losing<br>";
+        s+=chanceText(ties, total) + " chance of tying<br>";
+        if(g.players.length>3)
+        {
+          for(var i=2;i<outcomeCounts.length;i++)
+          {
+            s+="<span style='margin-left:15px;'>" + chanceText(outcomeCounts[i], total) + " chance of tying with exactly " + (i-1) + " other players</span><br>";
+          }
+        }
+        for(var i=0;i<handTypeCounts.length;i++)
+        {
+          s+=chanceText(handTypeCounts[i], total) + " chance of getting a " + handTypes[i].name;
+          if(i!=handTypeCounts.length-1)
+          {
+            s+= " (and nothing better)";
+          }
+          s+="<br>";
+        }
+        
+        chancesDiv.innerHTML=s;
+      }
+    }
+    
+    function changeNumberOfPlayers(n)
+    {
+      g.removeExtraPlayers();
+      for(var i=2;i<n;i++) g.addPlayer(2, "Player " + (i+1));
+      startWorker();
+    }
+    
+    function init()
+    {
+      g=new HoldemGame();
+      buildInterface();
+      startWorker();
+      timer();
+    }
+    
+    function buildInterface()
+    {
+      for(var i=0;i<=g.players.length-1;i++)
+      {
+        var p=g.players[i];
+      
+        var pDiv=document.createElement('div');
+        pDiv.style.padding='5px';
+        pDiv.style.border='1px solid black';
+        pDiv.style.marginBottom='10px';
+        pDiv.style.display='inline-block';
+        pDiv.style.marginRight='10px';
+        
+        var titleDiv=document.createElement('div');
+        titleDiv.innerHTML=p.name;
+        pDiv.appendChild(titleDiv);
+        
+        var cardTable=document.createElement('table');
+        cardTable.cellSpacing='5px';
+        cardTable.cellPadding='0px';
+        cardTable.style.borderSpacing='5px 0px';
+        cardTable.style.marginLeft='-5px';
+        cardTable.style.marginRight='-5px';
+        
+        var cardTBody=document.createElement('tbody');
+        var cardTR=document.createElement('tr');
+        
+        for(var j=0;j<p.cardSlots.length;j++)
+        {
+          var cardTD=document.createElement('td');
+          cardTD.associatedCardSlot=p.cardSlots[j];
+          
+          cardTD.style.textAlign='center';
+          cardTD.style.verticalAlign='middle';
+          
+          var linkBox=document.createElement('div');
+          linkBox.className='linkBox';
+          
+          var editLink=document.createElement('a');
+          editLink.href='javascript:Edit the value of this card';
+          editLink.className='cardLink';
+          editLink.onclick=function()
+          {
+            editCard(this.parentNode.parentNode);
+            return false;
+          }
+          editLink.innerHTML='edit';
+          linkBox.appendChild(editLink);
+          cardTD.editLink=editLink;
+          
+          linkBox.appendChild(document.createElement('br'));
+          
+          var resetLink=document.createElement('a');
+          resetLink.href='javascript:Reset this card to unknown';
+          resetLink.className='cardLink';
+          resetLink.onclick=function()
+          {
+            resetCard(this.parentNode.parentNode);
+            return false;
+          }
+          resetLink.innerHTML='reset';
+          linkBox.appendChild(resetLink);
+          cardTD.resetLink=resetLink;
+          
+          cardTD.linkBox=linkBox;
+          cardTD.appendChild(linkBox);
+          
+          var editingDiv=document.createElement('div');
+          cardTD.appendChild(editingDiv);
+          cardTD.editingDiv=editingDiv;
+          
+          var errorDiv=document.createElement('div');
+          errorDiv.innerHTML='Used up';
+          errorDiv.style.color='#A00000';
+          cardTD.appendChild(errorDiv);
+          cardTD.errorDiv=errorDiv;
+          
+          updateCardTDAppearance(cardTD);
+          cardTR.appendChild(cardTD);
+        }
+        
+        cardTBody.appendChild(cardTR);
+        cardTable.appendChild(cardTBody);
+        pDiv.appendChild(cardTable);
+        playersContainer.appendChild(pDiv);
+      }
+    }
+    
+    function updateCardTDAppearance(cardTD)
+    {
+      var slot=cardTD.associatedCardSlot;
+      
+      if(slot.card==null)
+      {
+        cardTD.resetLink.style.display='none';
+      }
+      else
+      {
+        cardTD.resetLink.style.display='';
+      }
+      
+      if(selectedUnavailableCard)
+      {
+        cardTD.errorDiv.style.display='';
+      }
+      else
+      {
+        cardTD.errorDiv.style.display='none';
+      }
+      
+      if(slot.card==null || cardTD==cardTDBeingEdited)
+      {
+        cardTD.style.backgroundImage='none';
+        cardTD.className='cardBack';
+        if(cardTD!=cardTDBeingEdited)
+        {
+          cardTD.editingDiv.style.display='none';
+          cardTD.linkBox.style.display='inline-block';
+        }
+        else
+        {
+          cardTD.editingDiv.style.display='';
+          cardTD.linkBox.style.display='none';
+        }
+        
+        if(selectedRank==null)
+        {
+          cardTD.editingDiv.innerHTML='Type a rank (2-A)';
+        }
+        else
+        {
+          cardTD.editingDiv.innerHTML=selectedRank.longName+" of ____";
+        }
+      }
+      else
+      {
+        cardTD.className='cardFront';
+        cardTD.editingDiv.style.display='none';
+        cardTD.linkBox.style.display='inline-block';
+        cardTD.style.backgroundImage='url(images/' + cardTD.associatedCardSlot.card.toString() + '.png)';
+      }
+    }
+    
+    function doneEditing()
+    {
+      var old=cardTDBeingEdited;
+      cardTDBeingEdited=null;
+      selectedRank=null;
+      selectedUnavailableCard=false;
+      if(old!=null) updateCardTDAppearance(old);
+      if(old!=null) startWorker();
+    }
+    
+    function startWorker()
+    {
+      outcomeCounts=new Array();
+      handTypeCounts=new Array();
+      outcomeCovarianceMatrix=new Array();
+      for(var i=0;i<handTypes.length;i++)
+      {
+        handTypeCounts[i]=0;
+      }
+      for(var i=0;i<g.players.length;i++)
+      {
+        /* 1 for lose, 1 for just me, 1 for me + one other guy, etc.
+         * so that's one outcome for each real player + one outcome for
+         * the community "player" */
+        outcomeCounts[i]=0;
+      }
+      for(var i=0;i<outcomeCounts.length;i++)
+      {
+        outcomeCovarianceMatrix[i]=new Array();
+        for(var j=0;j<outcomeCounts.length;j++)
+        {
+          outcomeCovarianceMatrix[i][j]=0;
+        }
+      }
+    
+      if(w!=null) w.terminate();
+      w=new Worker('simulator.js');
+      w.onmessage=function(evt)
+      {
+        //if(Math.random()>0.99993) alert(evt.data);
+        //alert(evt.data);
+        
+        outcomeCounts[evt.data.outcome]++;
+        handTypeCounts[evt.data.handTypeRank]++;
+      }
+      w.postMessage(g);
+    }
+    
+    function timer()
+    {
+      updateChancesDiv();
+      
+      setTimeout(timer, 33);
+    }
+    
+    function editCard(cardTD)
+    {
+      cardTDBeingEdited=cardTD;
+      updateCardTDAppearance(cardTD);
+    }
+    
+    function resetCard(cardTD)
+    {
+      cardTD.associatedCardSlot.setCard(null);
+      updateCardTDAppearance(cardTD);
+      startWorker();
+    }
+    
+    function body_keydown(evt)
+    {
+      var keyPressed=String.fromCharCode(evt.keyCode);
+      if(cardTDBeingEdited!=null)
+      {
+        if(selectedRank==null)
+        {
+          for(var i=0;i<cardRanks.length;i++)
+          {
+            var rankString=cardRanks[i].toString();
+            if(rankString==keyPressed || (rankString=='T' && keyPressed=='1'))
+            {
+              selectedRank=cardRanks[i];
+              updateCardTDAppearance(cardTDBeingEdited);
+              break;
+            }
+          }
+        }
+        else
+        {
+          for(var i=0;i<suits.length;i++)
+          {
+            var suitString=suits[i].toString();
+            if(suitString==keyPressed)
+            {
+              var card=cardFromSuitAndRank(suits[i], selectedRank);
+              if(cardTDBeingEdited.associatedCardSlot.setCard(card))
+              {
+                doneEditing();
+              }
+              else
+              {
+                selectedUnavailableCard=true;
+                updateCardTDAppearance(cardTDBeingEdited);
+              }
+              break;
+            }
+          }
+        }
+      }
+    }
+    
+    init();
+  </script>
+</body>
+
+</html>
