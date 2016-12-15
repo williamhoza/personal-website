@@ -1,0 +1,852 @@
+<html>
+
+<head>
+  <title>
+    Sproing
+  </title>
+  <style>
+    .borderleft
+    {
+      border-left:1px solid #000080;
+      padding-left:5px;
+    }
+  </style>
+  
+  <meta property="og:title" content="Sproing" />
+  <meta property="og:description" content="Just some fun sproingies" />
+  <meta property="og:image" content="http://william.hoza.us/sproing/thumb.png" />
+</head>
+
+<body onresize="needsToResize=true;" onload="bodyLoad();" onblur="holdingShift=false;holdingCtrl=false;if(huntedObject!=null) { huntedObject.hunted=false;huntedObject.grabbed=false;huntedObject=null; }" onkeydown="bodyKeyDown(event);" onkeyup="bodyKeyUp(event);" style="padding:0px;margin:0px;background-color:#000000;">
+	<div style="background-color:#C0FFE0;" id="topBox">
+    <table cellpadding="0px" cellspacing="0px" style="padding:5px;font-size:9pt;">
+      <tr>
+        <td>
+          <b style="font-size:12pt;">How to use:</b><br>
+        </td>
+        <td colspan="3" class="borderleft">
+          <b style="font-size:12pt;">Options:</b><br>
+        </td>
+        <td rowspan="5" style="padding-left:15px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7377269250431987";
+/* sproing ad */
+google_ad_slot = "4617515242";
+google_ad_width = 125;
+google_ad_height = 125;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" rowspan="4" style="width:250px;">
+          <b>Click</b> to add a ball.
+          <b>Click+drag</b> to add a block.
+          <b>Shift+click</b> to delete stuff.
+          <b>Ctrl+click+drag</b> to move stuff.
+          Use fullscreen for best results.
+          <br><br>
+          more cool stuff: <a href="http://william.hoza.us">http://william.hoza.us</a>
+        </td>
+        <td class="borderleft">
+          Gravitational constant:
+        </td>
+        <td>
+          <input type="text" id="gInp">
+        </td>
+        <td rowspan="2" valign="top" style="padding-left:10px;">
+          Gravity style:<br>
+          <input type="radio" name="gravStyle" id="planet" CHECKED> <label for="gravStyle">Small balls on a planet</label><br>
+          <input type="radio" name="gravStyle" id="space"> <label for="gravStyle">Massive balls in deep space</label>
+        </td>
+      </tr>
+      <tr>
+        <td class="borderleft">
+          Ball decay constant:
+        </td>
+        <td>
+          <input type="text" id="ageInp">
+        </td>
+      </tr>
+      <tr>
+        <td class="borderleft">
+          Spring decay constant:
+        </td>
+        <td>
+          <input type="text" id="decayInp">
+        </td>
+        <td rowspan="2" valign="bottom" style="text-align:right;">
+          <button onclick="updateStuff();" style="font-size:15pt;">apply</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="borderleft">
+          Maximum spring stiffness:
+        </td>
+        <td>
+          <input type="text" id="stiffnessInp">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <canvas onmousedown="canvMouseDown(event);" onmousemove="canvMouseMove(event);" onmouseup="canvMouseUp(event);" id="canv">you need a canvas-enabled web browser, fool</canvas>
+
+	<script type = "text/javascript">
+		var hubs = new Array();
+		var springs = new Array();
+		var blocks = new Array();
+
+    var holdingShift=false;
+    var holdingCtrl=false;
+
+		var springLimit=8;
+		var idNumber = 0;
+		
+		var canv=document.getElementById('canv');
+		var ctx=canv.getContext('2d');
+    var topBox=document.getElementById('topBox');
+
+		var g = 0.33;
+		var decay = 0;
+		var agingRate=1;
+		var stiffness=30;
+    
+    var grabX=0;
+    var grabY=0;
+    var canvMouseIsDown=false;
+    var buildingBlock=false;
+    
+    var huntedObject;
+		var planet=true;
+		var loaded=false;
+    var lastResizeTime=0;
+    var needsToResize=false;
+		
+    fixTxts();
+		
+		document.getElementById('gInp').value=g;
+		document.getElementById('decayInp').value=decay;
+		document.getElementById('ageInp').value=agingRate;
+		document.getElementById('stiffnessInp').value=stiffness;
+
+    function bodyResize()
+    {
+      lastResizeTime=new Date().getTime();
+      canvWidth=document.body.clientWidth;
+      canvHeight=document.body.clientHeight-topBox.offsetHeight;
+      canv.width=canvWidth;
+      canv.height=canvHeight;
+      
+      blocks[0].width=canvWidth+100; //(-50,-50,canvWidth+100,50)
+      
+      blocks[1].width=canvWidth+100;
+      blocks[1].move(-50,canvHeight); //(-50,canvHeight,canvWidth+100,50)
+      
+      
+      blocks[2].height=canvHeight; //(-50,0,50,canvHeight)
+      
+      blocks[3].height=canvHeight;
+      blocks[3].move(canvWidth,0); //(canvWidth,0,50,canvHeight)
+    }
+
+    function fixTxts()
+    {
+      document.getElementById('planet').checked=planet;
+      document.getElementById('space').checked=!planet;
+      document.getElementById('ageInp').value=agingRate;
+      document.getElementById('decayInp').value=decay;
+      document.getElementById('stiffnessInp').value=stiffness;
+      document.getElementById('gInp').value=g;
+    }
+    
+    function updateStuff()
+    {
+      planet=document.getElementById('planet').checked;
+      agingRate=parseFloat(document.getElementById('ageInp').value);
+      decay=parseFloat(document.getElementById('decayInp').value);
+      stiffness=parseFloat(document.getElementById('stiffnessInp').value);
+      g=parseFloat(document.getElementById('gInp').value);
+    }
+
+		function radiansFromPoints(dx, dy)
+		{
+			var slope = 0;
+			var angle = 0;
+
+			if (dx == 0)
+			{
+				return Math.PI / 2 * sgn(dy);
+			}
+			else
+			{
+				slope = dy / dx;
+				angle = Math.atan(slope);
+				if (dx < 0) angle += Math.PI;
+
+				return angle;
+			}
+		}
+
+		function sgn(num)
+		{
+      if(num>0)
+      {
+        return 1;
+      }
+      else if(num<0)
+      {
+        return -1;
+      }
+      return 0;
+		}
+
+		function hub(x, y, xSpeed, ySpeed)
+		{
+			this.id = ++idNumber;
+      this.hunted=false;
+      
+      this.offsetX=0;
+      this.offsetY=0;
+      this.grabbed=false;
+
+			this.x = x;
+			this.y = y;
+
+			this.xSpeed = xSpeed;
+			this.ySpeed = ySpeed;
+
+			this.m = Math.random()*200+50;
+			this.grounded = false;
+
+			this.springs = 0;
+			this.joinedHubs = new Object();
+
+			this.totalForceX = 0;
+			this.totalForceY = 0;
+			
+			this.life=1;
+		}
+    hub.prototype.draw=hub_draw;
+    hub.prototype.move=hub_move;
+    hub.prototype.obType="hub";
+    
+    function hub_move()
+    {
+				if (this.springs < springLimit || !planet)
+				{
+					var dist=0;
+					for (var i = 0; i < hubs.length; i++)
+					{
+						if(hubs[i] !== this)
+						{
+							distSquared=Math.pow(hubs[i].x-this.x,2)+Math.pow(hubs[i].y-this.y,2);
+							dist=Math.sqrt(distSquared);
+							
+							if(dist < 8*springLimit - 4*(hubs[i].springs+this.springs))
+							{
+								if(hubs[i].springs<springLimit)
+								{
+									if(!hubs[i].joinedHubs[this.id])
+									{
+										addSpring(this, hubs[i], 50);
+									}
+								}
+							}
+							
+							if(!planet)
+							{
+							  if(dist<100) distSquared=10000;
+							
+							  var force = g * 6 * hubs[i].m * this.m / distSquared;
+							  var angle = radiansFromPoints(hubs[i].x-this.x,hubs[i].y-this.y);
+							
+							  this.totalForceX += force * Math.cos(angle);
+							  this.totalForceY += force * Math.sin(angle);
+							}
+						}
+					}
+				}
+
+				if(planet) this.totalForceY += this.m * g;
+				if (this.grounded) this.xSpeed *= 0.95;
+
+				//this.totalForceX -= this.xSpeed * 1;
+				//this.totalForceY -= this.ySpeed * 1;
+
+				this.xSpeed += this.totalForceX / this.m;
+				this.ySpeed += this.totalForceY / this.m;
+
+				var totalSpeed=Math.sqrt(Math.pow(this.xSpeed,2)+Math.pow(this.ySpeed,2));
+				
+				/*
+				if(totalSpeed>topSpeed)
+				{
+				  this.xSpeed *= topSpeed/totalSpeed;
+				  this.ySpeed *= topSpeed/totalSpeed;
+				}
+				*/
+
+				var oldX = this.x;
+				var oldY = this.y;
+
+				this.x += this.xSpeed;
+				this.y += this.ySpeed;
+
+				this.grounded = false;
+
+				for (i = 0; i < blocks.length; i++)
+				{
+          <? 
+          if($_GET['julianna'])
+          {
+            ?>
+            if (this.x > blocks[i].x && this.x < blocks[i].x + blocks[i].width
+              && this.y > blocks[i].y && this.y < blocks[i].y + blocks[i].height)
+            {
+              if (oldX > blocks[i].x && oldX < blocks[i].x + blocks[i].width)
+              {
+                this.ySpeed *= -1;
+                this.y += this.ySpeed;
+                this.ySpeed *= 0.8;
+
+                if (this.y < blocks[i].y && Math.abs(this.ySpeed) < 1) this.grounded = true;
+              }
+              if (oldY > blocks[i].y && oldY < blocks[i].y + blocks[i].height)
+              {
+                this.xSpeed *= -1;
+                this.x += this.xSpeed;
+                this.xSpeed *= 0.8;
+              }
+            }
+            <?
+          }
+          else
+          {
+            ?>
+            if((this.x>blocks[i].x != oldX>blocks[i].x || this.x<blocks[i].x+blocks[i].width != oldX<blocks[i].x+blocks[i].width)
+                && ((this.y>blocks[i].y && this.y<blocks[i].y+blocks[i].height)
+                || (oldY>blocks[i].y && oldY<blocks[i].y+blocks[i].height)))
+            {
+              //uh oh. crossed over left/right side of block.
+              this.xSpeed*=-1;
+              this.x+=this.xSpeed;
+              this.xSpeed*=0.8;
+            }
+            
+            if((this.y>blocks[i].y != oldY>blocks[i].y || this.y<blocks[i].y+blocks[i].height != oldY<blocks[i].y+blocks[i].height)
+                && ((this.x>blocks[i].x && this.x<blocks[i].x+blocks[i].width)
+                ||(oldX>blocks[i].x && oldX<blocks[i].x+blocks[i].width) ))
+            {
+              //uh oh. crossed over top/bottom side of block.
+              this.ySpeed*=-1;
+              this.y+=this.ySpeed;
+              this.ySpeed*=0.8;
+              
+              if(this.y<blocks[i].y && Math.abs(this.ySpeed)<1) this.grounded=true;
+            }
+            <?
+          }
+          ?>
+				}
+
+				this.totalForceX = 0;
+				this.totalForceY = 0;
+				
+				this.life-=agingRate/3000;
+    }
+    function hub_draw()
+    {
+      ctx.lineCap='round';
+      if(this.hunted)
+      {
+        ctx.fillStyle='rgba(0,255,0,0.5)';
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,10,0,Math.PI*2,true);
+        ctx.fill();
+      }
+      ctx.lineWidth=10;
+      ctx.fillStyle='rgba(0,255,0,'+goodNum(this.life)+')';
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,5,0,Math.PI*2,true);
+      ctx.fill();
+    }
+
+		function spring(hub1, hub2, length)
+		{
+			this.k = Math.random() * stiffness/2 + stiffness/2;
+			this.damper= Math.random()*0.4 + 0.1;
+			this.nLength = length + Math.random() * 20; //natural length
+			this.cLength = 0; //current length
+			this.oLength=this.nLength;
+
+			this.hub1 = hub1;
+			this.hub2 = hub2;
+			
+			this.velocity=0; //this is the velocity of the length.
+
+			hub1.springs++;
+			hub2.springs++;
+			hub1.joinedHubs[hub2.id] = this;
+			hub2.joinedHubs[hub1.id] = this;
+			
+			this.id=0;
+		}
+    spring.prototype.act=spring_act;
+    spring.prototype.draw=spring_draw;
+    
+    function spring_act()
+    {
+      var dx = this.hub1.x - this.hub2.x;
+      var dy = this.hub1.y - this.hub2.y;
+
+      this.cLength = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+
+      var displacement = this.nLength - this.cLength;
+      
+      this.velocity=this.cLength-this.oLength;
+      
+      var springForce = this.k * displacement;
+      var angle = radiansFromPoints(dx, dy);
+      
+      var totForce = springForce - this.damper * this.k * this.velocity;
+      
+      var totForceX=totForce*Math.cos(angle);
+      var totForceY=totForce*Math.sin(angle);
+      
+      this.hub1.totalForceX+=totForceX;
+      this.hub1.totalForceY+=totForceY;
+      
+      this.hub2.totalForceX-=totForceX;
+      this.hub2.totalForceY-=totForceY;
+      
+      this.oLength=this.cLength;
+
+      this.k+=displacement * decay / 100;
+      if(this.k>stiffness)
+      {
+        this.k=stiffness;
+      }
+    }
+    function spring_draw()
+    {
+      ctx.lineWidth=2;
+      ctx.strokeStyle='rgba(0,255,0,'+goodNum(this.k/stiffness * Math.max(this.hub1.life,0.5) * Math.max(this.hub2.life,0.5))+')';
+      
+      ctx.beginPath();
+      ctx.moveTo(this.hub1.x,this.hub1.y);
+      ctx.lineTo(this.hub2.x,this.hub2.y);
+      ctx.stroke();
+    }
+    
+		function block(x, y, width, height)
+		{
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+      this.hunted=false;
+      this.offsetX=0;
+      this.offsetY=0;
+      this.grabbed=false;
+		}
+    block.prototype.draw=block_draw;
+    block.prototype.move=block_move;
+    block.prototype.obType="block";
+    
+    function block_draw()
+    {
+      if(this.hunted)
+      {
+        ctx.fillStyle='rgba(255,0,0,0.15)';
+        ctx.fillRect(this.x-10,this.y-10,this.width+20,this.height+20);
+      }
+      ctx.strokeStyle='rgb(255,0,0)';
+      ctx.lineWidth=3;
+      ctx.fillStyle='rgba(255,0,0,0.15)';
+      ctx.strokeRect(this.x,this.y,this.width,this.height);
+      ctx.fillRect(this.x,this.y,this.width,this.height);
+    }
+    function block_move(newX,newY)
+    {
+      var oldX=this.x;
+      var oldY=this.y;
+      this.x=newX;
+      this.y=newY;
+      
+      for(i=0;i<hubs.length;i++)
+      {
+        if((hubs[i].x>oldX != hubs[i].x>newX || hubs[i].x<oldX+this.width != hubs[i].x<newX+this.width)
+            && ((hubs[i].y>newY && hubs[i].y<newY+this.height)
+            || (hubs[i].y>oldY && hubs[i].y<oldY+this.height)))
+        {
+          //uh oh. crossed over left/right side of block.
+          hubs[i].x+=(newX-oldX)*1.1;
+        }
+        
+        if((hubs[i].y>oldY != hubs[i].y>newY || hubs[i].y<oldY+this.height != hubs[i].y<newY+this.height)
+            && ((hubs[i].x>newX && hubs[i].x<newX+this.width)
+            || (hubs[i].x>oldX && hubs[i].x<oldX+this.width)))
+        {
+          //uh oh. crossed over top/bottom side of block.
+          hubs[i].y+=(newY-oldY)*1.1;
+          
+          if(hubs[i].y<this.y && Math.abs(hubs[i].ySpeed)<1) hubs[i].grounded=true;
+        }
+      }
+    }
+
+		function addHub(x, y, xSpeed, ySpeed)
+		{
+			if(loaded) return hubs[hubs.length] = new hub(x, y, xSpeed, ySpeed);
+		}
+
+		function addSpring(hub1, hub2, length)
+		{
+			springs[springs.length] = new spring(hub1, hub2, length);
+			springs[springs.length-1].id=springs.length-1;
+      hub1.life=1;
+      hub2.life=1;
+		}
+
+		function addBlock(x, y, width, height)
+		{
+			blocks[blocks.length] = new block(x, y, width, height);
+		}
+		
+		function goodNum(n)
+		{
+		  return Math.abs(Math.round(n*1000)/1000);
+		}
+
+    function killHub(i)
+    {
+      for(var j in hubs[i].joinedHubs)
+      {
+        springs[hubs[i].joinedHubs[j].id].k=-1; //effectively deleting those springs
+      }
+      
+      hubs.splice(i,1);
+    }
+
+		function timer()
+		{
+			ctx.clearRect(0,0,canvWidth,canvHeight);
+			
+			for(var i=0;i<blocks.length;i++)
+			{
+			  blocks[i].draw();
+			}
+
+			for(i=0;i<springs.length;i++)
+			{
+				springs[i].act();
+				if(springs[i].k<0)
+				{
+				  delete springs[i].hub1.joinedHubs[springs[i].hub2.id];
+				  delete springs[i].hub2.joinedHubs[springs[i].hub1.id];
+				  springs[i].hub1.springs--;
+				  springs[i].hub2.springs--;
+				
+				  springs.splice(i,1);
+				  i--;
+				}
+				else
+				{
+				  springs[i].id=i;
+				}
+			}
+
+			for(i=0;i<hubs.length;i++)
+			{
+				if(!hubs[i].grabbed)
+        {
+          hubs[i].move();
+        }
+        else
+        {
+          hubs[i].totalForceX=0;
+          hubs[i].totalForceY=0;
+        }
+				if(hubs[i].life<=0.3)
+				{
+          killHub(i);
+				  i--;
+				}
+			}
+			for(i=0;i<springs.length;i++)
+			{
+				springs[i].draw();
+			}
+			for(i=0;i<hubs.length;i++)
+			{
+				hubs[i].draw();
+			}
+      
+      movingMouseStuff();
+
+      if(needsToResize)
+      {
+        var curTime=new Date().getTime();
+        if(curTime-lastResizeTime>1500)
+        {
+          bodyResize();
+          needsToResize=false;
+        }
+      }
+
+			setTimeout("timer();", 33);
+		}
+
+		function bodyLoad()
+		{
+			//makeSquare(200, 50, 50);
+			
+			loaded=true;
+      canvWidth=document.body.clientWidth;
+      canvHeight=document.body.clientHeight-topBox.offsetHeight;
+      canv.width=canvWidth;
+      canv.height=canvHeight;
+
+      addBlock(-50,-50,canvWidth+100,50);
+      addBlock(-50,canvHeight,canvWidth+100,50);
+      addBlock(-50,0,50,canvHeight);
+      addBlock(canvWidth,0,50,canvHeight);
+      
+      addHub(canvWidth/2-20,canvHeight-20,0,0);
+      addHub(canvWidth/2+20,canvHeight-20,0,0);
+      addHub(canvWidth/2-20,canvHeight,0,0);
+      addHub(canvWidth/2+20,canvHeight,0,0);
+
+      /*
+			addBlock(84, 269, 266, 32);
+			addBlock(84, 481, 600, 17);
+			
+			//walls
+			addBlock(0, 780, 800, 20);
+			addBlock(780, 0, 20, 780);
+			addBlock(0, 0, 780, 20);
+			addBlock(0, 20, 20, 760);
+      */
+
+			timer();
+		}
+
+		function bodyKeyDown(evt)
+		{
+			if(evt.keyCode==16) //shift
+      {
+        holdingShift=true;
+      }
+      else if(evt.keyCode==13)
+      {
+        updateStuff();
+      }
+      else if(evt.keyCode==17) //ctrl
+      {
+        holdingCtrl=true;
+      }
+		}
+
+		function bodyKeyUp(evt)
+		{
+			if(evt.keyCode==16) //shift
+			{
+				holdingShift=false;
+        if(huntedObject!=null)
+        {
+          huntedObject.hunted=false;        
+          huntedObject=null;
+        }
+			}
+      else if(evt.keyCode==17) //ctrl
+      {
+				holdingCtrl=false;
+        if(huntedObject!=null)
+        {
+          huntedObject.hunted=false;
+          huntedObject.grabbed=false;
+          canvMouseIsDown=false;       
+          huntedObject=null;
+        }
+      }
+		}
+
+    function canvMouseDown(evt)
+    {
+      var canvX=evt.clientX;
+      var canvY=evt.clientY-canv.offsetTop;
+      canvMouseIsDown=true;
+      grabX=canvX;
+      grabY=canvY;
+      var curBlock;
+      var curHub;
+      var killedHub=false;
+      
+      if(holdingShift)
+      {
+        for(i=0;i<hubs.length;i++)
+        {
+          curHub=hubs[i];
+          if(hubs[i].x-15<=grabX && hubs[i].y-15<=grabY && hubs[i].x+15>=grabX && hubs[i].y+15>=grabY)
+          {
+            //user clicked on hub while holding shift. destroy it.
+            killHub(i);
+            killedHub=true;
+            break;
+          }
+        }
+        if(!killedHub)
+        {
+          for(var i=0;i<blocks.length;i++)
+          {
+            curBlock=blocks[i]
+            if(curBlock.x<=grabX && curBlock.y<=grabY && curBlock.x+curBlock.width>=grabX && curBlock.y+curBlock.height>=grabY)
+            {
+              //user clicked on block while holding shift. destroy it.
+              blocks.splice(i,1);
+              break;
+            }
+          }
+        }
+      }
+      
+      if(holdingCtrl && huntedObject!=null)
+      {
+        huntedObject.offsetX=canvX-huntedObject.x;
+        huntedObject.offsetY=canvY-huntedObject.y;
+        huntedObject.grabbed=true;
+        huntedObject.xSpeed=0;
+        huntedObject.ySpeed=0;
+      }
+    }
+    
+    function movingMouseStuff()
+    {
+      if(canvMouseIsDown && holdingCtrl && huntedObject!=null && !huntedObject.grabbed)
+      {
+        //it fell into my waiting grasp.
+        huntedObject.offsetX=canvX-huntedObject.x;
+        huntedObject.offsetY=canvY-huntedObject.y;
+        huntedObject.grabbed=true;
+        huntedObject.xSpeed=0;
+        huntedObject.ySpeed=0;
+      }
+      
+      if(canvMouseIsDown && !holdingCtrl)
+      {
+        var left=Math.min(grabX,canvX);
+        var top=Math.min(grabY,canvY);
+        
+        var width=Math.abs(grabX-canvX);
+        var height=Math.abs(grabY-canvY);
+        
+        if(!buildingBlock)
+        {
+          if(Math.abs(canvX-grabX) > 15 && Math.abs(canvY-grabY) > 15 && !holdingShift)
+          {
+            addBlock(left,top,width,height);
+            buildingBlock=true;
+          }
+        }
+        else
+        {
+          blocks[blocks.length-1].x=left;
+          blocks[blocks.length-1].y=top;
+          blocks[blocks.length-1].width=width;
+          blocks[blocks.length-1].height=height;
+        }
+      }
+      else if(canvMouseIsDown && holdingCtrl && huntedObject!=null)
+      {
+        if(huntedObject.obType=="block")
+        {
+          huntedObject.move(canvX-huntedObject.offsetX, canvY-huntedObject.offsetY);
+        }
+        else
+        {
+          huntedObject.x=canvX-huntedObject.offsetX;
+          huntedObject.y=canvY-huntedObject.offsetY;
+        }
+      }
+      else
+      {
+        var huntingHub=false;
+        if(holdingShift || holdingCtrl)
+        {
+          if(huntedObject!=null)
+          {
+            huntedObject.hunted=false;
+            huntedObject=null;
+          }
+          for(i=0;i<hubs.length;i++)
+          {
+            curHub=hubs[i];
+            if(hubs[i].x-15<=canvX && hubs[i].y-15<=canvY && hubs[i].x+15>=canvX && hubs[i].y+15>=canvY)
+            {
+              //user hovered on hub while holding shift or ctrl.
+              curHub.hunted=true;
+              huntedObject=curHub;
+              huntingHub=true;
+              break;
+            }
+          }
+          if(!huntingHub)
+          {
+            for(var i=0;i<blocks.length;i++)
+            {
+              curBlock=blocks[i];
+              if(curBlock.x<=canvX && curBlock.y<=canvY && curBlock.x+curBlock.width>=canvX && curBlock.y+curBlock.height>=canvY)
+              {
+                //user hovered on block while holding shift or ctrl.
+                curBlock.hunted=true;
+                huntedObject=curBlock;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    function canvMouseMove(evt)
+    {
+      canvX=evt.clientX;
+      canvY=evt.clientY-canv.offsetTop;
+    }
+    
+    function canvMouseUp(evt)
+    {
+      if(canvMouseIsDown)
+      {
+        if(!buildingBlock && !holdingShift && !holdingCtrl)
+        {
+          var canvX=evt.clientX;
+          var canvY=evt.clientY-canv.offsetTop;
+          addHub(canvX,canvY,0,0);
+        }
+        if(huntedObject!=null)
+        {
+          huntedObject.grabbed=false;
+          huntedObject.hunted=false;
+          huntedObject=null;
+        }
+        buildingBlock=false;
+        canvMouseIsDown=false;
+      }
+    }
+
+    /*
+		function bodyClick(evt)
+		{
+      var canvX=evt.clientX;
+      var canvY=evt.clientY-canv.offsetTop;
+			addHub(canvX, canvY, 0, 0);
+		}
+    */
+	</script>
+</body>
+
+</html>

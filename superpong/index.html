@@ -1,0 +1,231 @@
+<html>
+  <head>
+    <title>
+      SuperPong
+    </title>
+
+    <script type="text/javascript" src="soundmanager2.js">
+    </script>
+    <script type="text/javascript" src="index.js">
+    </script>
+
+    <style>
+      .infoDiv
+      {
+        color:black;
+        height:420px;
+        width:400px;
+        overflow:scroll;
+        background-color:#FFFFFF;
+        border:1px solid #7090FF;
+        text-align:left;
+        padding:5px;
+      }
+      .keyDiv
+      {
+        color:black;
+        border:1px solid #7090FF;
+        cursor:pointer;
+        width:60px;
+        display:inline-block;
+        text-align:center;
+      }
+
+      div
+      {
+        color:#FFFFFF;
+      }
+    </style>
+  </head>
+
+  <body style="background-color:#000000;margin-top:0px;margin-bottom:0px;overflow:hidden;" onkeydown="return keyPressedOrReleased(event.keyCode,true);" onresize="resizeStuff();" onkeyup="return keyPressedOrReleased(event.keyCode,false);"> 
+    <img id="speakerIcon" src="soundon.gif" style="cursor:pointer;position:absolute;left:3;top:3;z-index:3;" onmousedown="switchSound();">
+
+    <div id="playButton" style="position:absolute;text-align:center;visibility:hidden;">
+      <table>
+        <tr>
+          <td align="center" colspan="3">
+            <button onclick="$('setKeysDiv').style.display='block';$('creditsDiv').style.display='none';$('helpDiv').style.display='none';$('helpFrame').style.display='block';" style="font-size:25px;width:100px;height:75px;">   
+              Set<br>Keys
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button onclick="$('setKeysDiv').style.display='none';$('creditsDiv').style.display='none';$('helpDiv').style.display='block';$('helpFrame').style.display='block';" style="font-size:25px;width:100px;height:75px;">   
+              Help
+            </button>
+          </td>
+          <td>
+            <button onclick="start();" style="font-size:80px;width:250px;height:200px;">   
+              Play
+            </button>
+          </td>
+          <td>
+            <button onclick="$('setKeysDiv').style.display='none';$('creditsDiv').style.display='block';$('helpDiv').style.display='none';$('helpFrame').style.display='block';" style="font-size:25px;width:100px;height:75px;">   
+              Credits
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" colspan="3">
+            <button onclick="document.location='index.html';" style="font-size:25px;width:100px;height:75px;">   
+              New<br>Match
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="helpFrame" style="position:absolute;text-align:center;">
+      <div style="background-color:#7090FF;text-align:right;">
+        <button onmousedown="$('helpFrame').style.display='none';if(keyDivBeingSet) keyDivBeingSet.style.backgroundColor='';keyDivBeingSet=null;">
+          X
+        </button>
+      </div>
+
+      <div id="setKeysDiv" class="infoDiv" style="display:none;">
+        <b>Left Paddle</b><br><br>
+
+        Up key: <span id="LPUK" class="keyDiv" onmousedown="setKeyDivBeingSet(this);"></span><br><br>
+        Down key: <span id="LPDK" class="keyDiv" onmousedown="setKeyDivBeingSet(this);"></span><br><br>
+        Shoot key: <span id="LPSK" class="keyDiv" onmousedown="setKeyDivBeingSet(this);"></span>
+
+        <br><br><hr><br><b>Right Paddle</b><br><br>
+
+        Up key: <span id="RPUK" class="keyDiv" onmousedown="setKeyDivBeingSet(this);"></span><br><br>
+        Down key: <span id="RPDK" class="keyDiv" onmousedown="setKeyDivBeingSet(this);"></span><br><br>
+        Shoot key: <span id="RPSK" class="keyDiv" onmousedown="setKeyDivBeingSet(this);"></span>
+        <br><br>
+        <button onmousedown="resetKeys()">
+          Reset
+        </button>
+        <button onmousedown="$('helpFrame').style.display='none';if(keyDivBeingSet) keyDivBeingSet.style.backgroundColor='';keyDivBeingSet=null;">
+          OK
+        </button>
+      </div>
+
+      <div id="creditsDiv" class="infoDiv" style="display:none;">
+    Programming: William Hoza<br>
+    Game Idea: Cheyenne Hoza<br>
+    Testing: Kathleen Hoza, Nicholas Hoza, Bradley Hoza
+    <br>
+    <hr>
+    <a href="http://www.craterfish.org" target="top">www.craterfish.org</a>
+      </div>
+      <div id="helpDiv" class="infoDiv">
+    This two-player game is just like classic pong, with one important difference: <b>you can shoot.</b><br><br>
+    Each paddle is equipped with a powerful missile launcher capable of firing once per second.
+    Collect ammunition by hitting the ball with your paddle or shooting the ball.<br><br>
+    If you shoot the ball, it will split into two, unless it is too small in which case it will disappear.<br><br>
+    If you shoot the other player's paddle, the paddle will break where you shot it.
+    Shooting the other player's gun will render it unusable for ten seconds.<br><br>
+
+    The keys for the left paddle are as follows:<br>
+    <div style="margin-left:30px;color:black;">
+      Up: W<br>
+      Down: S<br>
+      Fire: D
+    </div>
+
+    <br>
+
+    For the right paddle:<br>
+    <div style="margin-left:30px;color:black;">
+      Up: I<br>
+      Down: K<br>
+      Fire: J
+    </div>
+
+    <br>
+
+    Begin by pressing Play, or by pressing the "g" key. Start a new match by clicking New Match, or with the "n" key.
+    <br><br>
+
+    The big numbers in the middle of the screen are the current scores.
+    The small numbers in the middle are the number of bullets each player has.<br><br>
+
+    Games are played to 11 points, and you have to win by at least two points. After the game is complete, a new one will begin.
+    The numbers at the top of the screen keep track of how many times each player has won.<br><br>
+
+    The game never says someone wins the match, but it is recommended to play to three games.
+    Make sure you both agree on what you are playing to <i>before</i> beginning the game.<br><br>
+
+    If you want, you can give a player a handicap. To change the size of the left paddle, use the following keys:
+    <div style="margin-left:30px;color:black;">
+      Smaller: 1<br>
+      Bigger: 2<br>
+      Reset: 3
+    </div>
+
+    <br>
+
+    For the right paddle:<br>
+    <div style="margin-left:30px;color:black;">
+      Smaller: 8<br>
+      Bigger: 9<br>
+      Reset: 0
+    </div>
+    <hr>
+ 
+    <a href="http://www.craterfish.org" target="top">www.craterfish.org</a>
+      </div>
+    </div>
+
+    <div id="leftWins" style="font-size:30px;position:absolute;top:0;">
+      0
+    </div>
+    <div id="rightWins" style="font-size:30px;position:absolute;top:0;">
+      0
+    </div>
+
+    <table style="width:100%;height:100%;" cellPadding="0px" cellSpacing="0px">
+      <tr>
+        <td align=left valign="top" width="25%">
+          <table id="leftPaddle" cellPadding="0px" cellSpacing="0px" style="width:15px;height:350px;position:relative;top:0px;vixsibility:hidden;">
+            <tr>
+              <td style="background-color:#808080;width:8px;">
+              </td>
+              <td valign="top">
+                <div id="leftGun" style="position:relative;height:10px;background-color:#FF0000;font-size:0px;">&nbsp;</div>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="25%" style="padding:5px;border-right:3px solid #808080;" align=right>
+          <div id="leftScore" style="font-size:100px;font-weight:bold;font-family:arial;visibility:hidden;"> 
+            0
+          </div>
+          <div id="debug"></div>
+          <div id="leftBullets" style="font-size:50px;margin-top:-30px;visiblity:hidden;">
+            5
+          </div>
+        </td>
+        <td width="25%" align=left style="padding:5px;border-left:3px solid #808080;">
+          <div id="rightScore" style="font-size:100px;font-weight:bold;font-family:arial;visibility:hidden;"> 
+            0
+          </div>
+          <div id="rightBullets" style="font-size:50px;margin-top:-30px;">
+            5
+          </div>
+        </td>
+        <td align=right valign="top"  width="25%">
+          <table id="rightPaddle" cellPadding="0px" cellSpacing="0px" style="width:15px;height:350px;position:relative;top:0px;">
+            <tr>
+              <td valign="top" align="right">
+                <div id="rightGun" style="position:relative;height:10px;background-color:#FF0000;font-size:0px;">&nbsp;</div>
+              </td>
+              <td style="background-color:#808080;width:8px;">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/javascript">
+      init();
+      $('helpFrame').style.display='none';
+    </script>
+  </body>
+</html>
