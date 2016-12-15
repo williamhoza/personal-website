@@ -1,0 +1,368 @@
+
+
+<html>
+
+<head>
+  <title>
+    Mandelbrot Set Visualization
+  </title>
+  
+  <meta property="og:title" content="Mandelbrot Set Visualization" />
+  <meta property="og:description" content="Pan and zoom and watch it go" />
+  <meta property="og:image" content="http://william.hoza.us/images/mandelbrot-small.png" />
+  
+  <style>
+    A
+    {
+      color:#00FFFF;
+    }
+  </style>
+</head>
+
+<body style="background-color:black;" onkeydown="body_keydown(event);" onkeyup="body_keyup(event);" onmouseup="body_mouseup(event);" onmousemove="body_mousemove(event);">
+
+<div style="text-align:center;">
+  <table style="color:white;display:inline-block;" cellspacing="0px" cellpadding="0px" border="0" onselectstart="return false;">
+    <tr>
+      <td style="padding-right:20px;">
+  <script type="text/javascript"><!--
+  google_ad_client = "ca-pub-7377269250431987";
+  /* mandelbrot2 */
+  google_ad_slot = "9744056722";
+  google_ad_width = 120;
+  google_ad_height = 600;
+  //-->
+  </script>
+  <script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
+      </td>
+      <td valign="middle" style="border:1px solid #940f04;padding:10px;text-align:center;">
+        Double click to zoom in. Right click to zoom out. Drag to pan. <a href=".">Reset</a><br>
+        <div style="width:502px;height:502px;overflow:hidden;display:inline-block;background-color:#808080;" onselectstart="return false;">
+          <canvas id="canv" width="500px" height="500px" style="position:relative;left:0;top:0;background-color:white;border:1px solid red;" onselectstart="return false;" oncontextmenu="return false;" onmousedown="canv_mousedown(event);" ondblclick="zoom(event,true,zoomPower);">
+            You need a canvas-enabled browser. Try Google Chrome or Mozilla Firefox.
+          </canvas>
+        </div>
+        <br>
+        <div>
+          Calculation threads:
+          <select id="multithreading" onchange="updateMultithreading();">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+          </select>
+          <br>
+          <span id="iters"></span>
+          &nbsp;<a href="http://william.hoza.us">More cool stuff</a>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+  var m=new Array();
+  var workers=new Array();
+  var iterations=0;
+  var canv=document.getElementById('canv');
+  var ctx=canv.getContext('2d');
+  var itersDiv=document.getElementById('iters');
+  var imageSize=500;
+  
+  var xMin=-2.287;
+  var xMax=1.713;
+  var yMin=-2;
+  var yMax=2;
+  var numberOfWorkers=1;
+  
+  var zoomLevel=1;
+  var minDeath=-1;
+  var maxDeath=-1;
+  var grabX=0;
+  var grabY=0;
+  var grabbed=false;
+  
+  var zoomPower=3;
+  var shiftHeld=false;
+  var needToRedraw=false;
+  
+  function updateURL()
+  {
+    document.location="./#x=" + ((xMax+xMin)/2) + "&y=" + (yMax+yMin)/2 + "&z=" + zoomLevel;
+  }
+  
+  function zoom(evt,zoomIn,zoomMagnitude)
+  {
+    var sX=250; 
+    var sY=250;
+    if(evt)
+    {
+      sX=screenX(evt.clientX);
+      sY=screenY(evt.clientY);
+    }
+    
+    var xWidth=xMax-xMin;
+    var yWidth=yMax-yMin;
+    
+    var actualX=xMin+(sX*xWidth/imageSize);
+    var actualY=yMin+(sY*yWidth/imageSize);
+    
+    var s=zoomIn? 1 : -1;
+    var z=s*(1-Math.pow(zoomMagnitude,-s));
+    
+    xMin+=s*(actualX-xMin)*z;
+    xMax-=s*(xMax-actualX)*z;
+    yMin+=s*(actualY-yMin)*z;
+    yMax-=s*(yMax-actualY)*z;
+    
+    zoomLevel*=Math.pow(zoomMagnitude,s);
+    updateURL();
+    
+    startOver();
+  }
+  
+  function canv_mousedown(evt)
+  {
+    if(evt.button==2) //right click
+    {
+      zoom(evt, false,zoomPower);
+    }
+    else
+    {
+      grabX=evt.clientX;
+      grabY=evt.clientY;
+      grabbed=true;
+    }
+  }
+  
+  function body_mousemove(evt)
+  {
+    if(grabbed)
+    {
+      var dx=grabX-evt.clientX;
+      var dy=grabY-evt.clientY;
+      canv.style.left=-dx;
+      canv.style.top=-dy;
+    }
+  }
+  
+  function body_keydown(evt)
+  {
+    if(evt.keyCode==82) //R
+    {
+      document.location=".";
+    }
+    if(evt.keyCode==16) //shift
+    {
+      shiftHeld=true;
+    }
+  }
+  
+  function body_keyup(evt)
+  {
+    if(evt.keyCode==16) //shift
+    {
+      shiftHeld=false;
+    }
+  }
+  
+  function body_mouseup(evt)
+  {
+    if(grabbed)
+    {
+      var dx=grabX-evt.clientX;
+      var dy=grabY-evt.clientY;
+      
+      grabbed=false;
+      canv.style.left=0;
+      canv.style.top=0;
+      
+      if(dx!=0 || dy!=0)
+      {
+        dx*=(xMax-xMin)/imageSize;
+        dy*=(yMax-yMin)/imageSize;
+        
+        xMin+=dx;
+        xMax+=dx;
+        yMin+=dy;
+        yMax+=dy;
+        updateURL();
+        startOver();
+      }
+    }
+  }
+  
+  function screenX(cx)
+  {
+    return cx-canv.offsetLeft;
+  }
+  function screenY(cy)
+  {
+    return cy-canv.offsetTop;
+  }
+  
+  function timer()
+  {
+    draw();
+
+    setTimeout(timer, 0);
+  }
+  
+  function updateMultithreading()
+  {
+    numberOfWorkers=parseInt(document.getElementById('multithreading').value);
+    startOver();
+  }
+  
+  function startOver()
+  {
+    var screenX=0;
+    var screenY=0;
+    minDeath=-1;
+    iterations=0;
+    m=new Array();
+    ctx.fillRect(0,0,imageSize,imageSize);
+    
+    for(var screenX=0;screenX<imageSize;screenX++)
+    {
+      for(var screenY=0;screenY<imageSize;screenY++)
+      {
+        var i=m.length;
+        m[i]=new Object();
+        m[i].re=xMin+screenX/imageSize*(xMax-xMin);
+        m[i].im=yMin+screenY/imageSize*(xMax-xMin);
+        m[i].vRe=m[i].re;
+        m[i].vIm=m[i].im;
+        m[i].death=-1;
+        m[i].index=i;
+        m[i].sX=screenX;
+        m[i].sY=screenY;
+        m[i].justDied=false;
+      }
+    }
+    
+    for(var i=0;i<workers.length;i++)
+    {
+      workers[i].terminate();
+    }
+    workers=new Array();
+    for(var i=0;i<numberOfWorkers;i++)
+    {
+      workers[i]=new Worker('checkPixels.js');
+      workers[i].iterations=0;
+      workers[i].done=false;
+      workers[i].onmessage=function(evt)
+      {
+        if(evt.data!='done')
+        {
+          for(var j=0;j<evt.data.died.length;j++)
+          {
+            m[evt.data.died[j]].death=evt.data.iterations;
+            m[evt.data.died[j]].justDied=true;
+          }
+          
+          if(evt.data.died.length>0)
+          {
+            if(minDeath==-1) minDeath=evt.data.iterations;
+            if(minDeath > evt.data.iterations)
+            {
+              minDeath = evt.data.iterations;
+              needToRedraw=true;
+            }
+          }
+          this.iterations=evt.data.iterations;
+        }
+        else
+        {
+          this.done=true;
+        }
+      }
+      var minIndex=Math.floor(i*m.length/numberOfWorkers);
+      var numberOfPoints=0;
+      if(i!=numberOfWorkers-1)
+      {
+        numberOfPoints=Math.floor(m.length/numberOfWorkers);
+      }
+      else
+      {
+        numberOfPoints=m.length-minIndex;
+      }
+      workers[i].postMessage({'imageSize': imageSize, 'xMin': xMin, 'xMax': xMax, 'yMin': yMin, 'yMax': yMax, 'minIndex':minIndex, 'numberOfPoints':numberOfPoints});
+    }
+    
+    draw();
+  }
+  
+  function draw()
+  {
+    var d=ctx.getImageData(0,0,imageSize,imageSize);
+  
+    for(var i=0;i<m.length;i++)
+    {
+      if(m[i].justDied || (needToRedraw && m[i].death!=-1))
+      {
+        //alert(i);
+        var index=(m[i].sY*d.width+m[i].sX)*4;
+        var opac=Math.floor(2550/(m[i].death-minDeath+11));
+        
+        d.data[index]=255;
+        d.data[index+3]=opac;
+        
+        m[i].justDied=false;
+      }
+    }
+    ctx.putImageData(d,0,0);
+    needToRedraw=false;
+    
+    var s="";
+    for(var i=0;i<workers.length;i++)
+    {
+      if(workers[i].done) s+="[";
+      s+=workers[i].iterations;
+      if(workers[i].done) s+="]";
+      if(i<workers.length-1) s+= " ";
+    }
+    itersDiv.innerHTML=s;
+  }
+  
+  function init()
+  {
+    var l=document.location + "";
+    var i=l.indexOf('#');
+    if(i!=-1)
+    {
+      var s=l.substr(i+1);
+      var chunks=s.split("&");
+      var cx=parseFloat(chunks[0].substr(2));
+      var cy=parseFloat(chunks[1].substr(2));
+      var z=parseFloat(chunks[2].substr(2));
+      
+      var origCx=(xMax+xMin)/2;
+      var origCy=(yMax+yMin)/2;
+      
+      xMin+=cx-origCx;
+      xMax+=cx-origCx;
+      yMin+=cy-origCy;
+      yMax+=cy-origCy;
+      
+      zoom(null, true, z);
+    }
+    
+    canv.width=imageSize;
+    canv.height=imageSize;
+    
+    updateMultithreading();
+    timer();
+  }
+  
+  init();
+</script>
+
+</body>
+
+</html>
