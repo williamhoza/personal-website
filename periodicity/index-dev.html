@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html style = "height: 100%;">
+<head>
+  <style>
+    A
+    {
+      color: #00FFFF;
+    }
+    
+    INPUT[type = text]
+    {
+      width: 25px;
+      margin-left: 5px;
+      margin-right: 10px;
+    }
+  </style>
+  
+  <title>
+    Periodicity
+  </title>
+  
+  <meta property="og:title" content="Periodicity" />
+  <meta property="og:description" content="Simple harmonic motion with carefully chosen periods yields cool patterns." />
+  <meta property="og:image" content="http://william.hoza.us/images/periodicity-mediumsmall.png" />
+</head>
+
+<body style = "height: 100%; margin: 0px; background-color: black; font-size:0px;" onresize = "body_resize();">
+
+<div style = "font-size: 0px;">
+  <canvas id = "canv" onclick = "canv_click(event);">
+    dude get a decent browser
+  </canvas>
+</div>
+
+<div id = "info" style = "font-size: 9pt; display: inline-block; padding: 5px; position: absolute; left: 15px; top: 15px; opacity: 0.85; background-color: black; color: white; border: 1px solid #202020;">
+  <a href = "https://www.youtube.com/watch?v=yVkdfJ9PkRQ" target = "_BLANK">Inspiration</a>
+  &nbsp;&nbsp;
+  <a href="http://william.hoza.us">More cool stuff</a>
+  &nbsp;&nbsp;
+  <span id = "fps" style = "display:none;"></span>
+  <a style = "float: right; padding-left: 20px;" href = "javascript:void(0);" onclick = "closeInfo();">
+    close
+  </a>
+  
+  <div style = "padding-top:5px; padding-bottom:5px;border-bottom: 1px solid #202020;margin-bottom:5px;">
+    <span title = "The number of dots. For best results, choose a positive integer.">
+      N: <input type = "text" id = "numberOfDotsTxt" value = "60">
+    </span>
+    <span title = "The period of the fastest dot, in seconds. For best results, choose a positive real number.">
+      t<sub>N</sub>: <input type = "text" id = "shortestMicroPeriodTxt" value = "2">
+    </span>
+    <span title = "The ratio of the 'macro period' to the period of the slowest dot. The 'macro period' is the time it takes, after the beginning, for the dots to once again all be at the same height moving in the same direction. For best results, choose a positive integer.">
+      T / t<sub>1</sub>: <input type = "text" id = "macroPeriodToLongestMicroPeriodRatioTxt" value = "5">
+    </span>
+    
+    <button onclick = "updateSettings();">
+      apply
+    </button>
+  </div>
+  
+  <div style = "padding-bottom:5px;border-bottom: 1px solid #202020;margin-bottom:5px;background-color:black;">
+    <input type = "radio" id = "circles1Radio" name = "displayShape" CHECKED onclick = "displayStyle = CIRCLES1;">
+    <label for = "circles1Radio">Circles 1</label>
+    
+    <input type = "radio" id = "circles2Radio" name = "displayShape" UNCHECKED onclick = "displayStyle = CIRCLES2;">
+    <label for = "circles2Radio">Circles 2</label>
+    
+    <input type = "radio" id = "linesRadio" name = "displayShape" UNCHECKED onclick = "displayStyle = LINES;">
+    <label for = "linesRadio">Lines</label>
+
+    <input type = "checkbox" id = "drawTracksCheck" UNCHECKED onclick = "drawTracks = this.checked;">
+    <label for = "drawTracksCheck">Tracks</label>
+  </div>
+  
+  <script type = "text/javascript">
+    var canv = $('canv');
+    var ctx = canv.getContext('2d');
+    var cw = 0;
+    var ch = 0;
+    var startTime = 0;
+    var pauseTime = 0;
+    var paused = false;
+    var timerGoing = false;
+    
+    var CIRCLES1 = 0;
+    var CIRCLES2 = 1;
+    var LINES = 2;
+    
+    var numberOfDots = 0; // N
+    var shortestMicroPeriod = 0; // t_N
+    var macroPeriodToLongestMicroPeriodRatio = 0; // T / t_1
+    
+    var displayStyle = CIRCLES1;
+    var drawTracks = false;
+    
+    var macroPeriod = 0;
+    // T = t_N(N + T / t_1) for pretty patterns :)
+    
+    var periods;
+    
+    var frames = 0;
+    var seconds = 0;
+    
+    function updateSettings()
+    {
+      numberOfDots = parseInt($('numberOfDotsTxt').value);
+      shortestMicroPeriod = parseFloat($('shortestMicroPeriodTxt').value);
+      macroPeriodToLongestMicroPeriodRatio = parseFloat($('macroPeriodToLongestMicroPeriodRatioTxt').value);
+      
+      macroPeriod = shortestMicroPeriod * (numberOfDots + macroPeriodToLongestMicroPeriodRatio);
+      
+      startTime = (new Date()).getTime();
+      
+      periods = new Array();
+      for(var n = 0; n < numberOfDots; n++)
+      {
+        periods[n] = macroPeriod/(n + macroPeriodToLongestMicroPeriodRatio);
+      }
+    }
+    
+    function $(id)
+    {
+      return document.getElementById(id);
+    }
+    
+    function closeInfo()
+    {
+      $('info').style.display = 'none';
+    }
+    
+    function canv_click(evt)
+    {
+      if(!paused)
+      {
+        pauseTime = (new Date()).getTime();
+      }
+      else
+      {
+        startTime += (new Date()).getTime() - pauseTime;
+      }
+      paused = !paused;
+    }
+    
+    function timer()
+    {
+      var r = 0;
+      var t = 0.001*((new Date()).getTime() - startTime); //seconds since it began
+      
+      var period = 0;
+      var cycleFraction = 0;
+      var loc = 0;
+      var x = 0;
+      var y = 0;
+      var positionRadius = 0;
+    
+      if(!paused)
+      {
+        ctx.clearRect(0, 0, cw, ch);
+        
+        if(displayStyle == LINES)
+        {
+          r = cw / (2*numberOfDots);
+        }
+        else
+        {
+          r = Math.min((ch/2 - 10) / (numberOfDots + 1/2), (cw/2 - 10) / (numberOfDots + 1/2));
+        }
+        
+        if(drawTracks)
+        {
+          ctx.beginPath();
+          for(var n = 1; n < numberOfDots; n++)
+          {
+            if(displayStyle == LINES)
+            {
+              ctx.moveTo(r*(2*n), 0);
+              ctx.lineTo(r*(2*n), ch);
+            }
+            else
+            {
+              n++;
+              ctx.moveTo(cw/2 + r*(n + 1/2), ch/2);
+              ctx.arc(cw/2, ch/2, r*(n + 1/2), 0, 2*Math.PI, false);
+            }
+          }
+          ctx.strokeStyle = "#202020";
+          ctx.stroke();
+        }
+      
+        for(var n = 0; n < numberOfDots; n++)
+        {
+          loc = 2*Math.PI*t/periods[n];
+        
+          if(displayStyle == LINES)
+          {
+            x = r*(2*n + 1);
+            y = ch*0.5 + (ch * 0.5 - r - 10) * Math.sin(loc);
+          }
+          else
+          {
+            if(displayStyle == CIRCLES2)
+            {
+              positionRadius = r*(n + 1/2);
+            }
+            else
+            {
+              positionRadius = r*(numberOfDots - n - 1/2);
+            }
+            x = cw*0.5 + positionRadius * Math.cos(loc);
+            y = ch*0.5 + positionRadius * Math.sin(loc);
+          }
+          
+          ctx.beginPath();
+          ctx.arc(x, y, Math.max(r, 4), 0, 2*Math.PI, false);
+          ctx.fillStyle = "rgb(" + hueToRGB((n+1)*t/macroPeriod % 1) + ")";
+          ctx.fill();
+        }
+        
+        frames++;
+        if(Math.floor(t) > seconds)
+        {
+          $('fps').innerHTML = frames;
+          frames = 0;
+          seconds = Math.floor(t);
+        }
+      }
+      
+      setTimeout(timer, 0);
+    }
+    
+    function body_resize()
+    {
+      cw = document.body.clientWidth;
+      ch = document.body.clientHeight;
+    
+      if(cw != 0 && ch != 0)
+      {
+        canv.width = cw;
+        canv.height = ch;
+        
+        if(!timerGoing)
+        {
+          timerGoing = true;
+          timer();
+        }
+      }
+    }
+    
+    function init()
+    {
+      updateSettings();
+      body_resize();
+    }
+    
+    //h in [0, 1]
+    function hueToRGB(h)
+    {
+      var r, g, b;
+      
+      var h6 = h * 6;
+      if (h6==6) h6 = 0;
+
+      var h6f = Math.floor(h6);
+      var hFrac = h6 - h6f;
+      var hFracComplement = 1 - hFrac;
+      switch(h6f)
+      {
+        case 0:
+          r = 1;
+          g = hFrac;
+          b = 0;
+          break;
+        case 1:
+          r = hFracComplement;
+          g = 1;
+          b = 0;
+          break;
+        case 2:
+          r = 0;
+          g = 1;
+          b = hFrac;
+          break;
+        case 3:
+          r = 0;
+          g = hFracComplement;
+          b = 1;
+          break;
+        case 4:
+          r = hFrac;
+          g = 0;
+          b = 1;
+          break;
+        case 5:
+          r = 1;
+          g = 0;
+          b = hFracComplement;
+          break;
+      }
+      
+      return Math.round(r * 255) + ", " + Math.round(g * 255) + ", " + Math.round(b * 255);
+    }
+    
+    init();
+  </script>
+  
+  <div style = "text-align: center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7377269250431987";
+/* periodic */
+google_ad_slot = "0864485470";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+  </div>
+</div>
+
+</body>
+</html>
