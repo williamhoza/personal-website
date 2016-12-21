@@ -46,6 +46,13 @@
     .section {
       padding-top:20px;
     }
+    
+    .summary {
+      padding-left:30px;
+      padding-top:20px;
+      padding-bottom:20px;
+      display:none;
+    }
   </style>
 </head>
 
@@ -99,19 +106,79 @@
       <ul style="margin-bottom:0px;">
         <li>
           <a href="https://arxiv.org/abs/1612.05680">Universal Bell Correlations Do Not Exist.</a><br />
-          With Cole A. Graham. Preprint, 2016.
+          With Cole A. Graham. Preprint, 2016.<br />
+          Summary for curious non-experts:
+          <a id="show4" href="javascript:void(0);" onclick="toggle(4);">[show]</a>
+          <div id="summary4" class="summary">
+            Bell's theorem says, roughly, that it follows from the laws
+            of quantum mechanics that two parties can interact
+            instantaneously across arbitrary distances. This phenomenon,
+            called "quantum nonlocality", has been called "the most
+            profound discovery of science". The exact nature of these
+            "interactions" is notoriously subtle. For example, the
+            no-communication theorem says that quantum nonlocality is
+            not useful for sending genuine signals. In this paper, we
+            rule out one possible approach to characterizing exactly
+            what sort of "nonlocal powers" are granted by the laws of
+            quantum mechanics. In particular, a "correlation box" is a
+            hypothetical device that takes an input from each of two
+            parties and gives an output to each of them. We prove that
+            quantum nonlocality is not quite equivalent to any
+            correlation box that has only finitely many possible inputs
+            and outputs.
+          </div>
         </li>
         <li>
           <a href="https://arxiv.org/abs/1611.00783">Preserving Randomness for Adaptive Algorithms.</a><br />
-          With Adam R. Klivans. Preprint, 2016.
+          With Adam R. Klivans. Preprint, 2016.<br />
+          Summary for curious non-experts:
+          <a id="show3" href="javascript:void(0);" onclick="toggle(3);">[show]</a>
+          <div id="summary3" class="summary">
+            Suppose you have a randomized algorithm that estimates some
+            numeric quantity, and you want to use it as a subroutine,
+            i.e. a building block in some other algorithm. Suppose the
+            estimation algorithm uses <i>n</i> bits of randomness, and
+            you plan to execute it <i>k</i> times. This situation seems
+            to call for <i>nk</i> bits of randomness in total. In this
+            paper, we show that you can actually get away with only
+            using about <i>n + k</i> random bits if you use some tricks.
+          </div>
         </li>
         <li>
           <a href="https://arxiv.org/abs/1610.01199">Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace.</a><br />
-          With Chris Umans. Preprint, 2016.
+          With Chris Umans. Preprint, 2016.<br />
+          Summary for curious non-experts:
+          <a id="show2" href="javascript:void(0);" onclick="toggle(2);">[show]</a>
+          <div id="summary2" class="summary">
+            There's a well-known conjecture in complexity theory
+            ("L = BPL") that says that randomness isn't useful when
+            you're trying to solve a problem using a small amount of
+            computer memory. The most promising approach to proving this
+            conjecture is to design a suitable kind of "pseudorandom
+            generator". But in principle, one could hope to prove
+            L = BPL using a totally different approach. In this paper,
+            we prove that, roughly, if every true statement along the
+            lines of L = BPL can be proven using the pseudorandom
+            generator approach, then it follows that L = BPL (actually
+            the conclusion is slightly weaker). In fact, the two
+            questions are essentially equivalent.
+          </div>
         </li>
         <li>
           <a href="http://epubs.siam.org/doi/10.1137/1.9781611974331.ch18">The Adversarial Noise Threshold for Distributed Protocols.</a><br />
-          With Leonard J. Schulman. In SODA 2016, pages 240 - 258.
+          With Leonard J. Schulman. In SODA 2016, pages 240 - 258.<br />
+          Summary for curious non-experts:
+          <a id="show1" href="javascript:void(0);" onclick="toggle(1);">[show]</a>
+          <div id="summary1" class="summary">
+            Imagine that many people (or computers) are connected by a
+            network of communication channels. They would like to have a
+            conversation, but unfortunately, an adversary is altering
+            their messages to confuse them. The parties may deal with
+            this noise by encoding their conversation in whatever way
+            they like. In this paper, we determine the maximum amount of
+            noise that can be tolerated in a couple different models as
+            a function of the particular communication network.
+          </div>
         </li>
       </ul>
     </div>
@@ -276,6 +343,18 @@
     </div>
   </div>
   </div>
+  
+  <script type="text/javascript">
+    var showing = [];
+  
+    function toggle(n) {
+      if (showing[n] === undefined) showing[n] = false;
+      
+      showing[n] = !showing[n];
+      document.getElementById('show' + n).innerHTML = showing[n]? "[hide]" : "[show]";
+      document.getElementById('summary' + n).style.display = showing[n]? "block" : "none";
+    }
+  </script>
 </body>
 
 </html>
