@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Gamblers Fallacy Dice
+    </title>
+  </head>
+  
+  <body>
+    Ported from
+    <a href="http://homepages.physik.uni-muenchen.de/~laura.shou/dice.html">
+      a script by Laura Shou.
+    </a>
+    <br />
+    <br />
+    Player 1: <input type="text" id="player0" /> <br />
+    Player 2: <input type="text" id="player1" /> <br />
+    Player 3: <input type="text" id="player2" /> <br />
+    Player 4: <input type="text" id="player3" /> <br />
+    <button onclick="roll_click()" style="font-size:50pt;">
+      Roll
+    </button>
+    <br />
+    <div id="displayed-data" style="font-size:50pt;">
+    </div>
+    
+    <script type="text/javascript">
+      // These are the weights associated with rolling two dice. That
+      // is, if you roll two dice, the probability that the sum is s
+      // is directly proportional to FAIR_WEIGHTS[s - 2].
+      var FAIR_WEIGHTS = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
+      
+      var RATE = 300;
+      var FIRST = 3;
+      var RAND = 0.2;
+      
+      // counts[i] gives the number of times that i + 2 has been rolled
+      // so far.
+      var counts = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      
+      var currentPlayer = 3;
+      
+      function roll_dice() {
+        var totalCount = counts.reduce(function(a, b) { return a + b; });
+        var ret = 0;
+        
+        if (totalCount <= FIRST || sample([RAND, 1 - RAND]) == 0) {
+          ret = sample(FAIR_WEIGHTS);
+        } else {
+          ret = sample(gamblersFallacyWeights());
+        }
+        
+        counts[ret]++;
+        return ret + 2;
+      }
+      
+      function sample(weights) {
+        var totalWeight = weights.reduce(function(a, b) { return a + b; });
+        var s = Math.random() * totalWeight;
+        var runningTotal = 0;
+        for (var i = 0; i < weights.length; i++) {
+          runningTotal += weights[i];
+          if (s <= runningTotal) return i;
+        }
+      }
+      
+      function gamblersFallacyWeights() {
+        var totalCount = counts.reduce(function(a, b) { return a + b; });
+        var totalFairWeight = FAIR_WEIGHTS.reduce(function(a, b) { return a + b; });
+        if (totalCount == 0) {
+          return FAIR_WEIGHTS;
+        } else {
+          var ret = [];
+          for (var i = 0; i < FAIR_WEIGHTS.length; i++) {
+            ret[i] = Math.pow(2, RATE * (FAIR_WEIGHTS[i]/totalFairWeight - counts[i]/totalCount));
+          }
+          return ret;
+        }
+      }
+      
+      function roll_click() {
+        var r = roll_dice();
+        currentPlayer = (currentPlayer + 1) % 4;
+        var currentPlayerName = document.getElementById('player' + currentPlayer).value;
+        document.getElementById('displayed-data').innerHTML = r + "<br />" + currentPlayerName;
+      }
+    </script>
+  </body>
+</html>
