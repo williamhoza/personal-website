@@ -21,12 +21,12 @@
       
       function timer() {
         var timeElapsed = (new Date()).getTime() - startTime;
-        var i = Math.ceil(timeElapsed / 5000);
-        var f = timeElapsed % 5000;
+        var i = Math.ceil(timeElapsed / 10000);
+        var f = timeElapsed % 10000;
         if (i < 27) {
-          images[i].style.opacity = f/5000;
+          images[i].style.opacity = f/10000;
         }
-        console.log(f/5000);
+        console.log(f/10000);
       }
       
       init();
