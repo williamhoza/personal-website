@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script type="text/javascript">
+      var images = [];
+      var startTime;
+    
+      function init() {
+        for (var i = 0; i < 27; i++) {
+          images[i] = document.createElement('img');
+          images[i].src="face" + i + ".png";
+          images[i].style.position='absolute';
+          images[i].style.left=0;
+          images[i].style.top=0;
+          images[i].style.opacity=0;
+          document.body.appendChild(images[i]);
+        }
+        
+        images[0].style.opacity = 1;
+      }
+      
+      function timer() {
+        var timeElapsed = (new Date()).getTime() - startTime;
+        var i = Math.ceil(timeElapsed / 5000);
+        var f = timeElapsed % 5000;
+        if (i < 27) {
+          images[i].style.opacity = f/5000;
+        }
+        console.log(f/5000);
+      }
+      
+      init();
+      setTimeout(begin, 1000);
+      function begin() {
+        startTime = (new Date()).getTime();
+        setInterval(timer, 15);
+      }
+    </script>
+  </body>
+</html>
