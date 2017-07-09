@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <title>
+      Datebank
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  
+  <body>
+    <div style="text-align:center;">
+      <div style="text-align:left; display:inline-block; width:280px; padding:15px; background-color:#D0D0FF;">
+        Balance:
+        <div style="font-size:50pt;" id="balanceDiv">
+          Loading...
+        </div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6J-7ZOdDR8TWnM9faIjsh0_V5BGjv4tFgibQvusVSA1j0jA/viewform?usp=sf_link">Withdraw</a>
+        |
+        <a href="https://docs.google.com/spreadsheets/d/1YE29o10EUAzoeKm7jYmowe_RRPLOjJYWEviW8l9UzX4/pubhtml">See transactions</a>
+      </div>
+    </div>
+  
+    <script type="text/javascript">
+      var JSON_URL="https://spreadsheets.google.com/feeds/list/1YE29o10EUAzoeKm7jYmowe_RRPLOjJYWEviW8l9UzX4/2/public/basic?alt=json";
+      var depositRate=0;
+      var loadBalance=0;
+      var balance=0;
+      var balanceDiv=document.getElementById('balanceDiv');
+      var loadTime;
+      
+      function callback(data) {
+        loadBalance = getValue(data.feed.entry[2].content.$t);
+        depositRate = getValue(data.feed.entry[0].content.$t);
+        loadTime=(new Date()).getTime();
+        setInterval(timer, 15);
+      }
+      
+      function getValue(s) {
+        var start = s.indexOf(":") + 2;
+        return parseFloat(s.substr(start));
+      }
+      
+      function timer() {
+        var daysElapsed = ((new Date()).getTime() - loadTime) / 86400000;
+        balance = loadBalance + depositRate*daysElapsed;
+        balanceDiv.innerHTML = ("$" + balance).substr(0, 9);
+      }
+    
+      $.ajax({
+        url:JSON_URL,
+        success: callback
+      });
+    </script>
+  </body>
+</html>
