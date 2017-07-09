@@ -44,7 +44,7 @@
       function timer() {
         var daysElapsed = ((new Date()).getTime() - loadTime) / 86400000;
         balance = loadBalance + depositRate*daysElapsed;
-        balanceDiv.innerHTML = ("$" + balance).substr(0, 9);
+        balanceDiv.innerHTML = "$" + balance.toFixed(5);
       }
     
       $.ajax({
