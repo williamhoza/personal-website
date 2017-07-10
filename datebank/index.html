@@ -35,7 +35,7 @@
         d = data;
         loadBalance = getValue(data.feed.entry[2].content.$t);
         depositRate = getValue(data.feed.entry[0].content.$t);
-        loadTime = (new Date(getContent(data.feed.entry[3].content.$t))).getTime();
+        loadTime = (new Date(getContent(data.feed.entry[3].content.$t) + " GMT")).getTime();
         var curTime = (new Date()).getTime();
         var delay = (curTime - loadTime)/1000;
         console.log("Delay: " + delay + " seconds");
