@@ -29,16 +29,34 @@
       var balanceDiv=document.getElementById('balanceDiv');
       var loadTime;
       
+      var d;
+      
       function callback(data) {
+        d = data;
         loadBalance = getValue(data.feed.entry[2].content.$t);
         depositRate = getValue(data.feed.entry[0].content.$t);
-        loadTime=(new Date()).getTime();
-        setInterval(timer, 15);
+        loadTime = (new Date(getContent(data.feed.entry[3].content.$t))).getTime();
+        var curTime = (new Date()).getTime();
+        var delay = (curTime - loadTime)/1000;
+        console.log("Delay: " + delay + " seconds");
+        
+        if (delay < 0) {
+          loadTime = curTime;
+        }
+        if (delay > 60 * 60 * 3) {
+          balanceDiv.innerHTML="Error";
+        } else {
+          setInterval(timer, 15);
+        }
       }
       
       function getValue(s) {
+        return parseFloat(getContent(s));
+      }
+      
+      function getContent(s) {
         var start = s.indexOf(":") + 2;
-        return parseFloat(s.substr(start));
+        return s.substr(start);
       }
       
       function timer() {
