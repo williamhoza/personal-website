@@ -43,7 +43,7 @@
         if (delay < 0) {
           loadTime = curTime;
         }
-        if (delay > 60 * 60 * 3) {
+        if (Math.abs(delay) > 60 * 60 * 3) {
           balanceDiv.innerHTML="Error";
         } else {
           setInterval(timer, 15);
