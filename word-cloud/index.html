@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <canvas width="1750" height="350" id="backgroundCanv" style="position:absolute; left:0; top:0;">
+    </canvas>
+    <canvas width="1750" height="350" id="wordsCanv" style="position:absolute; left:0; top:0;">
+    </canvas>
+    <canvas width="1750" height="350" id="tempCanv" style="position:absolute; left:0; top:0;">
+    </canvas>
+    
+    <script type="text/javascript">
+      var backgroundCanv = document.getElementById('backgroundCanv');
+      var wordsCanv = document.getElementById('wordsCanv');
+      var tempCanv = document.getElementById('tempCanv');
+      var backgroundCtx = backgroundCanv.getContext('2d');
+      var wordsCtx = wordsCanv.getContext('2d');
+      var tempCtx = tempCanv.getContext('2d');
+      var backgroundImage = new Image();
+      var wordTypes = [["test1", 1], ["test2", 2]];
+      var totalWeight = 0;
+      
+      var CW = 1750;
+      var CH = 350;
+    
+      function init() {
+        backgroundImage.onload = function() {
+          backgroundCtx.drawImage(backgroundImage, 0, 0);
+        }
+        backgroundImage.src = "pro-life.png";
+        for(var i = 0; i < wordTypes.length; i++) {
+          totalWeight += wordTypes[i][1];
+        }
+        
+        tempCtx.textAlign = "center";
+        wordsCtx.textAlign = "center";
+        wordsCtx.fillStyle = "#FF0000";
+      }
+      
+      function addWord() {
+        var w = Math.random() * totalWeight;
+        var t = 0;
+        var word = "";
+        for (var i = 0; i < wordTypes.length; i++) {
+          t += wordTypes[i][1];
+          if (t >= w) {
+            word = wordTypes[i][0];
+            break;
+          }
+        }
+        
+        var x = Math.random() * CW;
+        var y = Math.random() * CH;
+        
+        var lowerFontSize = 0;
+        var upperFontSize = 100;
+        
+        var backgroundImageData = (backgroundCtx.getImageData(0, 0, CW, CH)).data;
+        var wordsImageData = (wordsCtx.getImageData(0, 0, CW, CH)).data;
+        
+        while (lowerFontSize < upperFontSize - 1) {
+          var midFontSize = Math.floor((lowerFontSize + upperFontSize)/2);
+          tempCtx.clearRect(0, 0, CW, CH);
+          tempCtx.font = midFontSize + "px Sans Serif";
+          tempCtx.fillText(word, x, y);
+          
+          var tempImageData = (tempCtx.getImageData(0, 0, CW, CH)).data;
+          var outOfBounds = false;
+          for (var i = 0; i < tempImageData.length; i += 4) {
+            if(tempImageData[i + 3] != 0 && (backgroundImageData[i] != 0 || wordsImageData[i + 3] != 0)) {
+              outOfBounds = true;
+              break;
+            }
+          }
+          
+          if (outOfBounds) {
+            upperFontSize = midFontSize;
+          } else {
+            lowerFontSize = midFontSize;
+          }
+        }
+        
+        tempCtx.clearRect(0, 0, CW, CH);
+        wordsCtx.font = lowerFontSize + "px Sans Serif";
+        wordsCtx.fillText(word, x, y);
+      }
+      
+      init();
+    </script>
+  </body>
+</html>
