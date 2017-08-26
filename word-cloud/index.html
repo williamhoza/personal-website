@@ -5,7 +5,7 @@
     </canvas>
     <canvas width="2250" height="550" id="wordsCanv" style="position:absolute; left:0; top:0;">
     </canvas>
-    <canvas width="2250" height="550" id="tempCanv" style="position:absolute; left:0; top:0;">
+    <canvas width="2250" height="550" id="tempCanv" style="position:absolute; left:0; top:0; display:none;">
     </canvas>
     
     <script type="text/javascript">
@@ -18,6 +18,8 @@
       var backgroundImage = new Image();
       var wordTypes = [["Human", 7], ["Life", 7], ["Consistency", 6], ["Protect", 6], ["Peace", 6], ["Love", 6], ["Help", 6], ["Empathy", 5], ["Science", 5], ["Concern", 5], ["Respect", 5], ["Dignity", 5], ["Truth", 5], ["Kindness", 4], ["Advocate", 4], ["Justice", 4], ["Nurture", 4], ["Forgive", 4], ["Support", 4], ["Healing", 4], ["Defend", 4], ["Family", 4], ["Safety", 4], ["Hope", 4], ["Responsibility", 3], ["Selflessness", 3], ["Nonviolence", 3], ["Positivity", 3], ["Compassion", 3], ["Generosity", 3], ["Strength", 3], ["Humanity", 3], ["Empower", 3], ["Provide", 3], ["Thrive", 3], ["Caring", 3], ["Ethics", 3], ["Gift", 3], ["Opportunity", 2], ["Dedication", 2], ["Encourage", 2], ["Pro-Woman", 2], ["Community", 2], ["Altruism", 2], ["Valuable", 2], ["Resource", 2], ["Welfare", 2], ["Courage", 2], ["Unique", 2], ["Parent", 2], ["Rights", 2], ["Person", 2], ["Health", 2], ["Growth", 2], ["Voice", 2], ["Worth", 2], ["Accountability", 1], ["Hospitality", 1], ["Persistence", 1], ["Contentment", 1], ["Grandchild", 1], ["Philosophy", 1], ["Commitment", 1], ["Vulnerable", 1], ["Sustenance", 1], ["Assistance", 1], ["Dependence", 1], ["Fortitude", 1], ["Volunteer", 1], ["Important", 1], ["Integrity", 1], ["Principle", 1], ["Daughter", 1], ["Educate", 1], ["Freedom", 1], ["Honesty", 1], ["Reason", 1], ["Mother", 1], ["Future", 1], ["Father", 1], ["Others", 1], ["Every", 1], ["Build", 1], ["Child", 1], ["Calm", 1], ["Need", 1], ["Joy", 1], ["Son", 1]];
       var totalWeight = 0;
+      var totalNumberOfWords = 0;
+      var startTime;
       
       var CW = 2250; // extra 500
       var CH = 550; // extra 200
@@ -25,8 +27,11 @@
       function init() {
         backgroundCtx.fillStyle="#FFFFFF";
         backgroundCtx.fillRect(0, 0, CW, CH);
+        backgroundCtx.font = "100px Sans Serif";
         backgroundImage.onload = function() {
           backgroundCtx.drawImage(backgroundImage, 250, 100);
+          startTime = (new Date()).getTime();
+          setInterval(timer, 0);
         }
         backgroundImage.src = "pro-life.png";
         for(var i = 0; i < wordTypes.length; i++) {
@@ -55,61 +60,73 @@
         var y = Math.floor(Math.random() * 350) + 100;
         var angle = Math.random() < 0.5? 0 : Math.PI/2; // Math.PI/2; //Math.random() * Math.PI - Math.PI/2;
         
-        var lowerFontSize = 0;
+        var lowerFontSize = 12;
         var upperFontSize = 100;
         
-        backgroundCtx.font = "100px Sans Serif";
-        var maxWidth = backgroundCtx.measureText(word).width;
+        var maxWidth = Math.floor(backgroundCtx.measureText(word).width);
+        var halfMaxWidth = Math.floor(maxWidth/2);
         var maxHeight = maxWidth;
-        var backgroundImageData = (backgroundCtx.getImageData(x - maxWidth/2, y - maxHeight/2, maxWidth, maxHeight)).data;
-        var wordsImageData = (wordsCtx.getImageData(x - maxWidth/2, y - maxHeight/2, maxWidth, maxHeight)).data;
+        var halfMaxHeight = Math.floor(maxHeight/2);
+        var backgroundImageData = (backgroundCtx.getImageData(x - halfMaxWidth, y - halfMaxHeight, maxWidth, maxHeight)).data;
+        var wordsImageData = (wordsCtx.getImageData(x - halfMaxWidth, y - halfMaxHeight, maxWidth, maxHeight)).data;
         
-        while (lowerFontSize < upperFontSize - 1) {
-          var midFontSize = Math.floor((lowerFontSize + upperFontSize)/2);
-          tempCtx.resetTransform();
-          tempCtx.clearRect(0, 0, CW, CH);
-          tempCtx.translate(x, y);
-          tempCtx.rotate(angle);
-          tempCtx.font = midFontSize + "px Sans Serif";
-          var textWidth = tempCtx.measureText(word).width;
-          
-          var outOfBounds = false;
-          
-          tempCtx.fillText(word, 0, 0);
-          
-          tempCtx.resetTransform();
-          var tempImageData = (tempCtx.getImageData(x - maxWidth/2, y - maxHeight/2, maxWidth, maxHeight)).data;
-          
-          for (var i = 0; i < tempImageData.length; i += 4) {
-            if(tempImageData[i + 3] != 0 && (backgroundImageData[i] == 255 || wordsImageData[i + 3] != 0)) {
-              outOfBounds = true;
-              break;
+        if (backgroundImageData[maxWidth * 4 * halfMaxHeight + halfMaxWidth * 4] != 255)
+        {
+          while (lowerFontSize < upperFontSize - 1) {
+            var midFontSize = Math.floor((lowerFontSize + upperFontSize)/2);
+            tempCtx.resetTransform();
+            tempCtx.clearRect(0, 0, CW, CH);
+            tempCtx.translate(x, y);
+            tempCtx.rotate(angle);
+            tempCtx.font = midFontSize + "px Sans Serif";
+            
+            var textWidth = tempCtx.measureText(word).width;
+            var outOfBounds = false;
+            
+            tempCtx.fillText(word, 0, 0);
+            
+            //tempCtx.resetTransform();
+            var tempImageData = (tempCtx.getImageData(x - halfMaxWidth, y - halfMaxHeight, maxWidth, maxHeight)).data;
+            
+            for (var i = 0; i < tempImageData.length; i += 4) {
+              if(tempImageData[i + 3] != 0 && (backgroundImageData[i] == 255 || wordsImageData[i + 3] != 0)) {
+                outOfBounds = true;
+                break;
+              }
+            }
+            
+            if (outOfBounds) {
+              upperFontSize = midFontSize;
+            } else {
+              lowerFontSize = midFontSize;
             }
           }
           
-          if (outOfBounds) {
-            upperFontSize = midFontSize;
-          } else {
-            lowerFontSize = midFontSize;
+          tempCtx.resetTransform();
+          tempCtx.clearRect(0, 0, CW, CH);
+          
+          if (lowerFontSize > 12) {
+            wordsCtx.translate(x, y);
+            wordsCtx.rotate(angle);
+            wordsCtx.font = lowerFontSize + "px Sans Serif";
+            wordsCtx.fillText(word, 0, 0);
+            
+            totalNumberOfWords++;
+            var elapsedHours = ((new Date()).getTime() - startTime) / 3600000;
+            var elapsedHoursF = Math.floor(elapsedHours);
+            var elapsedMinutesF = Math.floor((elapsedHours - elapsedHoursF) * 60);
+            var elapsedSecondsF = Math.floor((elapsedHours * 60 - elapsedMinutesF) * 60);
+            console.log("Total time elapsed: " + elapsedHoursF + " hours, " + elapsedMinutesF + " minutes, " + elapsedSecondsF + " seconds");
+            console.log("Total number of words: " + totalNumberOfWords);
+            console.log("Newest word: " + word + " at (" + x + ", " + y + "), size " + lowerFontSize);
+            console.log("--------------------------");
           }
+          
+          wordsCtx.resetTransform();
         }
-        
-        tempCtx.resetTransform();
-        tempCtx.clearRect(0, 0, CW, CH);
-        
-        if (lowerFontSize > 12) {
-          wordsCtx.translate(x, y);
-          wordsCtx.rotate(angle);
-          wordsCtx.font = lowerFontSize + "px Sans Serif";
-          wordsCtx.fillText(word, 0, 0);
-          console.log(word + ", " + x + ", " + y + ", " + lowerFontSize);
-        }
-        
-        wordsCtx.resetTransform();
       }
       
       init();
-      setInterval(timer, 30);
       
       function timer () {
         addWord();
