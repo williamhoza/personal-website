@@ -74,37 +74,40 @@
     <div class="section">
       <b>About me:</b>
       I'm a grad student at UT Austin studying theoretical
-      computer science. I'm generally interested in <i>the extent to
-      which stuff can be figured out.</i> I'm especially interested
-      in computational complexity theory. In my view, it's the natural
-      habitat of:
-      <ul style="margin-bottom:0px;">
-        <li>
-          Some of my favorite mathematical objects, like
-          <a href="https://en.wikipedia.org/wiki/Randomness_extractor">randomness extractors</a>,
-          <a href="https://en.wikipedia.org/wiki/Binary_decision_diagram">branching programs</a>,
-          <a href="https://en.wikipedia.org/wiki/Pseudorandom_generator">pseudorandom generators</a>, and
-          <a href="https://en.wikipedia.org/wiki/Error_detection_and_correction">error correcting codes</a>.
-        </li>
-        <li>
-          Some of my favorite theorems, like the
-          <a href="https://en.wikipedia.org/wiki/Time_hierarchy_theorem">time hierarchy theorem</a>,
-          the <a href="http://www.cs.princeton.edu/courses/archive/spr06/cos522/circuits.pdf">Karchmer-Wigderson theorem</a>,
-          the <a href="http://www.sciencedirect.com/science/article/pii/S0022000098916166">Saks-Zhou theorem</a>,
-          and <a href="https://en.wikipedia.org/wiki/Bell's_theorem">Bell's theorem</a>.
-        </li>
-        <li>
-          Some of my favorite open questions, like
-          <a href="https://en.wikipedia.org/wiki/P_versus_NP_problem">P vs. NP</a>,
-          <a href="https://en.wikipedia.org/wiki/RL_(complexity)">L vs. RL</a>, and
-          <a href="https://en.wikipedia.org/wiki/BQP">BPP vs. BQP</a>.
-        </li>
-      </ul>
+      computer science. I'm interested in the power of different
+      computational resources. Is randomness useful for computation? How
+      about quantum mechanics? Does parallelism always give a huge
+      computational advantage? Is space more useful than time? Is it
+      ever easier to check your work than it is to solve a problem from
+      scratch? All of these questions can be made mathematically
+      precise, and nobody knows the answers. My personal favorite open
+      problem is the "L vs. BPL" problem: Is randomness ever helpful for
+      reducing the amount of memory used to solve a problem?
     </div>
     
     <div class="section">
       <b>Research papers:</b>
       <ul style="margin-bottom:0px;">
+        <li>
+          <a href="https://arxiv.org/abs/1711.00565">Typically-Correct Derandomization for Small Time and Space.</a><br />
+          Preprint, 2017. More info:
+          <a id="show6" href="javascript:void(0);" onclick="toggle(6);">[show]</a>
+          <div id="summary6" class="summary">
+            <u>Not-so-abstract</u>: A "randomized" algorithm tosses 
+            coins to make decisions, whereas a "deterministic" 
+            algorithm doesn't use any randomness. Most theoretical 
+            computer scientists believe that if a problem can be 
+            solved by a randomized algorithm, then it can also be 
+            solved by a deterministic algorithm that uses about the 
+            same amount of time and memory. But nobody knows how to 
+            prove it. We prove that if a problem can be solved by a 
+            fast randomized algorithm, then it can also be solved by 
+            a deterministic algorithm that uses about the same 
+            amount of memory, with the caveat that the deterministic 
+            algorithm might give the wrong answer on a tiny fraction 
+            of inputs.
+          </div>
+        </li>
         <li>
           <a href="https://arxiv.org/abs/1703.07768">Quantum Communication-Query Tradeoffs.</a><br />
           Preprint, 2017. More info:
@@ -368,8 +371,10 @@
         </li>
         <li class="l">
           <span>
-          I oppose torture. More generally, I oppose almost all
-          violent actions performed by the U.S. military.
+          I oppose torture. More generally, I oppose almost all violent
+          actions performed by the U.S. military. I am grateful for the
+          service of those members of the military who honorably and
+          ethically defend the country.
           </span>
         </li>
         <li class="c">
