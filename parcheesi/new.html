@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script type="text/javascript">
+      var dangers = [];
+      
+      // Assumes: rollNumber in {1, 2, 3, 4}, pawnsInBase in {0, 1, 2}
+      function danger(distance, rollNumber, pawnsInBase) {
+        if (distance < 0) return 0;
+        if (distance == 0) return 1;
+        
+        if (dangers[distance] == undefined) dangers[distance] = [];
+        if (dangers[distance][rollNumber] == undefined) dangers[distance][rollNumber] = [];
+        if (dangers[distance][rollNumber][pawnsInBase] == undefined) {
+          // Compute danger.
+          
+          dangers[distance][rollNumber][pawnsInBase] = 0;
+          // Roll dice.
+          for (var a = 1; a <= 6; a++) {
+            for (var b = 1; b <= 6; b++) {
+              var doubles = (a == b);
+              var moves;
+              var p = 0; // Probability of death after this move.
+            
+              if (!doubles) {
+                // No subsequent moves.
+                if (pawnsInBase == 0) {
+                  moves = [0, a, b, a + b];
+                } else {
+                  if (a != 5 && b != 5) {
+                    moves = [0, a, b, a + b];
+                  } else if (a == 5 && b != 5) {
+                    moves = [0, b];
+                  } else if (b == 5 && a != 5) {
+                    moves = [0, a];
+                  }
+                  // (No doubles, so they're not both fives.)
+                }
+                
+                for (var i = 0; i < moves.length; i++) {
+                  if (moves[i] == distance) {
+                    p = 1;
+                  }
+                }
+              } else {
+                var newPawnsInBase = pawnsInBase;
+                // Doubles.
+                if (rollNumber != 3) {
+                  // Roll number 1 or roll number 2.
+                  if (pawnsInBase == 0) {
+                    // Tops and bottoms.
+                    var c = 7 - a;
+                    moves = [0, a, c, a + a, c + c, a + c, a + a + c, a + c + c, a + a + c + c];
+                  } else {
+                    // Tops only.
+                    if (a == 5) {
+                      // Get pawns out of base.
+                      if (pawnsInBase == 1) {
+                        moves = [0, 5];
+                      } else {
+                        // Two pawns in base.
+                        moves = [0];
+                      }
+                      newPawnsInBase = 0;
+                    } else {
+                      moves = [0, a, a + a];
+                    }
+                  }
+                  
+                  for (var i = 0; i < moves.length; i++) {
+                    p = Math.max(p, danger(distance - moves[i], rollNumber + 1, newPawnsInBase));
+                  }
+                }
+              }
+              
+              if (rollNumber == 1) {
+                console.log("(d, r, p) = (" + distance + ", " + rollNumber + ", " + pawnsInBase + "), (a, b) = (" + a + ", " + b + "), p = " + p);
+              }
+              
+              dangers[distance][rollNumber][pawnsInBase] += p/36;
+            }
+          }
+        }
+        
+        return dangers[distance][rollNumber][pawnsInBase];
+      }
+    </script>
+  </body>
+</html>

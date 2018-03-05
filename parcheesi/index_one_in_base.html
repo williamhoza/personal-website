@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script type="text/javascript">
+      var thirdRollDangers = [];
+      
+      for (var i = 1; i <= 11; i++) {
+        // Compute probability of being able to mvoe i on third roll.
+        var rolls = 0;
+        
+        for (var a = 1; a <= 6; a++) {
+          for (var b = 1; b <= 6; b++) {
+            var hit = false;
+            
+            // This is the third roll. Doubles go back to base.
+            if (a != b) {
+              if (a == i || b == i) hit = true;
+              if (a + b == i) hit = true;
+            }
+            
+            if (hit) rolls++;
+          }
+        }
+        
+        thirdRollDangers[i] = rolls/36;
+      }
+      
+      thirdRollDangers[0] = 1;
+      var secondRollDangers = [];
+      
+      for (var i = 1; i <= 25; i++) {
+        // Compute probability of being able to move i on second, third
+        // rolls combined when playing to optimize that probability.
+        
+        secondRollDangers[i] = 0;
+        
+        for (var a = 1; a <= 6; a++) {
+          for (var b = 1; b <= 6; b++) {
+            // p is the best probability for roll 3 that can be achieved
+            // on roll 2.
+            var p = 0;
+          
+            // We can always move a, b, a + b.
+            if (a == i || b == i) p = 1;
+            if (a + b == i) p = 1;
+          
+            if (a == b) {
+              // Doubles. 
+              var c = 7 - a;
+              var secondRollMoves = [0, a, a + a]; // [0, a, c, a + a, c + c, a + c, a + a + c, a + c + c, a + a + c + c];
+              for (var j = 0; j < secondRollMoves.length; j++) {
+                if (secondRollMoves[j] <= i && secondRollMoves[j] >= i - 11) {
+                  p = Math.max(p, thirdRollDangers[i - secondRollMoves[j]]);
+                }
+              }
+            }
+            
+            secondRollDangers[i] += p/36;
+          }
+        }
+      }
+      
+      secondRollDangers[0] = 1;
+      var firstRollDangers = [];
+      
+      for (var i = 1; i <= 39; i++) {
+        // Compute probability of being able to move i on first, second,
+        // third rolls combined when playing to optimize that
+        // probability.
+        
+        firstRollDangers[i] = 0;
+        
+        for (var a = 1; a <= 6; a++) {
+          for (var b = 1; b <= 6; b++) {
+            // p is the best probability for rolls 2, 3 that can be
+            // achieved on roll 1.
+            var p = 0;
+          
+            // We can always move a, b, a + b.
+            if (a == i || b == i) p = 1;
+            if (a + b == i) p = 1;
+          
+            if (a == b) {
+              // Doubles. 
+              var c = 7 - a;
+              var firstRollMoves = [0, a, a + a];; // [0, a, c, a + a, c + c, a + c, a + a + c, a + c + c, a + a + c + c];
+              for (var j = 0; j < firstRollMoves.length; j++) {
+                if (firstRollMoves[j] <= i && firstRollMoves[j] >= i - 25) {
+                  p = Math.max(p, secondRollDangers[i - firstRollMoves[j]]);
+                }
+              }
+            }
+            
+            firstRollDangers[i] += p/36;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
