@@ -10,21 +10,25 @@
   
   <body>
     <div style="text-align:center;">
-      <div style="text-align:left; display:inline-block; width:340px; padding:15px; background-color:#D0E0FF; border-radius:10px;">
+      <div style="text-align:left; display:inline-block; width:340px; padding:15px; border-radius:10px; margin-bottom: 5px;" id="box">
         Estimated balance:
         <div style="font-size:45pt;font-family:sans serif;" id="balanceDiv">
           Loading...
         </div>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfyKCMaM0Xs1Np17OpbCq44-9fmVstj2q5R61Zm0QPoBnrVWg/viewform?usp=sf_link">New transaction</a>
-        |
-        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHw0EXrG38cWuVrrKjbT5v1mWSjD83PrhnHuCG_MZQyBj4-6SWpyF4NGyAWX40NxdkFzzDHKXQIc-N/pubhtml">See transactions</a>
+    	<div style="border-radius: 10px; background:black; border:5px solid black;height:30px;margin-top:5px;margin-bottom:10px;" id="bar"></div>
+    	<div id="advice" style="font-size:15pt;font-weight:bold;">&nbsp;</div>
       </div>
+  	  <br />
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfyKCMaM0Xs1Np17OpbCq44-9fmVstj2q5R61Zm0QPoBnrVWg/viewform?usp=sf_link">New transaction</a>
+      |
+      <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHw0EXrG38cWuVrrKjbT5v1mWSjD83PrhnHuCG_MZQyBj4-6SWpyF4NGyAWX40NxdkFzzDHKXQIc-N/pubhtml">See transactions</a>
     </div>
   
     <script type="text/javascript">
       var JSON_URL="https://spreadsheets.google.com/feeds/list/1wut0dbVXDkjVf2YZI_gLfP349N59S3Bg4MLDq4tVpoU/3/public/basic?alt=json";
       var depositRate=0;
       var loadBalance=0;
+      var maximumBalance=0;
       var balance=0;
       var balanceDiv=document.getElementById('balanceDiv');
       var loadTime;
@@ -34,6 +38,7 @@
       function callback(data) {
         d = data;
         loadBalance = getValue(data.feed.entry[2].content.$t);
+        maximumBalance = getValue(data.feed.entry[1].content.$t);
         depositRate = getValue(data.feed.entry[0].content.$t);
         loadTime = (new Date(getContent(data.feed.entry[3].content.$t) + " GMT")).getTime();
         var curTime = (new Date()).getTime();
@@ -61,8 +66,35 @@
       
       function timer() {
         var daysElapsed = ((new Date()).getTime() - loadTime) / 86400000;
-        balance = loadBalance + depositRate*daysElapsed;
+        balance = Math.min(maximumBalance, loadBalance + depositRate*daysElapsed);
         balanceDiv.innerHTML = balance.toFixed(5);
+        
+        var percentageFull = 100 * Math.max(0, balance/maximumBalance);
+        $("#bar").css("background", "linear-gradient(90deg, white " + percentageFull + "%, black " + percentageFull + "%)");
+        
+        var color = "";
+        if (percentageFull < 50) {
+          // Fade from red to yellow.
+          color = "rgb(255, " + (percentageFull / 50) * 255 + ", 0)";
+        } else {
+          // Fade from yellow to green.
+          color = "rgb(" + (100 - percentageFull)/50 * 255 + ", 255, 0)";
+        }
+        $("#box").css("background-color", color);
+        
+        if (percentageFull < 20) {
+        	$("#box").css("color", "white");
+        } else {
+        	$("#box").css("color", "black");
+        }
+        
+        if (percentageFull > 70) {
+        	$("#advice").html("&#x1F44D; You're ready to do stuff!");
+        } else if (percentageFull > 30) {
+        	$("#advice").html("&#x26A0; Use caution when doing stuff.");
+        } else {
+        	$("#advice").html("&#x1F6D1; Do not do stuff. Stare at a wall.");
+        }
       }
     
       $.ajax({
