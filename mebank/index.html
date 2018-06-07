@@ -10,7 +10,7 @@
   
   <body>
     <div style="text-align:center;">
-      <div style="text-align:left; display:inline-block; width:340px; padding:15px; border-radius:10px; margin-bottom: 5px;" id="box">
+      <div style="text-align:left; display:inline-block; width:320px; padding:15px; border-radius:10px; margin-bottom: 5px;" id="box">
         Estimated balance:
         <div style="font-size:45pt;font-family:sans serif;" id="balanceDiv">
           Loading...
@@ -67,7 +67,7 @@
       function timer() {
         var daysElapsed = ((new Date()).getTime() - loadTime) / 86400000;
         balance = Math.min(maximumBalance, loadBalance + depositRate*daysElapsed);
-        balanceDiv.innerHTML = balance.toFixed(5);
+        balanceDiv.innerHTML = balance.toFixed(6);
         
         var percentageFull = 100 * Math.max(0, balance/maximumBalance);
         $("#bar").css("background", "linear-gradient(90deg, white " + percentageFull + "%, black " + percentageFull + "%)");
