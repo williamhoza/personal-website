@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Implementation of a small-bias pseudorandom generator</title>
+	</head>
+	
+	<body>
+		Number of desired pseudorandom bits:
+		<input type="number" value = "50000" step="1000" id = "n" /> <br />
+		Acceptable amount of error:
+		<input type="number" value = "0.01" step="0.01" id = "eps" /> <br />
+		<button onclick="updateParameters()">Update parameters</button>
+		<hr />
+		Please randomly pick a seed of at least <span id="seedLength" style="color:blue;font-weight:bold;">?</span> bits and enter it here.
+		<input type="text" id="seed" value="101110001101000100000011010100111011" style="width:300px;" /> <br /> You'll get <span id="outputLength" style="color:blue;font-weight:bold">?</span> pseudorandom bits with error <span id="error" style="color:blue;font-weight:bold;">?</span>.
+		<button onclick="generate()">Generate pseudorandom bits</button>
+		<hr />
+		<div id="output" style="word-wrap:break-word;"></div>
+		
+		<script type="text/javascript">
+			var n;
+			var eps;
+			var G;
+			var bitsPrinted = 0;
+			
+			function generate() {
+				var seed = document.getElementById('seed').value;
+				G.setSeed(seed);
+				bitsPrinted = 0;
+				document.getElementById('output').innerHTML = "";
+				printChunk();
+			}
+			
+			function printChunk() {
+			    // We print 1000 bits at a time.
+			    var s = "";
+			    for (var i = 0; i < 1000 && bitsPrinted < G.outputLength; i++) {
+					s += G.nextBit();
+					bitsPrinted++;
+				}
+				document.getElementById('output').innerHTML += s;
+				if (bitsPrinted < G.outputLength) setTimeout(printChunk, 0);
+			}
+			
+			function updateParameters() {
+				n = parseInt(document.getElementById("n").value);
+				eps = parseFloat(document.getElementById("eps").value);
+				G = new SmallBiasGenerator(n, eps);
+				document.getElementById("seedLength").innerHTML = G.seedLength;
+				document.getElementById("outputLength").innerHTML = G.outputLength;
+				document.getElementById("error").innerHTML = G.error.toFixed(6);
+			}
+			
+			/* ********************************************** */
+			
+			/* The constructor for a GF(2)-polynomial class.
+			 * An instance of this class represents a polynomial
+			 * over GF(2), and is internally stored as an array
+			 * of bits. The array coeffs is this array of coefficients. */
+			function GF2Poly(coeffs) {
+				this.coeffs = coeffs;
+			}
+			
+			// Returns this + y (a brand new polynomial)
+			GF2Poly.prototype.add = function(y) {
+				var z = [];
+				for (var i = 0; i < Math.max(this.coeffs.length, y.coeffs.length); i++) {
+					var xi = i < this.coeffs.length ? this.coeffs[i] : 0;
+					var yi = i < y.coeffs.length ? y.coeffs[i] : 0;
+					z[i] = xi ^ yi;
+				}
+				return new GF2Poly(z);
+			}
+			
+			// Returns this * t^n
+			GF2Poly.prototype.shift = function(n) {
+				return new GF2Poly(Array(n).fill(0).concat(this.coeffs));
+			}
+			
+			// Returns the degree of this (-1 if this == 0)
+			GF2Poly.prototype.degree = function() {
+				var ret = -1;
+				for (var i = 0; i < this.coeffs.length; i++) {
+					if (this.coeffs[i] == 1) ret = i;
+				}
+				return ret;
+			}
+			
+			// Removes unnecessary trailing zeroes.
+			GF2Poly.prototype.stripZeroes = function() {
+				var y = [];
+				for (var i = 0; i <= this.degree(); i++) {
+					y[i] = this.coeffs[i];
+				}
+				return new GF2Poly(y);
+			}
+			
+			// Returns the inner product of this and y when considered
+			// as vectors over the field GF(2).
+			GF2Poly.prototype.ip = function(y) {
+				var ret = 0;
+				
+				for (var i = 0; i < Math.max(this.coeffs.length, y.coeffs.length); i++) {
+					var xi = i < this.coeffs.length ? this.coeffs[i] : 0;
+					var yi = i < y.coeffs.length ? y.coeffs[i] : 0;
+					ret = ret ^ (xi * yi);
+				}
+				
+				return ret;
+			}
+			
+			/* The constructor for a finite field class.
+			 * The argument E should be an irreducible GF2Poly.
+			 * The field, naturally, is GF(2)[t] / E(t).
+			 * Field elements are represented by GF2Polys.
+			 */
+			function GF2Extension(E) {
+				this.irreducible = E.stripZeroes();
+				this.fieldExtensionDegree = this.irreducible.degree();
+			}
+			
+			// Reduces mod E.
+			GF2Extension.prototype.reduce = function(x) {
+				var d = x.degree();
+				if (d < this.fieldExtensionDegree) {
+					return x.stripZeroes();
+				} else {
+					var y = this.irreducible.shift(d - this.fieldExtensionDegree);
+					return this.reduce(x.add(y));
+				}
+			}
+			
+			// Multiplies x and y, then reduces.
+			GF2Extension.prototype.mult = function(x, y) {
+				var z = new GF2Poly([]);
+				for (var i = 0; i < x.coeffs.length; i++) {
+					if (x.coeffs[i] == 1) {
+						z = z.add(y.shift(i));
+					}
+				}
+				return this.reduce(z);
+			}
+			
+			/* The constructor for a generator class. The argument
+			 * n should be the desired number of pseudorandom bits.
+			 * The argument eps should be the desired error, a number
+			 * between 0 and 1. */
+			function SmallBiasGenerator(n, eps) {
+			  /* We will pick a field F with 2^m elements, and we will
+			   * pick a power l to which we will raise elements. The
+			   * number of bits output will be lm, and the error will
+			   * be l/2^(m + 1).
+			   *
+			   * For simplicity, we'll use the cool fact that for every
+			   * natural number a, the polynomial
+			   *   x^{2 * 3^a} + x^{3^a} + 1
+			   * is irreducible over GF(2). */
+			   
+			  var a = -1;
+			  var m = 0;
+			  var l = 0;
+			  this.error = 0;
+			  var bigEnough = false;
+			  do {
+			    a++;
+			  	m = 2 * Math.pow(3, a);
+			  	l = Math.ceil(n / m);
+			  	this.error = l / Math.pow(2, m + 1);
+			  	if (this.error <= eps) bigEnough = true;
+			  } while (!bigEnough);
+			  
+			  l = Math.floor(eps * Math.pow(2, m + 1));
+			  this.error = l / Math.pow(2, m + 1);
+			
+			  var one = new GF2Poly([1]);
+			  var mid = one.shift(Math.pow(3, a));
+			  var top = one.shift(2 * Math.pow(3, a));
+			  var E = top.add(mid).add(one);
+			  this.F = new GF2Extension(E);
+			  this.highestPower = l;
+			  this.seedLength = 2 * m;
+			  this.outputLength = l * m;
+			  
+			  this.seedx = new GF2Poly([]);
+			  this.seedy = new GF2Poly([]);
+			  this.geni = 0;
+			  this.genj = 0;
+			  this.genz = new GF2Poly([1]);
+			}
+			
+			SmallBiasGenerator.prototype.setSeed = function(s) {
+				if (s.length < this.seedLength) return -1;
+				
+				var x = [];
+				var y = [];
+				for (var i = 0; i < this.F.fieldExtensionDegree; i++) {
+					x[i] = s[i];
+					y[i] = s[i + this.F.fieldExtensionDegree];
+				}
+				this.seedx = new GF2Poly(x);
+				this.seedy = new GF2Poly(y);
+				this.geni = 0;
+				this.genj = 0;
+				this.genz = new GF2Poly([1]);
+			}
+			
+			SmallBiasGenerator.prototype.nextBit = function() {
+				this.genz = this.F.mult(this.genz, this.seedx);
+				var ret = this.genz.ip(this.seedy);
+				
+				this.genj++;
+				if (this.genj >= this.highestPower) {
+					this.genj = 0;
+					this.geni++;
+					this.genz = (new GF2Poly([1])).shift(this.geni);
+				}
+				
+				return ret;
+			}
+			
+			// Stretches a short truly random string of bits (the seed) to
+			// a long pseudorandom string of bits
+			SmallBiasGenerator.prototype.gen = function(s) {
+				if (s.length < this.seedLength) return "Insufficient seed";
+				var x = [];
+				var y = [];
+				for (var i = 0; i < this.F.fieldExtensionDegree; i++) {
+					x[i] = s[i];
+					y[i] = s[i + this.F.fieldExtensionDegree];
+				}
+				return this.generateFromFieldElements(new GF2Poly(x), new GF2Poly(y));
+			}
+			
+			updateParameters();
+		</script>
+	</body>
+</html>
