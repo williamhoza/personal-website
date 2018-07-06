@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		Use only the symbols <span color="red">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>. <br/>
+		<input type="text" id="newPoint" style="width:400px;" value="ALICE" /><button onclick="addPoint();">Add word</button>&nbsp;<button onclick="go()">Compute order</button> <br />
+		<div id="output">&nbsp;</div>
+		<canvas id="canv" width="600px" height="600px" style="border:1px solid black;">
+		</canvas>
+		
+		<script type="text/javascript">
+			var canv = document.getElementById('canv');
+			var ctx = canv.getContext('2d');
+			var pointArray = [];
+			var pointCollection;
+			var start = null;
+			
+			ctx.translate(300, 300);
+			ctx.textBaseline="middle";
+			ctx.font="12pt Sans Serif";
+			
+			// Convert a string over alphabet {A, B, ..., Z} to a float. Imagine
+			// putting a radix point in front and considering it in base 26.
+			function stringToFloat(x) {
+				var ret = 0;
+				for (var i = 0; i < x.length; i++) {
+					var digit = x.charCodeAt(i) - 65;
+					ret += digit / Math.pow(26, i + 1);
+				}
+				return ret;
+			}
+			
+			// positionString should be a string over the alphabet {A, B, ..., Z}.
+			function Point(positionString) {
+				this.positionString = positionString;
+				this.computePositionNumber();
+				this.activationTimeString = "";
+				this.activationTimeNumber = 1;
+			}
+			
+			// Convert position string to a number.
+			Point.prototype.computePositionNumber = function() {
+				this.positionNumber = stringToFloat(this.positionString);
+			}
+			
+			Point.prototype.computeActivationTimeNumber = function() {
+				this.activationTimeNumber = stringToFloat(this.activationTimeString);
+			}
+			
+			Point.prototype.draw = function(time) {
+				ctx.rotate(this.positionNumber * 2 * Math.PI);
+				
+				ctx.lineWidth = 5;
+				ctx.strokeStyle="#FF0000";
+				ctx.beginPath();
+				ctx.moveTo(160, 0);
+				ctx.lineTo(200, 0);
+				ctx.stroke();
+				
+				ctx.fillStyle = time > this.activationTimeNumber ? "#FF0000" : "#000000";
+				ctx.fillText(this.positionString, 205, 0);
+				
+				ctx.lineWidth=15;
+				ctx.strokeStyle = "#FF0000";
+				ctx.beginPath();
+				ctx.moveTo(180, 0);
+				ctx.arc(0, 0, 180, 0, -time * 2 * Math.PI, true);
+				ctx.stroke();
+				
+				ctx.rotate(-this.positionNumber * 2 * Math.PI);
+			}
+			
+			function PointCollection(points) {
+				this.points = points;
+				this.computeActivationTimes();
+				// this.computeOrder();
+			}
+			
+			PointCollection.prototype.computeActivationTimes = function() {
+				var distances = [];
+				
+				// We'll fill distances with triples (i, j, d) where d
+				// is a 26string indicating the time it takes for the
+				// arm of this.points[i] to reach this.points[j].
+				
+				for (var i = 0; i < this.points.length; i++) {
+					for (var j = 0; j < this.points.length; j++) {
+						if (i != j) {
+							distances.push([i, j, subtractModOne(this.points[i].positionString, this.points[j].positionString)]);
+						}
+					}
+				}
+				
+				// Now we update the activation times.
+				for (var i = 0; i < distances.length; i++) {
+					var candidate = this.points[distances[i][1]];
+					var dist = distances[i][2];
+					if (candidate.activationTimeString == "" || compare(dist, candidate.activationTimeString) == -1) {
+						candidate.activationTimeString = dist;
+					}
+				}
+				
+				// Now we sort by activation time.
+				this.points.sort(function(p, q) {
+					var c = compare(p.activationTimeString, q.activationTimeString);
+					if (c != 0) return c;
+					// As a last resort, we revert to alphabetical ordering.
+					return compare(p.positionString, q.positionString);
+				})
+				
+				// Finally, we compute the activation time numbers.
+				for (var i = 0; i < this.points.length; i++) {
+					this.points[i].computeActivationTimeNumber();
+				}
+			}
+			
+			PointCollection.prototype.draw = function(time) {
+				ctx.clearRect(-300, -300, 600, 600);
+				
+				for (var i = 0; i < this.points.length; i++) {
+					this.points[i].draw(time);
+				}
+				
+				drawBackground();
+			}
+			
+			PointCollection.prototype.list = function(time) {
+				var ret = "";
+				for (var i = 0; i < this.points.length; i++) {
+					if (time > this.points[i].activationTimeNumber) {
+						if (ret != "") ret += ", ";
+						ret += this.points[i].positionString;
+					}
+				}
+				return ret;
+			}
+			
+			function drawBackground() {
+				ctx.textAlign="center";
+				for (var i = 0; i < 26; i++) {
+					var angle1 = i / 26 * 2 * Math.PI;
+					var angle2 = (i + 1) / 26 * 2 * Math.PI;
+					var midAngle = (angle1 + angle2)/2;
+					
+					ctx.fillStyle = (i % 2 == 0)? "#FFFFFF" : "#A0D0FF";
+					ctx.beginPath();
+					ctx.moveTo(0, 0);
+					ctx.arc(0, 0, 160, angle1, angle2, false);
+					ctx.fill();
+					
+					ctx.fillStyle="#000000";
+					ctx.fillText(String.fromCharCode(65 + i), 140 * Math.cos(midAngle), 140 * Math.sin(midAngle));
+				}
+				ctx.textAlign="start";
+				
+				ctx.lineWidth=5;
+				ctx.strokeStyle="#000000";
+				ctx.beginPath();
+				ctx.moveTo(200, 0);
+				ctx.arc(0, 0, 200, 0, 2 * Math.PI, false);
+				ctx.moveTo(160, 0);
+				ctx.arc(0, 0, 160, 0, 2 * Math.PI, false);
+				ctx.stroke();
+			}
+			
+			function padWithZeroes(s, len) {
+				var ret = s;
+				for (var i = 0; i < len - s.length; i++) {
+					ret = "0" + ret;
+				}
+				return ret;
+			}
+			
+			// x and y are both 26strings. Imagine a decimal point in front.
+			// computes x - y as a 26string.
+			function subtractModOne(x, y) {
+				var len = Math.max(x.length, y.length);
+				var z = "";
+				var borrowed = 0;
+				
+				for (var i = len - 1; i >= 0; i--) {
+					var xi = i < x.length ? x.charCodeAt(i) - 65 : 0;
+					var yi = i < y.length ? y.charCodeAt(i) - 65 : 0;
+					var zi = xi - yi - borrowed;
+					if (zi < 0) {
+						borrowed = Math.ceil(-zi/26);
+						zi = zi + borrowed * 26;
+					} else {
+						borrowed = 0;
+					}
+					z = String.fromCharCode(zi + 65) + z;
+				}
+				
+				return z;
+			}
+			
+			// Compares two 26strings to see which is bigger. Imagine a decimal
+			// point in front.
+			function compare(x, y) {
+				var len = Math.max(x.length, y.length);
+				for (var i = 0; i < len; i++) {
+					var xi = i < x.length ? x.charCodeAt(i) - 65 : 0;
+					var yi = i < y.length ? y.charCodeAt(i) - 65 : 0;
+					
+					if (xi > yi) return 1;
+					if (xi < yi) return -1;
+				}
+				return 0;
+			}
+			
+			function addPoint() {
+				var newPoint = new Point(document.getElementById("newPoint").value);
+				newPoint.draw();
+				pointArray.push(newPoint);
+			}
+			
+			function go() {
+				pointCollection = new PointCollection(pointArray);
+				
+				window.requestAnimationFrame(timer);
+			}
+			
+			function timer(timestamp) {
+				if (!start) start = timestamp;
+				var diff = timestamp - start;
+				pointCollection.draw(diff / 100000);
+				
+				document.getElementById("output").innerHTML = "<b>New order:</b> " + pointCollection.list(diff/100000);
+				
+				window.requestAnimationFrame(timer);
+			}
+			
+			drawBackground();
+		</script>
+	</body>
+</html>
