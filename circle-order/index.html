@@ -2,7 +2,7 @@
 <html>
 	<body>
 		Use only the symbols <span color="red">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>. <br/>
-		<input type="text" id="newPoint" style="width:400px;" value="ALICE" /><button onclick="addPoint();">Add word</button>&nbsp;<button onclick="go()">Compute order</button> <br />
+		<input type="text" id="newPoint" value="SMITH" /><button onclick="addPoint();">Add word</button><br />
 		<div id="output">&nbsp;</div>
 		<canvas id="canv" width="600px" height="600px" style="border:1px solid black;">
 		</canvas>
@@ -10,9 +10,7 @@
 		<script type="text/javascript">
 			var canv = document.getElementById('canv');
 			var ctx = canv.getContext('2d');
-			var pointArray = [];
-			var pointCollection;
-			var start = null;
+			var pointCollection = new PointCollection();
 			
 			ctx.translate(300, 300);
 			ctx.textBaseline="middle";
@@ -25,147 +23,6 @@
 				for (var i = 0; i < x.length; i++) {
 					var digit = x.charCodeAt(i) - 65;
 					ret += digit / Math.pow(26, i + 1);
-				}
-				return ret;
-			}
-			
-			// positionString should be a string over the alphabet {A, B, ..., Z}.
-			function Point(positionString) {
-				this.positionString = positionString;
-				this.computePositionNumber();
-				this.activationTimeString = "";
-				this.activationTimeNumber = 1;
-			}
-			
-			// Convert position string to a number.
-			Point.prototype.computePositionNumber = function() {
-				this.positionNumber = stringToFloat(this.positionString);
-			}
-			
-			Point.prototype.computeActivationTimeNumber = function() {
-				this.activationTimeNumber = stringToFloat(this.activationTimeString);
-			}
-			
-			Point.prototype.draw = function(time) {
-				ctx.rotate(this.positionNumber * 2 * Math.PI);
-				
-				ctx.lineWidth = 5;
-				ctx.strokeStyle="#FF0000";
-				ctx.beginPath();
-				ctx.moveTo(160, 0);
-				ctx.lineTo(200, 0);
-				ctx.stroke();
-				
-				ctx.fillStyle = time > this.activationTimeNumber ? "#FF0000" : "#000000";
-				ctx.fillText(this.positionString, 205, 0);
-				
-				ctx.lineWidth=15;
-				ctx.strokeStyle = "#FF0000";
-				ctx.beginPath();
-				ctx.moveTo(180, 0);
-				ctx.arc(0, 0, 180, 0, -time * 2 * Math.PI, true);
-				ctx.stroke();
-				
-				ctx.rotate(-this.positionNumber * 2 * Math.PI);
-			}
-			
-			function PointCollection(points) {
-				this.points = points;
-				this.computeActivationTimes();
-				// this.computeOrder();
-			}
-			
-			PointCollection.prototype.computeActivationTimes = function() {
-				var distances = [];
-				
-				// We'll fill distances with triples (i, j, d) where d
-				// is a 26string indicating the time it takes for the
-				// arm of this.points[i] to reach this.points[j].
-				
-				for (var i = 0; i < this.points.length; i++) {
-					for (var j = 0; j < this.points.length; j++) {
-						if (i != j) {
-							distances.push([i, j, subtractModOne(this.points[i].positionString, this.points[j].positionString)]);
-						}
-					}
-				}
-				
-				// Now we update the activation times.
-				for (var i = 0; i < distances.length; i++) {
-					var candidate = this.points[distances[i][1]];
-					var dist = distances[i][2];
-					if (candidate.activationTimeString == "" || compare(dist, candidate.activationTimeString) == -1) {
-						candidate.activationTimeString = dist;
-					}
-				}
-				
-				// Now we sort by activation time.
-				this.points.sort(function(p, q) {
-					var c = compare(p.activationTimeString, q.activationTimeString);
-					if (c != 0) return c;
-					// As a last resort, we revert to alphabetical ordering.
-					return compare(p.positionString, q.positionString);
-				})
-				
-				// Finally, we compute the activation time numbers.
-				for (var i = 0; i < this.points.length; i++) {
-					this.points[i].computeActivationTimeNumber();
-				}
-			}
-			
-			PointCollection.prototype.draw = function(time) {
-				ctx.clearRect(-300, -300, 600, 600);
-				
-				for (var i = 0; i < this.points.length; i++) {
-					this.points[i].draw(time);
-				}
-				
-				drawBackground();
-			}
-			
-			PointCollection.prototype.list = function(time) {
-				var ret = "";
-				for (var i = 0; i < this.points.length; i++) {
-					if (time > this.points[i].activationTimeNumber) {
-						if (ret != "") ret += ", ";
-						ret += this.points[i].positionString;
-					}
-				}
-				return ret;
-			}
-			
-			function drawBackground() {
-				ctx.textAlign="center";
-				for (var i = 0; i < 26; i++) {
-					var angle1 = i / 26 * 2 * Math.PI;
-					var angle2 = (i + 1) / 26 * 2 * Math.PI;
-					var midAngle = (angle1 + angle2)/2;
-					
-					ctx.fillStyle = (i % 2 == 0)? "#FFFFFF" : "#A0D0FF";
-					ctx.beginPath();
-					ctx.moveTo(0, 0);
-					ctx.arc(0, 0, 160, angle1, angle2, false);
-					ctx.fill();
-					
-					ctx.fillStyle="#000000";
-					ctx.fillText(String.fromCharCode(65 + i), 140 * Math.cos(midAngle), 140 * Math.sin(midAngle));
-				}
-				ctx.textAlign="start";
-				
-				ctx.lineWidth=5;
-				ctx.strokeStyle="#000000";
-				ctx.beginPath();
-				ctx.moveTo(200, 0);
-				ctx.arc(0, 0, 200, 0, 2 * Math.PI, false);
-				ctx.moveTo(160, 0);
-				ctx.arc(0, 0, 160, 0, 2 * Math.PI, false);
-				ctx.stroke();
-			}
-			
-			function padWithZeroes(s, len) {
-				var ret = s;
-				for (var i = 0; i < len - s.length; i++) {
-					ret = "0" + ret;
 				}
 				return ret;
 			}
@@ -207,27 +64,172 @@
 				return 0;
 			}
 			
+			// Same as compare, except it breaks ties based on length when possible.
+			function compareAlphabetically(x, y) {
+				var ret = compare(x, y);
+				if (ret != 0) return ret;
+				if (x.length > y.length) return 1;
+				if (x.length < y.length) return -1;
+				return 0;
+			}
+			
+			// positionString should be a string over the alphabet {A, B, ..., Z}.
+			function Point(positionString) {
+				this.positionString = positionString;
+				this.computePositionNumber();
+				this.distanceToNext = "";
+			}
+			
+			// Convert position string to a number.
+			Point.prototype.computePositionNumber = function() {
+				this.positionNumber = stringToFloat(this.positionString);
+			}
+			
+			Point.prototype.draw = function() {
+				ctx.rotate(this.positionNumber * 2 * Math.PI);
+				
+				ctx.lineWidth = 2;
+				ctx.strokeStyle="#FF0000";
+				ctx.beginPath();
+				ctx.moveTo(160, 0);
+				ctx.lineTo(200, 0);
+				ctx.stroke();
+				
+				ctx.fillStyle = "#000000";
+				ctx.fillText(this.positionString, 205, 0);
+				
+				ctx.rotate(-this.positionNumber * 2 * Math.PI);
+			}
+			
+			function PointCollection() {
+				this.points = [];
+				this.cutPositionNumber = 0;
+			}
+			
+			PointCollection.prototype.addPoint = function(p) {
+				this.points.push(p);
+				this.computeOrder();
+			}
+			
+			PointCollection.prototype.computeOrder = function() {
+				// Step 1: Sort points alphabetically.
+				this.points.sort(function(a, b) {
+					return compareAlphabetically(a.positionString, b.positionString);
+				});
+				
+				// Step 2: Compute the successive distances (as 26strings).
+				// Find the smallest distance.
+				
+				var minDist = "";
+				var minDistIndex = 0;
+				
+				for (var i = 0; i < this.points.length; i++) {
+					var next = (i + 1) % this.points.length;
+					this.points[i].distanceToNext = subtractModOne(this.points[next].positionString, this.points[i].positionString);
+					
+					if (minDist == "" || compare(this.points[i].distanceToNext, minDist) == -1) {
+						minDist = this.points[i].distanceToNext;
+						minDistIndex = i;
+					}
+				}
+				
+				// Step 3: Remember the cut point and reorder from there
+				var startIndex = (minDistIndex + 1) % this.points.length;
+				if (minDistIndex < this.points.length - 1) {
+					this.cutPositionNumber = (this.points[minDistIndex].positionNumber + this.points[startIndex].positionNumber) / 2;
+				} else {
+					// Wrap around.
+					this.cutPositionNumber = (this.points[minDistIndex].positionNumber - 1 + this.points[startIndex].positionNumber) / 2;
+				}
+				
+				var prefix = this.points.splice(startIndex);
+				this.points = prefix.concat(this.points);
+			}
+			
+			PointCollection.prototype.draw = function() {
+				ctx.clearRect(-300, -300, 600, 600);
+				
+				drawBackground();
+				
+				var angle = this.cutPositionNumber * 2 * Math.PI;
+				
+				ctx.fillStyle = "#000000";
+				ctx.lineWidth = 5;
+				ctx.beginPath();
+				ctx.moveTo(190 * Math.cos(angle), 190 * Math.sin(angle));
+				ctx.arc(190 * Math.cos(angle), 190 * Math.sin(angle), 7, 0, 2 * Math.PI, false);
+				ctx.fill();
+				
+				ctx.strokeStyle = "#000000";
+				ctx.beginPath();
+				ctx.moveTo(190 * Math.cos(angle), 190 * Math.sin(angle));
+				ctx.arc(0, 0, 190, angle, angle + 0.95 * 2 * Math.PI, false);
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.moveTo(180 * Math.cos(angle + 0.95 * 2 * Math.PI), 180 * Math.sin(angle + 0.95 * 2 * Math.PI));
+				ctx.lineTo(200 * Math.cos(angle + 0.95 * 2 * Math.PI), 200 * Math.sin(angle + 0.95 * 2 * Math.PI));
+				ctx.lineTo(190 * Math.cos(angle + 0.97 * 2 * Math.PI), 190 * Math.sin(angle + 0.97 * 2 * Math.PI));
+				ctx.fill();
+				
+				for (var i = 0; i < this.points.length; i++) {
+					this.points[i].draw();
+				}
+			}
+			
+			PointCollection.prototype.print = function() {
+				var ret = "";
+				for (var i = 0; i < this.points.length; i++) {
+					if (i != 0) ret += ", ";
+					ret += this.points[i].positionString;
+				}
+				return ret;
+			}
+			
+			function drawBackground() {
+				ctx.textAlign="center";
+				for (var i = 0; i < 26; i++) {
+					var angle1 = i / 26 * 2 * Math.PI;
+					var angle2 = (i + 1) / 26 * 2 * Math.PI;
+					var midAngle = (angle1 + angle2)/2;
+					
+					ctx.fillStyle = (i % 2 == 0)? "#FFFFFF" : "#A0D0FF";
+					ctx.beginPath();
+					ctx.moveTo(0, 0);
+					ctx.arc(0, 0, 160, angle1, angle2, false);
+					ctx.fill();
+					
+					ctx.fillStyle="#000000";
+					ctx.fillText(String.fromCharCode(65 + i), 140 * Math.cos(midAngle), 140 * Math.sin(midAngle));
+				}
+				ctx.textAlign="start";
+				
+				ctx.lineWidth=5;
+				ctx.strokeStyle="#000000";
+				ctx.beginPath();
+				//ctx.moveTo(200, 0);
+				//ctx.arc(0, 0, 200, 0, 2 * Math.PI, false);
+				ctx.moveTo(160, 0);
+				ctx.arc(0, 0, 160, 0, 2 * Math.PI, false);
+				ctx.stroke();
+			}
+			
+			function padWithZeroes(s, len) {
+				var ret = s;
+				for (var i = 0; i < len - s.length; i++) {
+					ret = "0" + ret;
+				}
+				return ret;
+			}
+			
 			function addPoint() {
 				var newPoint = new Point(document.getElementById("newPoint").value);
-				newPoint.draw();
-				pointArray.push(newPoint);
-			}
-			
-			function go() {
-				pointCollection = new PointCollection(pointArray);
+				pointCollection.addPoint(newPoint);
+				pointCollection.draw();
 				
-				window.requestAnimationFrame(timer);
+				document.getElementById("output").innerHTML = "Circle order: <b>" + pointCollection.print() + "</b>";
 			}
-			
-			function timer(timestamp) {
-				if (!start) start = timestamp;
-				var diff = timestamp - start;
-				pointCollection.draw(diff / 100000);
-				
-				document.getElementById("output").innerHTML = "<b>New order:</b> " + pointCollection.list(diff/100000);
-				
-				window.requestAnimationFrame(timer);
-			}
+
 			
 			drawBackground();
 		</script>
