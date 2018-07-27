@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript">
+      (function () {
+          window.siqConfig = {
+              engineKey: "8b4b9a3888c5b17db2d980bd3ca6ba68",
+              forceLoadSettings: false        // change false to true if search box on your site is adding dynamically
+          };
+          window.siqConfig.baseUrl = "//pub.searchiq.co/";
+          var script = document.createElement("SCRIPT");
+          script.src = window.siqConfig.baseUrl + '/js/container/siq-container-2.js?cb=' + (Math.floor(Math.random()*999999)) + '&engineKey=' + siqConfig.engineKey;
+          script.id = "siq-container";
+          document.getElementsByTagName("HEAD")[0].appendChild(script);
+      })();
+    </script>
+  </head>
+  
+  <body>
+    <form id="siq_searchForm">
+      <input type="search" placeholder="Type here to search..." value="" name="s" />
+    </form>
+    
+    <div id="siq_search_results"></div>
+  </body>
+</html>
