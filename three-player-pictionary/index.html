@@ -8,18 +8,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <style>
+      @media screen and (min-width: 55em) {
+        .docContainer {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+      }
+      
+      .docContainer {
+        max-width:53em;
+        margin:auto;
+        padding-top:1.5em;
+      }
+      
       .doc {
-        max-width:50em;
-        display:inline-block;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        margin-top:1em;
-        margin-left:0.3em;
-        margin-right:0.3em;
-        margin-bottom:1em;
-        padding:1.5em;
+        box-sizing: border-box;
+        max-width: 50em;
         font-family:sans-serif;
         text-align:left;
-        line-height:1.5; 
+        line-height:1.5;
+        margin:auto;
       }
       
       .section {
@@ -28,20 +35,11 @@
         margin-top:1.5em;
         margin-bottom:0.5em;
       }
-      
-      @media print {
-        .doc {
-          max-width:initial;
-          box-shadow:initial;
-          margin:initial;
-          padding:initial;
-        }
-      }
     </style>
   </head>
   
-  <body>
-    <div style="text-align:center;">
+  <body style="padding-top:0.5em;">
+    <div class="docContainer">
       <div class="doc">
         <div style="text-align:center;">
           <div style="font-size:1.5em;">
