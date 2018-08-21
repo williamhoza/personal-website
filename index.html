@@ -28,8 +28,22 @@
     }
 
     BODY {
-      background-color:#004000;
       font-family:sans-serif;
+    }
+    
+    @media(min-width:920px) {
+      BODY {
+        background-color:#004000;
+      }
+      
+      .outer {
+        box-sizing:border-box;
+        max-width:900px;
+        margin:auto;
+        background-color:#FFFFFF;
+        padding:32px;
+        border-radius:32px;
+      }
     }
     
     LI:not(:last-child) {
@@ -89,19 +103,13 @@
 </head>
 
 <body>
-  <div style="text-align:center;">
-  <div style="max-width:55em;display:inline-block;background-color:#FFFFFF;padding:1em;border-radius:1em;text-align:left;">
-    <table>
-      <tr>
-        <td style="width:7em;padding-right:1em">
-          <img src="images/me.jpg" style="width:100%;" />
-        </td>
-        <td style="vertical-align:bottom;">
-          <span style="font-size:200%;">William M. Hoza</span><br />
-          <b>Catholic theorem-wielder</b>
-        </td>
-      </tr>
-    </table>
+  <div class="outer">
+    <div style="display:flex;align-items:flex-end;">
+      <img src="images/me.jpg" width="112px" style="display:block;" />
+      <div style="font-size:32px;margin-left:16px;">
+        William M. Hoza
+      </div>
+    </div>
     
     <div class="section">
       <b>About me:</b>
@@ -151,19 +159,10 @@
           the deterministic algorithm might give the wrong answer 
           on a tiny fraction of inputs.
           <br /><br />
-          <u>Presentations</u>:
+          <u>Presentation materials available online</u>:
           <ul>
             <li>
-              I presented at the Weizmann Institute's Foundations of Computer Science Seminar, March 2018
-              <a href="paper-resources/Hoz2/israel-slides.pdf">[slides]</a>
-            </li>
-            <li>
-              I presented at TAU's Theory of Computation Seminar, March 2018
-              <a href="paper-resources/Hoz2/israel-slides.pdf">[slides]</a>
-            </li>
-            <li>
-              I presented at HUJI's Theory of Computer Science Seminar, March 2018
-              <a href="paper-resources/Hoz2/israel-slides.pdf">[slides]</a>
+              <a href="paper-resources/Hoz2/israel-slides.pdf">[slides]</a> -- from my presentations at Weizmann Institute's Foundations of Computer Science Seminar, TAU's Theory of Computation Seminar, and HUJIs Theory of Computer Science Seminar (March 2018)
             </li>
           </ul>
         </div>
@@ -227,11 +226,10 @@
           open problems. The arXiv version also uses slightly
           different notation and is missing some references.
           <br /><br />
-          <u>Presentations</u>:
+          <u>Presentation materials available online</u>:
           <ul>
             <li>
-              I presented in Scott Aaronson's course "Topics in Quantum and Classical Complexity Theory", December 2016
-              <a href="paper-resources/GH/class-slides.pdf">[slides]</a>
+              <a href="paper-resources/GH/class-slides.pdf">[slides]</a> -- from my presentation in Scott Aaronson's course "Topics in Quantum and Classical Complexity Theory" (December 2016)
             </li>
           </ul>
           <u>Copyright information</u>:
@@ -241,7 +239,7 @@
       
       <a href="https://arxiv.org/abs/1611.00783">Preserving Randomness for Adaptive Algorithms</a>
       <details>
-        <summary>With Adam R. Klivans. To appear in RANDOM 2018.</summary>
+        <summary>With Adam R. Klivans. In RANDOM 2018.</summary>
         <div class="details">
           <u>Not-so-abstract</u>:
           Suppose you have a randomized algorithm that estimates 
@@ -255,17 +253,18 @@
           <u>Versions</u>:
           The <a href="https://arxiv.org/abs/1611.00783">arXiv version</a>
           and the <a href="https://eccc.weizmann.ac.il/report/2016/172/">ECCC version</a>
-          are identical.
+          are identical. The <a href="http://drops.dagstuhl.de/opus/volltexte/2018/9447/">RANDOM proceedings version</a> is more compact and skips a lot of the material.
           <br /><br />
-          <u>Presentations</u>:
+          <u>Presentation materials available online</u>:
           <ul>
             <li>
-              Adam presented at Simons Institute "Proving and Using Pseudorandomness" workshop, March 2017
-              <a href="https://www.youtube.com/watch?v=4x4SCTALca8">[video]</a>
+              <a href="https://www.youtube.com/watch?v=4x4SCTALca8">[video]</a> -- from Adam's presentation at the Simons Institute "Proving and Using Pseudorandomness" workshop (March 2017)
             </li>
             <li>
-              I presented at Caltech's CS Theory Seminar, May 2017
-              <a href="paper-resources/HK/caltech-theory-seminar-slides.pdf">[slides]</a>
+              <a href="paper-resources/HK/caltech-theory-seminar-slides.pdf">[slides]</a> -- from my presentation at Caltech's CS Theory Seminar (May 2017)
+            </li>
+            <li>
+              <a href="paper-resources/HK/random-slides.pdf">[slides]</a> -- from my presentation at RANDOM (August 2018)
             </li>
           </ul>
         </div>
@@ -297,17 +296,15 @@
           The <a href="http://dl.acm.org/citation.cfm?doid=3055399.3055414">STOC proceedings version</a>
           and the <a href="https://arxiv.org/abs/1610.01199">arXiv version</a> are the same except for formatting.
           <br /><br />
-          <u>Presentations</u>:
+          <u>Presentation materials available online</u>:
           <ul>
             <li>
-              I presented at Dagstuhl Seminar 16411, October 2016
-              <a href="paper-resources/HU/dagstuhl-slides.pdf">[slides]</a>
+              <a href="paper-resources/HU/dagstuhl-slides.pdf">[slides]</a> -- from my presentation at Dagstuhl Seminar 16411 (October 2016)
             </li>
             <li>
-              I presented at STOC, June 2017
               <a href="paper-resources/HU/stoc-slides.pdf">[slides]</a>
               <a href="paper-resources/HU/stoc-poster.pdf">[poster]</a>
-              <a href="https://dl.acm.org/citation.cfm?id=3055414&picked=formats">[video]</a>
+              <a href="https://dl.acm.org/citation.cfm?id=3055414&picked=formats">[video]</a> -- from my presentation at STOC (June 2017)
             </li>
           </ul>
           <u>Notes</u>: This paper was invited to the SIAM Journal 
@@ -337,15 +334,13 @@
           The SODA reviewers' feedback never got incorporated into the
           <a href="https://arxiv.org/abs/1412.8097">arXiv version</a>.
           <br /><br />
-          <u>Presentations</u>:
+          <u>Presentation materials available online</u>:
           <ul>
             <li>
-              I presented at SODA, January 2016
-              <a href="paper-resources/HS/SODA-slides.pdf">[slides]</a>
+              <a href="paper-resources/HS/SODA-slides.pdf">[slides]</a> -- from my presentation at SODA (January 2016)
             </li>
             <li>
-              I presented at Caltech's CMS "Celebration of Undergraduate Research", May 2015
-              <a href="paper-resources/HS/CMS-poster.pdf">[poster]</a>
+              <a href="paper-resources/HS/CMS-poster.pdf">[poster]</a> -- from my presentation at Caltech's CMS "Celebration of Undergraduate Research" (May 2015)
             </li>
           </ul>
           <u>Notes</u>: This paper is summarized in Section
@@ -414,7 +409,7 @@
       <b>Philosophical opinions:</b>
       <ul style="margin-bottom:0px">
         <li>
-          I think that every member of the human species is a person.
+          I think that every living human organism is a moral person.
         </li>
         <li>
           I am a <a href="http://plato.stanford.edu/entries/time/#TheBThe">B-theorist</a>.
@@ -552,16 +547,9 @@
       whoza@utexas.edu
     </div>
     
-    <div style="text-align:right;border-top:1px solid #B0B0C0;font-size:11pt;padding-top: 20px;margin-top:20px;">
-      <div style="font-style:italic;">
-        As for wisdom, where does she come from?<br />
-        Where is the place of understanding?<br />
-        She is hidden from the eyes of every living thing;<br />
-        even from the birds of the air she is concealed.
-      </div>
-      (Job 28:20-21)
+    <div style="border-top:1px solid #B0B0C0;font-size:11pt;padding-top: 20px;margin-top:20px;">
+      "Finally, brothers, whatever is true, whatever is honorable, whatever is just, whatever is pure, whatever is lovely, whatever is gracious, if there is any excellence and if there is anything worthy of praise, think about these things." (Philippians 4:8)
     </div>
-  </div>
   </div>
   
   <script type="text/javascript">
