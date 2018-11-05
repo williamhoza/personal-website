@@ -113,12 +113,27 @@
     
     <div class="section">
       <b>About me:</b>
-      I'm a third-year grad student at UT Austin studying theoretical
-      computer science. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. I'm interested in the strengths of different computational resources. To what extent is randomness useful for computation? How about quantum mechanics? Does parallelism always give a huge computational advantage? Is space more useful than time? Is it ever easier to check your work than it is to solve a problem from scratch? All of these questions can be made mathematically precise, and nobody knows the answers. My personal favorite open problem is the "L vs. BPL" problem: Is randomness ever helpful for solving a problem using as little memory as possible?
+      I'm a third-year grad student at UT Austin studying <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical
+      computer science</a>. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
+      <br /><br />
+      I study computational complexity theory, which means I'm interested in the strengths of different computational resources. To what extent does randomness provide a computational advantage? How about quantum mechanics? Does parallelism always give a huge speedup? Is space more useful than time? Is it ever easier to check your work than it is to solve a problem from scratch? All of these questions can be made mathematically precise, and nobody knows the answers.
+      <br /><br />
+      My personal favorite open question is the "<b>L</b> vs. <b>BPL</b>" question: Is randomness ever necessary to solve a problem using only a little memory? To work on resolving this question, people like me study "pseudorandomness", which is any phenomenon where stuff looks more random than it actually is.
     </div>
     
     <div class="section">
       <b>Research papers:</b> (Expand for more info)<br /><br />
+      
+      <a href="https://eccc.weizmann.ac.il/report/2018/183/">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</a>
+      <details>
+        <summary>With Dean Doron and Pooya Hatami. Manuscript, 2018.</summary>
+        
+        <div class="details">
+          <u>Not-so-abstract</u>: A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits (x1, x2, x3, ...) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a statement that says something like
+          <div style="margin:20px;">((x3 = 0 AND x7 = 1 AND x2 = 1) OR (x6 = 1 AND (x5 = 0 OR x1 = 0) AND ...)).</div>
+          Each variable is only allowed to appear one time, and the parentheses are only allowed to be nested to a depth of, say, 100. For every statement of that form, the probability that the statement evaluates to true when you plug in the output of our pseudorandom generator is roughly the same as the probability that the statement evaluates to true when you plug in truly random bits. Our pseudorandom generator is "near-optimal", i.e., our algorithm makes very few coin tosses.
+        </div>
+      </details>
       
       <a href="https://eccc.weizmann.ac.il/report/2018/063/">Simple Optimal Hitting Sets for Small-Success <b>RL</b></a>
       <details>
@@ -153,7 +168,7 @@
       
       <a href="https://arxiv.org/abs/1711.00565">Typically-Correct Derandomization for Small Time and Space</a>
       <details>
-        <summary>Preprint, 2017.</summary>
+        <summary>Manuscript, 2017.</summary>
         
         <div class="details">
           <u>Not-so-abstract</u>: A "randomized" algorithm tosses 
@@ -181,7 +196,7 @@
       
       <a href="https://arxiv.org/abs/1703.07768">Quantum Communication-Query Tradeoffs</a>
       <details>
-        <summary>Preprint, 2017.</summary>
+        <summary>Manuscript, 2017.</summary>
         
         <div class="details">
           <u>Not-so-abstract</u>:
