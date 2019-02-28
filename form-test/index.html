@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <form onsubmit="event.preventDefault(); submitData();">
+      <input name="name" placeholder="Name">
+      <input name="age" placeholder="Age">
+      <input type="submit">
+    </form>
+    
+    <script type="text/javascript">
+      const BASE_URL = "https://script.google.com/macros/s/AKfycbwzIGfyTilQrqm2jDwewL1WAmkz5JQVytaYohAbw2Xvf7H0EiRg/exec"
+      
+      function submitData() {
+        name = document.getElementsByName("name")[0].value;
+        age = document.getElementsByName("age")[0].value;
+        url = BASE_URL + "?name=" + encodeURIComponent(name) + "&age=" + encodeURIComponent(age);
+        fetch(url).then(response => console.log("Success!", response))
+      }
+    </script>
+  </body>
+</html>
+
+
