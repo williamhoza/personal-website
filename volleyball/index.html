@@ -63,14 +63,16 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     var gameScore=25;
     var gameEnded=false;
     var winner=-1;
-    var multiplier=1;
+    var urlParams = new URLSearchParams(window.location.search);
+    
+    var multiplier= urlParams.has("m") ? parseFloat(urlParams.get("m")) : 1;
     /* To anyone reading this code: There is a secret query string
        parameter ?m=x where x is any positive number. It gives blue an
        advantage if x<1 and it gives blue a disadvantage if x>1.
        Centrifuge Volleyball multiplies blue's score by x for the
        purpose of calculating the size of the sectors. */
+       
     
-    <? if(isset($_GET['m'])) echo "multiplier=" . $_GET['m'] . ";" ?>
     
     var stars=new Array();
     
@@ -183,25 +185,20 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
       
       this.fraction+=(this.targetFraction-this.fraction)/10;
       
-      <?
-        if(isset($_GET['powerups']))
+      if (urlParams.has("powerups")) {
+        this.angAccel+=(0.01-this.angAccel)/500;
+        this.maxVelocity+=(0.2-this.maxVelocity)/500;
+        this.jumpPower+=(4-this.jumpPower)/500;
+        if(Math.abs(this.targetRadius-this.radius)>1)
         {
-          ?>
-            this.angAccel+=(0.01-this.angAccel)/500;
-            this.maxVelocity+=(0.2-this.maxVelocity)/500;
-            this.jumpPower+=(4-this.jumpPower)/500;
-            if(Math.abs(this.targetRadius-this.radius)>1)
-            {
-              this.radius+=(this.targetRadius-this.radius)/10;
-            }
-            else
-            {
-              this.targetRadius=this.radius;
-              this.radius+=(40-this.radius)/600;
-            }
-          <?
+          this.radius+=(this.targetRadius-this.radius)/10;
         }
-      ?>
+        else
+        {
+          this.targetRadius=this.radius;
+          this.radius+=(40-this.radius)/600;
+        }
+      }
     }
     Player.prototype.jump=function()
     {
@@ -811,14 +808,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
       balls[0]=new Ball(0,0);
       balls[0].reset();
       
-      <?
-        if(isset($_GET['powerups']))
-        {
-          ?>
-            balls[1]=new Powerup(Math.floor(Math.random()*3)+2);
-          <?
-        }
-      ?>
+      if (urlParams.has("powerups")) {
+        balls[1]=new Powerup(Math.floor(Math.random()*3)+2);
+      }
       
       /* good for testing corners
       players[0].grounded=false;
