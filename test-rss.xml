@@ -5,6 +5,13 @@
     <link>https://williamhoza.com</link>
     <description>Testing</description>
     <item>
+      <title>Test Item 4</title>
+      <link>https://williamhoza.com/test4</link>
+      <guid>https://williamhoza.com/test4</guid>
+      <pubDate>2019-03-23</pubDate>
+      <description>Test Description 4</description>
+    </item>
+    <item>
       <title>Test Item 3</title>
       <link>https://williamhoza.com/test3</link>
       <guid>https://williamhoza.com/test3</guid>
