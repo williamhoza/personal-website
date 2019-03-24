@@ -7,6 +7,8 @@
     <item>
       <title>Test Item 1</title>
       <link>https://williamhoza.com/test1</link>
+      <guid>https://williamhoza.com/test1</guid>
+      <pubDate>2019-03-23</pubDate>
       <description>Test Description 1</description>
     </item>
   </channel>
