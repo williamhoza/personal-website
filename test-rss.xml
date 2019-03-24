@@ -5,6 +5,20 @@
     <link>https://williamhoza.com</link>
     <description>Testing</description>
     <item>
+      <title>Test Item 6</title>
+      <link>https://williamhoza.com/test6</link>
+      <guid>https://williamhoza.com/test6</guid>
+      <pubDate>2019-03-23</pubDate>
+      <description>
+        &lt;img src="https://williamhoza.com/images/mandelbrot-mediumsmall.png"&gt;
+        Test Paragraph 6.1
+        &lt;br&gt;&nbsp;&lt;br&gt;
+        Test Paragraph 6.2
+        &lt;br&gt;&nbsp;&lt;br&gt;
+        Test link: https://williamhoza.com/mandelbrot
+      </description>
+    </item>
+    <item>
       <title>Test Item 5</title>
       <link>https://williamhoza.com/test5</link>
       <guid>https://williamhoza.com/test5</guid>
