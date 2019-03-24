@@ -21,6 +21,26 @@
       </description>
     </item>
     <item>
+      <title>Test Item 10</title>
+      <link>https://williamhoza.com/test10</link>
+      <guid>https://williamhoza.com/test10</guid>
+      <pubDate>2019-03-23</pubDate>
+      <description>
+        &lt;img src="https://williamhoza.com/images/mandelbrot-mediumsmall.png"&gt;
+        Test Paragraph 10.1
+        &lt;br&gt;&lt;br&gt;
+        Test Paragraph 10.2
+        &lt;br&gt;
+        Test Newline
+        &lt;br&gt;&lt;br&gt;
+        Test link: https://williamhoza.com/mandelbrot
+        &lt;br&gt;&lt;br&gt;
+        Test special character — the em dash
+        &lt;br&gt;&lt;br&gt;
+        #TestHashtag #TestHashtag2
+      </description>
+    </item>
+    <item>
       <title>Test Item 8</title>
       <link>https://williamhoza.com/test8</link>
       <guid>https://williamhoza.com/test8</guid>
