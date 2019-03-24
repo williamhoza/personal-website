@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Test Channel</title>
+    <link>https://williamhoza.com</link>
+    <description>Testing</description>
+    <item>
+      <title>Test Item 1</title>
+      <link>https://williamhoza.com/test1</link>
+      <description>Test Description 1</description>
+    </item>
+  </channel>
+</rss>
