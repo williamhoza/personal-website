@@ -5,6 +5,19 @@
     <link>https://williamhoza.com</link>
     <description>Testing</description>
     <item>
+      <title>Test Item 5</title>
+      <link>https://williamhoza.com/test5</link>
+      <guid>https://williamhoza.com/test5</guid>
+      <pubDate>2019-03-23</pubDate>
+      <description>
+        &lt;img src="https://williamhoza.com/images/mandelbrot-mediumsmall.png"&gt;
+        Paragraph 1
+        &lt;br&gt;
+        &lt;br&gt;
+        Paragraph 2
+      </description>
+    </item>
+    <item>
       <title>Test Item 4</title>
       <link>https://williamhoza.com/test4</link>
       <guid>https://williamhoza.com/test4</guid>
