@@ -12,9 +12,9 @@
       <description>
         &lt;img src="https://williamhoza.com/images/mandelbrot-mediumsmall.png"&gt;
         Test Paragraph 6.1
-        &lt;br&gt;&nbsp;&lt;br&gt;
+        &lt;br&gt;&amp;nbsp;&lt;br&gt;
         Test Paragraph 6.2
-        &lt;br&gt;&nbsp;&lt;br&gt;
+        &lt;br&gt;&amp;nbsp;&lt;br&gt;
         Test link: https://williamhoza.com/mandelbrot
       </description>
     </item>
