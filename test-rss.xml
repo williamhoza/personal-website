@@ -5,6 +5,22 @@
     <link>https://williamhoza.com</link>
     <description>Testing</description>
     <item>
+      <title>Test Item 9</title>
+      <link>https://williamhoza.com/test9</link>
+      <guid>https://williamhoza.com/test9</guid>
+      <pubDate>2019-03-23</pubDate>
+      <description>
+        &lt;img src="https://williamhoza.com/images/mandelbrot-mediumsmall.png"&gt;
+        Test Paragraph 9.1
+        \n\n
+        Test Paragraph 9.2
+        \n\n
+        Test link: https://williamhoza.com/mandelbrot
+        \n\n
+        #TestHashtag #TestHashtag2
+      </description>
+    </item>
+    <item>
       <title>Test Item 8</title>
       <link>https://williamhoza.com/test8</link>
       <guid>https://williamhoza.com/test8</guid>
