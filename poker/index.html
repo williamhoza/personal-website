@@ -75,11 +75,11 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
           Approximate chances are displayed below the cards. The chances
           are calculated on the fly by simply simulating thousands of
           games. Win/lose/tie chances and expected return assume that no
-          player folds. Figures in
+          player folds. <!-- Edit April 2019: Deleting this bogus statistics stuff Figures in
           <span style="color:green;">green</span> are accurate to within
           &plusmn;1 percentage point with 95% confidence.* [Edit March
           2016: I recommend ignoring the statistical claims on this
-          page.]
+          page.] -->
         </div>
         <div id="playersContainer">
         </div>
@@ -98,6 +98,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
         (including you)
         <div id="chancesDiv" style="margin-bottom:10px;"></div>
         <a href="http://william.hoza.us">More cool stuff</a>
+        <!-- Edit April 2019: Deleting this bogus statistics stuff
         <hr>
         <div>
           *Specifically, for the chances, 0.95 is the
@@ -112,7 +113,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
           distribution because I don't know how to calculate anything
           better. (Can anybody
           <a href="http://www.reddit.com/r/statistics/comments/wfbac/how_do_i_construct_a_decent_confidence_interval/">help me with the math</a>?)
-        </div>
+        </div> -->
       </td>
     </tr>
   </table>
@@ -136,12 +137,14 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     var handTypeCounts=null;
     var outcomeCovarianceMatrix=null;
   
+    // Edit April 2019: Deleting this bogus statistics stuff
+    /*
     function confidenceInterval95(x, n)
     {
       /* This uses the Agresti-Coull approximation. See http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Agresti-Coull_Interval
        * for the brief words that Wikipedia has on the subject. See
        * the page labeled "107" on http://www-stat.wharton.upenn.edu/~tcai/paper/Binomial-StatSci.pdf
-       * to understand why it's a good approximation for this. */
+       * to understand why it's a good approximation for this.
     
       var retVal=new Object();
       var z = 1.96; //2.576;
@@ -153,6 +156,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
       
       return retVal;
     }
+    */
     
     /*
     function niceInterval(c)
@@ -174,16 +178,18 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     
     function chanceText(x, n)
     {
-      var c=confidenceInterval95(x, n);
+      // Edit April 2019: Deleting this bogus statistics stuff
+      // var c=confidenceInterval95(x, n);
       var chance=Math.round(x/n*100);
       var spanTagEnd=">";
       
-      if(chance - (c.center-c.margin)*100 <= 1 && (c.center+c.margin)*100-chance <= 1)
-      {
-        spanTagEnd=" style='color:green;'>";
-      }
+      // if(chance - (c.center-c.margin)*100 <= 1 && (c.center+c.margin)*100-chance <= 1)
+      // {
+      //  spanTagEnd=" style='color:green;'>";
+      // }
       
-      return "<span title='" + x/n*100 + "%\n(" + (c.center-c.margin)*100 + "%, " + (c.center+c.margin)*100 + "%)'" + spanTagEnd + chance + "%</span>";
+      //return "<span title='" + x/n*100 + "%\n(" + (c.center-c.margin)*100 + "%, " + (c.center+c.margin)*100 + "%)'" + spanTagEnd + chance + "%</span>";
+      return "<span title='" + x/n*100 + "%'" + spanTagEnd + chance + "%</span>";
     }
     
     function updateChancesDiv()
@@ -236,15 +242,17 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
           expectedReturnVariance+=(g.players.length-1)/i*toBeAdded;
         }
         
-        var marginOfError=1.96*Math.sqrt(expectedReturnVariance)*100;
-        var lowerBound=(expectedReturn*100-marginOfError);
-        var upperBound=(expectedReturn*100+marginOfError);
+        // Edit April 2019: Deleting this bogus statistics stuff
+        // var marginOfError=1.96*Math.sqrt(expectedReturnVariance)*100;
+        // var lowerBound=(expectedReturn*100-marginOfError);
+        // var upperBound=(expectedReturn*100+marginOfError);
         var roundedExpectedReturn=Math.round(expectedReturn*100);
         var spanTagEnd='>';
         
-        if(roundedExpectedReturn-lowerBound <= 1 && upperBound-roundedExpectedReturn <= 1) spanTagEnd=" style='color:green;'>";
+        // if(roundedExpectedReturn-lowerBound <= 1 && upperBound-roundedExpectedReturn <= 1) spanTagEnd=" style='color:green;'>";
       
-        s+="<span title='" + expectedReturn*100 + "%\n(" + lowerBound + "%, " + upperBound + "%)'" + spanTagEnd + roundedExpectedReturn + "%</span> expected return (assuming all players put in the same amount)<br>"; //TODO: confidence intervals on this guy...
+        //s+="<span title='" + expectedReturn*100 + "%\n(" + lowerBound + "%, " + upperBound + "%)'" + spanTagEnd + roundedExpectedReturn + "%</span> expected return (assuming all players put in the same amount)<br>"; //TODO: confidence intervals on this guy...
+        s+="<span title='" + expectedReturn*100 + "%'" + spanTagEnd + roundedExpectedReturn + "%</span> expected return (assuming all players put in the same amount)<br>";
         s+=chanceText(outcomeCounts[1], total) + " chance of winning<br>";
         s+=chanceText(outcomeCounts[0], total) + " chance of losing<br>";
         s+=chanceText(ties, total) + " chance of tying<br>";
