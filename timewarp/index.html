@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+<head>
+  <style>
+    TEXTAREA:focus
+    {
+      outline: none;
+    }
+    
+    PRE
+    {
+      display: none;
+    }
+    
+    BODY, TEXTAREA
+    {
+      background-color: white;
+      color: black;
+    }
+    
+    .effectEditorContainer
+    {
+      border: 1px solid black;
+    }
+  </style>
+  
+  <title>
+    Time Warp
+  </title>
+  
+  <meta property="og:title" content="Time Warp" />
+  <meta property="og:description" content="Webcam data, warped on the fly." />
+  <meta property="og:image" content="http://william.hoza.us/images/timewarp-mediumsmall.png" />
+</head>
+
+<body style="height:100%;margin:0px;" onresize = "if(typeof(body_resize) != 'undefined') body_resize();">
+
+<canvas id = "dataCanv" style = "display: none;background-color:blue;">
+</canvas>
+
+<video id = "vid" autoplay style = "display: none;"></video>
+<table style = "width:100%;height:100%;" cellspacing = "0px" cellpadding = "0px">
+  <tr id = "messageTR">
+    <td valign = "top">
+      <div id = "errorDiv" style = "font-size:30px;color:red;display:none;">
+        Sorry, your browser does not support JavaScript webcam access.
+        Try the latest version of
+        <a href = "http://google.com/chrome">Google Chrome</a>.
+      </div>
+
+      <div id = "permissionsDiv" style = "font-size:30px; display:none;padding-left:5px;">
+        Grant webcam access please.
+        <br>
+        <div style = "font-size:12px;">
+          If you are running Firefox, you may need to browse to
+          <b>about:config</b> and set
+          <b>media.navigator.enabled = true</b>. Alternatively, you
+          could use the latest version of
+          <a href = "http://google.com/chrome">Google Chrome</a>.
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td style = "text-align:center;height:100%;font-size:0px;" valign = "middle">
+      <canvas id = "canv" style = "margin-bottom:0px;vertical-align:middle;" onmousemove = "canv_mousemove(event);">
+        Sorry, your browser does not support Canvas. Try <a href = "http://google.com/chrome">Google Chrome</a>.
+      </canvas>
+      <div style = "display: none;margin-left:10px;vertical-align:middle;" id = "adDiv">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-7377269250431987";
+/* timewarp */
+google_ad_slot = "7556883261";
+google_ad_width = 120;
+google_ad_height = 240;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td style = "text-align:left;padding:5px;" valign = "bottom">
+      Effect:
+      <select id = "transformSelector" onchange = "transformSelector_valueChange();">
+        <option value = "T_rand">
+          Random lag
+        </option>
+        <option value = "T_shadow">
+          Shadow
+        </option>
+        <option value = "T_lagY">
+          Lag varies with y
+        </option>
+        <option value = "T_lagBrightness">
+          Lag varies with brightness
+        </option>
+        <option value = "T_lagT">
+          Lag varies with t
+        </option>
+        <option value = "T_lagDX">
+          Lag varies with (x - mouseX)
+        </option>
+        <option value = "T_lagMouseY">
+          Lag varies with mouseY
+        </option>
+        <option value = "T_colors">
+          Colors
+        </option>
+        <option value = "T_ghost">
+          Ghost
+        </option>
+        <option value = "T_custom">
+          Custom
+        </option>
+      </select>
+      <a href = "javascript:void(0);" id = "toggleOptionsLink" onclick = "toggleOptions();"></a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+      Quality factor: (Turn this down if the framerate is too low!)
+      <input type = "text" id = "resolutionFactorTxt" value = "0.35" style = "width:30px;" onkeydown = "if(event.keyCode == 13) updateResolutionFactor();">
+      <button onclick = "updateResolutionFactor();">apply</button>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+      <a href = "http://william.hoza.us">More cool stuff</a>
+      <div id = "optionsDiv">
+        <div style = "padding:3px;" class = "effectEditorContainer">
+          <textarea spellcheck = "false" style = "resize: none; width:100%;height:200px;border:0px solid black;padding:0px;white-space: nowrap;" id = "transformTxt"></textarea>
+        </div>
+        <button onclick = "transformSelector.value = 'T_custom'; setParametersAndTransform();">
+          Apply
+        </button>
+        Make sure you save your transformation code ELSEWHERE, as data
+        entered in that text field is wont to disappear.
+      </div>
+    </td>
+  </tr>
+<table>
+
+<script type="text/javascript">
+  var vid = $('vid');
+  var canv = $('canv');
+  var ctx = canv.getContext('2d');
+  var dataCanv = $('dataCanv');
+  var dataCtx = dataCanv.getContext('2d');
+  var errorDiv = $('errorDiv');
+  var permissionsDiv = $('permissionsDiv');
+  var messageTR = $('messageTR');
+  var optionsDiv = $('optionsDiv');
+  var toggleOptionsLink = $('toggleOptionsLink');
+  var transformSelector = $('transformSelector');
+  var adDiv = $('adDiv');
+  
+  var imageWidth = 0;
+  var imageHeight = 0;
+  
+  var canvWidth = 0;
+  var canvHeight = 0;
+  
+  var mouseX = 0;
+  var mouseY = 0;
+  
+  var rawVideoWidth = 0;
+  var rawVideoHeight = 0;
+  
+  var savedFrames = 100;
+  var currentTime = 0;
+  var rawVideoData = new Array();
+  
+  var resolutionFactor = 1;
+  var grabDisplayData = false;
+  var displayData;
+  
+  var parametersTxt = $('transformTxt');
+  
+  var live = false;
+  
+  var transforms = new Array();
+  
+  function avgColors(arr)
+  {
+    var retVal = new Array();
+    for(var i in arr)
+    {
+      for(var j in arr[i])
+      {
+        if(!(j in retVal)) retVal[j] = 0;
+        retVal[j] += arr[i][j];
+      }
+    }
+    
+    for(var j in retVal)
+    {
+      retVal[j] = Math.round(retVal[j] / arr.length);
+    }
+    
+    return retVal;
+  }
+  
+  function setCanvSize()
+  {
+    canv.style.display = 'none';
+  
+    canvHeight = canv.parentNode.offsetHeight; //Math.min(rawVideoHeight, canv.parentNode.offsetHeight); //document.body.clientHeight - 200;
+    canvWidth = canvHeight * rawVideoWidth/rawVideoHeight;
+    
+    canv.width = canvWidth;
+    canv.height = canvHeight;
+    
+    canv.style.display = '';
+  }
+  
+  function toggleOptions(v)
+  {
+    if(v == undefined) v = (optionsDiv.style.display == 'none');
+  
+    if(v)
+    {
+      optionsDiv.style.display = '';
+      toggleOptionsLink.innerHTML = 'Hide effect editor';
+    }
+    else
+    {
+      optionsDiv.style.display = 'none';
+      toggleOptionsLink.innerHTML = 'Effect editor';
+    }
+    
+    setCanvSize();
+  }
+  
+  function videoHandler(stream)
+  {
+    var domURL = window.URL || window.webkitURL;
+    try
+    {
+      vid.src = window.URL.createObjectURL(stream);
+    }
+    catch(err)
+    {
+      vid.mozSrcObject = stream;
+      vid.play();
+    }
+  }
+  
+  function transformSelector_valueChange()
+  {
+    if(transformSelector.value != 'T_custom')
+    {
+      setTransformTxtValue();
+    }
+    else
+    {
+      toggleOptions(true);
+    }
+  }
+  
+  function setTransformTxtValue()
+  {
+    var s = "" + transforms[transformSelector.value];
+    
+    s = s.replace(/.*\n.*\n/, '');
+    s = s.substr(0, s.length - 2);
+    s = s.replace(/ /g, String.fromCharCode(160));
+    transformTxt.value = s;
+    
+    if(live) setParametersAndTransform();
+  }
+  
+  function $(id)
+  {
+    return document.getElementById(id);
+  }
+  
+  function playbackStarted()
+  {
+    live = true;
+    adDiv.style.display = 'inline-block';
+  
+    rawVideoWidth = vid.videoWidth;
+    rawVideoHeight = vid.videoHeight;
+    
+    setTimeout(setCanvSize, 0);
+    updateResolutionFactor();
+    
+    permissionsDiv.style.display = 'none';
+    messageTR.style.display = 'none';
+
+    setParametersAndTransform();
+    timer();
+  }
+  
+  function canv_mousemove(evt)
+  {
+    mouseX = evt.clientX - canv.offsetLeft - canv.parentNode.offsetLeft;
+    mouseY = evt.clientY - canv.offsetTop - canv.parentNode.offsetLeft;
+    
+    mouseX *= imageWidth / canvWidth;
+    mouseY *= imageHeight / canvHeight;
+  }
+  
+  function timer()
+  {
+    try
+    {
+      dataCtx.drawImage(vid, 0, 0, imageWidth, imageHeight);
+      
+      currentTime++;
+      transformImage();
+      paintImage();
+      
+      setTimeout(timer, 0);
+    }
+    catch(e)
+    {
+      setTimeout(playbackStarted, 0);
+    }
+
+  }
+  
+  function paintImage()
+  {
+    ctx.drawImage(dataCanv, 0, 0, canvWidth, canvHeight);
+  }
+  
+  function setParametersAndTransform()
+  {
+    if(transformSelector.value != 'T_custom')
+    {
+      transforms[transformSelector.value]();
+    }
+    else
+    {
+      eval(transformTxt.value);
+    }
+  
+    startOver();
+  }
+  
+  function startOver()
+  {
+    currentTime = 0;
+    rawVideoData = new Array();
+  }
+  
+  function updateResolutionFactor()
+  {
+    resolutionFactor = parseFloat($('resolutionFactorTxt').value);
+    
+    imageWidth = rawVideoWidth * resolutionFactor;
+    imageHeight = rawVideoHeight * resolutionFactor;
+    
+    dataCanv.width = imageWidth;
+    dataCanv.height = imageHeight;
+    
+    startOver();
+  }
+  
+  function rawVideo(x, y, t)
+  {
+    var retVal = [0, 0, 0];
+    var i = index(x, y);
+    if(t in rawVideoData && i in rawVideoData[t])
+    {
+      retVal[0] = rawVideoData[t][i];
+      retVal[1] = rawVideoData[t][i + 1];
+      retVal[2] = rawVideoData[t][i + 2];
+    }
+    return retVal;
+  }
+  
+  function displayedFrame(x, y)
+  {
+    var newY = Math.round(y * canvHeight / imageHeight);
+    var newX = Math.round(x * canvWidth / imageWidth);
+    var index = (displayData.width * newY + newX)*4;
+    return [displayData.data[index], displayData.data[index + 1], displayData.data[index + 2]];
+  }
+  
+  function transformImage()
+  {
+    var d = dataCtx.getImageData(0, 0, imageWidth, imageHeight);
+    var i = 0;
+    
+    if(grabDisplayData)
+    {
+      displayData = ctx.getImageData(0, 0, canvWidth, canvHeight);
+    }
+    
+    rawVideoData[currentTime] = new Array();
+    if(rawVideoData.length > savedFrames)
+    {
+      delete rawVideoData[currentTime - savedFrames];
+    }
+    
+    for(i = 0; i < d.data.length; i++)
+    {
+      if(i % 4 != 3) rawVideoData[currentTime][i] = d.data[i];
+    }
+    
+    for(var y = 0; y < imageHeight; y++)
+    {
+      for(var x = 0; x < imageWidth; x++)
+      {
+        i = index(x, y);
+        var c = newColor(x, y, currentTime);
+        
+        d.data[i] = c[0];
+        d.data[i + 1] = c[1];
+        d.data[i + 2] = c[2];
+      }
+    }
+    
+    dataCtx.putImageData(d, 0, 0);
+  }
+  
+  function body_resize()
+  {
+    if(rawVideoWidth != 0 && rawVideoHeight != 0)
+    {
+      setCanvSize();
+    }
+    console.log('sup');
+  }
+  
+  function index(x, y)
+  {
+    return (imageWidth*y + x)*4;
+  }
+  
+  function errorHandler(err)
+  {
+    console.log("error: " + err);
+    
+    for(p in err)
+    {
+      console.log("  " + p + ": " + err[p]);
+    }
+  }
+  
+  function init()
+  {
+    vid.addEventListener('play', playbackStarted);
+    
+    navigator.getUserMedia_ = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    
+    if(navigator.getUserMedia_)
+    {
+      try
+      {
+        navigator.getUserMedia_({video: true, audio: false}, videoHandler, errorHandler);
+        permissionsDiv.style.display = '';
+      }
+      catch(e)
+      {
+        errorDiv.style.display = '';
+        errorDiv.innerHTML += "<br>error: " + e.messageText;
+      }
+    }
+    else
+    {
+      errorDiv.style.display = '';
+    }
+    
+    body_resize();
+    toggleOptions();
+    setTransformTxtValue();
+  }
+  
+  /* BEGIN TRANSFORMATIONS */
+  
+  /* Messy indentation so that this code can be more easily put into the
+   * text field */
+   
+transforms['T_rand'] = function()
+{
+savedFrames = 15;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var sourceT = t - Math.floor(Math.random() * savedFrames);
+
+  return rawVideo(sourceX, sourceY, sourceT);
+};
+};
+
+transforms['T_lagY'] = function()
+{
+savedFrames = 80;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var sourceT = t - Math.floor(savedFrames / imageHeight * y);
+
+  return rawVideo(sourceX, sourceY, sourceT);
+};
+};
+
+transforms['T_shadow'] = function()
+{
+savedFrames = 20;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var c1 = rawVideo(sourceX, sourceY, t);
+  var c2 = rawVideo(sourceX, sourceY, t - savedFrames + 1);
+  var retVal = [0.5*(c1[0] + c2[0]), 0.5*(c1[1] + c2[1]), 0.5*(c1[2] + c2[2])];
+
+  return retVal;
+};
+};
+
+transforms['T_lagMouseY'] = function()
+{
+savedFrames = 80;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var sourceT = t - Math.floor(savedFrames / imageHeight * mouseY);
+
+  return rawVideo(sourceX, sourceY, sourceT);
+};
+};
+
+transforms['T_lagDX'] = function()
+{
+savedFrames = 80;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var sourceT = t - Math.floor(savedFrames / imageWidth * Math.abs(x - mouseX));
+
+  return rawVideo(sourceX, sourceY, sourceT);
+};
+};
+
+transforms['T_lagT'] = function()
+{
+savedFrames = 80;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var sourceT = Math.round(t - 0.5*(savedFrames - 1) + 0.5*(savedFrames - 1)*Math.sin(2*Math.PI * t/(savedFrames-1)));
+
+  return rawVideo(sourceX, sourceY, sourceT);
+};
+};
+
+transforms['T_lagBrightness'] = function()
+{
+savedFrames = 80;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var currentRawColor = rawVideo(sourceX, sourceY, t);
+  var brightness = currentRawColor[0] + currentRawColor[1] + currentRawColor[2];
+  var sourceT = t - Math.floor(brightness / (255 * 3) * savedFrames);
+
+  return rawVideo(sourceX, sourceY, sourceT);
+};
+};
+
+transforms['T_colors'] = function()
+{
+savedFrames = 50;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var c1 = rawVideo(sourceX, sourceY, t);
+  var c2 = rawVideo(sourceX, sourceY, t - Math.floor(savedFrames / 2));
+  var c3 = rawVideo(sourceX, sourceY, t - savedFrames + 1);
+  var retVal = [c1[0], c2[1], c3[2]];
+
+  return retVal;
+};
+};
+
+transforms['T_ghost'] = function()
+{
+savedFrames = 80;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var c1 = rawVideo(sourceX, sourceY, t);
+  var c2 = rawVideo(sourceX, sourceY, t - savedFrames + 1);
+  var f = 0.5 * (Math.sin(t/20) + 1);
+  
+  return [f * c1[0] + (1 - f) * c2[0], f * c1[1] + (1 - f) * c2[1], f * c1[2] + (1 - f) * c2[2]];
+};
+};
+
+transforms['T_copies'] = function()
+{
+savedFrames = 20;
+
+newColor = function(x, y, t)
+{
+  var sourceX = imageWidth - x - 1;
+  var sourceY = y;
+  var c1 = rawVideo(sourceX, sourceY, t);
+  var c2 = rawVideo(sourceX, sourceY, t - savedFrames + 1);
+  var b1 = c1[0] + c1[1] + c1[2];
+  var b2 = c2[0] + c2[1] + c2[2];
+
+  if(b1 > b2) return c1;
+  return c2;
+};
+};
+
+  /* END TRANSFORMATIONS */
+  
+  init();
+</script>
+
+</body>
+</html>
