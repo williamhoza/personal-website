@@ -214,6 +214,7 @@
   
   function videoHandler(stream)
   {
+    console.log("videoHandler");
     var domURL = window.URL || window.webkitURL;
     try
     {
@@ -422,6 +423,7 @@
   
   function init()
   {
+    console.log("init");
     vid.addEventListener('play', playbackStarted);
     
     navigator.getUserMedia_ = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
