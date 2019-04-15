@@ -216,17 +216,17 @@
   {
     console.log("videoHandler");
     var domURL = window.URL || window.webkitURL;
-    try
-    {
+    // try
+    // {
       vid.src = window.URL.createObjectURL(stream);
       console.log("Set vid.src");
-    }
-    catch(err)
-    {
-      console.log("videoHandler error");
-      vid.mozSrcObject = stream;
-      vid.play();
-    }
+    // }
+    // catch(err)
+    // {
+    //   console.log("videoHandler error");
+    //   vid.mozSrcObject = stream;
+    //   vid.play();
+    // }
   }
   
   function transformSelector_valueChange()
