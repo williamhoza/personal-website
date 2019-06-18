@@ -1,0 +1,604 @@
+<html>
+
+<head>
+  <title>
+    orbit game
+  </title>
+</head>
+
+<body style="margin:3px;background-color:#000000;" onkeydown="body_keydown(event);" onkeyup="body_keyup(event);">
+  <div style="text-align:center;">
+    <div style="color:#FFFFFF;background-color:#800000;padding:3px;display:inline-block;text-align:left;" id="toolbar">
+      <button onclick="go_click(this);">go</button>
+      planets: <span id="planetSpan">2</span>&nbsp;&nbsp;
+      time: <span id="timeSpan">0</span>&nbsp;&nbsp;
+      score: <span id="scoreSpan">0</span>
+    </div>
+    <canvas id="canv" style="border:2px solid #800000;background-image:url(checker.png);">you need a canvas-enabled browser like chrome or firefox</canvas>
+    <canvas id="trails" style="position:absolute;" onmouseover="canvMouseIsIn=true;canv_mousemove(event);" onmouseout="canvMouseIsIn=false;" onmousedown="canv_mousedown(event);" onmouseup="canv_mouseup(event);" onmousemove="canv_mousemove(event);">
+  </div>
+  <div id="debugTxt" style="color:white;"></div>
+  
+  <script type="text/javascript">
+    var canvWidth=900;
+    var canvHeight=700;
+    var canv=$('canv');
+    var ctx=canv.getContext('2d');
+    var toolbar=$('toolbar');
+    var timeSpan=$('timeSpan');
+    var planetSpan=$('planetSpan');
+    var scoreSpan=$('scoreSpan');
+    var debugTxt=$('debugTxt');
+    var planets=new Array();
+    var playing=false;
+    var G=2;
+    var setup=new Array();
+    var n=0;
+    var trails=$('trails');
+    var trailsCtx=trails.getContext('2d');
+    
+    var canvMouseIsDown=false;
+    var shiftHeldDown=false;
+    var mx=0;
+    var my=0;
+    var mm=200;
+    var canvMouseIsIn=false;
+    var mousePlanet;
+    var grabbedPlanet;
+    var COMXV=0; //center of mass x velocity
+    var COMYV=0; //center of mass y velocity
+    var offsetX=0;
+    var offsetY=0;
+    var collided=false;
+    var collisionX=0;
+    var collisionY=0;
+    var maxDistSquared=0;
+    var maxDist=0;
+    
+    var startDate;
+    var roundedTime=0;
+    var score=0;
+    var won=false;
+    
+    function fixTrails()
+    {
+      trails.style.left=canv.offsetLeft+1;
+      trails.style.top=canv.offsetTop+1;
+    }
+    
+    function debug(s)
+    {
+      debugTxt.innerHTML+=s;
+    }
+    
+    function init()
+    {
+      //canvWidth=document.body.clientWidth-44;
+      //canvHeight=document.body.clientHeight-(44+toolbar.offsetHeight);
+      
+      maxDistSquared=canvWidth*canvWidth+canvHeight*canvHeight;
+      maxDist=Math.sqrt(maxDistSquared);
+      
+      canv.width=canvWidth;
+      canv.height=canvHeight;
+      trails.width=canvWidth;
+      trails.height=canvHeight;
+      setTimeout(fixTrails,0);
+      trailsCtx.lineWidth=1;
+      trailsCtx.strokeStyle="#606060";
+      trailsCtx.lineJoin='round';
+      trailsCtx.lineCap='round';
+      
+      toolbar.style.width=canvWidth-6+4;
+      
+      addPlanet(canvWidth/2+50,canvHeight/2+50,400);
+      addPlanet(canvWidth/2-50,canvHeight/2-50,200);
+      planets[0].xVelocity=0.5;
+      planets[0].yVelocity=-0.5;
+      planets[1].xVelocity=-1;
+      planets[1].yVelocity=1;
+      
+      ctx.fillStyle="#00FFFF";
+      ctx.strokeStyle="#00FFFF";
+      ctx.lineWidth=2;
+      ctx.lineJoin='round';
+      
+      Object.prototype.clone=function()
+      {
+        var newObj;
+        (this instanceof Array)? newObj=[] : newObj={};
+        
+        for(i in this)
+        {
+          if(i=='clone') continue;
+          if(this[i] && typeof this[i]=="object")
+          {
+            newObj[i]=this[i].clone();
+          }
+          else
+          {
+            newObj[i]=this[i];
+          }
+        }
+        
+        return newObj;
+      };
+      
+      trails.addEventListener("DOMMouseScroll", canv_mousescroll, false);
+      trails.addEventListener("mousewheel", canv_mousescroll, false);
+      
+      timer();
+    }
+    
+    function incrementScore(addend)
+    {
+      if(!won) score+=addend;
+    }
+    
+    function index(x,y)
+    {
+      return y*canvWidth*4+x*4;
+    }
+    
+    function timer()
+    {
+      ctx.clearRect(0,0,canvWidth,canvHeight);
+      
+      if(playing)
+      {
+        trailsCtx.clearRect(0,0,canvWidth,canvHeight);
+        if(!won)
+        {
+          roundedTime=Math.floor(time());
+          if(timeSpan.innerHTML!=roundedTime)
+          {
+            var roundedScore=Math.floor(score);
+            
+            timeSpan.innerHTML=roundedTime;
+            scoreSpan.innerHTML=roundedScore;
+          }
+          if(roundedTime>=10)
+          {
+            //wictory!
+            won=true;
+          }
+        }
+        
+        offsetX-=COMXV;
+        offsetY-=COMYV;
+        //ctx.translate(-COMXV,-COMYV);
+        canv.style.backgroundPosition=offsetX+"px "+offsetY+"px";
+        
+        if(!collided)
+        {
+          for(var i=0;i<planets.length;i++)
+          {
+            for(var j=i+1;j<planets.length;j++)
+            {
+              planets[i].attract(planets[j]);
+            }
+          }
+        }
+        
+        ctx.beginPath();
+        trailsCtx.beginPath();
+        for(i=0;i<planets.length;i++)
+        {
+          if(!collided) planets[i].move();
+          planets[i].draw();
+          
+          trailsCtx.moveTo(planets[i].trailArray[0].x+offsetX,planets[i].trailArray[0].y+offsetY);
+          for(j=0;j<planets[i].trailArray.length;j++)
+          {
+            trailsCtx.lineTo(planets[i].trailArray[j].x+Math.round(offsetX),planets[i].trailArray[j].y+Math.round(offsetY));
+          }
+        }
+        trailsCtx.stroke();
+        ctx.stroke();
+        
+        if(won)
+        {
+          trailsCtx.fillStyle="rgba(128,0,0,0.5)"
+          trailsCtx.font="bold 300px sans-serif";
+          trailsCtx.fillText("WIN", canvWidth/8, canvHeight/2+110);
+        }
+        
+        if(collided)
+        {
+          ctx.strokeStyle="#800000";
+          ctx.fillStyle="rgba(128,0,0,0.2)";
+          ctx.beginPath();
+          ctx.arc(collisionX+offsetX,collisionY+offsetY,100,0,2*Math.PI,true);
+          ctx.stroke();
+          ctx.fill();
+          ctx.strokeStyle="#00FFFF";
+        }
+      }
+      if(!playing)
+      {
+        if(collided) ctx.beginPath();
+        for(i=0;i<planets.length;i++)
+        {
+          planets[i].index=i;
+          planets[i].draw();
+        }
+        if(collided) ctx.stroke();
+        
+        if(canvMouseIsIn && !canvMouseIsDown && grabbedPlanet==null)
+        {
+          ctx.strokeStyle="#006060";
+          ctx.beginPath();
+          ctx.arc(mx,my,radFromMass(mm),0,2*Math.PI,true);
+          ctx.stroke();
+          ctx.strokeStyle="#00FFFF";
+        }
+      }
+      
+      if(!collided) setTimeout(timer,33);
+    }
+    
+    function radFromMass(m)
+    {
+      return Math.pow(m,1/3);
+    }
+    
+    function $(id)
+    {
+      return document.getElementById(id);
+    }
+    
+    function addPlanet(x,y,r)
+    {
+      planets[planets.length]=new Planet(x,y,r);
+      planetSpan.innerHTML=planets.length;
+      
+      return planets[planets.length-1];
+    }
+    
+    function removePlanet(P)
+    {
+      planets.splice(P.index,1);
+      
+      planetSpan.innerHTML=planets.length;
+    }
+    
+    function Planet(x,y,m)
+    {
+      this.x=x;
+      this.y=y;
+      this.lx=x;
+      this.ly=y;
+      this.m=m;
+      this.r=radFromMass(m);
+      this.index;
+      this.trailArray=new Array();
+      this.num=2;
+      
+      this.offsetX=0;
+      this.offsetY=0;
+      
+      this.xForce=0;
+      this.yForce=0;
+      this.xVelocity=0;
+      this.yVelocity=0;
+    }
+    Planet.prototype.attract=Planet_attract;
+    Planet.prototype.move=Planet_move;
+    Planet.prototype.draw=Planet_draw;
+    
+
+    function Planet_attract(P)
+    {
+      var dy=P.y-this.y;
+      var dx=P.x-this.x;
+      var angle=Math.atan2(dy,dx);
+      var distSquared=Math.pow(dy,2) + Math.pow(dx,2);
+      var dist=Math.sqrt(distSquared);
+      var attractionTotal=G*P.m*this.m/distSquared;
+      var xAttraction=attractionTotal*Math.cos(angle);
+      var yAttraction=attractionTotal*Math.sin(angle);
+      
+      incrementScore(Math.pow((maxDist-dist),2)*10/maxDistSquared);
+      
+      this.xForce+=xAttraction;
+      this.yForce+=yAttraction;
+      P.xForce-=xAttraction;
+      P.yForce-=yAttraction;
+      
+      if(dist<this.r+P.r)
+      {
+        collided=true;
+        collisionX=(this.x*this.r+P.x*P.r)/(this.r+P.r);
+        collisionY=(this.y*this.r+P.y*P.r)/(this.r+P.r);
+        
+        
+        
+        scoreSpan.innerHTML=Math.floor(score);
+        timeSpan.innerHTML=time();
+      }
+    }
+    
+    function time()
+    {
+      var curDate=new Date();
+      return (curDate.getTime()-startDate.getTime())/1000;
+    }
+    
+    function Planet_move()
+    {
+      this.xVelocity+=this.xForce/this.m;
+      this.yVelocity+=this.yForce/this.m;
+      
+      this.xForce=0;
+      this.yForce=0;
+      this.num++;
+      
+      this.lx=this.x;
+      this.ly=this.y;
+      
+      this.x+=this.xVelocity;
+      this.y+=this.yVelocity;
+      
+      if(this.num % 3 == 0 || Math.abs(this.x-this.lx) > 4 || Math.abs(this.y-this.ly) > 4)
+      {
+        var index=this.trailArray.length;
+        this.trailArray[index]=new Object();
+        this.trailArray[index].x=this.x;
+        this.trailArray[index].y=this.y;
+      }
+      
+      //distance from center
+      var dx=this.x-(canvWidth/2-offsetX);
+      var dy=this.y-(canvHeight/2-offsetY);
+      var dist=Math.sqrt(dx*dx+dy*dy);
+      incrementScore(Math.pow(dist,1/3)*this.r*Math.pow(1.1,planets.length)/10);
+      
+      if(this.x+offsetX<this.r || this.x+offsetX>canvWidth-this.r || this.y+offsetY<this.r || this.y+offsetY>canvHeight-this.r)
+      {
+        collided=true;
+        collisionX=this.x;
+        collisionY=this.y;
+      }
+    }
+    
+    function Planet_draw()
+    {
+      var posX=this.x+offsetX;
+      var posY=this.y+offsetY;
+      var angle=Math.atan2(this.yVelocity,this.xVelocity);
+      
+      if(!playing) ctx.beginPath();
+      
+      ctx.moveTo(posX+this.r,posY);
+      ctx.arc(posX,posY,this.r,0,2*Math.PI,true);
+      ctx.moveTo(posX,posY);
+      ctx.lineTo(posX+this.xVelocity*10,posY+this.yVelocity*10);
+      ctx.lineTo(posX+this.xVelocity*10+Math.cos(angle+Math.PI*.8)*5,posY+this.yVelocity*10+Math.sin(angle+Math.PI*.8)*5);
+      ctx.moveTo(posX+this.xVelocity*10,posY+this.yVelocity*10);
+      ctx.lineTo(posX+this.xVelocity*10+Math.cos(angle+Math.PI*1.2)*5,posY+this.yVelocity*10+Math.sin(angle+Math.PI*1.2)*5);
+      
+      if(!playing) ctx.stroke();
+      
+      if(!playing)
+      {
+        ctx.fillStyle="rgba(0,255,255,0.3)";
+        if(this.hoveredOver)
+        {
+          ctx.beginPath();
+          ctx.moveTo(posX+this.r+5,posY);
+          ctx.arc(posX,posY,this.r+5,0,2*Math.PI,true);
+          ctx.fill();
+        }
+        if(this.velocityHovered)
+        {
+          var dist=10*Math.sqrt(Math.pow(this.xVelocity,2)+Math.pow(this.yVelocity,2))-3;
+          
+          ctx.beginPath();
+          ctx.moveTo(posX+dist*Math.cos(angle)+10,posY+dist*Math.sin(angle))
+          ctx.arc(posX+dist*Math.cos(angle),posY+dist*Math.sin(angle),10,0,Math.PI*2,true);
+          ctx.fill();
+        }
+      }
+    }
+    
+    function go_click(me)
+    {
+      playing=!playing;
+      if(playing)
+      {
+        me.innerHTML="reset";
+        setup=planets.clone();
+        getCOMVelocity();
+        ctx.save();
+        startDate=new Date();
+        n=30;
+      }
+      else
+      {
+        me.innerHTML="go";
+        timeSpan.innerHTML=time();
+        scoreSpan.innerHTML=Math.floor(score);
+        
+        offsetX=0;
+        offsetY=0;
+        if(collided)
+        {
+          collided=false;
+          timer();
+        }
+        ctx.restore();
+        canv.style.backgroundPosition="";
+        
+        trailsCtx.clearRect(0,0,canvWidth,canvHeight);
+        trailsCtx.beginPath();
+        for(var i=0;i<planets.length;i++)
+        {
+          trailsCtx.moveTo(planets[i].trailArray[0].x+offsetX,planets[i].trailArray[0].y+offsetY);
+          for(j=0;j<planets[i].trailArray.length;j++)
+          {
+            trailsCtx.lineTo(planets[i].trailArray[j].x+Math.round(offsetX),planets[i].trailArray[j].y+Math.round(offsetY));
+          }
+        }
+        trailsCtx.stroke();
+        
+        won=false;
+        score=0;
+        planets=setup.clone();
+      }
+    }
+    
+    function getCOMVelocity()
+    {
+      var COMXP=0; //center of mass x momentum
+      var COMYP=0; //center of mass y momentum
+      var totalM=0; //total mass of the system
+      
+      for(var i=0;i<planets.length;i++)
+      {
+        COMXP+=planets[i].m*planets[i].xVelocity;
+        COMYP+=planets[i].m*planets[i].yVelocity;
+        totalM+=planets[i].m;
+      }
+      
+      COMXV=COMXP/totalM;
+      COMYV=COMYP/totalM;
+    }
+    
+    function canv_mousedown(evt)
+    {
+      if(!playing)
+      {
+        canvMouseIsDown=true;
+        getMCoords(evt);
+        
+        if(grabbedPlanet==null)
+        {
+          mousePlanet=addPlanet(mx,my,mm);
+          mousePlanet.velocityHovered=true;
+          grabbedPlanet=mousePlanet;
+        }
+        else
+        {
+          if(!shiftHeldDown)
+          {
+            if(grabbedPlanet.hoveredOver)
+            {
+              grabbedPlanet.offsetX=mx-grabbedPlanet.x;
+              grabbedPlanet.offsetY=my-grabbedPlanet.y;
+            }
+            else
+            {
+              grabbedPlanet.offsetX=mx-(grabbedPlanet.x+10*grabbedPlanet.xVelocity);
+              grabbedPlanet.offsetY=my-(grabbedPlanet.y+10*grabbedPlanet.yVelocity);
+            }
+          }
+          else
+          {
+            removePlanet(grabbedPlanet);
+            grabbedPlanet=null;
+          }
+        }
+      }
+    }
+    
+    function canv_mouseup(evt)
+    {
+      canvMouseIsDown=false;
+      mousePlanet=null;
+    }
+    
+    function canv_mousescroll(evt)
+    {
+      var wheelData=evt.detail;
+      
+      if(grabbedPlanet==null)
+      {
+        mm-=evt.detail*100;
+        if(mm<10) mm=10;
+        if(mm>3000) mm=3000;
+      }
+      else
+      {
+        grabbedPlanet.m-=evt.detail*100;
+        if(grabbedPlanet.m < 10) grabbedPlanet.m=10;
+        if(grabbedPlanet.m > 3000) grabbedPlanet.m=3000;
+        
+        grabbedPlanet.r=radFromMass(grabbedPlanet.m);
+      }
+    }
+    
+    function body_keydown(evt)
+    {
+      if(evt.keyCode==16)
+      {
+        shiftHeldDown=true;
+      }
+    }
+    
+    function body_keyup(evt)
+    {
+      if(evt.keyCode==16)
+      {
+        shiftHeldDown=false;
+      }
+    }
+    
+    function getMCoords(evt)
+    {
+      mx=evt.clientX-canv.offsetLeft;
+      my=evt.clientY-canv.offsetTop;
+    }
+    
+    function canv_mousemove(evt)
+    {
+      if(!playing)
+      {
+        getMCoords(evt);
+        if(canvMouseIsDown)
+        {
+          if(grabbedPlanet!=null)
+          {
+            if(grabbedPlanet.velocityHovered)
+            {
+              grabbedPlanet.xVelocity=(mx-grabbedPlanet.offsetX-grabbedPlanet.x)/10;
+              grabbedPlanet.yVelocity=(my-grabbedPlanet.offsetY-grabbedPlanet.y)/10;
+            }
+            else
+            {
+              grabbedPlanet.x=mx-grabbedPlanet.offsetX;
+              grabbedPlanet.y=my-grabbedPlanet.offsetY;
+            }
+          }
+        }
+        else
+        {
+          var angle=0;
+          grabbedPlanet=null;
+          for(var i=0;i<planets.length;i++)
+          {
+            planets[i].hoveredOver=false;
+            planets[i].velocityHovered=false;
+            angle=Math.atan2(planets[i].yVelocity,planets[i].xVelocity);
+            dist=10*Math.sqrt(Math.pow(planets[i].xVelocity,2)+Math.pow(planets[i].yVelocity,2))-3;
+            if(Math.abs(planets[i].x+dist*Math.cos(angle)-mx)<10 && Math.abs(planets[i].y+dist*Math.sin(angle)-my)<10)
+            {
+              planets[i].velocityHovered=true;
+              grabbedPlanet=planets[i];
+              break;
+            }
+            else if(Math.abs(planets[i].x-mx)<planets[i].r*1.5 && Math.abs(planets[i].y-my)<planets[i].r*1.5)
+            {
+              planets[i].hoveredOver=true;
+              grabbedPlanet=planets[i];
+              break;
+            }
+          }
+        }
+      }
+    }
+    
+    init();
+  </script>
+</body>
+
+</html>

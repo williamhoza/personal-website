@@ -1,0 +1,250 @@
+<html>
+  <body style="margin:0px;">
+    <table cellpadding="10px">
+      <tr>
+        <td rowspan="2">
+          <canvas id="canv" width="500px" height="500px" style="border:1px solid black;" onmousedown="canv_mousedown(event);" onmouseup="canv_mouseup(event);" onmousemove="canv_mousemove(event);"></canvas>
+        </td>
+        <td>
+          <canvas id="mom" width="250px" height="250px" style="border:1px solid black;"></canvas>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <canvas id="energy" width="250px" height="250px" style="border:1px solid black;"></canvas>
+        </td>
+      </tr>
+    </table>
+    <br>
+    &nbsp;&nbsp;&nbsp;x momentum lost since last planet addition: <span id="xMomDiv"></span><br>
+    &nbsp;&nbsp;&nbsp;y momentum lost since last planet addition: <span id="yMomDiv"></span><br>
+    <br> 
+    &nbsp;&nbsp;&nbsp;total kinetic energy: <span id="keDiv"></span><br>
+    &nbsp;&nbsp;&nbsp;total graviational potential energy: <span id="gpeDiv"></span><br>
+    &nbsp;&nbsp;&nbsp;total energy: <span id="energyDiv"></span>
+    <script type="text/javascript">
+      var canv=$('canv');
+      var mom=$('mom');
+      var energy=$('energy');
+      var planets=new Array();
+      var ctx=canv.getContext('2d');
+      var momCtx=mom.getContext('2d');
+      var energyCtx=energy.getContext('2d');
+      var g=1;
+      var curX=0;
+      var curY=0;
+      var xMom=0;
+      var yMom=0;
+      var xMomDiv=$('xMomDiv');
+      var yMomDiv=$('yMomDiv');
+      
+      var keDiv=$('keDiv');
+      var gpeDiv=$('gpeDiv');
+      var energyDiv=$('energyDiv');
+      var n=0;
+      var ke=0;
+      var gpe=0;
+      
+      var currentPlanet;
+      var canvMouseIsDown=false;
+      
+      momCtx.lineWidth=2;
+      momCtx.lineJoin='round';
+      
+      function planet(x,y,m,xSpeed,ySpeed)
+      {
+        this.x=x;
+        this.y=y;
+        this.m=m;
+        this.r=Math.pow(this.m,1/3)*2;
+        this.forceX=0;
+        this.forceY=0;
+        this.xSpeed=xSpeed;
+        this.ySpeed=ySpeed;
+      }
+      planet.prototype.attract=planet_attract;
+      planet.prototype.move=planet_move;
+      planet.prototype.draw=planet_draw;
+      
+      function canv_mousedown(evt)
+      {
+        var canvX=evt.clientX-canv.offsetLeft;
+        var canvY=evt.clientY-canv.offsetTop;
+        
+        canvMouseIsDown=true;
+        planets[planets.length]=new planet(canvX,canvY,Math.random()*80+20,0,0);
+        currentPlanet=planets[planets.length-1];
+      }
+      
+      function canv_mouseup(evt)
+      {
+        currentPlanet=null;
+        canvMouseIsDown=false;
+        resetTotalMomentum();
+      }
+      
+      function canv_mousemove(evt)
+      {
+        if(canvMouseIsDown)
+        {
+          var canvX=evt.clientX-canv.offsetLeft;
+          var canvY=evt.clientY-canv.offsetTop;
+          
+          var dx=canvX-currentPlanet.x;
+          var dy=canvY-currentPlanet.y;
+          
+          currentPlanet.xSpeed=dx/currentPlanet.m;
+          currentPlanet.ySpeed=dy/currentPlanet.m;
+        }
+      }
+      
+      function planet_attract(i)
+      {
+        var dy=planets[i].y-this.y;
+        var dx=planets[i].x-this.x;
+        var angle=Math.atan2(dy,dx);
+        var distSquared=dy*dy+dx*dx;
+        
+        var forceTotal=g*this.m*planets[i].m/distSquared;
+        var forceTotalX=forceTotal*Math.cos(angle);
+        var forceTotalY=forceTotal*Math.sin(angle);
+        this.forceX+=forceTotalX;
+        this.forceY+=forceTotalY;
+        planets[i].forceX-=forceTotalX;
+        planets[i].forceY-=forceTotalY;
+      }
+      
+      function planet_move()
+      {
+        this.xSpeed+=this.forceX/this.m;
+        this.ySpeed+=this.forceY/this.m;
+        this.forceX=0;
+        this.forceY=0;
+        
+        this.x+=this.xSpeed;
+        this.y+=this.ySpeed;
+      }
+      
+      function planet_draw()
+      {
+        ctx.lineWidth=2;
+        ctx.strokeStyle='#000000';
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.r,0,2*Math.PI,true);
+        ctx.moveTo(this.x,this.y);
+        ctx.lineTo(this.x+this.xSpeed*this.m,this.y+this.ySpeed*this.m);
+        ctx.stroke();
+        
+        curX+=this.xSpeed*this.m;
+        curY+=this.ySpeed*this.m;
+        momCtx.lineTo(curX,curY);
+      }
+      
+      function resetTotalMomentum()
+      {
+        xMom=0;
+        yMom=0;
+        for(var i=0;i<planets.length;i++)
+        {
+          xMom+=planets[i].xSpeed*planets[i].m;
+          yMom+=planets[i].ySpeed*planets[i].m;
+        }
+      }
+      
+      function init()
+      {
+        planets[0]=new planet(300,400,50,0,0);
+        planets[1]=new planet(400,400,25,0,0.5);
+        planets[2]=new planet(400,300,40,-0.3,-0.53);
+        
+        //planets[0]=new planet(150,250,50,0,0);
+        //planets[1]=new planet(400,250,50,0,0);
+
+        resetTotalMomentum();
+        
+        timer();
+      }
+      
+      function timer()
+      {
+        ctx.clearRect(0,0,500,500);
+        momCtx.clearRect(0,0,250,250);
+        energyCtx.clearRect(0,0,250,250);
+        
+        ke=0;
+        gpe=0;
+        
+        for(var i=0;i<planets.length;i++)
+        {
+          for(var j=i+1;j<planets.length;j++)
+          {
+            planets[i].attract(j);
+          }
+        }
+        
+        curX=125;
+        curY=125;
+        momCtx.beginPath();
+        momCtx.moveTo(curX,curY);
+        
+        for(var i=0;i<planets.length;i++)
+        {
+          if(currentPlanet!=planets[i])
+          {
+            planets[i].move();
+          }
+          else
+          {
+            planets[i].forceX=0;
+            planets[i].forceY=0;
+          }
+          planets[i].draw();
+          
+          ke+=1/2*planets[i].m*(Math.pow(planets[i].xSpeed,2)+Math.pow(planets[i].ySpeed,2))
+          for(var j=i+1;j<planets.length;j++)
+          {
+            var dy=planets[j].y-planets[i].y;
+            var dx=planets[j].x-planets[i].x;
+            gpe-=g*planets[i].m*planets[j].m/Math.sqrt(dy*dy+dx*dx);
+          }
+        }
+        
+        momCtx.stroke();
+        momCtx.strokeStyle='#FF0000';
+        momCtx.beginPath();
+        momCtx.moveTo(curX,curY);
+        momCtx.lineTo(125,125);
+        momCtx.stroke();
+        momCtx.strokeStyle='#000000';
+        
+        n++;
+        if(n>100 && !canvMouseIsDown)
+        {
+          xMomDiv.innerHTML=xMom-(curX-125);
+          yMomDiv.innerHTML=yMom-(curY-125);
+          
+          keDiv.innerHTML=ke;
+          gpeDiv.innerHTML=gpe;
+          energyDiv.innerHTML=ke+gpe;
+          
+          n=0;
+        }
+
+        energyCtx.beginPath();
+        energyCtx.fillStyle="#FF0000";
+        energyCtx.fillRect(100,50,ke,75);
+        energyCtx.fillStyle="#00FF00";
+        energyCtx.fillRect(100+ke+gpe,125,-gpe,75);
+        
+        setTimeout(timer,15);
+      }
+    
+      function $(id)
+      {
+        return document.getElementById(id);
+      }
+      
+      init();
+    </script>
+  </body>
+</html>
