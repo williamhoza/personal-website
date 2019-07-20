@@ -125,14 +125,16 @@
     <div class="section">
       <b>Research papers:</b> (Expand for more info)<br /><br />
       
-      <a href="https://eccc.weizmann.ac.il/report/2018/183/">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</a>
+      <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</a>
       <details>
-        <summary>With Dean Doron and Pooya Hatami. To appear in CCC 2019.</summary>
+        <summary>With Dean Doron and Pooya Hatami. In CCC 2019.</summary>
         
         <div class="details">
           <u>Not-so-abstract</u>: A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits (x<sub>1</sub>, x<sub>2</sub>, x<sub>3</sub>, ...) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a statement that says something like
           <div style="margin:20px;">((x<sub>3</sub> = 0 AND x<sub>7</sub> = 1 AND x<sub>2</sub> = 1) OR (x<sub>6</sub> = 1 AND (x<sub>5</sub> = 0 OR x<sub>1</sub> = 0) AND ...)).</div>
           Each variable is only allowed to appear one time, and the parentheses are only allowed to be nested to a depth of, say, 100. For every statement of that form, the probability that the statement evaluates to true when you plug in the output of our pseudorandom generator is roughly the same as the probability that the statement evaluates to true when you plug in truly random bits. Our pseudorandom generator is "near-optimal", i.e., our algorithm makes very few coin tosses.
+          <br><br>
+          <u>Versions</u>: The <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">CCC proceedings version</a> has some minor presentational improvements compared to the <a href="https://eccc.weizmann.ac.il/report/2018/183/">ECCC version</a>.
           <br><br>
           <u>Presentation materials available online</u>:
           <ul>
@@ -140,6 +142,9 @@
               <a href="http://www.birs.ca/events/2019/5-day-workshops/19w5088/videos/watch/201907081331-Hoza.html">[video]</a>
               <a href="/paper-resources/DHH/birs-slides.pdf">[slides]</a> -- from
               my presentation at BIRS workshop 19w5088 (July 2019). I used very similar slides for my presentation for my "Research Preparation Exam" (May 2019), part of the UT CS PhD program.
+            </li>
+            <li>
+              <a href="/paper-resources/DHH/ccc-slides.pdf">[slides]</a> -- from my presentation at CCC (July 2019).
             </li>
           </ul>
         </div>
@@ -179,9 +184,9 @@
         </div>
       </details>
       
-      <a href="https://arxiv.org/abs/1711.00565">Typically-Correct Derandomization for Small Time and Space</a>
+      <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10831/">Typically-Correct Derandomization for Small Time and Space</a>
       <details>
-        <summary>To appear in CCC 2019.</summary>
+        <summary>In CCC 2019.</summary>
         
         <div class="details">
           <u>Not-so-abstract</u>: A "randomized" algorithm tosses 
@@ -198,8 +203,14 @@
           the deterministic algorithm might give the wrong answer 
           on a tiny fraction of inputs.
           <br /><br />
+          <u>Versions</u>: The <a href="https://arxiv.org/abs/1711.00565">arXiv version</a> and the <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10831/">CCC proceedings version</a> are the same except for formatting.
+          <br /><br />
           <u>Presentation materials available online</u>:
           <ul>
+            <li>
+              <a href="https://www.youtube.com/watch?v=PxiCmJG4h5E">[video]</a>
+              <a href="/paper-resources/Hoz2/ccc-slides.pdf">[slides]</a> -- from my presentation at CCC (July 2019)
+            </li>
             <li>
               <a href="paper-resources/Hoz2/israel-slides.pdf">[slides]</a> -- from my presentation at HUJI's Theory of Computer Science Seminar (March 2018). I used very similar slides for my presentations at Weizmann Institute's Foundations of Computer Science Seminar (March 2018) and TAU's Theory of Computation Seminar (March 2018).
             </li>
