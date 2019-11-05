@@ -125,6 +125,19 @@
     <div class="section">
       <b>Research papers:</b> (Expand for more info)<br /><br />
       
+      <a href="https://eccc.weizmann.ac.il/report/2019/149/">Log-Seed Pseudorandom Generators via Iterated Restrictions</a>
+      <details>
+        <summary>With Dean Doron and Pooya Hatami. Manuscript, 2019.</summary>
+        
+        <div class="details">
+          <u>Not-so-abstract</u>: A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits (x<sub>1</sub>, x<sub>2</sub>, x<sub>3</sub>, ...) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a polynomial such as
+          <div style="margin:20px;">
+            y = x<sub>1</sub>x<sub>3</sub> + x<sub>2</sub>x<sub>7</sub>x<sub>8</sub> + x<sub>4</sub>x<sub>5</sub> + ...
+          </div>
+          Each variable is only allowed to appear one time (it's "read-once"). The arithmetic is mod 2 (+ is really XOR, and y is either 0 or 1). For every polynomial y of that form, the expected value of y when you plug in the output of our pseudorandom generator is approximately the same (say, to within plus or minus 0.01) as it is when you plug in truly random bits. For a fixed error value like 0.01, our pseudorandom generator is *optimal*, i.e., it makes essentially the smallest possible number of coin tosses.
+        </div>
+      </details>
+      
       <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</a>
       <details>
         <summary>With Dean Doron and Pooya Hatami. In CCC 2019.</summary>
