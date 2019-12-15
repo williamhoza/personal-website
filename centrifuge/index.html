@@ -1,0 +1,387 @@
+<html>
+
+<head>
+  <title>
+    Space cylinder physics
+  </title>
+  
+  <style>
+    INPUT
+    {
+      width:50px;
+      border:1px solid black;
+    }
+    BODY,TABLE
+    {
+      font-size:10pt;
+    }
+  </style>
+  
+  <meta property="og:title" content="Centrifuge" />
+  <meta property="og:description" content="Rotating reference frames, oh my" />
+  <meta property="og:image" content="http://william.hoza.us/images/centrifuge-small.png" />
+</head>
+
+<body onkeydown="body_keydown(event);" onkeyup="body_keyup(event);" style="margin:0px;">
+  <canvas id="trails" width="1014px" height="450px" style="background-color:#000000;">
+  </canvas>
+  <canvas id="canv" width="1014px" height="450px" style="position:absolute;left:0;top:0;">
+    You need a canvas-enabled browser, such as Google Chrome.
+  </canvas>
+  <div style="padding:10px;">
+    <table style="text-align:right;" width="100%" cellspacing="0px" cellpadding="0px">
+      <tr>
+        <td style="text-align:left;border-bottom:1px solid black;padding-right:20px;padding-bottom:5px;" valign="top">
+          Above are two views of the cross section of a
+          <a href="http://en.wikipedia.org/wiki/Island_Three">cylindrical spaceship</a>
+          that is spinning to
+          <a href="http://en.wikipedia.org/wiki/Artificial_gravity#Rotation">simulate gravity</a> for those within.
+          Inside, there is no air and a single jumping dot.
+        </td>
+        <td colspan="2" style="padding-bottom:5px;border-bottom:1px solid black;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-7377269250431987";
+/* 234x60, created 8/15/11 */
+google_ad_slot = "7141998022";
+google_ad_width = 234;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align:left;border-bottom:1px solid black;padding-right:20px;padding-top:5px;" valign="top" rowspan="3">
+          On the left is a rotating reference frame (it's from the viewpoint of
+          someone who is stationary relative to the cylinder.) On the right is
+          an inertial reference frame (it's from the viewpoint of someone who is
+          not accelerating -- perhaps someone outside of the cylinder.)
+        </td>
+        <td colspan="2" style="white-space:nowrap;padding-bottom:5px;padding-top:5px;text-align:right;">
+          <input type="checkbox" name="bounce" style="width:20px;" id="bounce" onkeyup="prevent=true;setTimeout('prevent=false',0);" onclick="if(prevent) event.preventDefault();"><label for="bounce">bounce (good for making cool pictures!)</label>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-bottom:5px;padding-right:5px;">
+          trail erase speed:
+        </td>
+        <td style="padding-bottom:5px;">
+          <input type="text" id="erase" value="50" onkeyup="updateEraseSpeed();" onblur="updateEraseSpeed();" onclick="updateEraseSpeed();">
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-bottom:5px;padding-right:5px;border-bottom:1px solid black;">
+          angular velocity of cylindar:
+        </td>
+        <td style="padding-bottom:5px;border-bottom:1px solid black;">
+          <input type="text" id="angVelocityTxt" value="20" onkeyup="updateAngVelocity();" onblur="updateAngVelocity();" onclick="updateAngVelocity();">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="text-align:left;padding-top:5px;padding-right:20px;" valign="top">
+          Use the arrow keys to adjust the impulse vector, or just input
+          values on the right. Press space bar to apply the impulse. Use
+          <a href="http://google.com/chrome">Google Chrome</a> for best
+          results. Once you think you've gotten the hang of how the dot
+          moves, try playing <a href="volleyball">Centrifuge Volleyball</a>!
+          More&nbsp;cool&nbsp;stuff:&nbsp;<a href="http://william.hoza.us">http://william.hoza.us</a>
+        </td>
+        <td style="padding-right:5px;padding-bottom:5px;padding-top:5px;">
+          impulse magnitude:
+        </td>
+        <td style="width:0px;padding-bottom:5px;padding-top:5px;">
+          <input type="text" id="impulseMag" onkeydown="event.stopPropagation();" onkeyup="updateImpulse();" onblur="updateImpulse();" onclick="updateImpulse();" />
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-right:5px;white-space:nowrap;">
+          impulse angle (rad, 0 = toward cylinder's center):
+        </td>
+        <td style="width:0px;">
+          <input type="text" id="impulseAng" onkeydown="event.stopPropagation();" onkeyup="updateImpulse();" onblur="updateImpulse();" onclick="updateImpulse();" />
+        </td>
+      </tr>
+    </table>
+  </div>  
+  
+  <script type="text/javascript">
+    var canv=$('canv');
+    var ctx=canv.getContext('2d');
+    var trails=$('trails');
+    var trailsCtx=trails.getContext('2d');
+    var cylinderRadius=200;
+    var cylinderAngle=0; 
+    var angVelocity=0.02; //velocity at which the cylinder rotates (rate of change of cylinderAngle)
+    var Dot1;
+    var num=0;
+    var prevent=false;
+    var trailEraseSpeed=100;
+    
+    var KEY_LEFT=37;
+    var KEY_RIGHT=39;
+    var KEY_UP=38;
+    var KEY_DOWN=40;
+    var KEY_SPACE=32;
+    
+    var leftPressed=false;
+    var rightPressed=false;
+    var upPressed=false;
+    var downPressed=false;
+    
+    function updateAngVelocity()
+    {
+      angVelocity=parseFloat($('angVelocityTxt').value)/1000;
+      if(isNaN(angVelocity)) angVelocity=0.02;
+    }
+    
+    function updateEraseSpeed()
+    {
+      trailEraseSpeed=Math.floor(5000/parseFloat($('erase').value));
+      if(isNaN(trailEraseSpeed)) trailEraseSpeed=100;
+      if(trailEraseSpeed==0) trailEraseSpeed=1;
+    }
+    
+    function Dot()
+    {
+      this.x=0;
+      this.y=cylinderRadius;
+      this.xVelocity=0;
+      this.yVelocity=0;
+      this.jumpAngle=0;
+      this.jumpPower=4;
+      this.grounded=true;
+      this.angle=Math.atan2(this.y,this.x);
+    }
+    Dot.prototype.move=function()
+    {
+      if(!this.grounded)
+      {
+        this.x+=this.xVelocity;
+        this.y+=this.yVelocity;
+        if(Math.sqrt(Math.pow(this.x,2)+Math.pow(this.y,2)) >= cylinderRadius)
+        {
+          this.grounded=true;
+          this.angle=Math.atan2(this.y,this.x) - cylinderAngle;
+          this.x=cylinderRadius*Math.cos(this.angle + cylinderAngle);
+          this.y=cylinderRadius*Math.sin(this.angle + cylinderAngle);
+          if($('bounce').checked)
+          {
+            this.bounce();
+          }
+        }
+      }
+      
+      if(this.grounded)
+      {
+        //retain angle! (friction)
+        this.x=cylinderRadius*Math.cos(this.angle + cylinderAngle);
+        this.y=cylinderRadius*Math.sin(this.angle + cylinderAngle);
+      }
+    }
+    Dot.prototype.draw=function()
+    {
+      ctx.beginPath();
+      ctx.fillStyle="#FFFFFF";
+      ctx.moveTo(this.x+5,this.y);
+      ctx.arc(this.x,this.y,5,0,2*Math.PI,false);
+      ctx.fill();
+      
+      if(this.grounded)
+      {
+        ctx.strokeStyle="#FFFFFF";
+        ctx.beginPath();
+        ctx.lineWidth=1;
+        ctx.moveTo(this.x,this.y);
+        
+        var arrowAngle=this.angle + cylinderAngle + this.jumpAngle;
+        var arrowPointX=this.x+this.jumpPower*-5*Math.cos(arrowAngle);
+        var arrowPointY=this.y+this.jumpPower*-5*Math.sin(arrowAngle);
+        
+        ctx.lineTo(arrowPointX,arrowPointY);
+        ctx.lineTo(arrowPointX+5*Math.cos(arrowAngle+0.6), arrowPointY+5*Math.sin(arrowAngle+0.6));
+        ctx.moveTo(arrowPointX,arrowPointY);
+        ctx.lineTo(arrowPointX+5*Math.cos(arrowAngle-0.6), arrowPointY+5*Math.sin(arrowAngle-0.6));
+        ctx.stroke();
+      }
+      else
+      {
+        trailsCtx.beginPath();
+        trailsCtx.fillStyle="rgba(255,255,255,0.5)";
+        trailsCtx.moveTo(this.x+3,this.y);
+        trailsCtx.arc(this.x,this.y,3,0,2*Math.PI,false);
+        trailsCtx.fill();
+      }
+    }
+    Dot.prototype.bounce=function()
+    {
+      updateTexts();
+      
+      Dot1.grounded=false;
+      
+      var speed=cylinderRadius*angVelocity;
+      Dot1.xVelocity=speed*Math.cos(cylinderAngle+Dot1.angle+Math.PI/2);
+      Dot1.yVelocity=speed*Math.sin(cylinderAngle+Dot1.angle+Math.PI/2);
+      
+      var extraSpeed=-Dot1.jumpPower;
+      Dot1.xVelocity+=extraSpeed*Math.cos(cylinderAngle+Dot1.angle+Dot1.jumpAngle);
+      Dot1.yVelocity+=extraSpeed*Math.sin(cylinderAngle+Dot1.angle+Dot1.jumpAngle);
+      
+      document.location="./#" + Math.round(Dot1.jumpPower*10000)/10000 + "&" + Math.round(Dot1.jumpAngle*10000)/10000;
+    }
+    
+    function body_keydown(evt)
+    {
+      if(evt.keyCode==KEY_LEFT) leftPressed=true;
+      if(evt.keyCode==KEY_RIGHT) rightPressed=true;
+      if(evt.keyCode==KEY_UP) upPressed=true;
+      if(evt.keyCode==KEY_DOWN) downPressed=true;
+      if(evt.keyCode==KEY_SPACE && Dot1.grounded)
+      {
+        Dot1.bounce();
+        evt.preventDefault();
+      }
+      
+      if(leftPressed || rightPressed || upPressed || downPressed) evt.preventDefault();
+    }
+    
+    function body_keyup(evt)
+    {
+      if(evt.keyCode==KEY_LEFT) leftPressed=false;
+      if(evt.keyCode==KEY_RIGHT) rightPressed=false;
+      if(evt.keyCode==KEY_UP) upPressed=false;
+      if(evt.keyCode==KEY_DOWN) downPressed=false;
+    }
+    
+    function init()
+    {      
+      if(canv.offsetWidth < document.body.clientWidth)
+      {
+        canv.width=document.body.clientWidth;
+        trails.width=document.body.clientWidth;
+      }
+      
+      Dot1=new Dot();
+      
+      var s=document.location + "";
+      var q=s.indexOf('#');
+      if(q!=-1)
+      {
+        var info=s.substr(q+1);
+        var chunks=info.split("&");
+        
+        Dot1.jumpPower=parseFloat(chunks[0]);
+        Dot1.jumpAngle=parseFloat(chunks[1]);
+      }
+      
+      updateTexts();
+      $('erase').value=5000/trailEraseSpeed
+      $('angVelocityTxt').value=angVelocity*1000;
+      
+      ctx.translate(canv.offsetWidth*3/4,canv.offsetHeight/2); //move the origin
+      trailsCtx.translate(canv.offsetWidth*3/4,canv.offsetHeight/2);
+      
+      timer();
+    }
+    
+    function timer()
+    {
+      cylinderAngle+=angVelocity;
+      
+      Dot1.move();
+
+      ctx.translate(-canv.offsetWidth/2,0); //move the origin
+      trailsCtx.translate(-canv.offsetWidth/2,0);
+      ctx.rotate(-cylinderAngle);
+      trailsCtx.rotate(-cylinderAngle);
+      drawStuff();
+
+      ctx.rotate(cylinderAngle);
+      trailsCtx.rotate(cylinderAngle);
+      ctx.translate(canv.offsetWidth/2,0); //move the origin
+      trailsCtx.translate(canv.offsetWidth/2,0);
+      drawStuff();
+      
+      num++;
+      if(num % trailEraseSpeed == 0)
+      {
+        trailsCtx.fillStyle="rgba(0,0,0,0.15)";
+        trailsCtx.fillRect(-canv.offsetWidth*3/4,-canv.offsetHeight/2,canv.offsetWidth,canv.offsetHeight);
+      }
+      
+      if(leftPressed) Dot1.jumpAngle-=0.05;
+      if(rightPressed) Dot1.jumpAngle+=0.05;
+      if(upPressed) Dot1.jumpPower+=0.2;
+      if(downPressed) Dot1.jumpPower-=0.2;
+      if(leftPressed || rightPressed || upPressed || downPressed)
+      {
+        fixBounds();
+        updateTexts();
+      }
+      
+      setTimeout(timer,30);
+    }
+    
+    function updateImpulse()
+    {
+      Dot1.jumpPower=parseFloat($('impulseMag').value);
+      Dot1.jumpAngle=parseFloat($('impulseAng').value);
+      if(isNaN(Dot1.jumpPower)) Dot1.jumpPower=4;
+      if(isNaN(Dot1.jumpAngle)) Dot1.jumpAngle=0;
+      
+      fixBounds();
+    }
+    function updateTexts()
+    {
+      $('impulseMag').value=Dot1.jumpPower;
+      $('impulseAng').value=Dot1.jumpAngle;
+    }
+    
+    function fixBounds()
+    {
+      if(Dot1.jumpPower>18)Dot1.jumpPower=18;
+      if(Dot1.jumpPower<0) Dot1.jumpPower=0;
+      if(Dot1.jumpAngle<-(Math.PI/2-0.01)) Dot1.jumpAngle=-(Math.PI/2-0.01);
+      if(Dot1.jumpAngle>(Math.PI/2-0.01)) Dot1.jumpAngle=(Math.PI/2-0.01);
+    }
+    
+    function drawStuff()
+    {
+      ctx.clearRect(Dot1.x-100,Dot1.y-100,200,200);
+      
+      ctx.beginPath();
+      ctx.moveTo(cylinderRadius*Math.cos(cylinderAngle),cylinderRadius*Math.sin(cylinderAngle));
+      
+      ctx.lineWidth=10;
+      ctx.strokeStyle="#000000";
+      ctx.arc(0,0,cylinderRadius+4,cylinderAngle,cylinderAngle+2*Math.PI,false);
+      ctx.stroke();
+      
+      var colors=["#FF0000","#00FF00","#0000FF", "#FFFF00", "#00FFFF", "#FF00FF"];
+      
+      ctx.lineWidth=8;
+      var a=cylinderAngle;
+      for(var i=0;i<colors.length;i++)
+      {
+        ctx.beginPath();
+        ctx.strokeStyle=colors[i];
+        ctx.arc(0,0,cylinderRadius+4,a,a+2*Math.PI/colors.length,false);
+        ctx.stroke();
+        
+        a+=2*Math.PI/colors.length;
+      }
+      
+      Dot1.draw();
+    }
+    
+    function $(id)
+    {
+      return document.getElementById(id);
+    }
+    
+    init();
+  </script>
+</body>
+
+</html>
