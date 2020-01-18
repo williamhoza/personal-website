@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      polyline {
+        stroke:blue;
+        fill:none;
+      }
+      
+      canvas {
+        display:inline-block;
+        margin:0;
+        font-kerning:normal;
+        text-rendering:optimizeLegibility;
+      }
+      
+      .sliders {
+        position:sticky;
+        top:0;
+        background-color:white;
+        border-bottom:1px solid #e0e0e0;
+        border-top:1px solid #e0e0e0;
+        padding-top:15px;
+      }
+      
+      main {
+        margin:0 auto;
+        max-width:840px;
+        background-color:white;
+      }
+      
+      article {
+        padding:20px 5px;
+        margin:auto;
+        max-width:800px;
+      }
+      
+      body {
+        background-color:#f0f0f0;
+        margin:0;
+        font-family:sans-serif;
+      }
+    </style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>
+      Interactive Visualization: Economic Theory of Abortion Policies
+    </title>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <h1>
+          Interactive Visualization: Economic Theory of Abortion Policies
+        </h1>
+        
+        <p>
+          I recently read an interesting book by economist <a href="https://www.wellesley.edu/economics/faculty/levinep">Phillip Levine</a>. In <cite>Sex and Consequences</cite>, Levine studies the impact of abortion policies. Realistically, what are these government actions' likely effects on abortion rates, birth rates, and pregnancy rates?
+        </p>
+        
+        <p>
+          The book addresses this question using both theoretical models and empirical evidence. The whole book is worth a read, but for this webpage I'm going to focus on theoretical models. I'll provide some interactive visualizations and a little commentary.
+        </p>
+        
+        <h2>
+          The "Standard Economic Model" of Abortion
+        </h2>
+        
+        <h3>
+          An individual woman
+        </h3>
+        
+        <p>
+          Levine describes the following simplified model of unwanted pregnancies. A woman chooses a value <strong>p</strong> between 0 or 1, representing the degree to which she tries to avoid getting pregnant. With probability <strong>p</strong>, the woman successfully avoids pregnancy that year, while with probability <strong>1 - p</strong>, the woman gets pregnant. In the latter case, she chooses either to give birth or to get an abortion.
+        </p>
+        
+        <p>
+          The model has some limitations, e.g., it doesn't properly account for miscarriages or for multiple pregnancies in a single year. It also doesn't properly account for pregnancies that result from rape, although later we'll see a more sophisticated model that can account for that horrific circumstance.
+        </p>
+        
+        <p>
+          Anyhow, in this "standard economic model" of abortion, the woman makes her decisions by weighing the relevant <em>costs</em>. Here, "cost" should be understood to combine all relevant factors: money spent, time lost, inner turmoil due to moral qualms, social ramifications, etc.
+        </p>
+        
+        <p>
+          There are several relevant costs. First, when the woman chooses the probability <strong>p</strong> of avoiding pregnancy, she incurs a cost <strong>C(p)</strong>. The function <strong>C(p)</strong> should be increasing at an increasing rate; for simplicity, Levine sets <strong>C(p) = c * p<sup>2</sup></strong> for some parameter <strong>c</strong>. If she becomes pregnant and chooses abortion, she incurs a cost <strong>A</strong>; if she chooses birth, she incurs a cost <strong>B</strong>. The parameters <strong>A, B, c</strong> are specific to one individual woman, reflecting her particular circumstances, attitudes, environment, etc.
+        </p>
+        
+        <p>
+          We assume that the woman is <em>rational</em>, i.e., at each step, she acts to minimize her expected cost. So if she does become pregnant, she chooses whichever of birth or abortion is less costly, incurring the cost <strong>min(A, B)</strong>. For a given value of <strong>p</strong>, her total expected cost is therefore <strong>C(p) + (1 - p) * min(A, B)</strong>. Taking a derivative with respect to <strong>p</strong>, we see that her total expected cost is minimized when <strong>C'(p) = min(A, B)</strong>, i.e., when the <em>marginal</em> cost of avoiding pregnancy <strong>C'(p)</strong> exactly balances the cost of becoming pregnant, <strong>min(A, B)</strong>.
+        </p>
+        
+        <p>
+          As a pro-life advocate, I encourage everyone to set <strong>A = ∞</strong>, i.e., I think abortion should be rejected no matter how costly the alternative is. But never mind my ethical views; we're trying to make realistic predictions here.
+        </p>
+        
+        <p>
+          The model is illustrated in Figure 1. Play with the sliders to change the values of <strong>A, B, c</strong>.
+        </p>
+        
+        <section>
+          <div class="sliders">
+            Cost of abortion (<strong>A</strong>):
+            <br>
+            <input type="range" id="COA" style="width:300px;" min="0" max="100" step="0.01" value="35" oninput="update1();">
+            <br><br>
+            
+            Cost of birth (<strong>B</strong>):
+            <br>
+            <input type="range" id="COB" style="width:300px;" min="0" max="100" step="0.01" value="65" oninput="update1();">
+            <br><br>
+            
+            Cost of avoiding pregnancy coefficient (<strong>c</strong>):
+            <br>
+            <input type="range" id="COC" style="width:300px;" min="0" max="100" step="0.01" value="50" oninput="update1();">
+            <br><br>
+          </div>
+        
+          <canvas style="width:300px;height:300px;" id="canv0">
+          </canvas>
+          <canvas style="width:300px;height:300px;" id="canv1">
+          </canvas>
+          
+          <p>
+            A government policy regarding abortion is modeled as changing the cost of abortion (<strong>A</strong>). E.g., public funding for abortions obviously reduces the cost of abortion. In the other direction, a law that e.g. requires women to view an ultrasound before getting an abortion can be understood as increasing the psychological "cost" of an abortion. Or going further, if abortion is outlawed altogether, "...this does not mean that one cannot obtain an abortion, it just means that the cost of the procedure is very high." (Levine p. 41)
+          </p>
+          
+          <p>
+            To better understand the effects of abortion policies, Figure 2 shows the probability that a woman gets pregnant / gives birth / has an abortion in a given year, as a function of the cost of abortion. Again, play with the sliders to see how they affect the graph.
+          </p>
+          
+          <canvas style="width:300px;height:300px;" id="canv2">
+          </canvas>
+          
+          <p>
+            Notice that if the cost of abortion is initially significantly lower than the cost of birth, then <strong>moderate pro-life laws decrease the chance of abortion without increasing the chance of an unwanted birth at all</strong>. Maybe we should call this phenomenon "Levine's paradox". The explanation is that pro-life laws create a strong incentive to avoid unwanted pregnancy in the first place. When abortion is available at a very low cost, <strong>most abortions are of pregnancies that would never have occurred at all</strong> if abortion were more costly.
+          </p>
+          
+          <p>
+            Of course, if the cost of abortion is pushed above the cost of birth, then abortions are indeed exchanged for births. Still, the overall increase in the chance of birth is potentially much smaller than the overall decrease in the chance of abortion. I see this as good news!
+          </p>
+          
+          <p>
+            The government can also set policies affecting the cost of birth (<strong>B</strong>), e.g., tax policies, family leave programs, welfare programs, etc. Figure 3 show the probability that a woman gets pregnant / gives birth / has an abortion in a given year, as a function of the cost of birth. Keep playing with the sliders.
+          </p>
+          
+          <canvas style="width:300px;height:300px;" id="canv3">
+          </canvas>
+          
+          <p>
+            Notice that if one has a goal of reducing abortions, <strong>decreasing the cost of birth and increasing the cost of abortion are not equivalent</strong>. If the cost of abortion is initially below the cost of birth, then decreasing the cost of birth has no effect (until one manages to push it below the cost of abortion, at which point of course abortions are exchanged for births).
+          </p>
+          
+          <p>
+            Finally, government policies can also influence the cost of avoiding pregnancy (<strong>c</strong>). The obvious ways to do this involve contraceptives, but it could also be done in ways that my fellow Catholics would be happy with, e.g., expanding education about natural family planning, or working to reduce social pressure to engage in premarital sex. Figure 4 shows the probability that a woman gets pregnant / gives birth / has an abortion in a given year, as a function of <strong>c</strong>, the coefficient of the cost of avoiding pregnancy. Again, you can fiddle with the sliders to see the effects. (I'd say there's nothing too surprising or interesting about this graph.)
+          </p>
+          
+          <canvas style="width:300px;height:300px;" id="canv4">
+          </canvas>
+        </section>
+        
+        <h3>
+          A population of women
+        </h3>
+        
+        <p>
+          Now let's consider a whole population of women. As I said before, the cost parameters <strong>A, B, c</strong> vary from one woman to the next. For simplicity, I'll model <strong>A</strong>, <strong>B</strong>, and <strong>log c</strong> as independent Gaussian distributions. I didn't give the distributions too much variance, so it's best to think of a "narrow" population of women, e.g., "pro-choice Protestant white women aged 18-24" rather than "all women in the U.S.A." The sliders now control the <em>median</em> values of the cost parameters accross the population. The dashed line in Figure 5 indicates the <em>average</em> value of <strong>p</strong> chosen by the women in this population.
+        </p>
+        
+        <section>
+          <div class="sliders">
+            Median cost of abortion:
+            <br>
+            <input type="range" id="ACOA" style="width:300px;" min="0" max="100" step="0.01" value="35" oninput="update2();">
+            <br><br>
+            
+            Median cost of birth:
+            <br>
+            <input type="range" id="ACOB" style="width:300px;" min="0" max="100" step="0.01" value="65" oninput="update2();">
+            <br><br>
+            
+            Median cost of avoiding pregnancy:
+            <br>
+            <input type="range" id="ACOC" style="width:300px;" min="0" max="100" step="0.01" value="50" oninput="update2();">
+            <br><br>
+          </div>
+          
+          <canvas style="width:300px;height:300px;" id="canv5">
+          </canvas>
+          <canvas style="width:300px;height:300px;" id="canv6">
+          </canvas>
+          
+          <p>
+            Blah blah, nothing really new, just smoother graphs
+          </p>
+          
+          <canvas style="width:300px;height:300px;" id="canv7">
+          </canvas>
+          <canvas style="width:300px;height:300px;" id="canv8">
+          </canvas>
+          <canvas style="width:300px;height:300px;" id="canv9">
+          </canvas>
+        </section>
+        
+        <h2>
+          Model 2: Pregnancy occurs randomly, and costs of birth and abortion are not known perfectly in advance
+        </h2>
+        
+        <h3>
+          One individual couple or woman
+        </h3>
+        
+        Expected cost of abortion:
+        <br>
+        <input type="range" id="UCOA" style="width:300px;" min="0" max="100" step="0.01" value="35" oninput="update3();">
+        <br><br>
+        
+        Expected cost of birth:
+        <br>
+        <input type="range" id="UCOB" style="width:300px;" min="0" max="100" step="0.01" value="65" oninput="update3();">
+        <br><br>
+        
+        Cost of avoiding pregnancy:
+        <br>
+        <input type="range" id="UCOC" style="width:300px;" min="0" max="100" step="0.01" value="50" oninput="update3();">
+        <br><br>
+        
+        <canvas style="width:300px;height:300px;" id="canv10">
+        </canvas>
+        <canvas style="width:300px;height:300px;" id="canv11">
+        </canvas>
+        <canvas style="width:300px;height:300px;" id="canv12">
+        </canvas>
+        <canvas style="width:300px;height:300px;" id="canv13">
+        </canvas>
+        <canvas style="width:300px;height:300px;" id="canv14">
+        </canvas>
+      </article>
+    </main>
+    
+    <script type="text/javascript">
+      const BLUE = "rgb(0, 128, 255)";
+      const RED = "rgb(255, 0, 0)";
+      const YELLOW = "rgb(180, 160, 0)";
+      const NUM_CANVASES = 15;
+      
+      document.querySelectorAll("canvas").forEach(function(canv) {
+        let DPR = window.devicePixelRatio || 1;
+        let rect = canv.getBoundingClientRect();
+        canv.width = rect.width * DPR;
+        canv.height = rect.height * DPR;
+        
+        let ctx = canv.getContext('2d');
+        ctx.scale(canv.width / 120, canv.height / 120);
+        ctx.translate(10, 10);
+        ctx.font = "6px Helvetica";
+      });
+      
+      let contexts = [];
+      for (let i = 0; i < NUM_CANVASES; i++) {
+        contexts[i] = document.querySelector("#canv" + i).getContext('2d');
+      }
+      
+      function expectedCostOfPregnancy(ECOA, ECOB) {
+        return expectation(function(COA, COB, COC) {
+          return Math.min(COA, COB);
+        }, ECOA, ECOB, COC, false, 20);
+      }
+      
+      function uOptProbOfAvoidingPreg(ECOA, ECOB, COC) {
+        let ECOP = expectedCostOfPregnancy(ECOA, ECOB);
+        return optProbOfAvoidingPreg(ECOP, ECOP, COC);
+      }
+      
+      function optProbOfAvoidingPreg(COA, COB, COC) {
+        let slope = Math.pow(2, COC / 50 - 1);
+        let COP = Math.min(COA, COB);
+        return Math.max(0, Math.min(1, (COP / slope) / 100));
+      }
+      
+      function probBirthGivenPreg(COA, COB) {
+        if (COA < COB) {
+          return 0;
+        } else if (COA > COB) {
+          return 1;
+        } else {
+          return 0.5;
+        }
+      }
+      
+      function uProbBirthGivenPreg(ECOA, ECOB) {
+        return expectation(function(COA, COB, COC) {
+          return probBirthGivenPreg(COA, COB, COC);
+        }, ECOA, ECOB, COC, false, 20);
+      }
+      
+      function update1() {
+        for (let i = 0; i <= 4; i++) {
+          contexts[i].clearRect(-10, -10, 120, 120);
+        }
+        
+        contexts[0].strokeStyle = "rgb(0, 0, 0)";
+        contexts[0].setLineDash([]);
+        
+        // Axes
+        contexts[0].beginPath();
+        contexts[0].moveTo(0, 0);
+        contexts[0].lineTo(0, 100);
+        contexts[0].lineTo(100, 100);
+        contexts[0].stroke();
+        
+        contexts[0].save();
+        contexts[0].translate(-3, 10);
+        contexts[0].rotate(-Math.PI/2);
+        contexts[0].fillText("Cost", 0, 0);
+        contexts[0].restore();
+        
+        contexts[0].fillText("Prob[avoid pregnancy]", 45, 107);
+        
+        contexts[0].strokeStyle=BLUE;
+        
+        // Marginal cost of avoiding pregnancy
+        let COC = parseFloat(document.querySelector("#COC").value);
+        let slope = Math.pow(2, COC / 50 - 1);
+        contexts[0].beginPath();
+        contexts[0].moveTo(0, 100);
+        contexts[0].lineTo(Math.min(100 / slope, 100), 100 - Math.min(100 * slope, 100));
+        contexts[0].stroke();
+        
+        contexts[0].save();
+        contexts[0].translate(7, 100 - 10 * slope);
+        contexts[0].rotate(-Math.atan(slope));
+        contexts[0].fillText("Marginal cost of avoiding pregnancy", 0, 0);
+        contexts[0].restore();
+        
+        // Cost of birth
+        let COB = parseFloat(document.querySelector("#COB").value);
+        contexts[0].beginPath();
+        contexts[0].moveTo(0, 100 - COB);
+        contexts[0].lineTo(100, 100 - COB);
+        contexts[0].stroke();
+        
+        contexts[0].fillText("Cost of birth", 10, 100 - COB - 2);
+        
+        // Cost of abortion
+        let COA = parseFloat(document.querySelector("#COA").value);
+        contexts[0].beginPath();
+        contexts[0].moveTo(0, 100 - COA);
+        contexts[0].lineTo(100, 100 - COA);
+        contexts[0].stroke();
+        
+        contexts[0].fillText("Cost of abortion", 50, 100 - COA - 2);
+        
+        // Optimize "contraceptive intensity"
+        let COP = Math.min(COA, COB);
+        let p = optProbOfAvoidingPreg(COA, COB, COC);
+        contexts[0].strokeStyle="rgb(255, 0, 0)";
+        contexts[0].setLineDash([3]);
+        contexts[0].beginPath();
+        contexts[0].moveTo(p * 100, 100);
+        contexts[0].lineTo(p * 100, 100 - COP);
+        contexts[0].stroke();
+        
+        contexts[1].textAlign = "center";
+        contexts[1].fillText("Start", 50, 0);
+        contexts[1].fillText("Pregnant", 30, 50);
+        contexts[1].fillText("Not Pregnant", 70, 50);
+        contexts[1].fillText("Birth", 10, 100);
+        contexts[1].fillText("Abortion", 50, 100);
+        
+        contexts[1].strokeStyle="rgba(0, 0, 0, " + (1 - p) + ")";
+        contexts[1].beginPath();
+        contexts[1].moveTo(50, 5);
+        contexts[1].lineTo(30, 45);
+        contexts[1].stroke();
+        
+        contexts[1].strokeStyle="rgba(0, 0, 0, " + p + ")";
+        contexts[1].beginPath();
+        contexts[1].moveTo(50, 5);
+        contexts[1].lineTo(70, 45);
+        contexts[1].stroke();
+        
+        contexts[1].fillText(Math.round(p * 100) + "%", 70, 25);
+        contexts[1].fillText(Math.round((1 - p) * 100) + "%", 30, 25);
+        
+        let q = probBirthGivenPreg(COA, COB);
+        
+        contexts[1].strokeStyle="rgba(0, 0, 0, " + q + ")";
+        contexts[1].beginPath();
+        contexts[1].moveTo(30, 55);
+        contexts[1].lineTo(10, 95);
+        contexts[1].stroke();
+        
+        contexts[1].strokeStyle="rgba(0, 0, 0, " + (1 - q) + ")";
+        contexts[1].beginPath();
+        contexts[1].moveTo(30, 55);
+        contexts[1].lineTo(50, 95);
+        contexts[1].stroke();
+        
+        contexts[1].fillText(Math.round(q * 100) + "%", 10, 75);
+        contexts[1].fillText(Math.round((1 - q) * 100) + "%", 50, 75);
+        
+        // Axes
+        contexts[2].strokeStyle = "rgb(0, 0, 0)";
+        contexts[2].beginPath();
+        contexts[2].moveTo(0, 0);
+        contexts[2].lineTo(0, 100);
+        contexts[2].lineTo(100, 100);
+        contexts[2].stroke();
+        
+        contexts[2].fillStyle = "rgb(0, 0, 0)";
+        contexts[2].textAlign = "left";
+        
+        contexts[2].save();
+        contexts[2].translate(-3, 25);
+        contexts[2].rotate(-Math.PI/2);
+        contexts[2].fillText("Probability", 0, 0);
+        contexts[2].restore();
+        
+        contexts[2].fillText("Cost of abortion", 60, 107);
+        
+        let GAP_SIZE = 1;
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return 100 * (1 - optProbOfAvoidingPreg(c - GAP_SIZE, COB, COC)) + GAP_SIZE;
+        }
+        plot(contexts[2], pregFunc, YELLOW, COA);
+        
+        contexts[2].textAlign = "right";
+        contexts[2].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(c, COB, COC)) * (1 - probBirthGivenPreg(c, COB)));
+        }
+        plot(contexts[2], abFunc, RED, COA);
+        
+        contexts[2].textAlign = "right";
+        contexts[2].fillText("Abortion", 100, 97);
+        
+        // Birth
+        birthFunc = function(c) {
+          return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(c, COB, COC)) * probBirthGivenPreg(c, COB));
+        }
+        plot(contexts[2], birthFunc, BLUE, COA);
+        
+        contexts[2].textAlign = "left";
+        contexts[2].fillText("Birth", 5, 97);
+        
+        // Axes
+        contexts[3].strokeStyle = "rgb(0, 0, 0)";
+        contexts[3].beginPath();
+        contexts[3].moveTo(0, 0);
+        contexts[3].lineTo(0, 100);
+        contexts[3].lineTo(100, 100);
+        contexts[3].stroke();
+        
+        contexts[3].fillStyle = "rgb(0, 0, 0)";
+        contexts[3].textAlign = "left";
+        
+        contexts[3].save();
+        contexts[3].translate(-3, 25);
+        contexts[3].rotate(-Math.PI/2);
+        contexts[3].fillText("Probability", 0, 0);
+        contexts[3].restore();
+        
+        contexts[3].fillText("Cost of birth", 65, 107);
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return 100 * (1 - optProbOfAvoidingPreg(COA, c - GAP_SIZE, COC)) + GAP_SIZE;
+        }
+        plot(contexts[3], pregFunc, YELLOW, COB);
+        
+        contexts[3].textAlign = "right";
+        contexts[3].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, c, COC)) * (1 - probBirthGivenPreg(COA, c)));
+        }
+        plot(contexts[3], abFunc, RED, COB);
+        
+        contexts[3].textAlign = "left";
+        contexts[3].fillText("Abortion", 5, 97);
+        
+        // Birth
+        birthFunc = function(c) {
+          return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, c, COC)) * probBirthGivenPreg(COA, c));
+        }
+        plot(contexts[3], birthFunc, BLUE, COB);
+        
+        contexts[3].textAlign = "right";
+        contexts[3].fillText("Birth", 100, 97);
+        
+        // Axes
+        contexts[4].strokeStyle = "rgb(0, 0, 0)";
+        contexts[4].beginPath();
+        contexts[4].moveTo(0, 0);
+        contexts[4].lineTo(0, 100);
+        contexts[4].lineTo(100, 100);
+        contexts[4].stroke();
+        
+        contexts[4].fillStyle = "rgb(0, 0, 0)";
+        contexts[4].textAlign = "left";
+        
+        contexts[4].save();
+        contexts[4].translate(-3, 25);
+        contexts[4].rotate(-Math.PI/2);
+        contexts[4].fillText("Probability", 0, 0);
+        contexts[4].restore();
+        
+        contexts[4].fillText("Cost of avoiding pregnancy", 30, 107);
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return 100 * (1 - optProbOfAvoidingPreg(COA, COB, c + GAP_SIZE)) + GAP_SIZE;
+        }
+        plot(contexts[4], pregFunc, YELLOW, COC);
+        
+        contexts[4].textAlign = "right";
+        contexts[4].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, COB, c)) * (1 - probBirthGivenPreg(COA, COB)));
+        }
+        plot(contexts[4], abFunc, RED, COC);
+        
+        if (abFunc(100) > GAP_SIZE) {
+          contexts[4].textAlign = "left";
+          contexts[4].fillText("Abortion", 5, 100 - abFunc(0) + 3);
+        } else {
+          contexts[4].textAlign = "right";
+          contexts[4].fillText("Abortion", 100, 100 - abFunc(100) - 3);
+        }
+        
+        // Birth
+        birthFunc = function(c) {
+          return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, COB, c)) * probBirthGivenPreg(COA, COB));
+        }
+        plot(contexts[4], birthFunc, BLUE, COC);
+        
+        if (birthFunc(100) > GAP_SIZE) {
+          contexts[4].textAlign = "left";
+          contexts[4].fillText("Birth", 5, 100 - birthFunc(0) + 3);
+        } else {
+          contexts[4].textAlign = "right";
+          contexts[4].fillText("Birth", 100, 100 - birthFunc(100) - 3);
+        }
+      }
+      
+      function update2() {
+        for (let i = 5; i <= 9; i++) {
+          contexts[i].clearRect(-10, -10, 120, 120);
+        }
+        
+        contexts[5].strokeStyle = "rgb(0, 0, 0)";
+        contexts[5].setLineDash([]);
+        
+        // Axes
+        contexts[5].beginPath();
+        contexts[5].moveTo(0, 0);
+        contexts[5].lineTo(0, 100);
+        contexts[5].lineTo(100, 100);
+        contexts[5].stroke();
+        
+        contexts[5].save();
+        contexts[5].translate(-3, 10);
+        contexts[5].rotate(-Math.PI/2);
+        contexts[5].fillText("Cost", 0, 0);
+        contexts[5].restore();
+        
+        contexts[5].fillText("Prob[avoid pregnancy]", 45, 107);
+        
+        contexts[5].strokeStyle=BLUE;
+        
+        // Marginal cost of avoiding pregnancy
+        let ACOC = parseFloat(document.querySelector("#ACOC").value);
+        let aSlope = Math.pow(2, ACOC / 50 - 1);
+        contexts[5].beginPath();
+        contexts[5].moveTo(0, 100);
+        contexts[5].lineTo(Math.min(100 / aSlope, 100), 100 - Math.min(100 * aSlope, 100));
+        contexts[5].stroke();
+        
+        contexts[5].save();
+        contexts[5].translate(7, 100 - 10 * aSlope);
+        contexts[5].rotate(-Math.atan(aSlope));
+        contexts[5].fillText("Median marg. cost of avoiding preg.", 0, 0);
+        contexts[5].restore();
+        
+        // Cost of birth
+        let ACOB = parseFloat(document.querySelector("#ACOB").value);
+        contexts[5].beginPath();
+        contexts[5].moveTo(0, 100 - ACOB);
+        contexts[5].lineTo(100, 100 - ACOB);
+        contexts[5].stroke();
+        
+        contexts[5].fillText("Median cost of birth", 5, 100 - ACOB - 2);
+        
+        // Cost of abortion
+        let ACOA = parseFloat(document.querySelector("#ACOA").value);
+        contexts[5].beginPath();
+        contexts[5].moveTo(0, 100 - ACOA);
+        contexts[5].lineTo(100, 100 - ACOA);
+        contexts[5].stroke();
+        
+        contexts[5].fillText("Median cost of abortion", 45, 100 - ACOA - 2);
+        
+        // Optimize "contraceptive intensity"
+        let ap = expectation(optProbOfAvoidingPreg, ACOA, ACOB, ACOC);
+        contexts[5].strokeStyle="rgb(255, 0, 0)";
+        contexts[5].setLineDash([3]);
+        contexts[5].beginPath();
+        contexts[5].moveTo(ap * 100, 100);
+        contexts[5].lineTo(ap * 100, 0);
+        contexts[5].stroke();
+        
+        contexts[6].textAlign = "center";
+        contexts[6].fillText("Start", 50, 0);
+        contexts[6].fillText("Pregnant", 30, 50);
+        contexts[6].fillText("Not Pregnant", 70, 50);
+        contexts[6].fillText("Birth", 10, 100);
+        contexts[6].fillText("Abortion", 50, 100);
+        
+        contexts[6].strokeStyle="rgba(0, 0, 0, " + (1 - ap) + ")";
+        contexts[6].beginPath();
+        contexts[6].moveTo(50, 5);
+        contexts[6].lineTo(30, 45);
+        contexts[6].stroke();
+        
+        contexts[6].strokeStyle="rgba(0, 0, 0, " + ap + ")";
+        contexts[6].beginPath();
+        contexts[6].moveTo(50, 5);
+        contexts[6].lineTo(70, 45);
+        contexts[6].stroke();
+        
+        contexts[6].fillText(Math.round(ap * 100) + "%", 70, 25);
+        contexts[6].fillText(Math.round((1 - ap) * 100) + "%", 30, 25);
+        
+        let probBirthAndPregFunc = function(COA, COB, COC) {
+          return (1 - optProbOfAvoidingPreg(COA, COB, COC)) * probBirthGivenPreg(COA, COB);
+        }
+        let aq = expectation(probBirthAndPregFunc, ACOA, ACOB, ACOC) / (1 - ap);
+        
+        contexts[6].strokeStyle="rgba(0, 0, 0, " + aq + ")";
+        contexts[6].beginPath();
+        contexts[6].moveTo(30, 55);
+        contexts[6].lineTo(10, 95);
+        contexts[6].stroke();
+        
+        contexts[6].strokeStyle="rgba(0, 0, 0, " + (1 - aq) + ")";
+        contexts[6].beginPath();
+        contexts[6].moveTo(30, 55);
+        contexts[6].lineTo(50, 95);
+        contexts[6].stroke();
+        
+        contexts[6].fillText(Math.round(aq * 100) + "%", 10, 75);
+        contexts[6].fillText(Math.round((1 - aq) * 100) + "%", 50, 75);
+        
+        // Axes
+        for (let i = 7; i <= 9; i++) {
+          contexts[i].strokeStyle = "rgb(0, 0, 0)";
+          contexts[i].beginPath();
+          contexts[i].moveTo(0, 0);
+          contexts[i].lineTo(0, 100);
+          contexts[i].lineTo(100, 100);
+          contexts[i].stroke();
+          
+          contexts[i].fillStyle = "rgb(0, 0, 0)";
+          contexts[i].textAlign = "left";
+          
+          contexts[i].save();
+          contexts[i].translate(-3, 10);
+          contexts[i].rotate(-Math.PI/2);
+          contexts[i].fillText("Rate", 0, 0);
+          contexts[i].restore();
+        }
+        
+        contexts[7].fillText("Median cost of abortion", 45, 107);
+        
+        let GAP_SIZE = 1;
+        
+        // Pregnancy
+        let pregFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return 100 * (1 - optProbOfAvoidingPreg(c - GAP_SIZE, COB, COC)) + GAP_SIZE;
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[7], pregFunc, YELLOW, ACOA, 20);
+        
+        contexts[7].textAlign = "right";
+        contexts[7].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        let abFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(c, COB, COC)) * (1 - probBirthGivenPreg(c, COB)));
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[7], abFunc, RED, ACOA, 20);
+        
+        contexts[7].textAlign = "right";
+        contexts[7].fillText("Abortion", 100, 97);
+        
+        // Birth
+        let birthFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(c, COB, COC)) * probBirthGivenPreg(c, COB));
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[7], birthFunc, BLUE, ACOA, 20);
+        
+        contexts[7].textAlign = "left";
+        contexts[7].fillText("Birth", 5, 97);
+        
+        // Axes
+        contexts[8].fillText("Median cost of birth", 50, 107);
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return 100 * (1 - optProbOfAvoidingPreg(COA, c - GAP_SIZE, COC)) + GAP_SIZE;
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[8], pregFunc, YELLOW, ACOB, 20);
+        
+        contexts[8].textAlign = "right";
+        contexts[8].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, c, COC)) * (1 - probBirthGivenPreg(COA, c)));
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[8], abFunc, RED, ACOB, 20);
+        
+        contexts[8].textAlign = "left";
+        contexts[8].fillText("Abortion", 5, 97);
+        
+        // Birth
+        birthFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, c, COC)) * probBirthGivenPreg(COA, c));
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[8], birthFunc, BLUE, ACOB, 20);
+        
+        contexts[8].textAlign = "right";
+        contexts[8].fillText("Birth", 100, 97);
+        
+        // Axes
+        contexts[9].fillText("Median cost of avoiding pregnancy", 15, 107);
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return 100 * (1 - optProbOfAvoidingPreg(COA, COB, c + GAP_SIZE)) + GAP_SIZE;
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[9], pregFunc, YELLOW, ACOC, 20);
+        
+        contexts[9].textAlign = "right";
+        contexts[9].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, COB, c)) * (1 - probBirthGivenPreg(COA, COB)));
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[9], abFunc, RED, ACOC, 20);
+        
+        if (abFunc(0) > 15) {
+          contexts[9].textAlign = "left";
+          contexts[9].fillText("Abortion", 5, 100 - abFunc(0) + 6);
+        } else {
+          contexts[9].textAlign = "right";
+          contexts[9].fillText("Abortion", 100, 100 - abFunc(100) - 3);
+        }
+        
+        // Birth
+        birthFunc = function(c) {
+          return expectation(function(COA, COB, COC) {
+            return Math.max(GAP_SIZE, 100 * (1 - optProbOfAvoidingPreg(COA, COB, c)) * probBirthGivenPreg(COA, COB));
+          }, ACOA, ACOB, ACOC);
+        }
+        plot(contexts[9], birthFunc, BLUE, ACOC, 20);
+        
+        if (birthFunc(0) > 15) {
+          contexts[9].textAlign = "left";
+          contexts[9].fillText("Birth", 5, 100 - birthFunc(0) + 6);
+        } else {
+          contexts[9].textAlign = "right";
+          contexts[9].fillText("Birth", 100, 100 - birthFunc(100) - 3);
+        }
+      }
+      
+      function update3() {
+        for (let i = 10; i <= 14; i++) {
+          contexts[i].clearRect(-10, -10, 120, 120);
+        }
+        
+        contexts[10].strokeStyle = "rgb(0, 0, 0)";
+        contexts[10].fillStyle = "rgb(0, 0, 0)";
+        contexts[10].setLineDash([]);
+        
+        // Axes
+        contexts[10].beginPath();
+        contexts[10].moveTo(0, 0);
+        contexts[10].lineTo(0, 100);
+        contexts[10].lineTo(100, 100);
+        contexts[10].stroke();
+        
+        contexts[10].save();
+        contexts[10].translate(-3, 10);
+        contexts[10].rotate(-Math.PI/2);
+        contexts[10].fillText("Cost", 0, 0);
+        contexts[10].restore();
+        
+        contexts[10].fillText("Prob[avoid pregnancy]", 45, 107);
+        
+        // Marginal cost of avoiding pregnancy
+        contexts[10].strokeStyle=YELLOW;
+        contexts[10].fillStyle=YELLOW;
+        let COC = parseFloat(document.querySelector("#UCOC").value);
+        let slope = Math.pow(2, COC / 50 - 1);
+        contexts[10].beginPath();
+        contexts[10].moveTo(0, 100);
+        contexts[10].lineTo(Math.min(100 / slope, 100), 100 - Math.min(100 * slope, 100));
+        contexts[10].stroke();
+        
+        contexts[10].save();
+        contexts[10].translate(7, 100 - 10 * slope);
+        contexts[10].rotate(-Math.atan(slope));
+        contexts[10].fillText("Marginal cost of avoiding pregnancy", 0, 0);
+        contexts[10].restore();
+        
+        // Cost of birth
+        contexts[10].strokeStyle=BLUE;
+        contexts[10].fillStyle=BLUE;
+        let ECOB = parseFloat(document.querySelector("#UCOB").value);
+        contexts[10].beginPath();
+        contexts[10].moveTo(0, 100 - ECOB);
+        contexts[10].lineTo(100, 100 - ECOB);
+        contexts[10].stroke();
+        
+        contexts[10].fillText("Expected cost of birth", 3, 100 - ECOB - 2);
+        
+        // Cost of abortion
+        contexts[10].strokeStyle=RED;
+        contexts[10].fillStyle=RED;
+        let ECOA = parseFloat(document.querySelector("#UCOA").value);
+        contexts[10].beginPath();
+        contexts[10].moveTo(0, 100 - ECOA);
+        contexts[10].lineTo(100, 100 - ECOA);
+        contexts[10].stroke();
+        
+        contexts[10].fillText("Expected cost of abortion", 40, 100 - ECOA - 2);
+        
+        // Optimize "contraceptive intensity"
+        let GAP_SIZE = 1;
+        contexts[10].strokeStyle=YELLOW;
+        contexts[10].fillStyle=YELLOW;
+        let ECOP = expectedCostOfPregnancy(ECOA, ECOB);
+        contexts[10].beginPath();
+        contexts[10].moveTo(0, 100 - ECOP + GAP_SIZE);
+        contexts[10].lineTo(100, 100 - ECOP + GAP_SIZE);
+        contexts[10].stroke();
+        
+        contexts[10].fillText("Expected cost of pregnancy", 35, 100 - ECOP + 7);
+        let p = optProbOfAvoidingPreg(ECOP, ECOP, COC);
+        contexts[10].setLineDash([3]);
+        contexts[10].beginPath();
+        contexts[10].moveTo(p * 100, 100);
+        contexts[10].lineTo(p * 100, 100 - ECOP);
+        contexts[10].stroke();
+        
+        contexts[11].textAlign = "center";
+        contexts[11].fillText("Start", 50, 0);
+        contexts[11].fillText("Pregnant", 30, 50);
+        contexts[11].fillText("Not Pregnant", 70, 50);
+        contexts[11].fillText("Birth", 10, 100);
+        contexts[11].fillText("Abortion", 50, 100);
+        
+        contexts[11].strokeStyle="rgba(0, 0, 0, " + (1 - p) + ")";
+        contexts[11].beginPath();
+        contexts[11].moveTo(50, 5);
+        contexts[11].lineTo(30, 45);
+        contexts[11].stroke();
+        
+        contexts[11].strokeStyle="rgba(0, 0, 0, " + p + ")";
+        contexts[11].beginPath();
+        contexts[11].moveTo(50, 5);
+        contexts[11].lineTo(70, 45);
+        contexts[11].stroke();
+        
+        contexts[11].fillText(Math.round(p * 100) + "%", 70, 25);
+        contexts[11].fillText(Math.round((1 - p) * 100) + "%", 30, 25);
+        
+        let q = uProbBirthGivenPreg(ECOA, ECOB);
+        
+        contexts[11].strokeStyle="rgba(0, 0, 0, " + q + ")";
+        contexts[11].beginPath();
+        contexts[11].moveTo(30, 55);
+        contexts[11].lineTo(10, 95);
+        contexts[11].stroke();
+        
+        contexts[11].strokeStyle="rgba(0, 0, 0, " + (1 - q) + ")";
+        contexts[11].beginPath();
+        contexts[11].moveTo(30, 55);
+        contexts[11].lineTo(50, 95);
+        contexts[11].stroke();
+        
+        contexts[11].fillText(Math.round(q * 100) + "%", 10, 75);
+        contexts[11].fillText(Math.round((1 - q) * 100) + "%", 50, 75);
+        
+        // Axes
+        for (let i = 12; i <= 14; i++) {
+          contexts[i].strokeStyle = "rgb(0, 0, 0)";
+          contexts[i].beginPath();
+          contexts[i].moveTo(0, 0);
+          contexts[i].lineTo(0, 100);
+          contexts[i].lineTo(100, 100);
+          contexts[i].stroke();
+          
+          contexts[i].fillStyle = "rgb(0, 0, 0)";
+          contexts[i].textAlign = "left";
+          
+          contexts[i].save();
+          contexts[i].translate(-3, 25);
+          contexts[i].rotate(-Math.PI/2);
+          contexts[i].fillText("Probability", 0, 0);
+          contexts[i].restore();
+        }
+        
+        contexts[12].fillText("Expected cost of abortion", 40, 107);
+        
+        // Pregnancy
+        let pregFunc = function(c) {
+          return 100 * (1 - uOptProbOfAvoidingPreg(c, ECOB, COC));
+        }
+        plot(contexts[12], pregFunc, YELLOW, ECOA, 20);
+        
+        contexts[12].textAlign = "right";
+        contexts[12].fillText("Pregnancy", 100, Math.min(100 - pregFunc(100) - 3, 92));
+        
+        // Abortion
+        let abFunc = function(c) {
+          return (1 - uOptProbOfAvoidingPreg(c, ECOB, COC)) * (1 - uProbBirthGivenPreg(c, ECOB)) * 100;
+        }
+        plot(contexts[12], abFunc, RED, ECOA, 20);
+        
+        contexts[12].textAlign = "right";
+        contexts[12].fillText("Abortion", 100, 97);
+        
+        // Birth
+        let birthFunc = function(c) {
+          return (1 - uOptProbOfAvoidingPreg(c, ECOB, COC)) * uProbBirthGivenPreg(c, ECOB) * 100;
+        }
+        plot(contexts[12], birthFunc, BLUE, ECOA, 20);
+        
+        contexts[12].textAlign = "left";
+        contexts[12].fillText("Birth", 5, 97);
+        
+        // Axes
+        contexts[13].fillText("Expected cost of birth", 45, 107);
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return 100 * (1 - uOptProbOfAvoidingPreg(ECOA, c, COC));
+        }
+        plot(contexts[13], pregFunc, YELLOW, ECOB, 20);
+        
+        contexts[13].textAlign = "right";
+        contexts[13].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return (1 - uOptProbOfAvoidingPreg(ECOA, c, COC)) * (1 - uProbBirthGivenPreg(ECOA, c)) * 100;
+        }
+        plot(contexts[13], abFunc, RED, ECOB, 20);
+        
+        contexts[13].textAlign = "left";
+        contexts[13].fillText("Abortion", 5, 97);
+        
+        // Birth
+        birthFunc = function(c) {
+          return (1 - uOptProbOfAvoidingPreg(ECOA, c, COC)) * uProbBirthGivenPreg(ECOA, c) * 100;
+        }
+        plot(contexts[13], birthFunc, BLUE, ECOB, 20);
+        
+        contexts[13].textAlign = "right";
+        contexts[13].fillText("Birth", 100, 97);
+        
+        // Axes
+        contexts[14].fillText("Cost of avoiding pregnancy", 25, 107);
+        
+        // Pregnancy
+        pregFunc = function(c) {
+          return 100 * (1 - uOptProbOfAvoidingPreg(ECOA, ECOB, c));
+        }
+        plot(contexts[14], pregFunc, YELLOW, COC, 20);
+        
+        contexts[14].textAlign = "right";
+        contexts[14].fillText("Pregnancy", 100, 100 - pregFunc(100) - 3);
+        
+        // Abortion
+        abFunc = function(c) {
+          return (1 - uOptProbOfAvoidingPreg(ECOA, ECOB, c)) * (1 - uProbBirthGivenPreg(ECOA, ECOB)) * 100;
+        }
+        plot(contexts[14], abFunc, RED, COC, 20);
+        
+        if (abFunc(0) > 15) {
+          contexts[14].textAlign = "left";
+          contexts[14].fillText("Abortion", 5, 100 - abFunc(0) + 6);
+        } else {
+          contexts[14].textAlign = "right";
+          contexts[14].fillText("Abortion", 100, 100 - abFunc(100) - 3);
+        }
+        
+        // Birth
+        birthFunc = function(c) {
+          return (1 - uOptProbOfAvoidingPreg(ECOA, ECOB, c)) * uProbBirthGivenPreg(ECOA, ECOB) * 100;
+        }
+        plot(contexts[14], birthFunc, BLUE, COC, 20);
+        
+        if (birthFunc(0) > 15) {
+          contexts[14].textAlign = "left";
+          contexts[14].fillText("Birth", 5, 100 - birthFunc(0) + 6);
+        } else {
+          contexts[14].textAlign = "right";
+          contexts[14].fillText("Birth", 100, 100 - birthFunc(100) - 3);
+        }
+      }
+      
+      function devs(i, SAMPLES) {
+        return (6 * i / (SAMPLES - 1) - 3);
+      }
+      
+      function expectation_ALT(func, ACOA, ACOB, ACOC) {
+        const STD = 10;
+        const samples = 200;
+        const sampleQuality = 5;
+        const multiplier = STD * Math.sqrt(12 / sampleQuality);
+        
+        let ret = 0;
+        for (let i = 0; i < samples; i++) {
+          // Approximate a Gaussian by summing a few uniform random numbers
+          let COA = ACOA;
+          let COB = ACOB;
+          let COC = ACOC;
+          for (let j = 0; j < sampleQuality; j++) {
+            // Scaling:
+            // Var[U] = 1/12
+            // Var[c sum_j U] = c^2 * sampleQuality / 12 = STD^2
+            // c = sqrt(12 / sampleQuality) * STD
+            COA += Math.random() * multiplier;
+            COB += Math.random() * multiplier;
+            COC += Math.random() * multiplier;
+          }
+          ret += func(COA, COB, COC);
+        }
+        return ret / samples;
+      }
+      
+      // Expected value w.r.t. independent Gaussians
+      // STD: Standard deviation in each dimension. Units: The sliders run from 0 to 100
+      function expectation(func, ACOA, ACOB, ACOC, varyCOC=true, STD=10) {
+        // Units: The 0-100 scale
+        const STEP_LENGTH = 5;
+        
+        // Where we truncate the Gaussian
+        const MAX_STDS = 2;
+        const MAX_STDS_SQ = Math.pow(MAX_STDS, 2);
+        
+        let ret = 0;
+        let totalProb = 0;
+        
+        // For the sake of smoothness, the *sample point* coordinates are always multiples of STEP_LENGTH
+        
+        let minCOA = Math.ceil((ACOA - MAX_STDS * STD) / STEP_LENGTH) * STEP_LENGTH;
+        for (let COA = minCOA; COA <= ACOA + MAX_STDS * STD; COA += STEP_LENGTH) {
+          let adevs = (COA - ACOA) / STD;
+          let bMaxDevsSquared = MAX_STDS_SQ - Math.pow(adevs, 2);
+          let bMaxDevs = Math.sqrt(bMaxDevsSquared);
+          let minCOB = Math.ceil((ACOB - bMaxDevs * STD) / STEP_LENGTH) * STEP_LENGTH;
+          for (let COB = minCOB; COB <= ACOB + bMaxDevs * STD; COB += STEP_LENGTH) {
+            let bdevs = (COB - ACOB) / STD;
+            
+            if (varyCOC) {
+              let cMaxDevsSquared = bMaxDevsSquared - Math.pow(bdevs, 2);
+              let cMaxDevs = Math.sqrt(cMaxDevsSquared);
+              let minCOC = Math.ceil((ACOC - cMaxDevs * STD) / STEP_LENGTH) * STEP_LENGTH;
+              for (let COC = minCOC; COC <= ACOC + cMaxDevs * STD; COC += STEP_LENGTH) {
+                let cdevs = (COC - ACOC) / STD;
+                
+                let pdfVal = Math.exp(-(Math.pow(adevs, 2) + Math.pow(bdevs, 2) + Math.pow(cdevs, 2)) / 2);
+                ret += pdfVal * func(COA, COB, COC);
+                totalProb += pdfVal;
+              }
+            } else {
+              let pdfVal = Math.exp(-(Math.pow(adevs, 2) + Math.pow(bdevs, 2)) / 2);
+              ret += pdfVal * func(COA, COB, ACOC);
+              totalProb += pdfVal;
+            }
+          }
+        }
+        
+        return ret / totalProb;
+      }
+      
+      function plot(ctx, func, color, currentX, samples=100) {
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(0, 100 - func(0));
+        for (let i = 1; i <= samples; i++) {
+          let x = 100 / samples * i;
+          ctx.lineTo(x, 100 - func(x));
+        }
+        ctx.stroke();
+        
+        let x1 = Math.floor(currentX / 100 * samples) * 100 / samples;
+        let x2 = Math.ceil(currentX / 100 * samples) * 100 / samples;
+        let currentY = 0;
+        if (x2 == x1) {
+          currentY = func(currentX);
+        } else {
+          currentY = ((currentX - x1) * func(x2) + (x2 - currentX) * func(x1)) / (x2 - x1);
+        }
+        
+        ctx.beginPath();
+        ctx.moveTo(currentX, 100 - currentY);
+        ctx.arc(currentX, 100 - currentY, 2, 0, 2 * Math.PI, false);
+        ctx.fill();
+      }
+      
+      update1();
+      update2();
+      update3();
+    </script>
+  </body>
+</html>

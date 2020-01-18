@@ -1,0 +1,63 @@
+<h3>
+          "Abortion Rejecters" and "Birth Rejecters"
+        </h3>
+        
+        <p>
+          When a pregnant woman is deciding whether to give birth or get an abortion, she considers many factors and chooses whichever option she deems "less bad". We model this decision by supposing that each of abortion and birth has a numeric "cost", specific to each individual woman. She chooses the option with the lower cost.
+        </p>
+        
+        <p>
+          To be clear, the "cost" of birth/abortion is not purely monetary. We are considering here <em>all</em> of the positive and negative factors of each option. So for example, the "cost" of birth might factor in the discomfort of continued pregnancy, the reduced freedom of parenting, or perhaps the psychological pain of placing a baby for adoption. Similarly, the "cost" of abortion might factor in the discomfort of the procedure itself, the internal turmoil due to any moral qualms about abortion, and the fear of being treated unkindly by someone who disapproves of abortion.
+        </p>
+        
+        <p>
+          Some of my pro-life readers might object that they would never have an abortion, no matter how "costly" birth might be. This is perhaps too optimistic -- we all suffer from human weaknesses, after all -- but in any case the model can capture this behavior simply by setting the "cost" of abortion to infinity. As a pro-life advocate, I encourage everyone to set their own internal "cost" of abortion to infinity.
+        </p>
+        
+        <p>
+          Some of my readers might also object that birth is not "costly" overall at all, because the joys and fulfillment of raising a child far outweigh all of the difficulties and struggles. There is certainly merit to this viewpoint, but what's relevant is how costly <em>the woman herself</em> deems birth to be. Many women do of course consider birth to be a positive development overall; this can be captured in the model by considering a negative "cost". But those women are not particularly relevant to our discussion, because they would presumably not consider abortion.
+        </p>
+        
+        <p>
+          In this model, we can crudely divide women into "abortion-rejecters" and "birth-rejecters". An "abortion-rejecter" is a woman for whom the cost of abortion is greater than the cost of birth, so if she gets pregnant, she chooses to give birth. A "birth-rejecter" is a woman for whom the cost of birth is greater than the cost of abortion, so if she gets pregnant, she chooses to get an abortion.
+        </p>
+        
+        <p>
+          I use the term "abortion-rejecter" rather than, say, "birth-chooser" to emphasize the fact that an abortion-rejecter doesn't necessarily <em>want</em> to give birth -- her cost of birth might be quite large. An abortion-rejecter simply views birth as the <em>less bad</em> option. Similarly, a birth-rejecter probably doesn't <em>want</em> to have an abortion. She would rather not get pregnant at all. But if she does find herself pregnant, then she will do what it takes to avoid birth.
+        </p>
+        
+        <h3>
+          Government Policies Influence Costs
+        </h3>
+        
+        <p>
+          The government has the ability to <em>alter</em> the costs of birth and abortion. For example, if the government provides abortions for free, this of course reduces the cost of abortion. In the other direction, suppose a law is passed banning abortion. "If abortion is illegal, this does not mean that one cannot obtain an abortion, it just means that the cost of the procedure is very high." (Levine p. 41) Illegal abortions are more "costly" than legal abortions to a woman in many respects, the most serious of which is a greater risk to her physical health.
+        </p>
+        
+        <p>
+          Meanwhile, the government can also influence the cost of birth through tax policies, family leave programs, etc.
+        </p>
+        
+        <p>
+          The point is, the most straightforward way that government policies influence people's behavior is that a woman might be "converted" from being a birth-rejecter to being an abortion-rejecter or vice versa. If abortion is illegal, it makes sense that a pregnant woman might choose to give birth, even if she would have had an abortion if it were legally available. Looking at things this way, if one wishes to reduce abortions, it would seem that increasing the cost of abortion is just as effective as <em>reducing</em> the cost of <em>birth</em>.
+        </p>
+        
+        <h3>
+          Avoiding Pregnancy
+        </h3>
+        
+        <p>
+          The situation is actually more complicated, though. After all, besides the decision to give birth or get an abortion, a woman has partial control over <em>whether she gets pregnant</em> in the first place. Since we are modeling women as <em>rational</em>, the decisions they make <em>before</em> getting pregnant are <em>also</em> influenced by the costs of abortion and birth!
+        </p>
+        
+        <p>
+          Here is the model in more detail. A woman <em>chooses</em> the probability <em>p</em> that she manages to avoid pregnancy that year. She enacts this choice through some combination of refraining from sexual intercourse and using one or more forms of contraception. Levine refers to <em>p</em> as her "contraceptive intensity"; I will simply call it the probability of avoiding pregnancy, both to remind the reader of the quantitative meaning of <em>p</em>, and to emphasize that the woman might be avoiding pregnancy through natural family planning, i.e., refraining from sexual intercourse during her most fertile periods of time.
+        </p>
+        
+        <p>
+          Avoiding pregnancy is costly in itself. Refraining from sexual intercourse means denying oneself a basic human desire, and it can put a strain on one's marriage/relationship. Contraceptives cost money, can have negative health impacts, and can lessen the joys and unitive features of intercourse. Some of my readers, especially my fellow Catholic readers, would also pay a heavy cost for conventional contraception due to moral considerations.
+        </p>
+        
+        <p>
+          Combining all these costs, for setting the probability of avoiding pregnancy to <em>p</em>, the woman incurs the cost <em>C(p)</em>. The function <em>C(p)</em> should of course be increasing. Furthermore, <em>C(p)</em> should be increasing <em>at an increasing rate</em>. E.g., only a little additional effort is required to improving from a 50% chance of avoiding pregnancy to a 51% chance of avoiding pregnancy, whereas improving from a 98% chance of avoiding pregnancy to a 99% chance of avoiding pregnancy takes quite a lot of additional effort.
+        </p>

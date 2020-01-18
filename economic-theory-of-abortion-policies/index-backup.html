@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color:#f0f0f0;
+        margin:0;
+        font-family:'Roboto', sans-serif;
+      }
+      
+      p {
+        line-height:1.5;
+      }
+      
+      svg {
+        width:300px;
+        height:300px;
+      }
+      
+      text {
+        text-anchor:middle;
+        font-size:5px;
+      }
+      
+      polyline {
+        fill:none;
+      }
+      
+      polygon {
+        fill:white;
+      }
+      
+      h1 {
+        font-size:1.5em;
+      }
+      
+      h2 {
+        font-size:1.17em;
+      }
+      
+      .sliders {
+        position:sticky;
+        top:0px;
+        background-color:white;
+        bxorder-bottom:1px solid #e0e0e0;
+        boxrder-top:1px solid #e0e0e0;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding:15px;
+        width:250px;
+        margin:auto;
+      }
+      
+      input[type=range] {
+        width:250px;
+        display:block;
+        margin:3px 0;
+      }
+      
+      .slider {
+        margin-bottom:15px;
+      }
+      .slider:last-child {
+        margin-bottom:0;
+      }
+      
+      canvas {
+        display:inline-block;
+        margin:0;
+        font-kerning:normal;
+        text-rendering:optimizeLegibility;
+      }
+      
+      main {
+        margin:0 auto;
+        max-width:840px;
+        background-color:white;
+      }
+      
+      article {
+        padding:20px 5px;
+        margin:auto;
+        max-width:800px;
+      }
+      
+      figure {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        display:inline-block;
+        width:300px;
+        box-sizing:border-box;
+        text-align:center;
+        margin:15px 5px;
+        vertical-align:middle;
+      }
+      
+      .figgroup {
+        text-align:center;
+      }
+      
+      figcaption {
+        font-size:12px;
+        padding:14px;
+        border-top:1px solid #e0e0e0;
+      }
+    </style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:700&display=swap&text=∞" rel="stylesheet">
+    
+    <title>
+      Economic theory of abortion policies [interactive visualization]
+    </title>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <h1>
+          Economic theory of abortion policies [interactive visualization]
+        </h1>
+        
+        <p style="font-size:0.7em;color:#808080;">
+          By <a href="https://williamhoza.com">William Hoza</a>
+        </p>
+        
+        <p>
+          I recently read an interesting book by economist <a href="https://www.wellesley.edu/economics/faculty/levinep">Phillip Levine</a>. In <cite><a href="https://press.princeton.edu/books/paperback/9780691130453/sex-and-consequences">Sex and Consequences</a></cite>, Levine studies the impact of abortion policies. Realistically, how are abortion rates, birth rates, and pregnancy rates likely to be affected by these government actions?
+        </p>
+        
+        <p>
+          The book addresses this question using both theoretical models and empirical evidence. The whole book is worth reading, but for this article I'm going to focus on the theoretical models. I'll provide some interactive visualizations and a little commentary.
+        </p>
+        
+        <section>
+          <h2>
+            The standard economic model of abortion
+          </h2>
+          
+          <p>
+            Levine describes the following simplified model of unwanted pregnancies, which he calls the "standard model of abortion." A woman chooses a value <strong>p</strong> between 0 or 1, representing the degree to which she ensures that she will not get pregnant that year. With probability <strong>p</strong>, the woman successfully avoids pregnancy, while with probability <strong>1 - p</strong>, the woman accidentally becomes pregnant. In the latter case, she chooses either to give birth or to get an abortion.
+          </p>
+          
+          <div class="figgroup">
+            <figure>
+              <svg id="stdStaticTreeDiagram"></svg>
+              <figcaption>
+                The tree of pregnancy possibilities.
+              </figcaption>
+            </figure>
+          </div>
+          
+          <p>
+            She makes her decisions by weighing the relevant <em>costs</em>. Here, "cost" should be understood to combine all relevant factors: money spent, time lost, pangs of conscience, physical discomfort, social ramifications, etc. I'll sometimes emphasize this point by putting "cost" in quotation marks.
+          </p>
+          
+          <p>
+            Specifically, to avoid pregnancy with probability <strong>p</strong>, the woman incurs a cost <strong>C(p)</strong>, representing all of the negative aspects of refraining from intercourse or using contraceptives. We can expect the function <strong>C(p)</strong> to be increasing at an increasing rate. For simplicity, Levine sets <strong>C(p) = c p<sup>2</sup></strong> for some parameter <strong>c</strong>. This cost function is illustrated in Figure <span data-svgid="stdAvoidingPregnancyDiagram">?</span>; use the slider to change the parameter <strong>c</strong>.
+          </p>
+        
+          <div>
+            <div class="sliders">              
+              <div class="slider">
+                Cost of avoiding pregnancy coefficient (<strong>c</strong>):
+                <input type="range" id="shadowCSlider" min="0" max="100" step="0.01" value="50" oninput="document.querySelector('#cSlider').value = this.value;updateStdModel();">
+              </div>
+            </div>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="stdAvoidingPregnancyDiagram"></svg>
+                <figcaption>
+                  The cost of avoiding pregnancy with probability <strong>p</strong>. Use the slider to adjust the coefficient <strong>c</strong>.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        
+          <p>
+            If she becomes pregnant and chooses abortion, she incurs a cost <strong>A</strong>; if she chooses birth, she incurs a cost <strong>B</strong>. The parameters <strong>A, B, c</strong> are specific to one individual woman, reflecting her particular circumstances, attitudes, environment, etc.
+          </p>
+          
+          <p>
+            This model has some limitations. For example, it doesn't properly account for miscarriages, pregnancy complications, multiple pregnancies in a single year, or pregnancy due to rape. Later, we'll see a more sophisticated model that addresses some (but not all) of these weaknesses. Hopefully, despite these weaknesses, the models still give some insights about people's aggregate behavior.
+          </p>
+          
+          <p>
+            Anyway, we assume that the woman is <em>rational</em>, i.e., at each step, she acts to minimize her expected cost. So if she does become pregnant, she chooses whichever of birth or abortion is less costly, incurring the cost <strong>min(A, B)</strong>. For a given value of <strong>p</strong>, her total expected cost is therefore <strong>C(p) + (1 - p) <span style="font-weight:normal;">⋅</span> min(A, B)</strong>. Taking a derivative with respect to <strong>p</strong>, we see that her total expected cost is minimized when <strong>C'(p) = min(A, B)</strong>, i.e., when the <em>marginal</em> cost of avoiding pregnancy <strong>C'(p)</strong> exactly balances the cost of becoming pregnant, <strong>min(A, B)</strong>. The model is illustrated in Figure <span data-svgid="stdCostBalancingDiagram">?</span>.
+          </p>
+        
+          <div>
+            <div class="sliders">
+              <div class="slider">
+                Cost of abortion (<strong>A</strong>):
+                <input type="range" id="aSlider" min="0" max="100" step="0.01" value="35" oninput="updateStdModel();">
+              </div>
+              
+              <div class="slider">
+                Cost of birth (<strong>B</strong>):
+                <input type="range" id="bSlider" min="0" max="100" step="0.01" value="65" oninput="updateStdModel();">
+              </div>
+              
+              <div class="slider">
+                Cost of avoiding pregnancy coefficient (<strong>c</strong>):
+                <input type="range" id="cSlider" min="0" max="100" step="0.01" value="50" oninput="updateStdModel();">
+              </div>
+            </div>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="stdCostBalancingDiagram"></svg>
+                <figcaption>
+                  The woman selects her probability <strong>p</strong> of avoiding pregnancy to optimize her total expected "cost." She balances the "cost" of avoiding pregnancy against the "cost" of pregnancy itself. Use the sliders to adjust the parameters.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg id="stdTreeDiagram"></svg>
+                <figcaption>
+                  Assuming the woman acts rationally, she will randomly move down the tree according to the depicted transition probabilities. Use the sliders to adjust the parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              Keep in mind that we're only considering costs <em>to the woman herself</em>, not costs to others ("externalities"). For example, the "cost" of abortion <strong>A</strong> only reflects the harm done to the <em>baby</em> insofar as that harm affects the mother (perhaps because she cares about it). As a pro-life advocate, I encourage everyone to adopt an ethical framework in which <strong>A = ∞</strong>. That is, I think intentional abortion should be rejected no matter how costly the alternative is. But never mind my ethical views; we're trying to make realistic predictions here.
+            </p>
+            
+            <h2>
+              Abortion policies affect the "cost" of abortion
+            </h2>
+            
+            <p>
+              A new public policy governing abortion is modeled as a change in <strong>A</strong>. E.g., introducing public funding for abortions obviously decreases the cost of abortion. In the other direction, requiring doctors to ask pregnant women whether they would like to view an ultrasound before getting an abortion increases the psychological "cost" of abortion. Going further, if abortion is outlawed altogether, "...this does not mean that one cannot obtain an abortion, it just means that the cost of the procedure is very high." (Levine p. 41)
+            </p>
+            
+            <p>
+              To better understand the effects of abortion policies, Figure <span data-svgid="stdAbortionCostDiagram">?</span> shows the probability that a woman gets pregnant / gives birth / has an abortion in a given year, as a function of the cost of abortion.
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="stdAbortionCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome probabilities as a function of the "cost" of abortion (<strong>A</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              Notice that if the cost of abortion is initially much lower than the cost of birth, then <strong>moderate anti-abortion laws decrease the chance of abortion without increasing the chance of an unwanted birth</strong>. The explanation for this paradox is that anti-abortion laws create a strong incentive to avoid unwanted pregnancy in the first place.
+            </p>
+            
+            <p>
+              Of course, if the cost of abortion is raised above the cost of birth, then the model does predict some unwanted births. Still, overall, the chance of abortion potentially decreases much more than the chance of unwanted birth increases. I consider this good news.
+            </p>
+            
+            <h2>
+              Public policies can affect the "cost" of birth
+            </h2>
+            
+            <p>
+              The government can also set policies affecting the cost of birth (<strong>B</strong>), e.g., tax policies, family leave programs, welfare programs, etc. Figure <span data-svgid="stdBirthCostDiagram">?</span> again shows the probability that a woman gets pregnant / gives birth / has an abortion in a given year, but this time the horizontal axis is the cost of birth.
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="stdBirthCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome probabilities as a function of the "cost" of birth (<strong>B</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              Notice that if one has a goal of reducing abortions, <strong>decreasing the cost of birth and increasing the cost of abortion are not equivalent</strong>. Indeed, suppose the cost of abortion is initially substantially below the cost of birth. Slightly decreasing the cost of birth has no effect on the probability of abortion. There's only an effect if the cost of birth drops so low that births are substituted for abortions. In contrast, any little increase in the cost of abortion decreases the probability of abortion, because it decreases the probability of pregnancy occurring at all.
+            </p>
+            
+            <h2>
+              Public policies can affect the "cost" of avoiding pregnancy
+            </h2>
+            
+            <p>
+              Finally, government policies can also influence the cost of avoiding pregnancy coefficient (<strong>c</strong>). The obvious ways to do this involve contraceptives, but it could also be done in ways that my fellow Catholics can approve of, e.g., introducing subsidies for electronic fertility monitors, or working to reduce social pressure to engage in premarital sex. Figure <span data-svgid="stdContraceptiveCostDiagram">?</span> shows the probability that a woman gets pregnant / gives birth / has an abortion in a given year, as a function of <strong>c</strong>, the coefficient of the cost of avoiding pregnancy.
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="stdContraceptiveCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome probabilities as a function of the "cost" of avoiding pregnancy coefficient (<strong>c</strong>), holding other parameters fixed. The horizontal axis is on a logarithmic scale. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              No surprises there: decreasing <strong>c</strong> decreases the probability of pregnancy and either decreases or has no effect on the probabilities of birth and abortion.
+            </p>
+          </div>
+        </section>
+        
+        <section>
+          <h2>
+            Beyond the individual: Modeling a population
+          </h2>
+          
+          <p>
+            As I said before, the cost parameters <strong>A, B, c</strong> vary from one woman to the next. For simplicity, I'll assume that in the population of interest, <strong>A</strong>, <strong>B</strong>, and <strong>log c</strong> are distributed according to three independent Gaussian distributions (the familiar "bell curve.") I set the variances to be pretty small, so you should think of a relatively narrow population of women, e.g., "pro-choice Protestant white women in Nebraska aged 18-24" rather than "all women on Earth."
+          </p>
+        
+          <div>
+            <div class="sliders">
+              <div class="slider">
+                Median cost of abortion (<strong>A</strong>):
+                <input type="range" id="popASlider" min="0" max="100" step="1" value="35" oninput="updatePopStdModel();">
+              </div>
+              
+              <div class="slider">
+                Median cost of birth (<strong>B</strong>):
+                <input type="range" id="popBSlider" min="0" max="100" step="1" value="65" oninput="updatePopStdModel();">
+              </div>
+              
+              <div class="slider">
+                Median cost of avoiding pregnancy coefficient (<strong>c</strong>):
+                <input type="range" id="popCSlider" min="0" max="100" step="1" value="50" oninput="updatePopStdModel();">
+              </div>
+            </div>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="popStdCostBalancingDiagram"></svg>
+                <figcaption>
+                  Each woman in the population optimizes her personal probability of avoiding pregnancy <strong>p</strong>. The dashed vertical line shows the mean value of <strong>p</strong> throughout the population. Use the sliders to adjust the mean values of the Gaussian distributions determining the parameters.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg id="popStdTreeDiagram"></svg>
+                <figcaption>
+                  The top percentages give the expected rate of pregnancy. The bottom percentages give, loosely speaking, the rates of birth and abortion among pregnant women in the population. (More precisely, they are conditional probabilities with respect to a randomly chosen woman in the population.)
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              Now we can graph the <em>rates</em> of pregnancy, birth, and abortion in this population (i.e., number per 1000 women per year) as a function of the median cost of abortion, the median cost of birth, or the median coefficient of the cost of avoiding pregnancy. The graphs are basically the same as the corresponding graphs for one individual, except that the curves are "smoothed out":
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="popStdAbortionCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome rates as a function of the median "cost" of abortion (<strong>A</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg id="popStdBirthCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome rates as a function of the median "cost" of birth (<strong>B</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg id="popStdContraceptiveCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome rates as a function of the median "cost" of avoiding pregnancy coefficient (<strong>c</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              Once again, we see that if the initial cost of abortion is low, then anti-abortion laws decrease the pregnancy rate. Speaking a little loosely, when abortion is available at a very low cost, <strong>most abortions are of pregnancies that would never have occurred at all</strong> if abortion were more costly.
+            </p>
+          </div>
+          
+          <h2>
+            Anti-abortion laws can be expected to reduce abortions
+          </h2>
+          
+          <p>
+            To summarize what we've seen so far, the model predicts that anti-abortion laws decrease abortion rates through two mechanisms working together: they create a strong incentive to avoid pregnancy, and they give pregnant women a good reason to choose to give birth.
+          </p>
+        
+          <p>
+            Some pro-choice advocates disagree with this prediction, arguing that even <em>outlawing</em> abortion would have little to no effect on abortion rates. These pro-choice advocates generally agree that outlawing abortion would greatly increase the "cost" of abortion. (Indeed, they usually make that point themselves, as part of their arguments in favor of allowing abortion.) Presumably, these pro-choice advocates believe that there are very few women who choose abortion by a "small margin" — women who choose legal abortion over giving birth, but who would choose giving birth over illegal abortion.
+          </p>
+          
+          <p>
+            I find that hard to believe, but here's the thing. <strong>Even if it were true, it still wouldn't stop anti-abortion laws from working!</strong> To maintain that anti-abortion laws don't work, the pro-choice advocate must <em>also</em> believe that among women who get abortions, there are very few women who would have effectively reduced their risk of pregnancy if abortion had been illegal. (In mathematical terms, these pro-choice advocates need to believe that the second derivative <strong>C''(p)</strong> of the cost-of-avoiding-pregnancy-function is very large, like if there's a "kink" in the graph of <strong>C(p)</strong> located right at the chosen value of <strong>p</strong>.) I find this hard to believe as well.
+          </p>
+          
+          <p>
+            I'd say the most devastating blow to the "anti-abortion laws don't work" hypothesis is the substantial body of <strong>empirical evidence</strong> that seems to indicate the opposite. Reviewing this (admittedly subtle) empirical evidence is beyond the scope of this article — I'll let you read Levine's book.
+          </p>
+        </section>
+        <section>
+          <h2>
+            The extended model: Uncertain costs
+          </h2>
+          
+          <p>
+            Levine also studies a more sophisticated model of unwanted pregnancies, which he calls the "extended model." This model is the same as before, with one twist: the costs <strong>A</strong> and <strong>B</strong> of abortion and birth are modeled as <em>random variables</em> whose values are only determined <em>after</em> the woman gets pregnant.
+          </p>
+          
+          <p>
+            This model captures the fact that in real life, a woman gains <em>knowledge</em> about the costs of birth and abortion after she becomes pregnant. A doctor might tell her that the baby has an unfortunate medical condition. She might learn that a pregnancy resource center near her can provide her with free maternity clothes and diapers. The father might abandon the mother and baby. She might become more emotionally attached to the baby than she expected. She might be surprised to learn that abortion is covered by her health insurance plan. Each of these pieces of information affects the "cost" of giving birth and/or the "cost" of getting an abortion.
+          </p>
+          
+          <p>
+            The extended model can also crudely account for the horrific reality of rape. Before getting pregnant, one of the reasons a woman can't know for sure what it would "cost" to give birth or get an abortion is that she can't know for sure how the hypothetical pregnancy would come to be. Knowing that the pregnancy is the result of rape is likely to increase the psychological "cost" of birth and decrease the psychological "cost" of abortion.
+          </p>
+          
+          <p>
+            For this article, I'll assume that her prior knowledge of <strong>A</strong> and <strong>B</strong> is given by two independent Gaussian distributions. (This is a bit different than the distributions Levine considers. See his article <cite><a href="https://www.nber.org/papers/w8813">Abortion as Insurance</a></cite>, coauthored with Douglas Staiger, for more details.) Let's return to an individual woman, not a whole population. Rationally, the woman selects the probability <strong>p</strong> of avoiding pregnancy so that the marginal cost of avoiding pregnancy <strong>C'(p)</strong> exactly balances the <em>expected</em> cost of pregnancy <strong>E[min(A, B)]</strong>.
+          </p>
+          
+          <div>
+            <div class="sliders">
+              <div class="slider">
+                Expected cost of abortion (<strong>A</strong>):
+                <input type="range" id="extASlider" min="0" max="100" step="1" value="35" oninput="updateExtModel();">
+              </div>
+              
+              <div class="slider">
+                Expected cost of birth (<strong>B</strong>):
+                <input type="range" id="extBSlider" min="0" max="100" step="1" value="65" oninput="updateExtModel();">
+              </div>
+              
+              <div class="slider">
+                Cost of avoiding pregnancy coefficient (<strong>c</strong>):
+                <input type="range" id="extCSlider" min="0" max="100" step="1" value="50" oninput="updateExtModel();">
+              </div>
+            </div>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="extCostBalancingDiagram"></svg>
+                <figcaption>
+                  The dashed horizontal line shows the expected cost of pregnancy <strong>E[min(A, B)]</strong>. It's always a bit below <strong>E[A]</strong> and <strong>E[B]</strong>, because it would be a bit surprising for <em>both</em> <strong>A</strong> and <strong>B</strong> to exceed their expectations. Use the sliders to adjust the parameters.
+                </figcaption>
+              </figure>
+              <figure>
+                <svg id="extTreeDiagram"></svg>
+                <figcaption>
+                  The transition probabilities in the extended model. Use the sliders to adjust the parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <h2>
+              Anti-abortion laws can theoretically decrease births
+            </h2>
+            
+            <p>
+              Just like we did with the standard model, let's graph the probability of pregnancy / abortion / birth as a function of the expected cost of abortion, to understand the effects of abortion policies.
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="extAbortionCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome probabilities as a function of the expected "cost" of abortion (<strong>A</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              If you set the cost-of-avoiding-pregnancy-coefficient (<strong>c</strong>) slider to a small value and the expected-cost-of-birth (<strong>B</strong>) slider to a moderate value, you can observe something strange. As the expected cost of abortion increases, the probability of birth increases at first <em>and then decreases again</em>. Unsurprisingly, the probability of abortion simply decreases the whole time. So theoretically, <strong>anti-abortion laws can decrease the chance of abortion and the chance of birth simultaneously.</strong>
+            </p>
+            
+            <p>
+              Remember that earlier, in the standard model, it was interesting to see the chance of birth <em>increase by less</em> than the amount the chance of abortion decreased due to anti-abortion laws. The paradox in the extended model is more extreme: the chance of birth can actually <em>decrease</em>!
+            </p>
+            
+            <p>
+              The explanation for this paradox is, once again, the effect of anti-abortion laws on <strong>p</strong>. When the expected cost of abortion is very high, there is a sufficiently strong incentive that the woman virtually guarantees that she will not get pregnant, so of course the chance of giving birth is near-zero. With a more moderate expected cost of abortion, the prospect of pregnancy doesn't look quite so bad, so she puts less effort into avoiding pregnancy. There's a decent chance she becomes pregnant. But then conditioned on getting pregnant, there's <em>also</em> a decent chance that the cost of birth <em>turns out</em> to be less than the cost of abortion, in which case she gives birth.
+            </p>
+            
+            <h2>
+              Decreasing the "cost" of birth can theoretically increase abortions
+            </h2>
+            
+            <p>
+              There's a dark side to this latest paradox. The models we've been studying treat abortion and birth totally symmetrically. Since we've seen that increasing the "cost" of abortion can theoretically decrease the chance of birth, we have to conclude that <strong>decreasing the "cost" of birth can theoretically increase the chance of abortion.</strong> Indeed, you can see this troubling phenomenon on the following graph by setting the cost-of-avoiding-pregnancy-coefficient (<strong>c</strong>) slider to a small value and the expected-cost-of-abortion (<strong>A</strong>) slider to a moderate value.
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="extBirthCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome probabilities as a function of the expected "cost" of birth (<strong>B</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+            
+            <p>
+              I consider this bad news. Providing free diapers, guaranteeing paid maternity leave, increasing daycare access, etc. make it easier for pregnant women to reject abortion, and I would like to think that these efforts therefore reduce abortions. The extended model does allow for this possibility, and I bet it's what happens in practice. However, the extended model also allows for the possibility that overall, these efforts increase abortions, because women will feel less of a need to avoid pregnancy, but then will sometimes end up choosing abortion after all after gaining information.
+            </p>
+            
+            <p>
+              Let me emphasize that aside from any effect on abortion rates, there are <em>independent</em> reasons to strive to reduce the "cost" of giving birth. At a basic level, the motivation for reducing abortions in the first place is to promote people's welfare (namely, people in their mothers' wombs). That same motivation urges us to ease pregnant women's burdens and thereby promote <em>their</em> welfare.
+            </p>
+            
+            <h2>
+              Changing the cost of avoiding pregnancy in the extended model
+            </h2>
+            
+            <p>
+              Finally, here are the probabilities of pregnancy / birth / abortion as a function of <strong>c</strong> in the extended model. No surprises here.
+            </p>
+            
+            <div class="figgroup">
+              <figure>
+                <svg id="extContraceptiveCostDiagram"></svg>
+                <figcaption>
+                  Pregnancy outcome probabilities as a function of the "cost" of avoiding pregnancy coefficient (<strong>c</strong>), holding other parameters fixed, in the extended model. Use the sliders to adjust the fixed parameters.
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+          
+          <!--
+          <h2>
+            A population of women in the extended model
+          </h2>
+          
+          <div class="sliders">
+            <div class="slider">
+              Median expected cost of abortion (<strong>A</strong>):
+              <br>
+              <input type="range" id="popExtASlider" style="width:300px;" min="0" max="100" step="1" value="35" oninput="updatePopExtModel();">
+            </div>
+            
+            <div class="slider">
+              Median expected cost of birth (<strong>B</strong>):
+              <br>
+              <input type="range" id="popExtBSlider" style="width:300px;" min="0" max="100" step="1" value="65" oninput="updatePopExtModel();">
+            </div>
+            
+            <div class="slider">
+              Median cost of avoiding pregnancy coefficient (<strong>c</strong>):
+              <br>
+              <input type="range" id="popExtCSlider" style="width:300px;" min="0" max="100" step="1" value="50" oninput="updatePopExtModel();">
+            </div>
+          </div>
+          
+          <svg id="popExtCostBalancingDiagram"></svg>
+          <svg id="popExtAbortionCostDiagram"></svg>
+          -->
+        </section>
+        <section>
+          <h2>
+            Conclusions
+          </h2>
+          
+          <p>
+            Simple economic models paint a surprisingly complex picture. The relationship between abortion laws and birth rates is not straightforward, nor is the relationship between the cost of birth and abortion rates.
+          </p>
+          
+          <p>
+            Some predictions from these models, however, are refreshingly straightforward. For example, <strong>increasing the "cost" of abortion reduces abortions.</strong> On a philosophical level, I think outlawing abortion is consistent with principles of <em>justice.</em> After reading Levine's book, I'm more convinced than ever that outlawing abortion is also consistent with principles of <em>prudence.</em> I think we should work to make abortion both unthinkable and illegal.
+          </p>
+          
+          <p>
+            (One final note: I didn't include graphs for a <em>population</em> of women under the extended model, because they look basically the same as the graphs for an individual woman.)
+          </p>
+        </section>
+      </article>
+    </main>
+    
+    <script type="text/javascript">
+      const BLUE = "rgb(0, 128, 255)";
+      const RED = "rgb(255, 0, 0)";
+      const YELLOW = "rgb(180, 160, 0)";
+      
+      function DiagramGroup() {
+        this.diagrams = [];
+      }
+      DiagramGroup.prototype.addDiagram = function(diagram) {
+        this.diagrams.push(diagram);
+        return diagram;
+      }
+      DiagramGroup.prototype.completeSetup = function() {
+        for (let i = 0; i < this.diagrams.length; i++) {
+          this.diagrams[i].completeSetup();
+        }
+      }
+      DiagramGroup.prototype.redraw = function() {
+        for (let i = 0; i < this.diagrams.length; i++) {
+          this.diagrams[i].redraw();
+        }
+      }
+      
+      const stdModel = new StdModel();
+      const popStdModel = new PopStdModel();
+      const extModel = new ExtModel();
+      // const popExtModel = new PopExtModel();
+      
+      const stdGroup = new DiagramGroup();
+      
+      const stdStaticTreeDiagram = stdGroup.addDiagram(new PregnancyTreeDiagram(document.querySelector("#stdStaticTreeDiagram")));
+      const stdAvoidingPregnancyDiagram = stdGroup.addDiagram(new CurveDiagram(document.querySelector("#stdAvoidingPregnancyDiagram"), "Prob[avoid pregnancy]", '"Cost"'));
+      const stdCostBalancingDiagram = stdGroup.addDiagram(new CurveDiagram(document.querySelector("#stdCostBalancingDiagram"), "Prob[avoid pregnancy]", '"Cost"'));
+      const stdTreeDiagram = stdGroup.addDiagram(new PregnancyTreeDiagram(document.querySelector("#stdTreeDiagram"), stdModel));
+      const stdAbortionCostDiagram = stdGroup.addDiagram(new CurveDiagram(document.querySelector("#stdAbortionCostDiagram"), '"Cost" of abortion', "Probability"));
+      const stdBirthCostDiagram = stdGroup.addDiagram(new CurveDiagram(document.querySelector("#stdBirthCostDiagram"), '"Cost" of birth', "Probability"));
+      const stdContraceptiveCostDiagram = stdGroup.addDiagram(new CurveDiagram(document.querySelector("#stdContraceptiveCostDiagram"), '"Cost" of avoiding pregnancy', "Probability"));
+      
+      const popStdGroup = new DiagramGroup();
+      
+      const popStdCostBalancingDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdCostBalancingDiagram"), 'Prob[avoid pregnancy]', '"Cost"'));
+      const popStdTreeDiagram = popStdGroup.addDiagram(new PregnancyTreeDiagram(document.querySelector("#popStdTreeDiagram"), popStdModel));
+      const popStdAbortionCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdAbortionCostDiagram"), 'Median "cost" of abortion', "Rate"));
+      const popStdBirthCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdBirthCostDiagram"), 'Median "cost" of birth', "Rate"));
+      const popStdContraceptiveCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdContraceptiveCostDiagram"), 'Median "cost" of avoiding pregnancy', "Rate"));
+      
+      const extGroup = new DiagramGroup();
+      
+      const extCostBalancingDiagram = extGroup.addDiagram(new CurveDiagram(document.querySelector("#extCostBalancingDiagram"), "Prob[avoid pregnancy]", '"Cost"'));
+      const extTreeDiagram = extGroup.addDiagram(new PregnancyTreeDiagram(document.querySelector("#extTreeDiagram"), extModel));
+      const extAbortionCostDiagram = extGroup.addDiagram(new CurveDiagram(document.querySelector("#extAbortionCostDiagram"), 'Expected "cost" of abortion', "Probability"));
+      const extBirthCostDiagram = extGroup.addDiagram(new CurveDiagram(document.querySelector("#extBirthCostDiagram"), 'Expected "cost" of birth', "Probability"));
+      const extContraceptiveCostDiagram = extGroup.addDiagram(new CurveDiagram(document.querySelector("#extContraceptiveCostDiagram"), '"Cost" of avoiding pregnancy', "Probability"));
+      
+      /*
+      const popExtGroup = new DiagramGroup();
+      
+      const popExtCostBalancingDiagram = popExtGroup.addDiagram(new CurveDiagram(document.querySelector("#popExtCostBalancingDiagram"), "Prob[avoid pregnancy]", '"Cost"'));
+      const popExtAbortionCostDiagram = popExtGroup.addDiagram(new CurveDiagram(document.querySelector("#popExtAbortionCostDiagram"), 'Median expected "cost" of abortion', 'Rate'));
+      */
+      
+      function init() {
+        stdStaticTreeDiagram.pregnancyLineLabelTextNode.nodeValue = "1 - p";
+        stdStaticTreeDiagram.pregnancyLineLabel.style.fontWeight = "bold";
+        stdStaticTreeDiagram.noPregnancyLineLabelTextNode.nodeValue = "p";
+        stdStaticTreeDiagram.noPregnancyLineLabel.style.fontWeight = "bold";
+        
+        stdAvoidingPregnancyDiagram.curve = new Curve(
+          function(x) {
+            return stdModel.slope * Math.pow(x, 2) / 100;
+          },
+          function() {
+            this.labelElement.setAttribute("x", 46);
+            this.labelElement.setAttribute("y", 100 - this.func(50) - 6);
+          },
+          null, YELLOW, "C(p)");
+        stdAvoidingPregnancyDiagram.curve.labelElement.style.fontWeight = "bold";
+        stdAvoidingPregnancyDiagram.addCurve(stdAvoidingPregnancyDiagram.curve);
+        
+        stdCostBalancingDiagram.birthCurve = new Curve(
+          function(x) {
+            return stdModel.bSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - stdModel.bSlider - 3);
+          }, null, BLUE, '"Cost" of birth');
+        stdCostBalancingDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        stdCostBalancingDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        stdCostBalancingDiagram.addCurve(stdCostBalancingDiagram.birthCurve);
+        
+        stdCostBalancingDiagram.abortionCurve = new Curve(
+          function(x) {
+            return stdModel.aSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - stdModel.aSlider - 3);
+          }, null, RED, '"Cost" of abortion');
+        stdCostBalancingDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        stdCostBalancingDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        stdCostBalancingDiagram.addCurve(stdCostBalancingDiagram.abortionCurve);
+        
+        stdCostBalancingDiagram.optimalCICurve = new Curve(
+          function(y) {
+            return stdModel.optimalCI * 100;
+          },
+          function() {
+            this.labelElement.setAttribute("x", this.func(0) + 3);
+          }, null, YELLOW, 'p', true);
+        stdCostBalancingDiagram.optimalCICurve.polylineElement.setAttribute("stroke-dasharray", "3");
+        stdCostBalancingDiagram.optimalCICurve.labelElement.style.fontWeight = "bold";
+        stdCostBalancingDiagram.optimalCICurve.labelElement.setAttribute("y", 97);
+        stdCostBalancingDiagram.addCurve(stdCostBalancingDiagram.optimalCICurve);
+        
+        stdCostBalancingDiagram.avoidingPregnancyCurve = new Curve(
+          function(x) {
+            return stdModel.slope * x;
+          },
+          function() {
+            let y = 100 - this.func(6) - 3;
+            this.labelElement.setAttribute("x", 5);
+            this.labelElement.setAttribute("y", y);
+            this.labelElement.setAttribute("transform", "rotate(" + stdModel.angle + " 5," + y + ")");
+          }, null, YELLOW, 'Marginal "cost" of avoiding pregnancy');
+        stdCostBalancingDiagram.avoidingPregnancyCurve.labelElement.style.textAnchor = "start";
+        stdCostBalancingDiagram.addCurve(stdCostBalancingDiagram.avoidingPregnancyCurve);
+        
+        stdAbortionCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - StdModel.optimalCI(x, stdModel.bSlider, stdModel.cSlider)) + 2;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return stdModel.aSlider;
+          },
+          YELLOW, "Pregnancy", false, 100);
+        stdAbortionCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        stdAbortionCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        stdAbortionCostDiagram.addCurve(stdAbortionCostDiagram.pregnancyCurve);
+        
+        stdAbortionCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * StdModel.abortionProb(x, stdModel.bSlider, stdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return stdModel.aSlider;
+          },
+          RED, "Abortion", false, 100);
+        stdAbortionCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        stdAbortionCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        stdAbortionCostDiagram.addCurve(stdAbortionCostDiagram.abortionCurve);
+        
+        stdAbortionCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * StdModel.birthProb(x, stdModel.bSlider, stdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return stdModel.aSlider;
+          },
+          BLUE, "Birth", false, 100);
+        stdAbortionCostDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        stdAbortionCostDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        stdAbortionCostDiagram.addCurve(stdAbortionCostDiagram.birthCurve);
+        
+        stdBirthCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - StdModel.optimalCI(stdModel.aSlider, x, stdModel.cSlider)) + 2;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return stdModel.bSlider;
+          },
+          YELLOW, "Pregnancy", false, 100);
+        stdBirthCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        stdBirthCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        stdBirthCostDiagram.addCurve(stdBirthCostDiagram.pregnancyCurve);
+        
+        stdBirthCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * StdModel.abortionProb(stdModel.aSlider, x, stdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return stdModel.bSlider;
+          },
+          RED, "Abortion", false, 100);
+        stdBirthCostDiagram.abortionCurve.labelElement.setAttribute("x", 5);
+        stdBirthCostDiagram.abortionCurve.labelElement.style.textAnchor = "start";
+        stdBirthCostDiagram.addCurve(stdBirthCostDiagram.abortionCurve);
+        
+        stdBirthCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * StdModel.birthProb(stdModel.aSlider, x, stdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return stdModel.bSlider;
+          },
+          BLUE, "Birth", false, 100);
+        stdBirthCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
+        stdBirthCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
+        stdBirthCostDiagram.addCurve(stdBirthCostDiagram.birthCurve);
+        
+        stdContraceptiveCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - StdModel.optimalCI(stdModel.aSlider, stdModel.bSlider, x)) + 2;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return stdModel.cSlider;
+          },
+          YELLOW, "Pregnancy", false, 100);
+        stdContraceptiveCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        stdContraceptiveCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        stdContraceptiveCostDiagram.addCurve(stdContraceptiveCostDiagram.pregnancyCurve);
+        
+        stdContraceptiveCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * StdModel.abortionProb(stdModel.aSlider, stdModel.bSlider, x));
+          },
+          function() {
+            if (this.func(100) > 15) {
+              this.labelElement.setAttribute("y", 100 - this.func(100) + 10);
+            } else {
+              this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+            }
+          },
+          function() {
+            return stdModel.cSlider;
+          },
+          RED, "Abortion", false, 100);
+        stdContraceptiveCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        stdContraceptiveCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        stdContraceptiveCostDiagram.addCurve(stdContraceptiveCostDiagram.abortionCurve);
+        
+        stdContraceptiveCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * StdModel.birthProb(stdModel.aSlider, stdModel.bSlider, x));
+          },
+          function() {
+            if (this.func(100) > 15) {
+              this.labelElement.setAttribute("y", 100 - this.func(100) + 10);
+            } else {
+              this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+            }
+          },
+          function() {
+            return stdModel.cSlider;
+          },
+          BLUE, "Birth", false, 100);
+        stdContraceptiveCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
+        stdContraceptiveCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
+        stdContraceptiveCostDiagram.addCurve(stdContraceptiveCostDiagram.birthCurve);
+        
+        popStdCostBalancingDiagram.birthCurve = new Curve(
+          function(x) {
+            return popStdModel.bSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - popStdModel.bSlider - 3);
+          }, null, BLUE, 'Median "cost" of birth');
+        popStdCostBalancingDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        popStdCostBalancingDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        popStdCostBalancingDiagram.addCurve(popStdCostBalancingDiagram.birthCurve);
+        
+        popStdCostBalancingDiagram.abortionCurve = new Curve(
+          function(x) {
+            return popStdModel.aSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - popStdModel.aSlider - 3);
+          }, null, RED, 'Median "cost" of abortion');
+        popStdCostBalancingDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        popStdCostBalancingDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        popStdCostBalancingDiagram.addCurve(popStdCostBalancingDiagram.abortionCurve);
+        
+        popStdCostBalancingDiagram.optimalCICurve = new Curve(
+          function(y) {
+            return popStdModel.optimalCI * 100;
+          },
+          function() {
+            this.labelElement.setAttribute("x", this.func(0) + 3);
+          }, null, YELLOW, 'p', true);
+        popStdCostBalancingDiagram.optimalCICurve.polylineElement.setAttribute("stroke-dasharray", "3");
+        popStdCostBalancingDiagram.optimalCICurve.labelElement.style.fontWeight = "bold";
+        popStdCostBalancingDiagram.optimalCICurve.labelElement.setAttribute("y", 97);
+        popStdCostBalancingDiagram.addCurve(popStdCostBalancingDiagram.optimalCICurve);
+        
+        popStdCostBalancingDiagram.avoidingPregnancyCurve = new Curve(
+          function(x) {
+            return popStdModel.slope * x;
+          },
+          function() {
+            let y = 100 - this.func(6) - 3;
+            this.labelElement.setAttribute("x", 5);
+            this.labelElement.setAttribute("y", y);
+            this.labelElement.setAttribute("transform", "rotate(" + popStdModel.angle + " 5," + y + ")");
+          }, null, YELLOW, 'Median marg. "cost" of avoiding preg.');
+        popStdCostBalancingDiagram.avoidingPregnancyCurve.labelElement.style.textAnchor = "start";
+        popStdCostBalancingDiagram.addCurve(popStdCostBalancingDiagram.avoidingPregnancyCurve);
+        
+        popStdAbortionCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - PopStdModel.optimalCI(x, popStdModel.bSlider, popStdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popStdModel.aSlider;
+          },
+          YELLOW, "Pregnancy");
+        popStdAbortionCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        popStdAbortionCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        popStdAbortionCostDiagram.addCurve(popStdAbortionCostDiagram.pregnancyCurve);
+        
+        popStdAbortionCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopStdModel.abortionProb(x, popStdModel.bSlider, popStdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popStdModel.aSlider;
+          },
+          RED, "Abortion");
+        popStdAbortionCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        popStdAbortionCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        popStdAbortionCostDiagram.addCurve(popStdAbortionCostDiagram.abortionCurve);
+        
+        popStdAbortionCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopStdModel.birthProb(x, popStdModel.bSlider, popStdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return popStdModel.aSlider;
+          },
+          BLUE, "Birth");
+        popStdAbortionCostDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        popStdAbortionCostDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        popStdAbortionCostDiagram.addCurve(popStdAbortionCostDiagram.birthCurve);
+        
+        popStdBirthCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - PopStdModel.optimalCI(popStdModel.aSlider, x, popStdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popStdModel.bSlider;
+          },
+          YELLOW, "Pregnancy");
+        popStdBirthCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        popStdBirthCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        popStdBirthCostDiagram.addCurve(popStdBirthCostDiagram.pregnancyCurve);
+        
+        popStdBirthCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopStdModel.abortionProb(popStdModel.aSlider, x, popStdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return popStdModel.bSlider;
+          },
+          RED, "Abortion");
+        popStdBirthCostDiagram.abortionCurve.labelElement.setAttribute("x", 5);
+        popStdBirthCostDiagram.abortionCurve.labelElement.style.textAnchor = "start";
+        popStdBirthCostDiagram.addCurve(popStdBirthCostDiagram.abortionCurve);
+        
+        popStdBirthCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopStdModel.birthProb(popStdModel.aSlider, x, popStdModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popStdModel.bSlider;
+          },
+          BLUE, "Birth");
+        popStdBirthCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
+        popStdBirthCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
+        popStdBirthCostDiagram.addCurve(popStdBirthCostDiagram.birthCurve);
+        
+        popStdContraceptiveCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - PopStdModel.optimalCI(popStdModel.aSlider, popStdModel.bSlider, x)) + 2;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popStdModel.cSlider;
+          },
+          YELLOW, "Pregnancy");
+        popStdContraceptiveCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        popStdContraceptiveCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        popStdContraceptiveCostDiagram.addCurve(popStdContraceptiveCostDiagram.pregnancyCurve);
+        
+        popStdContraceptiveCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopStdModel.abortionProb(popStdModel.aSlider, popStdModel.bSlider, x));
+          },
+          function() {
+            if (this.func(100) > 15) {
+              this.labelElement.setAttribute("y", 100 - this.func(100) + 10);
+            } else {
+              this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+            }
+          },
+          function() {
+            return popStdModel.cSlider;
+          },
+          RED, "Abortion");
+        popStdContraceptiveCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        popStdContraceptiveCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        popStdContraceptiveCostDiagram.addCurve(popStdContraceptiveCostDiagram.abortionCurve);
+        
+        popStdContraceptiveCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopStdModel.birthProb(popStdModel.aSlider, popStdModel.bSlider, x));
+          },
+          function() {
+            if (this.func(100) > 15) {
+              this.labelElement.setAttribute("y", 100 - this.func(100) + 10);
+            } else {
+              this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+            }
+          },
+          function() {
+            return popStdModel.cSlider;
+          },
+          BLUE, "Birth");
+        popStdContraceptiveCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
+        popStdContraceptiveCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
+        popStdContraceptiveCostDiagram.addCurve(popStdContraceptiveCostDiagram.birthCurve);
+        
+        extCostBalancingDiagram.birthCurve = new Curve(
+          function(x) {
+            return extModel.bSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - extModel.bSlider - 3);
+          }, null, BLUE, 'Expected "cost" of birth');
+        extCostBalancingDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        extCostBalancingDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        extCostBalancingDiagram.addCurve(extCostBalancingDiagram.birthCurve);
+        
+        extCostBalancingDiagram.abortionCurve = new Curve(
+          function(x) {
+            return extModel.aSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - extModel.aSlider - 3);
+          }, null, RED, 'Expected "cost" of abortion');
+        extCostBalancingDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        extCostBalancingDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        extCostBalancingDiagram.addCurve(extCostBalancingDiagram.abortionCurve);
+        
+        extCostBalancingDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return extModel.expectedCostOfPregnancy;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - extModel.expectedCostOfPregnancy + 7);
+          }, null, YELLOW, 'Expected "cost" of pregnancy');
+        extCostBalancingDiagram.pregnancyCurve.polylineElement.setAttribute("stroke-dasharray", "3");
+        extCostBalancingDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        extCostBalancingDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        extCostBalancingDiagram.addCurve(extCostBalancingDiagram.pregnancyCurve);
+        
+        extCostBalancingDiagram.optimalCICurve = new Curve(
+          function(y) {
+            return extModel.optimalCI * 100;
+          },
+          function() {
+            this.labelElement.setAttribute("x", this.func(0) + 3);
+          }, null, YELLOW, 'p', true);
+        extCostBalancingDiagram.optimalCICurve.polylineElement.setAttribute("stroke-dasharray", "3");
+        extCostBalancingDiagram.optimalCICurve.labelElement.style.fontWeight = "bold";
+        extCostBalancingDiagram.optimalCICurve.labelElement.setAttribute("y", 97);
+        extCostBalancingDiagram.addCurve(extCostBalancingDiagram.optimalCICurve);
+        
+        extCostBalancingDiagram.avoidingPregnancyCurve = new Curve(
+          function(x) {
+            return extModel.slope * x;
+          },
+          function() {
+            let y = 100 - this.func(6) - 3;
+            this.labelElement.setAttribute("x", 5);
+            this.labelElement.setAttribute("y", y);
+            this.labelElement.setAttribute("transform", "rotate(" + extModel.angle + " 5," + y + ")");
+          }, null, YELLOW, 'Marginal "cost" of avoiding pregnancy');
+        extCostBalancingDiagram.avoidingPregnancyCurve.labelElement.style.textAnchor = "start";
+        extCostBalancingDiagram.addCurve(extCostBalancingDiagram.avoidingPregnancyCurve);
+        
+        extAbortionCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - ExtModel.optimalCI(x, extModel.bSlider, extModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return extModel.aSlider;
+          },
+          YELLOW, "Pregnancy");
+        extAbortionCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        extAbortionCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        extAbortionCostDiagram.addCurve(extAbortionCostDiagram.pregnancyCurve);
+        
+        extAbortionCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * ExtModel.abortionProb(x, extModel.bSlider, extModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return extModel.aSlider;
+          },
+          RED, "Abortion");
+        extAbortionCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        extAbortionCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        extAbortionCostDiagram.addCurve(extAbortionCostDiagram.abortionCurve);
+        
+        extAbortionCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * ExtModel.birthProb(x, extModel.bSlider, extModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return extModel.aSlider;
+          },
+          BLUE, "Birth");
+        extAbortionCostDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        extAbortionCostDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        extAbortionCostDiagram.addCurve(extAbortionCostDiagram.birthCurve);
+        
+        extBirthCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - ExtModel.optimalCI(extModel.aSlider, x, extModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return extModel.bSlider;
+          },
+          YELLOW, "Pregnancy");
+        extBirthCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        extBirthCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        extBirthCostDiagram.addCurve(extBirthCostDiagram.pregnancyCurve);
+        
+        extBirthCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * ExtModel.abortionProb(extModel.aSlider, x, extModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return extModel.bSlider;
+          },
+          RED, "Abortion");
+        extBirthCostDiagram.abortionCurve.labelElement.setAttribute("x", 5);
+        extBirthCostDiagram.abortionCurve.labelElement.style.textAnchor = "start";
+        extBirthCostDiagram.addCurve(extBirthCostDiagram.abortionCurve);
+        
+        extBirthCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * ExtModel.birthProb(extModel.aSlider, x, extModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return extModel.bSlider;
+          },
+          BLUE, "Birth");
+        extBirthCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
+        extBirthCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
+        extBirthCostDiagram.addCurve(extBirthCostDiagram.birthCurve);
+        
+        extContraceptiveCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - ExtModel.optimalCI(extModel.aSlider, extModel.bSlider, x)) + 2;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return extModel.cSlider;
+          },
+          YELLOW, "Pregnancy");
+        extContraceptiveCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        extContraceptiveCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        extContraceptiveCostDiagram.addCurve(extContraceptiveCostDiagram.pregnancyCurve);
+        
+        extContraceptiveCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * ExtModel.abortionProb(extModel.aSlider, extModel.bSlider, x));
+          },
+          function() {
+            if (this.func(100) > 15) {
+              this.labelElement.setAttribute("y", 100 - this.func(100) + 10);
+            } else {
+              this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+            }
+          },
+          function() {
+            return extModel.cSlider;
+          },
+          RED, "Abortion");
+        extContraceptiveCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        extContraceptiveCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        extContraceptiveCostDiagram.addCurve(extContraceptiveCostDiagram.abortionCurve);
+        
+        extContraceptiveCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * ExtModel.birthProb(extModel.aSlider, extModel.bSlider, x));
+          },
+          function() {
+            if (this.func(100) > 15) {
+              this.labelElement.setAttribute("y", 100 - this.func(100) + 10);
+            } else {
+              this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+            }
+          },
+          function() {
+            return extModel.cSlider;
+          },
+          BLUE, "Birth");
+        extContraceptiveCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
+        extContraceptiveCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
+        extContraceptiveCostDiagram.addCurve(extContraceptiveCostDiagram.birthCurve);
+        
+        /*
+        popExtCostBalancingDiagram.birthCurve = new Curve(
+          function(x) {
+            return popExtModel.bSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - popExtModel.bSlider - 3);
+          }, null, BLUE, 'Median expected "cost" of birth');
+        popExtCostBalancingDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        popExtCostBalancingDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        popExtCostBalancingDiagram.addCurve(popExtCostBalancingDiagram.birthCurve);
+        
+        popExtCostBalancingDiagram.abortionCurve = new Curve(
+          function(x) {
+            return popExtModel.aSlider;
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - popExtModel.aSlider - 3);
+          }, null, RED, 'Median expected "cost" of abortion');
+        popExtCostBalancingDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        popExtCostBalancingDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        popExtCostBalancingDiagram.addCurve(popExtCostBalancingDiagram.abortionCurve);
+        
+        popExtCostBalancingDiagram.optimalCICurve = new Curve(
+          function(y) {
+            return popExtModel.optimalCI * 100;
+          },
+          function() {
+            this.labelElement.setAttribute("x", this.func(0) + 3);
+          }, null, YELLOW, 'p', true);
+        popExtCostBalancingDiagram.optimalCICurve.polylineElement.setAttribute("stroke-dasharray", "3");
+        popExtCostBalancingDiagram.optimalCICurve.labelElement.style.fontWeight = "bold";
+        popExtCostBalancingDiagram.optimalCICurve.labelElement.setAttribute("y", 97);
+        popExtCostBalancingDiagram.addCurve(popExtCostBalancingDiagram.optimalCICurve);
+        
+        popExtCostBalancingDiagram.avoidingPregnancyCurve = new Curve(
+          function(x) {
+            return popExtModel.slope * x;
+          },
+          function() {
+            let y = 100 - this.func(6) - 3;
+            this.labelElement.setAttribute("x", 5);
+            this.labelElement.setAttribute("y", y);
+            this.labelElement.setAttribute("transform", "rotate(" + popExtModel.angle + " 5," + y + ")");
+          }, null, YELLOW, 'Median marg. "cost" of avoiding preg.');
+        popExtCostBalancingDiagram.avoidingPregnancyCurve.labelElement.style.textAnchor = "start";
+        popExtCostBalancingDiagram.addCurve(popExtCostBalancingDiagram.avoidingPregnancyCurve);
+        
+        popExtAbortionCostDiagram.pregnancyCurve = new Curve(
+          function(x) {
+            return 100 * (1 - PopExtModel.optimalCI(x, popExtModel.bSlider, popExtModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popExtModel.aSlider;
+          },
+          YELLOW, "Pregnancy");
+        popExtAbortionCostDiagram.pregnancyCurve.labelElement.setAttribute("x", 95);
+        popExtAbortionCostDiagram.pregnancyCurve.labelElement.style.textAnchor = "end";
+        popExtAbortionCostDiagram.addCurve(popExtAbortionCostDiagram.pregnancyCurve);
+        
+        popExtAbortionCostDiagram.abortionCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopExtModel.abortionProb(x, popExtModel.bSlider, popExtModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(100) - 3);
+          },
+          function() {
+            return popExtModel.aSlider;
+          },
+          RED, "Abortion");
+        popExtAbortionCostDiagram.abortionCurve.labelElement.setAttribute("x", 95);
+        popExtAbortionCostDiagram.abortionCurve.labelElement.style.textAnchor = "end";
+        popExtAbortionCostDiagram.addCurve(popExtAbortionCostDiagram.abortionCurve);
+        
+        popExtAbortionCostDiagram.birthCurve = new Curve(
+          function(x) {
+            return Math.max(1, 100 * PopExtModel.birthProb(x, popExtModel.bSlider, popExtModel.cSlider));
+          },
+          function() {
+            this.labelElement.setAttribute("y", 100 - this.func(0) - 3);
+          },
+          function() {
+            return popExtModel.aSlider;
+          },
+          BLUE, "Birth");
+        popExtAbortionCostDiagram.birthCurve.labelElement.setAttribute("x", 5);
+        popExtAbortionCostDiagram.birthCurve.labelElement.style.textAnchor = "start";
+        popExtAbortionCostDiagram.addCurve(popExtAbortionCostDiagram.birthCurve);
+        */
+        
+        stdGroup.completeSetup();
+        updateStdModel();
+        
+        popStdGroup.completeSetup();
+        updatePopStdModel();
+        
+        extGroup.completeSetup();
+        updateExtModel();
+        
+        // popExtGroup.completeSetup();
+        // updatePopExtModel();
+      }
+      
+      // Returns a pair [A, B], where A is the weighted sum of function evaluations on sample points and B is the sum of weights
+      // Returns [0, 0] if there are no suitable sample points
+      function expectationHelper(func, means, stdDev, maxSTDs, i=0, vals=[]) {
+        // We sample at the lattice of points where each coordinate is a multiple of STEP_LENGTH
+        const STEP_LENGTH = 5;
+        
+        const minVal = Math.ceil((means[i] - maxSTDs * stdDev) / STEP_LENGTH) * STEP_LENGTH;
+        
+        let weightedSum = 0;
+        let sumOfWeights = 0;
+        
+        for (vals[i] = minVal; vals[i] <= means[i] + maxSTDs * stdDev; vals[i] += STEP_LENGTH) {
+          devs = (vals[i] - means[i]) / stdDev;
+          let pdfVal = Math.exp(-Math.pow(devs, 2) / 2);
+          if (i == means.length - 1) {
+            // Last dimension. Base case
+            weightedSum += pdfVal * func.apply(null, vals);
+            sumOfWeights += pdfVal;
+          } else {
+            // Multi-dimensional Gaussian. Recursive case
+            let rec = expectationHelper(func, means, stdDev, Math.sqrt(Math.pow(maxSTDs, 2) - Math.pow(devs, 2)), i + 1, vals);
+            weightedSum += pdfVal * rec[0];
+            sumOfWeights += pdfVal * rec[1];
+          }
+        }
+        
+        return [weightedSum, sumOfWeights];
+      }
+      
+      function expectation(func, means, stdDev=10, maxSTDs=2) {
+        let arr = expectationHelper(func, means, stdDev, maxSTDs);
+        return arr[0] / arr[1];
+      }
+      
+      function PopStdModel() {
+        this.aSlider = 0;
+        this.bSlider = 0;
+        this.cSlider = 0;
+        this.slope = 0;
+        this.angle = 0;
+      }
+      PopStdModel.prototype.computeValues = function() {
+        this.slope = StdModel.getSlope(this.cSlider);
+        this.angle = -Math.atan(this.slope) * 180 / Math.PI;
+        this.optimalCI = PopStdModel.optimalCI(this.aSlider, this.bSlider, this.cSlider);
+        this.probBirthGivenPreg = PopStdModel.birthProb(this.aSlider, this.bSlider, this.cSlider) / (1 - this.optimalCI);
+      }
+      PopStdModel.optimalCI = function(aSlider, bSlider, cSlider) {
+        return expectation(StdModel.optimalCI, [aSlider, bSlider, cSlider]);
+      }
+      PopStdModel.abortionProb = function(aSlider, bSlider, cSlider) {
+        return expectation(StdModel.abortionProb, [aSlider, bSlider, cSlider]);
+      }
+      PopStdModel.birthProb = function(aSlider, bSlider, cSlider) {
+        return expectation(StdModel.birthProb, [aSlider, bSlider, cSlider]);
+      }
+      
+      function ExtModel() {
+        this.aSlider = 0;
+        this.bSlider = 0;
+        this.cSlider = 0;
+        this.slope = 0;
+        this.angle = 0;
+      }
+      ExtModel.prototype.computeValues = function() {
+        this.slope = StdModel.getSlope(this.cSlider);
+        this.angle = -Math.atan(this.slope) * 180 / Math.PI;
+        this.expectedCostOfPregnancy = ExtModel.expectedCostOfPregnancy(this.aSlider, this.bSlider);
+        this.optimalCI = ExtModel.optimalCI(this.aSlider, this.bSlider, this.cSlider);
+        this.probBirthGivenPreg = 1 - ExtModel.probAbortionGivenPreg(this.aSlider, this.bSlider);
+      }
+      ExtModel.expectedCostOfPregnancy = function(aSlider, bSlider) {
+        return expectation(function(a, b) {
+          return Math.min(a, b);
+        }, [aSlider, bSlider], 20);
+        // return 0.5 * (Math.min(aSlider, bSlider - 30) + Math.min(aSlider, bSlider + 30));
+      }
+      ExtModel.optimalCI = function(aSlider, bSlider, cSlider) {
+        let eCOP = ExtModel.expectedCostOfPregnancy(aSlider, bSlider);
+        return StdModel.optimalCI(eCOP, eCOP, cSlider);
+      }
+      ExtModel.probAbortionGivenPreg = function(aSlider, bSlider) {
+        return expectation(StdModel.probAbortionGivenPreg, [aSlider, bSlider], 20);
+        // return 0.5 * (StdModel.probAbortionGivenPreg(aSlider, bSlider - 30) + StdModel.probAbortionGivenPreg(aSlider, bSlider + 30));
+      }
+      ExtModel.abortionProb = function(aSlider, bSlider, cSlider) {
+        return (1 - ExtModel.optimalCI(aSlider, bSlider, cSlider)) * ExtModel.probAbortionGivenPreg(aSlider, bSlider);
+      }
+      ExtModel.birthProb = function(aSlider, bSlider, cSlider) {
+        return (1 - ExtModel.optimalCI(aSlider, bSlider, cSlider)) * (1 - ExtModel.probAbortionGivenPreg(aSlider, bSlider));
+      }
+      
+      /*
+      function PopExtModel() {
+        this.aSlider = 0;
+        this.bSlider = 0;
+        this.cSlider = 0;
+        this.slope = 0;
+        this.angle = 0;
+      }
+      PopExtModel.prototype.computeValues = function() {
+        this.slope = StdModel.getSlope(this.cSlider);
+        this.angle = -Math.atan(this.slope) * 180 / Math.PI;
+        this.optimalCI = PopExtModel.optimalCI(this.aSlider, this.bSlider, this.cSlider);
+      }
+      PopExtModel.optimalCI = function(aSlider, bSlider, cSlider) {
+        return expectation(function(a, b) {
+          return ExtModel.optimalCI(a, b, cSlider);
+        }, [aSlider, bSlider]);
+      }
+      PopExtModel.abortionProb = function(aSlider, bSlider, cSlider) {
+        return expectation(function(a, b) {
+          return ExtModel.abortionProb(a, b, cSlider);
+        }, [aSlider, bSlider]);
+      }
+      PopExtModel.birthProb = function(aSlider, bSlider, cSlider) {
+        return expectation(function(a, b) {
+          return ExtModel.birthProb(a, b, cSlider);
+        }, [aSlider, bSlider]);
+      }
+      */
+      
+      function StdModel() {
+        this.aSlider = 0;
+        this.bSlider = 0;
+        this.cSlider = 0;
+        this.slope = 0;
+        this.angle = 0;
+      }
+      StdModel.prototype.computeValues = function() {
+        this.slope = StdModel.getSlope(this.cSlider);
+        this.angle = -Math.atan(this.slope) * 180 / Math.PI;
+        this.optimalCI = StdModel.optimalCI(this.aSlider, this.bSlider, this.cSlider);
+        this.probBirthGivenPreg = 1 - StdModel.probAbortionGivenPreg(this.aSlider, this.bSlider);
+      }
+      StdModel.getSlope = function(cSlider) {
+        return Math.pow(2, cSlider / 50 - 1);
+      }
+      StdModel.optimalCI = function(aSlider, bSlider, cSlider) {
+        let slope = StdModel.getSlope(cSlider);
+        let costOfPregnancy = Math.min(aSlider, bSlider);
+        return Math.max(0, Math.min(1, (costOfPregnancy / slope) / 100));
+      }
+      StdModel.abortionProb = function(aSlider, bSlider, cSlider) {
+        return (1 - StdModel.optimalCI(aSlider, bSlider, cSlider)) * StdModel.probAbortionGivenPreg(aSlider, bSlider);
+      }
+      StdModel.birthProb = function(aSlider, bSlider, cSlider) {
+        return (1 - StdModel.optimalCI(aSlider, bSlider, cSlider)) * (1 - StdModel.probAbortionGivenPreg(aSlider, bSlider));
+      }
+      StdModel.probAbortionGivenPreg = function(aSlider, bSlider) {
+        if (aSlider < bSlider) return 1;
+        if (aSlider > bSlider) return 0;
+        return 0.5;
+      }
+      
+      function updateStdModel() {
+        stdModel.aSlider = parseFloat(document.querySelector("#aSlider").value);
+        stdModel.bSlider = parseFloat(document.querySelector("#bSlider").value);
+        stdModel.cSlider = parseFloat(document.querySelector("#cSlider").value);
+        
+        document.querySelector("#shadowCSlider").value = stdModel.cSlider;
+        
+        stdModel.computeValues();
+        stdGroup.redraw();
+      }
+      
+      function updatePopStdModel() {
+        popStdModel.aSlider = parseFloat(document.querySelector("#popASlider").value);
+        popStdModel.bSlider = parseFloat(document.querySelector("#popBSlider").value);
+        popStdModel.cSlider = parseFloat(document.querySelector("#popCSlider").value);
+        
+        popStdModel.computeValues();
+        popStdGroup.redraw();
+      }
+      
+      function updateExtModel() {
+        extModel.aSlider = parseFloat(document.querySelector("#extASlider").value);
+        extModel.bSlider = parseFloat(document.querySelector("#extBSlider").value);
+        extModel.cSlider = parseFloat(document.querySelector("#extCSlider").value);
+        
+        extModel.computeValues();
+        extGroup.redraw();
+      }
+      
+      function updatePopExtModel() {
+        popExtModel.aSlider = parseFloat(document.querySelector("#popExtASlider").value);
+        popExtModel.bSlider = parseFloat(document.querySelector("#popExtBSlider").value);
+        popExtModel.cSlider = parseFloat(document.querySelector("#popExtCSlider").value);
+        
+        popExtModel.computeValues();
+        popExtGroup.redraw();
+      }
+      
+      // For convenience
+      function createSVGElement(t) {
+        return document.createElementNS("http://www.w3.org/2000/svg", t);
+      }
+      
+      function addTextToSVG(svg, s, x, y) {
+        let textElement = createSVGElement("text");
+        textElement.setAttribute("x", x);
+        textElement.setAttribute("y", y);
+        textElement.appendChild(document.createTextNode(s));
+        svg.appendChild(textElement);
+        return textElement;
+      }
+      
+      function CurveDiagram(svgElement, horizontalLabel, verticalLabel) {
+        this.svgElement = svgElement;
+        this.svgElement.setAttribute("viewBox", "-10 -10 120 120");
+        
+        this.axes = createSVGElement("polyline");
+        this.axes.setAttribute("points", "0,0 0,100 100,100");
+        this.axes.style.stroke = "black";
+        this.svgElement.appendChild(this.axes);
+        
+        let horizontalLabelElement = addTextToSVG(this.svgElement, horizontalLabel, 100, 107);
+        horizontalLabelElement.style.textAnchor = "end";
+        
+        let verticalLabelElement = addTextToSVG(this.svgElement, verticalLabel, -3, 0);
+        verticalLabelElement.style.textAnchor = "end";
+        verticalLabelElement.setAttribute("transform", "rotate(-90 -3,0)");
+        
+        this.curves = [];
+      }
+      CurveDiagram.prototype.addCurve = function(curve) {
+        this.svgElement.appendChild(curve.polylineElement);
+        if (curve.currentValFunc != null) {
+          this.svgElement.appendChild(curve.dotElement);
+        }
+        this.curves.push(curve);
+      }
+      CurveDiagram.prototype.redraw = function() {
+        for (let i = 0; i < this.curves.length; i++) {
+          this.curves[i].redraw();
+        }
+      }
+      CurveDiagram.prototype.completeSetup = function() {
+        // Add white so that curves get properly cut off
+        let polygon = createSVGElement("polygon");
+        polygon.setAttribute("points", "-10,-10 110,-10 110,110 100,110 100,0 -10,0");
+        this.svgElement.appendChild(polygon);
+        
+        // Do this last to make sure the labels are on top (z-index is not supported)
+        for (let i = 0; i < this.curves.length; i++) {
+          this.svgElement.appendChild(this.curves[i].labelElement);
+        }
+      }
+      
+      function Curve(func, labelFunc, currentValFunc, color, labelText, vertical=false, samplePoints=20) {
+        this.func = func;
+        this.labelFunc = labelFunc;
+        this.currentValFunc = currentValFunc;
+        this.color = color;
+        this.vertical = vertical;
+        this.samplePoints = samplePoints;
+        
+        this.polylineElement = createSVGElement("polyline");
+        this.polylineElement.style.stroke = color;
+        this.labelElement = createSVGElement("text");
+        this.labelElement.setAttribute("fill", color);
+        this.labelElement.setAttribute("stroke", "white");
+        this.labelElement.setAttribute("paint-order", "stroke fill");
+        this.labelElement.appendChild(document.createTextNode(labelText));
+        
+        if (this.currentValFunc != null) {
+          this.dotElement = createSVGElement("circle");
+          this.dotElement.style.fill = color;
+          this.dotElement.setAttribute("r", 2);
+        }
+      }
+      Curve.prototype.redraw = function() {
+        let points = "";
+        for (let i = 0; i < this.samplePoints; i++) {
+          if (!this.vertical) {
+            let x = 100 / (this.samplePoints - 1) * i;
+            let y = 100 - this.func(x); // Vertical mirroring
+            points += x + "," + y + " ";
+          } else {
+            let y = 100 / (this.samplePoints - 1) * i;
+            let x = this.func(y);
+            points += x + "," + (100 - y) + " "; // Vertical mirroring
+          }
+        }
+        this.polylineElement.setAttribute("points", points);
+        this.labelFunc();
+        if (this.currentValFunc != null) {
+          let x = this.currentValFunc();
+          
+          let x1 = Math.floor(x / 100 * this.samplePoints) * 100 / this.samplePoints;
+          let x2 = Math.ceil(x / 100 * this.samplePoints) * 100 / this.samplePoints;
+          let y = 0;
+          if (x2 == x1) {
+            y = this.func(x);
+          } else {
+            y = ((x - x1) * this.func(x2) + (x2 - x) * this.func(x1)) / (x2 - x1);
+          }
+          
+          this.dotElement.setAttribute("cx", x);
+          this.dotElement.setAttribute("cy", 100 - y);
+        }
+      }
+      
+      function PregnancyTreeDiagram(svgElement, model=null) {
+        this.svgElement = svgElement;
+        this.svgElement.setAttribute("viewBox", "-10 -10 120 120");
+        
+        addTextToSVG(this.svgElement, "Start", 50, 0);
+        addTextToSVG(this.svgElement, "Pregnant", 30, 50);
+        addTextToSVG(this.svgElement, "Not Pregnant", 70, 50);
+        addTextToSVG(this.svgElement, "Birth", 10, 100);
+        addTextToSVG(this.svgElement, "Abortion", 50, 100);
+        
+        this.pregnancyLine = createSVGElement("polyline");
+        this.pregnancyLine.setAttribute("points", "50,4 30,44");
+        this.pregnancyLine.style.stroke = "black";
+        this.svgElement.appendChild(this.pregnancyLine);
+        
+        this.noPregnancyLine = createSVGElement("polyline");
+        this.noPregnancyLine.setAttribute("points", "50,4 70,44");
+        this.noPregnancyLine.style.stroke = "black";
+        this.svgElement.appendChild(this.noPregnancyLine);
+        
+        this.birthLine = createSVGElement("polyline");
+        this.birthLine.setAttribute("points", "30,54 10,94");
+        this.birthLine.style.stroke = "black";
+        this.svgElement.appendChild(this.birthLine);
+        
+        this.abortionLine = createSVGElement("polyline");
+        this.abortionLine.setAttribute("points", "30,54 50,94");
+        this.abortionLine.style.stroke = "black";
+        this.svgElement.appendChild(this.abortionLine);
+    
+        this.pregnancyLineLabel = createSVGElement("text");
+        this.pregnancyLineLabel.style.textAnchor = "end";
+        this.pregnancyLineLabel.setAttribute("x", 36);
+        this.pregnancyLineLabel.setAttribute("y", 25);
+        this.pregnancyLineLabelTextNode = document.createTextNode("");
+        this.pregnancyLineLabel.appendChild(this.pregnancyLineLabelTextNode);
+        this.svgElement.appendChild(this.pregnancyLineLabel);
+        
+        this.noPregnancyLineLabel = createSVGElement("text");
+        this.noPregnancyLineLabel.style.textAnchor = "start";
+        this.noPregnancyLineLabel.setAttribute("x", 64);
+        this.noPregnancyLineLabel.setAttribute("y", 25);
+        this.noPregnancyLineLabelTextNode = document.createTextNode("");
+        this.noPregnancyLineLabel.appendChild(this.noPregnancyLineLabelTextNode);
+        this.svgElement.appendChild(this.noPregnancyLineLabel);
+        
+        this.birthLineLabel = createSVGElement("text");
+        this.birthLineLabel.style.textAnchor = "end";
+        this.birthLineLabel.setAttribute("x", 16);
+        this.birthLineLabel.setAttribute("y", 75);
+        this.birthLineLabelTextNode = document.createTextNode("");
+        this.birthLineLabel.appendChild(this.birthLineLabelTextNode);
+        this.svgElement.appendChild(this.birthLineLabel);
+        
+        this.abortionLineLabel = createSVGElement("text");
+        this.abortionLineLabel.style.textAnchor = "start";
+        this.abortionLineLabel.setAttribute("x", 44);
+        this.abortionLineLabel.setAttribute("y", 75);
+        this.abortionLineLabelTextNode = document.createTextNode("");
+        this.abortionLineLabel.appendChild(this.abortionLineLabelTextNode);
+        this.svgElement.appendChild(this.abortionLineLabel);
+        
+        this.model = model;
+      }
+      PregnancyTreeDiagram.prototype.completeSetup = function() {
+        // Do nothing
+      }
+      PregnancyTreeDiagram.prototype.redraw = function() {
+        if (this.model != null) {
+          this.pregnancyLineLabelTextNode.nodeValue = Math.round(100 * (1 - this.model.optimalCI)) + "%";
+          this.pregnancyLine.style.opacity = opac(1 - this.model.optimalCI);
+          
+          this.noPregnancyLineLabelTextNode.nodeValue = Math.round(100 * this.model.optimalCI) + "%";
+          this.noPregnancyLine.style.opacity = opac(this.model.optimalCI);
+          
+          this.abortionLineLabelTextNode.nodeValue = Math.round(100 * (1 - this.model.probBirthGivenPreg)) + "%";
+          this.abortionLine.style.opacity = opac(1 - this.model.probBirthGivenPreg);
+          
+          this.birthLineLabelTextNode.nodeValue = Math.round(100 * this.model.probBirthGivenPreg) + "%";
+          this.birthLine.style.opacity = opac(this.model.probBirthGivenPreg);
+        }
+      }
+      
+      function opac(p) {
+        return 0.15 + p/0.85;
+      }
+      
+      setFigureNumbers();
+      init();
+      
+      function setFigureNumbers() {
+        let i = 0;
+        document.querySelectorAll("figcaption").forEach(function(cap) {
+          i++;
+          cap.prepend(document.createTextNode("Figure " + i + ": "));
+          cap.parentNode.dataset["num"] = i;
+        });
+        
+        document.querySelectorAll("span").forEach(function(sp) {
+          if ("svgid" in sp.dataset) {
+            let num = document.querySelector("#" + sp.dataset["svgid"]).parentNode.dataset["num"];
+            sp.replaceChild(document.createTextNode(num), sp.childNodes[0]);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

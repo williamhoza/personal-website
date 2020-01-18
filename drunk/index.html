@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html, body {
+        height:100%;
+        margin:0px;
+      }
+      
+      body {
+        display:grid;
+        grid-template-areas:
+          ". . ."
+          ". t ."
+          ". . .";
+        grid-template-rows: 30px 1fr 30px;
+        grid-template-columns: 30px 1fr 30px;
+      }
+      
+      #territory {
+        width:100%;
+        height:100%;
+        grid-area:t;
+        cursor:none;
+        position:relative;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="territory">
+      <img id="fakeCursor" style="display:none;position:absolute;" src="pointer.png">
+    </div>
+    
+    <script>
+      let fakeCursor = document.getElementById("fakeCursor");
+      let territory = document.getElementById("territory");
+      
+      territory.addEventListener("mousemove", update);
+      territory.addEventListener("mouseover", function() { fakeCursor.style.display = "inline-block"; });
+      territory.addEventListener("mouseout", function() { fakeCursor.style.display = "none"; });
+      
+      function update(evt) {
+        let trueX = evt.clientX - territory.offsetLeft;
+        let trueY = evt.clientY - territory.offsetTop;
+        
+        let magnitude = Math.min(50, trueX, trueY, territory.offsetWidth - trueX, territory.offsetHeight - trueY);
+        
+        let fakeX = trueX + magnitude * Math.cos((trueX + trueY) / 50);
+        let fakeY = trueY + magnitude * Math.sin((trueX + trueY) / 50);
+        
+        console.log(magnitude);
+        
+        fakeCursor.style.left = fakeX + "px";
+        fakeCursor.style.top = fakeY + "px";
+      }
+    </script>
+  </body>
+</html>
