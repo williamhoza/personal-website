@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-123337994-1');
+    </script>
+    
     <style>
       body {
         background-color:#f0f0f0;
@@ -80,6 +90,7 @@
         text-align:center;
         margin:0 5px 15px;
         vertical-align:middle;
+        position:relative;
       }
       
       .figgroup {
@@ -277,7 +288,7 @@
           </div>
           
           <p>
-            Keep in mind that we're only considering costs <em>to the woman herself</em>, not costs to others ("externalities"). For example, the "cost" of abortion (<strong>A</strong>) only reflects the harm done to the <em>baby</em> insofar as that harm affects the mother (perhaps because she cares about it). As a pro-life advocate, I encourage everyone to adopt an ethical framework in which <strong>A = ∞</strong>. That is, I think intentional abortion should be rejected no matter how costly the alternative is. But never mind my ethical views; we're trying to make realistic predictions here.
+            Keep in mind that we're only considering costs to the woman herself, not costs to others ("externalities"). For example, the "cost" of abortion (<strong>A</strong>) only reflects the harm done to the baby insofar as that harm affects the mother (perhaps because she cares about it). As a pro-life advocate, I encourage everyone to adopt an ethical framework in which <strong>A = ∞</strong>. That is, I think intentional abortion should be rejected no matter how costly the alternative is. But never mind my ethical views; we're trying to make realistic predictions here.
           </p>
           
           <h2>
@@ -346,30 +357,51 @@
               </figcaption>
             </figure>
           </div>
-          
-          <p>
-            No surprises there: decreasing <strong>c</strong> decreases the probabilities of pregnancy, abortion, and birth.
-          </p>
         </div>
       </div>
-    </div>
+    </div>        
     
     <div class="slidergroup">
       <div class="textregion">
         <div class="innertextregion">
+          <p>
+            No surprises there: decreasing <strong>c</strong> decreases the probabilities of pregnancy, abortion, and birth.
+          </p>
+          
           <h2>
             Beyond the individual: Modeling a population
           </h2>
           
           <p>
-            As I said before, the cost parameters <strong>A, B, c</strong> vary from one woman to the next. For simplicity, I'll assume that in the population of interest, <strong>A</strong>, <strong>B</strong>, and <strong>log c</strong> are distributed according to three independent Gaussian distributions (the familiar "bell curve.") I set the variances to be pretty small, so you should think of a relatively narrow population of women, e.g., "pro-choice Protestant white women in Nebraska aged 18-24" rather than "all women on Earth."
+            As I said before, the cost parameters <strong>A, B, c</strong> vary from one woman to the next. For simplicity, I'll assume that in the population of interest, <strong>A</strong>, <strong>B</strong>, and <strong>log c</strong> are distributed according to three independent Gaussian distributions (the familiar "bell curve.") I set the variances to be pretty small, so you should think of a relatively narrow population of women, e.g., "pro-choice low-income Protestant white women in Nebraska aged 18-24" rather than "all women on Earth."
           </p>
+          <!--
+          <div class="figgroup">
+            <figure>
+              <svg id="popStdCostBalancingDiagram"></svg>
+              <figcaption>
+                Each woman in the population optimizes her personal probability of avoiding pregnancy <strong>p</strong>. The dashed vertical line shows the mean value of <strong>p</strong> throughout the population. Use the sliders to adjust the mean values of the Gaussian distributions determining the parameters.
+              </figcaption>
+            </figure>
+            <figure>
+              <svg id="popStdTreeDiagram"></svg>
+              <figcaption>
+                The top percentages give the expected rate of pregnancy. The bottom percentages give, loosely speaking, the rates of birth and abortion among pregnant women in the population. (More precisely, they are conditional probabilities with respect to a randomly chosen woman in the population.)
+              </figcaption>
+            </figure>
+          </div>
+          -->
+          
+          <p>
+            Let's graph the <em>rates</em> of pregnancy, birth, and abortion in this population (i.e., number per 1000 women per year) as a function of the median cost of abortion.<!--the median cost of abortion, the median cost of birth, or the median coefficient of the cost of avoiding pregnancy.--> The graph is basically the same as the corresponding graph for one individual except the curves are smoothed out:
+          </p>
+          
         </div>
       </div>
     </div>
   
     <div class="slidergroup">
-      <form class="sliders">
+      <form class="sliders" style="position:relative;">
         <div class="slider">
           Median cost of abortion (<strong>A</strong>):
           <input type="range" id="popASlider" min="0" max="100" step="1" value="35" oninput="updatePopStdModel();">
@@ -391,30 +423,12 @@
         <div class="innertextregion">
           <div class="figgroup">
             <figure>
-              <svg id="popStdCostBalancingDiagram"></svg>
-              <figcaption>
-                Each woman in the population optimizes her personal probability of avoiding pregnancy <strong>p</strong>. The dashed vertical line shows the mean value of <strong>p</strong> throughout the population. Use the sliders to adjust the mean values of the Gaussian distributions determining the parameters.
-              </figcaption>
-            </figure>
-            <figure>
-              <svg id="popStdTreeDiagram"></svg>
-              <figcaption>
-                The top percentages give the expected rate of pregnancy. The bottom percentages give, loosely speaking, the rates of birth and abortion among pregnant women in the population. (More precisely, they are conditional probabilities with respect to a randomly chosen woman in the population.)
-              </figcaption>
-            </figure>
-          </div>
-          
-          <p>
-            Now we can graph the <em>rates</em> of pregnancy, birth, and abortion in this population (i.e., number per 1000 women per year) as a function of the median cost of abortion, the median cost of birth, or the median coefficient of the cost of avoiding pregnancy. The graphs are basically the same as the corresponding graphs for one individual except the curves are smoothed out:
-          </p>
-          
-          <div class="figgroup">
-            <figure>
               <svg id="popStdAbortionCostDiagram"></svg>
               <figcaption>
                 Pregnancy outcome rates as a function of the median "cost" of abortion (<strong>A</strong>), holding other parameters fixed. Use the sliders to adjust the fixed parameters.
               </figcaption>
             </figure>
+            <!--
             <figure>
               <svg id="popStdBirthCostDiagram"></svg>
               <figcaption>
@@ -427,6 +441,7 @@
                 Pregnancy outcome rates as a function of the median "cost" of avoiding pregnancy coefficient (<strong>c</strong>), holding other parameters fixed. The horizontal axis is on a logarithmic scale. Use the sliders to adjust the fixed parameters.
               </figcaption>
             </figure>
+            -->
           </div>
           
           <p>
@@ -448,7 +463,7 @@
           </p>
         
           <p>
-            Some pro-choice advocates disagree with this prediction, arguing that even <em>outlawing</em> abortion would have little to no effect on abortion rates. These pro-choice advocates generally agree that outlawing abortion would greatly increase the "cost" of abortion. (They often make that point themselves, as part of their arguments in favor of allowing abortion.) Presumably, these pro-choice advocates believe that there are very few women who choose abortion by a "small margin" — women who choose legal abortion over giving birth, but who would choose giving birth over illegal abortion.
+            Some pro-choice advocates disagree with this prediction, arguing that even outlawing abortion would have little to no effect on abortion rates. These pro-choice advocates generally agree that outlawing abortion would greatly increase the "cost" of abortion. (They often make that point themselves, as part of their arguments in favor of allowing abortion.) Presumably, these pro-choice advocates believe that there are very few women who choose abortion by a "small margin" — women who choose legal abortion over giving birth, but who would choose giving birth over illegal abortion.
           </p>
           
           <p>
@@ -456,7 +471,7 @@
           </p>
           
           <p>
-            I'd say the most devastating blow to the "anti-abortion laws don't work" hypothesis is the substantial body of <strong>empirical evidence</strong> that seems to indicate the opposite. Reviewing this (admittedly subtle) empirical evidence is beyond the scope of this article — I'll let you read Levine's book.
+            I'd say the most devastating blow to the "anti-abortion laws don't work" hypothesis is the substantial body of <strong>empirical evidence</strong> pointing in the opposite direction. Reviewing this (admittedly subtle) empirical evidence is beyond the scope of this article — I'll let you read Levine's book.
           </p>
           
           <h2>
@@ -468,11 +483,11 @@
           </p>
           
           <p>
-            This model captures the fact that in real life, a woman gains <em>knowledge</em> about the costs of birth and abortion after she becomes pregnant. A doctor might tell her that the baby has an unfortunate medical condition. She might learn that a pregnancy resource center near her can provide her with free maternity clothes and diapers. The father might abandon the mother and baby. She might become more emotionally attached to the baby than she expected. She might be surprised to learn that abortion is covered by her health insurance plan. Each of these pieces of information affects the "cost" of giving birth and/or the "cost" of getting an abortion.
+            This model captures the fact that in real life, a woman gains knowledge about the costs of birth and abortion after she becomes pregnant. A doctor might tell her that the baby has an unfortunate medical condition. She might learn that a pregnancy resource center near her can provide her with free maternity clothes and diapers. The father might abandon the mother and baby. She might become more emotionally attached to the baby than she expected. She might be surprised to learn that abortion is covered by her health insurance plan. Each of these pieces of information affects the "cost" of giving birth and/or the "cost" of getting an abortion.
           </p>
           
           <p>
-            The extended model can also crudely account for the horrific reality of rape. Before getting pregnant, one of the reasons a woman can't know for sure what it would "cost" to give birth or get an abortion is that she can't know for sure how she would hypothetically get pregnant. Knowing that the pregnancy is the result of rape is likely to increase the psychological "cost" of birth and decrease the psychological "cost" of abortion.
+            The extended model can also crudely account for the horrific reality of rape. Before getting pregnant, one of the reasons a woman can't know for sure what it would "cost" to give birth or get an abortion is that she can't know for sure how she would hypothetically get pregnant. Knowing that the pregnancy is the result of rape is likely to increase the psychological cost of birth and decrease the psychological cost of abortion.
           </p>
           
           <p>
@@ -540,11 +555,11 @@
           </p>
           
           <p>
-            It was already interesting in the standard model to see the chance of birth <em>increase by less</em> than one might expect. The paradox in the extended model is more extreme: the chance of birth can actually <em>decrease</em>!
+            It was already interesting in the standard model to see the chance of birth increase by less than one might expect. The paradox in the extended model is more extreme: the chance of birth can actually <em>decrease</em>!
           </p>
           
           <p>
-            The explanation for this paradox is, once again, the effect of anti-abortion laws on <strong>p</strong>. When the expected cost of abortion is very high, the woman virtually guarantees that she will not get pregnant, so the chance of giving birth is near-zero. With a more moderate expected cost of abortion, the prospect of pregnancy doesn't look quite so daunting, so she accepts a moderate risk of getting pregnant. But then conditioned on getting pregnant, there's <em>also</em> a decent chance that the cost of birth <em>turns out</em> to be less than the cost of abortion, in which case she gives birth.
+            The explanation for this paradox is, once again, the effect of anti-abortion laws on <strong>p</strong>. When the expected cost of abortion is very high, the woman virtually guarantees that she will not get pregnant, so the chance of giving birth is near-zero. With a more moderate expected cost of abortion, the prospect of pregnancy doesn't look quite so daunting, so she accepts a moderate risk of getting pregnant. But then conditioned on getting pregnant, there's also a decent chance that the cost of birth turns out to be less than the cost of abortion, in which case she gives birth.
           </p>
           
           <h2>
@@ -564,17 +579,9 @@
             </figure>
           </div>
           
-          <p>
-            I consider this bad news. Providing free diapers, guaranteeing paid maternity leave, increasing daycare access, etc. make it easier for pregnant women to reject abortion; I'd like to think that these efforts therefore reduce abortions. The extended model does allow for this possibility, and I bet it's what happens in practice. However, the extended model also allows for the possibility that overall, these efforts increase abortions, because they make women feel less of a need to avoid pregnancy, and then those same women sometimes end up choosing abortion after getting pregnant and gaining information.
-          </p>
-          
-          <p>
-            Let me emphasize that aside from any effect on abortion rates, there are <em>independent</em> reasons to strive to reduce the "cost" of giving birth. At a basic level, the motivation for reducing abortions in the first place is to promote people's welfare (namely, people in their mothers' wombs). That same motivation urges us to ease pregnant women's burdens and thereby promote <em>their</em> welfare.
-          </p>
-          
-          <p>
+          <!--<p>
             (The graph of pregnancy outcome probabilities vs. <b>c</b> in the extended model isn't particularly interesting, so I'll skip it.)
-          </p>
+          </p>-->
           
           <!--
           <h2>
@@ -629,6 +636,14 @@
     <div class="slidergroup">
       <div class="textregion">
         <div class="innertextregion">
+          <p>
+            I consider this bad news. Providing free diapers, guaranteeing paid maternity leave, increasing daycare access, etc. make it easier for pregnant women to reject abortion; I'd like to think that these efforts therefore reduce abortions. The extended model does allow for this possibility, and I bet it's what happens in practice. However, the extended model also allows for the possibility that overall, these efforts increase abortions, because they make women feel less of a need to avoid pregnancy, and then those same women sometimes end up choosing abortion after getting pregnant and gaining information.
+          </p>
+          
+          <p>
+            Let me stress that there are independent reasons to strive to reduce the "cost" of giving birth, aside from any effects on abortion rates. At a basic level, the motivation for reducing abortions in the first place is to promote people's welfare (namely, people in their mothers' wombs). That same motivation urges us to ease pregnant women's burdens and thereby promote <em>their</em> welfare.
+          </p>
+          
           <h2>
             Conclusions
           </h2>
@@ -638,7 +653,7 @@
           </p>
           
           <p>
-            Some predictions from these models, however, are refreshingly straightforward. For example, <strong>increasing the "cost" of abortion reduces abortions.</strong> On a philosophical level, I think outlawing abortion is consistent with principles of <em>justice.</em> After reading Levine's book, I'm more convinced than ever that outlawing abortion is also consistent with principles of <em>prudence.</em> I think we should work to make abortion both unthinkable and illegal.
+            Some predictions from these models, however, are refreshingly straightforward. For example, <strong>increasing the "cost" of abortion reduces abortions.</strong> On a philosophical level, I think outlawing abortion is consistent with principles of justice. After reading Levine's book, I'm more convinced than ever that outlawing abortion is also consistent with principles of prudence. I think we should work to make abortion both unthinkable and illegal.
           </p>
           
           <div style="padding:20px 0; border-top:1px solid #e0e0e0;">
@@ -694,11 +709,11 @@
       
       const popStdGroup = new DiagramGroup();
       
-      const popStdCostBalancingDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdCostBalancingDiagram"), 'Prob[avoid pregnancy]', '"Cost"'));
-      const popStdTreeDiagram = popStdGroup.addDiagram(new PregnancyTreeDiagram(document.querySelector("#popStdTreeDiagram"), popStdModel));
+      // const popStdCostBalancingDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdCostBalancingDiagram"), 'Prob[avoid pregnancy]', '"Cost"'));
+      // const popStdTreeDiagram = popStdGroup.addDiagram(new PregnancyTreeDiagram(document.querySelector("#popStdTreeDiagram"), popStdModel));
       const popStdAbortionCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdAbortionCostDiagram"), 'Median "cost" of abortion', "Rate"));
-      const popStdBirthCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdBirthCostDiagram"), 'Median "cost" of birth', "Rate"));
-      const popStdContraceptiveCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdContraceptiveCostDiagram"), 'Median "cost" of avoiding pregnancy', "Rate"));
+      // const popStdBirthCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdBirthCostDiagram"), 'Median "cost" of birth', "Rate"));
+      // const popStdContraceptiveCostDiagram = popStdGroup.addDiagram(new CurveDiagram(document.querySelector("#popStdContraceptiveCostDiagram"), 'Median "cost" of avoiding pregnancy', "Rate"));
       
       const extGroup = new DiagramGroup();
       
@@ -727,7 +742,7 @@
       }
       
       function shadowCSliderInput() {
-        document.querySelector('#cSlider').value = document.querySelector("#shadowCSlider").value;
+        // document.querySelector('#cSlider').value = document.querySelector("#shadowCSlider").value;
         updateStdModel();
       }
       
@@ -739,7 +754,8 @@
         
         stdAvoidingPregnancyDiagram.curve = new Curve(
           function(x) {
-            return stdModel.slope * Math.pow(x, 2) / 100;
+            // return stdModel.slope * Math.pow(x, 2) / 100;
+            return StdModel.getSlope(document.querySelector("#shadowCSlider").value) * Math.pow(x, 2) / 100;
           },
           function() {
             this.labelElement.setAttribute("x", 46);
@@ -939,6 +955,7 @@
         stdContraceptiveCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
         stdContraceptiveCostDiagram.addCurve(stdContraceptiveCostDiagram.birthCurve);
         
+        /*
         popStdCostBalancingDiagram.birthCurve = new Curve(
           function(x) {
             return popStdModel.bSlider;
@@ -985,6 +1002,7 @@
           }, null, YELLOW, 'Median marg. "cost" of avoiding preg.');
         popStdCostBalancingDiagram.avoidingPregnancyCurve.labelElement.style.textAnchor = "start";
         popStdCostBalancingDiagram.addCurve(popStdCostBalancingDiagram.avoidingPregnancyCurve);
+        */
         
         popStdAbortionCostDiagram.pregnancyCurve = new Curve(
           function(x) {
@@ -1031,6 +1049,7 @@
         popStdAbortionCostDiagram.birthCurve.labelElement.style.textAnchor = "start";
         popStdAbortionCostDiagram.addCurve(popStdAbortionCostDiagram.birthCurve);
         
+        /*
         popStdBirthCostDiagram.pregnancyCurve = new Curve(
           function(x) {
             return 100 * (1 - PopStdModel.optimalCI(popStdModel.aSlider, x, popStdModel.cSlider));
@@ -1128,6 +1147,7 @@
         popStdContraceptiveCostDiagram.birthCurve.labelElement.setAttribute("x", 95);
         popStdContraceptiveCostDiagram.birthCurve.labelElement.style.textAnchor = "end";
         popStdContraceptiveCostDiagram.addCurve(popStdContraceptiveCostDiagram.birthCurve);
+        */
         
         extCostBalancingDiagram.birthCurve = new Curve(
           function(x) {
@@ -1600,7 +1620,7 @@
         stdModel.bSlider = parseFloat(document.querySelector("#bSlider").value);
         stdModel.cSlider = parseFloat(document.querySelector("#cSlider").value);
         
-        document.querySelector("#shadowCSlider").value = stdModel.cSlider;
+        // document.querySelector("#shadowCSlider").value = stdModel.cSlider;
         
         stdModel.computeValues();
         stdGroup.redraw();
