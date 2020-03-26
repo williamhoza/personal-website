@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        fetch("https://covidtracking.com/api/states/daily")
+          .then(response => response.json())
+          .then(data => {
+            var dataArray = [['Date', 'Cumulative Hospitalizations']];
+            for (let i = 0; i < data.length; i++) {
+              if (data[i]["state"] == "NY" && data[i]["hospitalized"] != null) {
+                let year = Math.floor(data[i]["date"] / 10000);
+                let month = Math.floor((data[i]["date"] % 10000) / 100) - 1;
+                let day = data[i]["date"] % 100;
+                dataArray.push([new Date(year, month, day), data[i]["hospitalized"]]);
+              }
+            }
+            console.log(dataArray);
+            var chartData = google.visualization.arrayToDataTable(dataArray);
+
+            var options = {
+              title: 'New York COVID-19 Hospitalizations',
+              legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(chartData, options);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="curve_chart" style="max-width:800px;height:500px;"></div>
+    <p>
+      Data source: <a href="https://covidtracking.com/">covidtracking.com</a>
+    </p>
+  </body>
+</html>
