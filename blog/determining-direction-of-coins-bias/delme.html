@@ -1,0 +1,23 @@
+<p>
+  To win a game of tennis, you have to score four points and also be at least two points ahead of your opponent. In principle, the game could go on indefinitely, with neither player ever getting ahead by two. Apparently there was <a href="https://www.theguardian.com/sport/2010/may/29/longest-tennis-game-keith-glass">a game in 1975</a> that reached a final score of 41-39.
+</p>
+
+<p>
+  Tennis uses this "win by two" system recursively. To win a "set" in tennis, you have to win six <em>games</em> and also be at least two <em>games</em> ahead of your opponent. Again, in principle, the number of games in a set could be arbitrarily large. There was <a href="https://en.wikipedia.org/wiki/Isner%E2%80%93Mahut_match_at_the_2010_Wimbledon_Championships">a set in 2010</a> consisting of 138 games.
+</p>
+
+<p>
+  What is the purpose of this system? Presumably, one purpose is to account for idiosyncracies of tennis that make it so one game or point is not equivalent to the next. (Who is serving? Which side are they serving from? Etc.)
+</p>
+
+<p>
+  There's another purpose that is more interesting mathematically. If you win with just a single-point margin, someone might think it was a fluke. Winning by a two-point margin makes the victory more decisive. It gives stronger evidence that you are truly the better player. So for example, the "win by two" system is also sensible when playing rock-paper-scissors.
+</p>
+
+<p>
+  The "win by two" rule isn't perfect, though. If a score of 4-3 isn't decisive, then why should a score of 102-100 be considered decisive? In this blog post, I'll describe an alternative approach that allows you to statistically prove that your rock-paper-scissors skills are superior to your friend's.
+</p>
+
+<p>
+  The idea is, let's model each point as a toss of a biased coin. One player wins with probability \(\frac{1}{2} + \epsilon\) and the other player wins with probability \(\frac{1}{2} - \epsilon\), where \(\epsilon > 0\).
+</p>

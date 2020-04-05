@@ -1,0 +1,147 @@
+<h2>The problem</h2>
+
+<p>
+  Suppose you're playing a two-player game, like maybe ping pong or rock-paper-scissors. In each round, one player gets a point. It's possible to play any number of rounds, and nothing much changes from one round to the next. How long should you play if you want to figure out who is better at the game?
+</p>
+
+<p>
+  Let's model each round as a biased coin toss. One player gets a point with probability \(\frac{1}{2} + \epsilon\) and the other player gets a point with probability \(\frac{1}{2} - \epsilon\), independently each round, for some \(\epsilon > 0\). The goal is to determine which player is which.
+</p>
+
+<p>
+  When \(\epsilon\) (the magnitude of the bias) is known, this is a fundamental and well-studied topic in probability and statistics. By <a href="https://en.wikipedia.org/wiki/Hoeffding%27s_inequality">Hoeffding's inequality</a>, if you toss the coin \(O(1/\epsilon^2)\) times, there's a 99% chance that the side toward which the coin is biased will come up more often.
+</p>
+
+<p>
+  What about when \(\epsilon\) is unknown? You and your opponent don't know in advance how closely matched your ping pong skills are, after all. Surprisingly, I'm not aware of any published discussion of this basic statistics problem, though I could easily have missed one.
+</p>
+
+<h2>The solution</h2>
+
+<p>
+   Let \(\delta > 0\) be the failure probability you're willing to tolerate. Define \(\epsilon_i = 2^{-i}\), \(\delta_i = \frac{6 \delta}{\pi^2 i^2}\), and \(n_i = \left\lceil \frac{\ln(1/\delta_i)}{2\epsilon_i^2} \right\rceil\). Repeatedly toss the coin and keep track of what you see. For each \(i\), once you've tossed the coin \(n_i\) times, compute the fraction of tosses that have come up "heads" so far and call it \(\hat{p}_i\). If \(\hat{p}_i \geq \frac{1}{2} + \epsilon_i\), declare that the coin is biased toward heads. If \(\hat{p}_i \leq \frac{1}{2} - \epsilon_i\), declare that the coin is biased toward tails. If \(\frac{1}{2} - \epsilon_i \lt \hat{p}_i \lt \frac{1}{2} + \epsilon_i\), keep tossing the coin.
+</p>
+
+<p>
+  Here's why that works. By Hoeffding's inequality, the probability that you halt and give the wrong answer after \(n_i\) tosses is at most \(\delta_i\). Therefore, by the union bound, the probability that you <em>ever</em> give the wrong answer is at most \(\sum_i \delta_i = \delta\). Meanwhile, once \(i\) is large enough that \(\epsilon_i \leq \epsilon / 2\), Hoeffding's inequality also shows that the probability that you have to toss the coin more than \(n_i\) times is at most \(\exp(-\epsilon^2 n_i / 2)\). From here, a little calculation shows that the expected number of coin tosses is \[O\left(\frac{\log(1/\delta) + \log \log(1/\epsilon)}{\epsilon^2}\right).\]
+  Note that we pay a factor of \(O(\log \log(1/\epsilon))\) compared to the situation when \(\epsilon\) is known. This is unavoidable, as I'll explain later.
+</p>
+
+<h2>Some concrete numbers</h2>
+
+<p>
+  Let's translate back to the language of games and points. The solution described above allows us to calculate a sequence \(V_1, V_2, \dots\) of "victory scores" and a sequence \(S_1, S_2, \dots\) of "survival scores". You get to declare victory if you ever reach some victory score \(V_i\) before your opponent reaches the corresponding survival score \(S_i\). Here are the first few scores for \(\delta = 0.05\).<small class="footnote">For these concrete numbers, I used \(\epsilon_i = 0.3 \cdot 1.2^{-i}\) instead of \(\epsilon_i = 2^{-i}\). This doesn't change the asymptotics, but it does affect the constants a little.</small>
+</p>
+
+<table id="score-table">
+  <tr>
+    <th>
+      Victory score
+    </th>
+    <th>
+      Survival score
+    </th>
+  </tr>
+</table>
+
+<script>
+  let delt = 0.05;
+  
+  let eps_seq = function(i) {
+    return 0.3 * Math.pow(1.2, -i);
+  }
+  
+  let delt_seq = function(i) {
+    return delt * 6 / (Math.pow(Math.PI * i, 2));
+  }
+  
+  function n_seq(i) {
+    return Math.ceil(-Math.log(delt_seq(i)) / (2 * Math.pow(eps_seq(i), 2)));
+  }
+  
+  function v_seq(i) {
+    return Math.ceil(n_seq(i) * (1/2 + eps_seq(i)));
+  }
+  
+  function s_seq(i) {
+    return n_seq(i) - v_seq(i) + 1;
+  }
+  
+  for (let i = 1; i < 25; i++) {
+    let row = document.querySelector("#score-table").insertRow(-1);
+    let vCell = row.insertCell(0);
+    let sCell = row.insertCell(1);
+    vCell.appendChild(document.createTextNode(v_seq(i)));
+    sCell.appendChild(document.createTextNode(s_seq(i)));
+  }
+</script>
+
+<p>
+  Following those rules, the game will <a href="https://en.wikipedia.org/wiki/Almost_surely">almost surely</a> end eventually, and there's at least a 95% chance that the better player will win. So if you win under those rules, you can brag that you've mathematically demonstrated your superiority. Except there are several caveats.
+  <ul>
+    <li>
+      It still might have just been a fluke. 5% is not really that low.
+    </li>
+    <li>
+      It's tempting to think that you should be 95% <em>certain</em> that you're the superior player, but even that's not quite right. To calculate how certain you should be, you need to take into account your prior beliefs and use <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes' rule</a>.
+    </li>
+    <li>
+      Independent tosses of a biased coin is not necessarily a good model in the first place. In my experience playing games, it feels like rounds are not actually independent of one another. For example, sometimes you have a burst of renewed focus and you do especially well for many rounds in a row.
+    </li>
+  </ul>
+</p>
+
+<p>
+  My wife and I have been playing a game called "Spot It!" recently. In the simplest version of the game, each "round" is very quick: two cards are revealed, and whoever finds something in common first gets a point. (The cards are based on <a href="https://en.wikipedia.org/wiki/Projective_plane#Finite_projective_planes">finite projective planes</a>.) We've been trying to use the above algorithm (with slightly different parameters) to determine which of us is the better player. Unfortunately, it seems that the question won't be resolved anytime soon. So far, Alicia is winning 773 - 745.
+</p>
+
+<p>
+  Theoretically, you could also use an algorithm like this to run an election between two candidates. In each round, pick a voter at random and give a point to the candidate they voted for. This method might allow you to statistically determine the winner without having to tally all the votes. I don't think it would actually be a good idea though.
+</p>
+
+<h2>Optimality</h2>
+
+<p>
+  Like I said earlier, using the simple algorithm I described, the expected number of coin tosses is
+  \[ O\left(\frac{\log(1/\delta) + \log \log(1/\epsilon)}{\epsilon^2}\right). \]
+  In this section, I'll outline a proof that no algorithm can do better, asymptotically. It's well-known that even if \(\epsilon\) is known in advance, \(\Omega(\log(1/\delta) / \epsilon^2)\) coin tosses are necessary. (E.g., see Theorems 4.7 and 4.8 and Corollary 4.10 in <a href="https://webee.technion.ac.il/people/zivby/theses/phd/phd.ps">Ziv Bar-Yossef's PhD thesis</a>.) The interesting part is the \(\log \log(1/\epsilon)\) term.
+</p>
+
+<p>
+  Let's start by reviewing one method of proving the lower bound in the known-\(\epsilon\) case. Let \(X_{\epsilon}\) denote the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> with parameter \(\frac{1}{2} + \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\), and let \(D(Y \| Z)\) denote the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> from \(Z\) to \(Y\). There's a "chain rule" for KL divergence that implies
+  \[
+    D(X_{\epsilon}^{n} \| X_0^{n}) = n \cdot D(X_{\epsilon} \| X_0) \leq 4\epsilon^2 n.
+  \]
+  By the definition of KL divergence and <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov's inequality</a>, this implies that if an event has probability at least 0.75 under \(X_{\epsilon}^n\), then it has probability at least \(0.25 \cdot \exp(-8 \epsilon^2 n)\) under \(X_0^n\). Therefore, any algorithm for using \(n\) samples<small class="footnote">This argument gives a lower bound on the <em>worst-case</em> number of samples in the known-\(\epsilon\) case. See Theorem 4.8 and Corollary 4.10 in <a href="https://webee.technion.ac.il/people/zivby/theses/phd/phd.ps">Ziv Bar-Yossef's PhD thesis</a> for a lower bound on the <em>expected</em> number of samples.</small> to distinguish \(X_0\) from \(X_{\epsilon}\) has failure probability at least \(0.25 \cdot \exp(-8 \epsilon^2 n)\).
+</p>
+
+<p>
+  Now let's move on to the unknown-\(\epsilon\) case. Suppose you've designed some algorithm such that for every \(\epsilon > 0\) and \(s \in \{\pm 1\}\), given sample access to \(X_{s \cdot \epsilon}\), the algorithm has at least a 99% chance<small class="footnote">By Markov's inequality, a lower bound on the number of coin tosses the algorithm uses with high probability implies a lower bound on the expected number of coin tosses.</small> of halting within \(n(\epsilon)\) samples and outputting \(s\). I claim that there is some universal constant \(\alpha > 0\) and some universal sequence \(\epsilon_1, \epsilon_2, \dots \to 0\) such that for infinitely many<small class="footnote">I'm merely claiming a lower bound for arbitrarily small \(\epsilon\), not for all sufficiently small \(\epsilon\). This is similar to the distinction between saying "\(n(\epsilon) = \Omega(\cdots)\)" vs. saying "\(n(\epsilon) \neq o(\cdots)\)". Indeed, \(n(\epsilon)\) is <em>not</em> necessarily \(\Omega\left(\frac{\log \log(1/\epsilon)}{\epsilon^2}\right)\).</small> \(i\),
+  \[
+    n(\epsilon_i) \geq \frac{\alpha \ln \ln(1/\epsilon_i)}{\epsilon_i^2}.
+  \]
+</p>
+
+<p>
+  Here's the proof. Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \alpha / \epsilon_{i + 1}^2\). Therefore, if \(\alpha\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). Therefore, when sampling from \(X_{\pm \epsilon_{i + 1}}\), with probability at least 0.75, the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\).
+</p>
+
+<p>
+  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not the situation your algorithm was designed for, but it's a legitimate thought experiment. Just like in the known-\(\epsilon\) lower bound, any event that happens with probability at least 0.75 under \(X_{\epsilon_{i + 1}}^{n_{i + 1}}\) happens with probability at least \( 0.25 \cdot \exp(-8 \epsilon_{i + 1}^2 \cdot n_{i + 1}) \) under \(X_0^{n_{i + 1}}\). Therefore, if we give your algorithm sample access to \(X_0\), with at least that probability, the number of samples it uses lies somewhere between \(n_i\) and \(n_{i + 1}\). These are disjoint events as \(i\) varies, so the probability \(p\) that your algorithm ever halts satisfies
+  \[
+    \begin{align}
+    p&\geq 0.25 \cdot \sum_i \exp\left(-8 \epsilon_i^2 \cdot n_i\right) \\
+    &\geq 0.25 \cdot \sum_i \ln(1/\epsilon_i)^{-8\alpha} \\
+     &= 0.25 \cdot \sum_i \frac{1}{i^{16 \alpha}}.
+    \end{align}
+  \]
+  For \(\alpha \leq \frac{1}{16}\), the sum diverges, a contradiction.
+</p>
+
+<p>
+  So if you play ping pong using these rules and the games take a long time to finish, don't blame the algorithm. The games will go faster if you get better at ping pong 🙂
+</p>
+
+<p>
+  Thanks to Alicia Torres Hoza for helpful comments on a draft of this blog post.
+</p>

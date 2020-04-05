@@ -1,0 +1,147 @@
+body {
+  background-color:#f0f0f0;
+  margin:0;
+  font-family:'Roboto', sans-serif;
+}
+
+.column-container, .one-column-container {
+  display:grid;
+  max-width:840px;
+  margin:0 auto;
+}
+
+.column-container {
+  grid-template-areas:
+   'controls'
+   'main';
+  justify-items:center;
+  align-items:start;
+  background-color:white;
+}
+
+.one-column-container {
+  grid-template-areas: 'main';
+}
+
+@media(min-width:1150px) {
+  .column-container {
+    grid-template-areas:
+      'main controls';
+    grid-template-columns: 840px 280px;
+    background-color:transparent;
+    max-width:1120px;
+  }
+}
+
+.main-column {
+  width:100%;
+  background-color:white;
+  grid-area:main;
+}
+
+header .main-column {
+  background-color:#105010;
+  padding:30px 0;
+}
+
+.main-column-inner {
+  max-width:800px;
+  margin:auto;
+  padding:0 5px;
+}
+
+#comments-section .main-column {
+  border-top:3px solid #f0f0f0;
+  padding:20px 0;
+}
+
+header {
+  text-align:center;
+}
+
+header a {
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:white;
+  text-decoration:none;
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+time {
+  color:gray;
+}
+
+p, li {
+  line-height:1.5;
+}
+
+#footnotes-container:not(:empty) {
+  padding:20px 0;
+  border-top:1px solid #e0e0e0;
+}
+
+blockquote {
+  border:3px dashed #c0c0c0;
+  padding:10px;
+}
+
+blockquote p:first-child {
+  margin-top:0;
+}
+
+blockquote p:last-child {
+  margin-bottom:0;
+}
+
+.intro-note {
+  font-style:italic;
+  border-bottom:1px solid #e0e0e0;
+  padding-bottom:15px;
+}
+
+.note {
+  font-style:italic;
+}
+
+.title-link {
+  font-weight:bold;
+}
+
+.main-page-intro {
+  border-bottom:1px solid #e0e0e0;
+  padding-bottom:20px;
+}
+
+table {
+  border-collapse:collapse;
+}
+
+table, td, th {
+  border:1px solid #e0e0e0;
+}
+
+td, th {
+  padding:10px;
+}
+
+.footnote {
+  display:none;
+  margin-left:3px;
+}
+
+#footnotes-container {
+  list-style:none;
+}
+
+#footnotes-container li:not(:last-child) {
+  margin-bottom:15px;
+}

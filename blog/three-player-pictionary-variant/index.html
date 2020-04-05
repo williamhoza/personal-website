@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1" async=""></script> <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script><script src="/blog/blog-mathjax-config.js"></script><script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="fb:admins" content="grumpybuffalo"><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/blog/blog.css"></head><body><div id="fb-root"></div><script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script><span style="display:none;">
+    \(\renewcommand{\epsilon}{\varepsilon}\)
+    \(\renewcommand{\hat}{\widehat}\)
+  </span><header class="one-column-container"><div class="main-column"><div class="main-column-inner"><a href="/blog">William Hoza's Blog</a></div></div></header> <main class="one-column-container"><div class="main-column"><div class="main-column-inner"><h1>A three-player Pictionary variant</h1><time datetime="2020-04-06">April 6, 2020</time><p class="intro-note">
+  [This blog post is a collaboration with Paige Kubenka and Alicia 
+  Torres Hoza. It was originally a standalone webpage, posted on 
+  11/29/2018. I edited it a tiny bit for the blog.]
+</p>
+
+<h2>
+  Background
+</h2>
+
+<p>
+  Pictionary is a classic game in which players try to guess what
+  other players are drawing. Quintessentially, Pictionary
+  is played by two teams of two players (one teammate draws while
+  the other teammate guesses.)
+</p>
+
+<p>
+  <a href="https://www.hasbro.com/common/instruct/pictionary.pdf">Hasbro's
+  official Pictionary rules</a> also describe a "three-player" version
+  of the game. In Hasbro's "three-player" game, one player is designated
+  as the artist for the entire game; the other two players compete
+  to win by guessing. Hasbro's game has some merits, but the
+  poor artist can hardly be considered a "player" in the game. Hasbro's game is
+  more like a <em>two</em>-player guessing game.
+</p>
+
+<p>
+  In this blog post, we describe a Pictionary variant with no teams
+  in which every player has a shot at winning. Our game is
+  designed for three players, but it also works with more than
+  three players.
+</p>
+        
+<h2>
+  How to play our game
+</h2>
+
+<p>
+  Necessary materials:
+  <ul>
+    <li>
+      A source of words (e.g. the cards from the original Pictionary game)
+    </li>
+    <li>
+      A drawing surface that everyone can see
+    </li>
+    <li>
+      A one-minute timer
+    </li>
+  </ul>
+</p>
+
+<p>
+  Gameplay:
+  <ul>
+    <li>
+      In each round, one player is the artist and all other
+      players are guessers.
+    </li>
+    <li>
+      The artist gets a word from the word source and spends up 
+      to one minute drawing it. (Standard Pictionary rules apply: 
+      no alphabet symbols, no gestures, etc.)
+    </li>
+    <li>
+      If a guesser correctly identifies the word, the round is over.
+      The successful guesser and the artist each get one point.
+      (In the rare event that multiple guessers correctly identify
+      the word simultaneously, each successful guesser gets one
+      point.)
+    </li>
+    <li>
+      If none of the guessers identify the word within one 
+      minute, the round is over and nobody gets any points.
+    </li>
+    <li>
+      Players take turns being the artist <strong>with one
+      exception</strong>: if it would be your turn to draw, but your 
+      score is <strong>strictly</strong> greater than each of the other 
+      players' scores, then you are "ineligible to draw" and your 
+      turn is skipped.
+    </li>
+  </ul>
+</p>
+
+<p>
+  Winning:
+  <ul>
+    <li>
+      If you have at least 9 points and you have <strong>strictly</strong> 
+      more points than each other player at the beginning of a 
+      round, then you are "eligible to win" during that round.
+    </li>
+    <li>
+      If you get a point in a round in which you are eligible to 
+      win and no other guessers get points in that round, then 
+      the game is over and <strong>you win!</strong>
+    </li>
+    <li>
+      Example: At the beginning of a round, A has 7 points, B has 
+      8 points, and C has 9 points. B draws and C successfully 
+      guesses the word. The game is over. The final scores are (7, 
+      9, 10) and C wins. This example demonstrates that the win 
+      condition is <strong>not</strong> simply "game to 10, win by two."
+    </li>
+  </ul>
+</p>
+        
+<h2>
+  Discussion
+</h2>
+
+<p>
+  The reader may wonder why our rules are so complicated. For the 
+  sake of discussion, let's consider some simpler rules, focusing 
+  on the three-player case. Let's imagine a game where players 
+  take turns being the artist; the artist and guesser each get 
+  one point when the the word is successfully identified; the 
+  first player to 10 points wins the game. To handle <strong>ties</strong>, 
+  we'd better stipulate that the game continues until some player 
+  has strictly more points than each other player.
+</p>
+
+<p>
+  These simple rules have a serious defect: in some situations, a 
+  player <strong>knows that he or she will not win</strong> even though the 
+  game isn't over. For example, suppose the scores are (8, 9, 9). 
+  It's impossible for A to win, because if A ever gets a point, 
+  then so does either B or C.
+</p>
+
+<p>
+  To fix this defect, let's change the winning condition. Let's 
+  say the game continues until some player has at least 10 points 
+  and is ahead by a margin of at least two points ("game to 10, 
+  win by two"). These rules still have some serious defects:
+  <ul>
+    <li>
+      In some situations, <strong>one guesser doesn't want to 
+      guess.</strong> Suppose the scores are (7, 9, 8) and B is the 
+      artist. If A successfully guesses the word, the game will
+      end and B will win, whereas if C successfully guesses the
+      word, the game will continue. So A would rather wait until
+      C is the artist to guess.
+    </li>
+    <li>
+      Even worse, in some situations, <strong>neither guesser wants to 
+      guess!</strong> Suppose the scores are (5, 6, 9) and C is 
+      drawing. If A or B correctly guesses the word, they'll 
+      immediately lose! They'd rather wait until one of them is 
+      the artist.
+    </li>
+    <li>
+      In some situations, <strong>the artist doesn't want to draw.</strong>
+      Suppose the scores are (7, 8, 9) and A is the artist. If A
+      draws, there's a risk that C might correctly guess the word
+      and win the game. On the other hand, A can just wait for B's
+      turn as artist. When B draws, even if C successfully guesses
+      the word, the scores will be (7, 9, 10) and the game will
+      continue.
+    </li>
+  </ul>
+</p>
+
+<p>
+  Our rules avoid all these defects:
+  <ul>
+    <li>
+      With our rules, <strong>there can never be a tie.</strong> After all, in
+      each round, at most one player is eligible to win.
+    </li>
+    <li>
+      With our rules, <strong>if the game isn't over, any player might 
+      win.</strong> Indeed, no matter what's happened so far, you'll 
+      win if from now on, whenever you're a guesser, you 
+      successfully guess the word, and whenever you're the 
+      artist, the guesser with fewest points successfully guesses 
+      the word.
+    </li>
+    <li>
+      With our rules, <strong>it's always reasonable for all guessers 
+      to guess</strong>. After all, if another player is eligible to
+      win, guessing will <em>prevent</em> that player from winning.
+    </li>
+    <li>
+      With our rules, <strong>it's always reasonable for the artist to 
+      draw</strong>. After all, if a guesser is eligible to win, that 
+      guesser will still be eligible to win next round if you 
+      refrain from drawing. You're going to have to get points 
+      eventually if you want to ever win.
+    </li>
+  </ul>
+</p>
+
+<p>
+  Admittedly, even with our rules, there are still some contrived 
+  scenarios in which someone might choose to not guess or choose 
+  to not draw. For example, the two guessers might feel that the 
+  artist is actually much better than they are and is only 
+  eligible to draw due to bad luck, so they might refrain from 
+  guessing. For another example, suppose A is the artist and B is 
+  eligible to win. A might feel that B is particularly good at 
+  guessing A's drawings and A is particularly good at guessing 
+  C's drawings. A might therefore choose to not draw. In 
+  practice, we haven't encountered these issues.
+</p>
+
+<p>
+  We hope you enjoy our game!
+</p>
+
+<h2>
+  Acknowledgments
+</h2>
+
+<p>
+  We thank Paige Hardy for helping us playtest.
+</p>
+<ol id="footnotes-container"></ol></div></div><section id="comments-section"><div class="main-column"><div class="main-column-inner"><div class="fb-comments" data-href="https://williamhoza.com/blog/three-player-pictionary-variant" data-width="100%" data-numposts="5"></div></div></div></section></main><script src="/blog/blog.js"></script></body></html>
