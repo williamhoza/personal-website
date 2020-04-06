@@ -41,7 +41,7 @@ def main():
     itemGUID = ElementTree.SubElement(item, "guid")
     itemGUID.text = URL
     itemDescription = ElementTree.SubElement(item, "description")
-    itemDescription.text = f"{post.metadata['snippet']} Continue reading: {URL}"
+    itemDescription.text = f"{post.metadata['snippet']} Continue reading: <a href=\"{URL}\">{URL}</a>"
     
   ElementTree.ElementTree(rss).write("rss.xml", encoding="utf-8", xml_declaration=True)
   
