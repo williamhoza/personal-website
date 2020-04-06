@@ -29,7 +29,7 @@ def main():
   channelLanguage.text = "en-us"
   
   for post in list(posts.values())[:10]:
-    URL = f"https://williamhoza.com/blog/{post.slug}"
+    URL = f"https://williamhoza.com/blog/{post.slug}/"
     
     item = ElementTree.SubElement(channel, "item")
     itemTitle = ElementTree.SubElement(item, "title")
@@ -40,6 +40,8 @@ def main():
     itemPubDate.text = post.dt.isoformat()
     itemGUID = ElementTree.SubElement(item, "guid")
     itemGUID.text = URL
+    itemDescription = ElementTree.SubElement(item, "description")
+    itemDescription.text = f"{post.metadata['snippet']} Continue reading: {URL}"
     
   ElementTree.ElementTree(rss).write("rss.xml", encoding="utf-8", xml_declaration=True)
   
