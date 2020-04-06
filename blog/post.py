@@ -78,10 +78,27 @@ class Post:
         </main>
       )
     
-    if ("styling" in self.metadata and self.metadata["styling"]):
-      extraStylesheets = <link rel="stylesheet" href="/blog/{self.slug}/index.css" />
+    if ("og-image" in self.metadata):
+      ogImageTags = (
+        <frag>
+          <meta property="og:image" content="https://williamhoza.com/blog/{self.slug}/{self.metadata['og-image']}" />
+          <meta property="og:image:width" content="{self.metadata['og-image-width']}" />
+          <meta property="og:image:height" content="{self.metadata['og-image-height']}" />
+        </frag>
+      )
     else:
-      extraStylesheets = None
+      ogImageTags = None
+    
+    extraHeadElements = (
+      <frag>
+        <meta property="og:url" content="https://williamhoza.com/blog/{self.slug}/" />
+        <meta property="og:type" content="article" />
+        <meta property="og:description" content="{self.metadata['snippet']}" />
+      </frag>
+    )
+    
+    if ("styling" in self.metadata and self.metadata["styling"]):
+      extraHeadElements.append(<link rel="stylesheet" href="/blog/{self.slug}/index.css" />)
       
     indexFile = open(f"{self.slug}/index.html", "w", encoding="utf-8")
-    page.compile(controls, main, extraStylesheets, indexFile, self.metadata["title"])
+    page.compile(controls, main, extraHeadElements, indexFile, self.metadata["title"], ogImageTags)

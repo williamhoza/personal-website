@@ -1,7 +1,7 @@
 # -*- coding: pyxl -*-
 from pyxl import html
 
-def compile(controls, main, extraStylesheets, indexFile, title=None):
+def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTags=None):
   gaScript1 = <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
   gaScript2 = <script>{html.rawhtml("""window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');""")}</script>
   
@@ -53,6 +53,15 @@ def compile(controls, main, extraStylesheets, indexFile, title=None):
         William Hoza's blog
       </title>
     )
+    
+  if ogImageTags == None:
+    ogImageTags = (
+      <frag>
+        <meta property="og:image" content="https://williamhoza.com/blog/og.png" />
+        <meta property="og:image:width" content="2000" />
+        <meta property="og:image:height" content="1050" />
+      </frag>
+    )
   
   doc = (
     <html lang="en">
@@ -65,9 +74,14 @@ def compile(controls, main, extraStylesheets, indexFile, title=None):
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="fb:admins" content="grumpybuffalo"/>
         
+        {titleElement}
+        
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/blog/blog.css" />
-        {extraStylesheets}
+        {extraHeadElements}
+        
+        <meta property="og:title" content="{title or 'William Hoza\'s blog'}" />
+        {ogImageTags}
       </head>
       
       <body>

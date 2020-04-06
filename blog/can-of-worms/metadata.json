@@ -1,5 +1,6 @@
 {
   "title": "A \"can\" of worms",
   "date": "2020-04-06",
-  "time-slot": 0
+  "time-slot": 0,
+  "snippet": "In \"The Incompatibility of Free Will and Determinism\", Peter van Inwagen argues that if the universe is deterministic, then free will does not exist. (He is silent about whether the universe is in fact deterministic and about whether free will in fact exists.) This is in contrast to the compatibilist position, which holds that free will and determinism are not contradictory. Briefly, van Inwagen's argument is that when an agent with free will performs some action, she (by definition of \"free will\") could have performed a different action. But in a deterministic universe, acting a different way requires either altering the past or violating the laws of physics. So van Inwagen concludes that the free agent could have either altered the past or violated the laws of physics. Finally, van Inwagen says that it is obvious that nobody can alter the past, and by definition of the phrase \"law of physics\", nobody can violate the laws of physics either. So our hypothetical free agent in a deterministic universe cannot exist."
 }

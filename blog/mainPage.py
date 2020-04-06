@@ -32,6 +32,12 @@ def compile(posts):
     </main>
   )
   
+  extraHeadElements = (
+    <frag>
+      <meta property="og:url" content="https://williamhoza.com/blog/" />
+    </frag>
+  )
+  
   indexFile = open("index.html", "w", encoding="utf-8")
-  page.compile(False, main, None, indexFile)
+  page.compile(False, main, extraHeadElements, indexFile)
   

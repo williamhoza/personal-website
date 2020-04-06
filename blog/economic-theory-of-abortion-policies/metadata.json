@@ -3,5 +3,9 @@
   "date": "2020-04-06",
   "time-slot": 3,
   "controls": true,
-  "styling": true
+  "styling": true,
+  "snippet": "I recently read an interesting book by economist Phillip Levine. In Sex and Consequences, Levine studies the impact of abortion policies. Realistically, how are abortion rates, birth rates, and pregnancy rates likely to be affected by these government interventions? The book addresses this question using both theoretical models and empirical evidence. The whole book is worth reading, but for this blog post I'm going to focus on the theoretical models. I'll provide some interactive visualizations and a little commentary.",
+  "og-image": "balancing-costs.png",
+  "og-image-width": 1714,
+  "og-image-height": 900
 }
