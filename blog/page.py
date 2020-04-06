@@ -53,15 +53,6 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
         William Hoza's blog
       </title>
     )
-    
-  if ogImageTags == None:
-    ogImageTags = (
-      <frag>
-        <meta property="og:image" content="https://williamhoza.com/blog/og.png" />
-        <meta property="og:image:width" content="2000" />
-        <meta property="og:image:height" content="1050" />
-      </frag>
-    )
   
   doc = (
     <html lang="en">
