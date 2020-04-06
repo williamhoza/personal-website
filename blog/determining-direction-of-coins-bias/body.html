@@ -1,3 +1,7 @@
+<p>
+  [TODO: Not ready for publication yet. Proofs have bugs]
+</p>
+
 <h2>The problem</h2>
 
 <p>
@@ -19,7 +23,11 @@
 <h2>The solution</h2>
 
 <p>
-   Let \(\delta > 0\) be the failure probability you're willing to tolerate. Define \(\epsilon_i = 2^{-i}\), \(\delta_i = \frac{6 \delta}{\pi^2 i^2}\), and \(n_i = \left\lceil \frac{\ln(1/\delta_i)}{2\epsilon_i^2} \right\rceil\). Repeatedly toss the coin and keep track of what you see. For each \(i\), once you've tossed the coin \(n_i\) times, compute the fraction of tosses that have come up "heads" so far and call it \(\hat{p}_i\). If \(\hat{p}_i \geq \frac{1}{2} + \epsilon_i\), declare that the coin is biased toward heads. If \(\hat{p}_i \leq \frac{1}{2} - \epsilon_i\), declare that the coin is biased toward tails. If \(\frac{1}{2} - \epsilon_i \lt \hat{p}_i \lt \frac{1}{2} + \epsilon_i\), keep tossing the coin.
+  The idea is, if a huge fraction of the first few tosses are heads/tails, then you can safely halt and declare that the coin is biased toward heads/tails respectively. But if the first few tosses are split relatively evenly between heads and tails, then you should go back to tossing the coin for a while before considering halting again. You repeat this process as long as it takes, tossing the coin many times, then considering halting. With each successive iteration, you can safely lower the threshold for halting — a 60-40 split among a gazillion coin tosses is much more meaningful than a 60-40 split among 10 coin tosses. No matter how small the true bias is, eventually you'll halt.
+</p>
+
+<p>
+   Here are the quantitative details. Let \(\delta > 0\) be the failure probability you're willing to tolerate. Define \(\epsilon_i = 2^{-i}\), \(\delta_i = \frac{6 \delta}{\pi^2 i^2}\), and \(n_i = \left\lceil \frac{\ln(1/\delta_i)}{2\epsilon_i^2} \right\rceil\). For each \(i\), after tossing the coin \(n_i\) times, let \(\hat{p}_i\) be the fraction of coin tosses that have come up heads so far. If \(\hat{p}_i \geq \frac{1}{2} + \epsilon_i\), halt and declare that the coin is biased toward heads. If \(\hat{p}_i \leq \frac{1}{2} - \epsilon_i\), halt and declare that the coin is biased toward tails. If \(\frac{1}{2} - \epsilon_i \lt \hat{p}_i \lt \frac{1}{2} + \epsilon_i\), keep tossing the coin.
 </p>
 
 <p>
@@ -92,7 +100,7 @@
 </p>
 
 <p>
-  My wife and I have been playing a game called "Spot It!" recently. In the simplest version of the game, each "round" is very quick: two cards are revealed, and whoever finds something in common first gets a point. (The cards are based on <a href="https://en.wikipedia.org/wiki/Projective_plane#Finite_projective_planes">finite projective planes</a>.) We've been trying to use the above algorithm (with slightly different parameters) to determine which of us is the better player. Unfortunately, it seems that the question won't be resolved anytime soon. So far, Alicia is winning 773 - 745.
+  My wife and I have been playing a game called "Spot It!" recently. In the simplest version of the game, each "round" is very quick: two cards are revealed, and whoever finds something in common first gets a point. (The cards are based on <a href="https://en.wikipedia.org/wiki/Projective_plane#Finite_projective_planes">finite projective planes</a>.) We've been trying to use the above algorithm (with slightly different parameters) to determine which of us is the better player. Unfortunately, it seems that it might take a while to resolve the question. So far, Alicia is winning 998 - 933.
 </p>
 
 <p>
@@ -108,11 +116,11 @@
 </p>
 
 <p>
-  Let's start by reviewing one method of proving the lower bound in the known-\(\epsilon\) case. Let \(X_{\epsilon}\) denote the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> with parameter \(\frac{1}{2} + \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\), and let \(D(Y \| Z)\) denote the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> from \(Z\) to \(Y\). There's a "chain rule" for KL divergence that implies
+  Let's start by reviewing a proof of the lower bound in the known-\(\epsilon\) case. Let \(X_{\epsilon}\) denote the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> with parameter \(\frac{1}{2} + \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\), and let \(D(Y \| Z)\) denote the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> from \(Z\) to \(Y\). There's a "chain rule" for KL divergence that implies
   \[
     D(X_{\epsilon}^{n} \| X_0^{n}) = n \cdot D(X_{\epsilon} \| X_0) \leq 4\epsilon^2 n.
   \]
-  By the definition of KL divergence and <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov's inequality</a>, this implies that if an event has probability at least 0.75 under \(X_{\epsilon}^n\), then it has probability at least \(0.25 \cdot \exp(-8 \epsilon^2 n)\) under \(X_0^n\). Therefore, any algorithm for using \(n\) samples<small class="footnote">This argument gives a lower bound on the <em>worst-case</em> number of samples in the known-\(\epsilon\) case. See Theorem 4.8 and Corollary 4.10 in <a href="https://webee.technion.ac.il/people/zivby/theses/phd/phd.ps">Ziv Bar-Yossef's PhD thesis</a> for a lower bound on the <em>expected</em> number of samples.</small> to distinguish \(X_0\) from \(X_{\epsilon}\) has failure probability at least \(0.25 \cdot \exp(-8 \epsilon^2 n)\).
+  By the definition of KL divergence and <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov's inequality</a>, this implies that if an event has probability \(q\) under \(X_{\epsilon}^n\), then it has probability at least \(\frac{q}{2} \cdot \exp(-\frac{8}{q} \epsilon^2 n)\) under \(X_0^n\). Taking \(q = 2/3\) shows that any algorithm for using \(n\) samples<small class="footnote">This argument gives a lower bound on the <em>worst-case</em> number of samples in the known-\(\epsilon\) case. See Theorem 4.8 and Corollary 4.10 in <a href="https://webee.technion.ac.il/people/zivby/theses/phd/phd.ps">Ziv Bar-Yossef's PhD thesis</a> for a lower bound on the <em>expected</em> number of samples.</small> to distinguish \(X_0\) from \(X_{\epsilon}\) has failure probability at least \(\frac{1}{3} \cdot \exp(-12 \epsilon^2 n)\).
 </p>
 
 <p>
@@ -123,19 +131,19 @@
 </p>
 
 <p>
-  Here's the proof. Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \alpha / \epsilon_{i + 1}^2\). Therefore, if \(\alpha\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). Therefore, when sampling from \(X_{\pm \epsilon_{i + 1}}\), with probability at least 0.75, the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\).
+  Here's the proof. Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \alpha / \epsilon_{i + 1}^2\). Therefore, if \(\alpha\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). It follows that when sampling from \(X_{\pm \epsilon_{i + 1}}\), there's at least a \(\frac{1}{4}\) chance that the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\).
 </p>
 
 <p>
-  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not the situation your algorithm was designed for, but it's a legitimate thought experiment. Just like in the known-\(\epsilon\) lower bound, any event that happens with probability at least 0.75 under \(X_{\epsilon_{i + 1}}^{n_{i + 1}}\) happens with probability at least \( 0.25 \cdot \exp(-8 \epsilon_{i + 1}^2 \cdot n_{i + 1}) \) under \(X_0^{n_{i + 1}}\). Therefore, if we give your algorithm sample access to \(X_0\), with at least that probability, the number of samples it uses lies somewhere between \(n_i\) and \(n_{i + 1}\). These are disjoint events as \(i\) varies, so the probability \(p\) that your algorithm ever halts satisfies
+  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not the situation your algorithm was designed for, but it's a legitimate thought experiment. As discussed earlier, any event that happens with probability at least \(q = \frac{1}{4}\) under \(X_{\epsilon_{i + 1}}^{n_{i + 1}}\) happens with probability at least \( \frac{1}{8} \cdot \exp(-32 \epsilon_{i + 1}^2 \cdot n_{i + 1}) \) under \(X_0^{n_{i + 1}}\). Therefore, if we give your algorithm sample access to \(X_0\), with at least that probability, the number of samples it uses lies somewhere between \(n_i\) and \(n_{i + 1}\). These are disjoint events as \(i\) varies, so the probability \(p\) that your algorithm ever halts satisfies
   \[
     \begin{align}
-    p&\geq 0.25 \cdot \sum_i \exp\left(-8 \epsilon_i^2 \cdot n_i\right) \\
-    &\geq 0.25 \cdot \sum_i \ln(1/\epsilon_i)^{-8\alpha} \\
-     &= 0.25 \cdot \sum_i \frac{1}{i^{16 \alpha}}.
+    p&\geq \frac{1}{8} \cdot \sum_i \exp\left(-32 \epsilon_i^2 \cdot n_i\right) \\
+    &\geq \frac{1}{8} \cdot \sum_i \ln(1/\epsilon_i)^{-32\alpha} \\
+     &= \frac{1}{8} \cdot \sum_i \frac{1}{i^{64 \alpha}}.
     \end{align}
   \]
-  For \(\alpha \leq \frac{1}{16}\), the sum diverges, a contradiction.
+  For \(\alpha \leq \frac{1}{64}\), the sum diverges, a contradiction.
 </p>
 
 <p>
@@ -143,5 +151,5 @@
 </p>
 
 <p>
-  Thanks to Alicia Torres Hoza for helpful comments on a draft of this blog post.
+  Thanks to Alicia Torres Hoza and Jalex Stark for helpful comments on drafts of this blog post.
 </p>
