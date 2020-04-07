@@ -1,6 +1,6 @@
 {
   "title": "Determining the direction of a coin's bias",
-  "date": "2020-04-06",
+  "date": "2020-04-07",
   "time-slot": 5,
   "snippet": "Suppose you're playing a two-player game, like maybe ping pong or rock-paper-scissors. In each round, one player gets a point. It's possible to play any number of rounds, and nothing much changes from one round to the next. How long should you play if you want to figure out who is better at the game? Let's model each round as a biased coin toss. One player gets a point with probability 1/2 + eps and the other player gets a point with probability 1/2 - eps, independently each round, for some eps > 0. The goal is to determine which player is which."
 }

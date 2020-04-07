@@ -2,7 +2,7 @@
     \(\renewcommand{\epsilon}{\varepsilon}\)
     \(\renewcommand{\hat}{\widehat}\)
     \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
-  </span><header class="one-column-container"><div class="main-column"><div class="main-column-inner"><a href="/blog">William Hoza's Blog</a></div></div></header> <main class="one-column-container"><div class="main-column"><div class="main-column-inner"><h1>Determining the direction of a coin's bias</h1><time datetime="2020-04-06">April 6, 2020</time><h2>The problem</h2>
+  </span><header class="one-column-container"><div class="main-column"><div class="main-column-inner"><a href="/blog">William Hoza's Blog</a></div></div></header> <main class="one-column-container"><div class="main-column"><div class="main-column-inner"><h1>Determining the direction of a coin's bias</h1><time datetime="2020-04-07">April 7, 2020</time><h2>The problem</h2>
 
 <p>
   Suppose you're playing a two-player game, like maybe ping pong or rock-paper-scissors. In each round, one player gets a point. It's possible to play any number of rounds, and nothing much changes from one round to the next. How long should you play if you want to figure out who is better at the game?
@@ -17,13 +17,13 @@
 </p>
 
 <p>
-  What about when \(\epsilon\) is unknown? You and your opponent don't know in advance how closely matched your ping pong skills are, after all. Surprisingly, I'm not aware of any published discussion of this basic statistics problem, though I could easily have missed one.
+  But why would you and your opponent know in advance how closely matched your ping pong skills are? Not knowing \(\epsilon\) adds an extra layer of complexity to the problem.
 </p>
 
 <h2>The solution</h2>
 
 <p>
-  The idea is, if a huge fraction of the first few tosses are heads/tails, then you can safely halt and declare that the coin is biased toward heads/tails respectively. But if the first few tosses are split relatively evenly between heads and tails, then you should go back to tossing the coin for a while before considering halting again. You repeat this process as long as it takes, tossing the coin many times, then considering halting. With each successive iteration, you can safely lower the threshold for halting — a 60-40 split among a gazillion coin tosses is much more meaningful than a 60-40 split among 10 coin tosses. No matter how small the true bias is, eventually you'll halt.
+  The idea is, if a huge fraction of the first few tosses are heads/tails, then you can safely halt and declare that the coin is biased toward heads/tails respectively. But if the first few tosses are split relatively evenly between heads and tails, then you should go back to tossing the coin for a while before considering halting again. You repeat this process as long as it takes, tossing the coin many times, then considering halting. With each successive iteration, you can safely lower the threshold for halting. (A 60-40 split among a gazillion coin tosses is much more meaningful than a 60-40 split among 10 coin tosses.) No matter how small the true bias is, eventually you'll halt.
 </p>
 
 <p>
@@ -31,7 +31,7 @@
 </p>
 
 <p>
-  Here's why that works. By Hoeffding's inequality, the probability that you halt and give the wrong answer after \(n_i\) tosses is at most \(\delta_i\). Therefore, by the union bound, the probability that you <em>ever</em> give the wrong answer is at most \(\sum_i \delta_i = \delta\). Meanwhile, once \(i\) is large enough that \(\epsilon_i \leq \epsilon / 2\), Hoeffding's inequality also shows that the probability that you have to toss the coin more than \(n_i\) times is at most \(\exp(-\epsilon^2 n_i / 2)\). From here, a little calculation shows that the expected number of coin tosses is \[O\left(\frac{\log(1/\delta) + \log \log(1/\epsilon)}{\epsilon^2}\right).\]
+  Analysis: By Hoeffding's inequality, the probability that you halt and give the wrong answer after \(n_i\) tosses is at most \(\delta_i\). Therefore, by the union bound, the probability that you <em>ever</em> give the wrong answer is at most \(\sum_i \delta_i = \delta\). Meanwhile, once \(i\) is large enough that \(\epsilon_i \leq \epsilon / 2\), Hoeffding's inequality also shows that the probability that you have to toss the coin more than \(n_i\) times is at most \(\exp(-\epsilon^2 n_i / 2)\). From here, a little calculation shows that the expected number of coin tosses is \[O\left(\frac{\log(1/\delta) + \log \log(1/\epsilon)}{\epsilon^2}\right).\]
   Note that we pay a factor of \(O(\log \log(1/\epsilon))\) compared to the situation when \(\epsilon\) is known. This is unavoidable, as I'll explain later.
 </p>
 
@@ -100,7 +100,7 @@
 </p>
 
 <p>
-  My wife and I have been playing a game called "Spot It!" recently. In the simplest version of the game, each "round" is very quick: two cards are revealed, and whoever finds something in common first gets a point. (The cards are based on <a href="https://en.wikipedia.org/wiki/Projective_plane#Finite_projective_planes">finite projective planes</a>.) We've been trying to use the above algorithm (with slightly different parameters) to determine which of us is the better player. Unfortunately, it seems that it might take a while to resolve the question. So far, Alicia is winning 998 - 933.
+  My wife and I have been playing a game called "Spot It!" recently. In the simplest version of the game, each "round" is very quick: two cards are revealed, and whoever finds something in common first gets a point. (The cards are based on <a href="https://en.wikipedia.org/wiki/Projective_plane#Finite_projective_planes">finite projective planes</a>.) We've been trying to use the above algorithm (with slightly different parameters) to determine which of us is the better player. Unfortunately, it seems that it might take a while to resolve the question. So far, Alicia is winning 1090 - 1027.
 </p>
 
 <p>
@@ -112,72 +112,75 @@
 <p>
   Like I said earlier, using the simple algorithm I described, the expected number of coin tosses is
   \[ O\left(\frac{\log(1/\delta) + \log \log(1/\epsilon)}{\epsilon^2}\right). \]
-  In this section, I'll outline a proof that no algorithm can do better, asymptotically. It's well-known that even if \(\epsilon\) is known in advance, \(\Omega(\log(1/\delta) / \epsilon^2)\) coin tosses are necessary. The interesting part is the \(\log \log(1/\epsilon)\) term.
+  In this section, I'll outline a proof that no algorithm can do better, asymptotically. After I worked out the proof, I found <a href="https://www.cs.cornell.edu/~rdk/papers/karpr2.pdf">this paper by Karp and Kleinberg</a> that includes a proof of the same result.<small class="footnote">It seems that Karp and Kleinberg weren't too concerned about the small-\(\delta\) regime. Besides the lower bound, they also presented an algorithm for the problem, but their algorithm is non-optimal when \(\delta = o(1)\).</small> (It's not surprising that others have studied this basic statistics problem.)
 </p>
 
 <p>
-  Let's start by reviewing a proof of the lower bound in the known-\(\epsilon\) case. Let \(X_{\epsilon}\) be the distribution over \(\{0, 1\}\) with \(X_{\epsilon}(1) = \frac{1}{2} + \epsilon\) and \(X_{\epsilon}(0) = \frac{1}{2} - \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\). Let \(f \colon \{0, 1\}^n \to \{0, 1\}\) be any function<small class="footnote">I'm bounding the worst-case number of samples here. The argument can be extended to lower-bound the expected number of samples; see Theorem 7.1 in <a href="https://epubs.siam.org/doi/abs/10.1137/S0097539797315306">this paper</a> by Dagum et al.</small>, the interpretation being that \(f\) is trying to output 1 on \(X_{\epsilon}^n\) and 0 on \(X_0^n\). I'll show that \(f\) has failure probability at least \(\frac{1}{5} \cdot \exp(-12\epsilon^2 n)\).
+  Let's start by proving that \(\Omega(\log(1/\delta) / \epsilon^2)\) coin tosses are necessary, even if \(\epsilon\) is known in advance. This bound is relatively well-known, but it will be useful to go through a proof, so that we can use the same ideas later to show that the \(\log \log(1/\epsilon)\) term cannot be eliminated.
+</p>
+
+<p>
+  Let \(X_{\epsilon}\) be the distribution over \(\{0, 1\}\) with \(X_{\epsilon}(1) = \frac{1}{2} + \epsilon\) and \(X_{\epsilon}(0) = \frac{1}{2} - \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\). Let \(f \colon \{0, 1\}^n \to \{0, 1\}\) be any function,<small class="footnote">I'm bounding the worst-case number of samples here. The argument can be extended to lower-bound the expected number of samples; see Theorem 7.1 in <a href="https://epubs.siam.org/doi/abs/10.1137/S0097539797315306">this paper</a> by Dagum et al.</small> the interpretation being that \(f\) is trying to output 1 on \(X_{\epsilon}^n\) and 0 on \(X_0^n\). I'll show that \(f\) has failure probability at least \(\frac{1}{4} \cdot \exp(-8\epsilon^2 n)\).
 </p>
 
 <p>
   Let \(\alpha\) denote the failure probability on \(X_{\epsilon}\) and let \(\beta\) denote the failure probability on \(X_0\), i.e., \(\beta = \E[f(X_0^n)]\) and \(\alpha = 1 - \E[f(X_{\epsilon}^n)]\). Let \(D(Y \| Z)\) denote the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> from \(Z\) to \(Y\). Plugging in the definitions, \(D(f(X_{\epsilon}^n) \| f(X_0^n))\) is given by
   \[
-    (1 - \alpha) \ln\left(\frac{1 - \alpha}{\beta}\right) + \alpha \ln \left(\frac{\alpha}{1 - \beta}\right).
+    (1 - \alpha) \ln\left(\frac{1 - \alpha}{\beta}\right) + \alpha \ln \left(\frac{\alpha}{1 - \beta}\right),
   \]
-  If \(\alpha > \frac{1}{3}\) or \(\beta > \frac{1}{5}\), we are done, so assume \(\alpha \leq \frac{1}{3}\) and \(\beta \leq \frac{1}{5}\). In this case, the \(\log(1/\beta)\) term dominates, and one can show
-  \[
-    D(f(X_{\epsilon}^n) \| f(X_0^n)) \geq \frac{1}{3} \ln \left(\frac{2}{3 \beta}\right).
-  \]
-</p>
-
-<p>
-  On the other hand,
+  which is at least \((1 - \alpha) \ln(1/\beta) - \ln 2\) because \((1 - \alpha) \ln (1 - \alpha) + \alpha \ln \alpha \geq - \ln 2\). On the other hand,
   \[
     \begin{align*}
       D(f(X_{\epsilon}^n) \| f(X_0^n)) &\leq D(X_{\epsilon}^n \| X_0^n) \\
-      &\leq n \cdot D(X_{\epsilon} \| X_0) \\
+      &= n \cdot D(X_{\epsilon} \| X_0) \\
       &\leq 4 \epsilon^2 n.
     \end{align*}
   \]
-  (The first inequality follows from the <a href="http://www.stat.yale.edu/~yw562/teaching/598/lec04.pdf">"data processing inequality"</a> for KL divergence. The second inequality follows from the <a href="https://homes.cs.washington.edu/~anuprao/pubs/CSE533Autumn2010/lecture3.pdf">"chain rule"</a> for KL divergence. The last inequality is a straightforward computation.) Rearranging, we get \(\beta \geq \frac{2}{3} \exp(-12 \epsilon^2 n)\).
+  (The first inequality follows from the <a href="http://www.stat.yale.edu/~yw562/teaching/598/lec04.pdf">data processing inequality</a> for KL divergence. The equation in the middle follows from the <a href="https://homes.cs.washington.edu/~anuprao/pubs/CSE533Autumn2010/lecture3.pdf">chain rule</a> for KL divergence. The last inequality is a straightforward computation.) Rearranging, we get
+  \[
+    \beta \geq \frac{1}{2^{\frac{1}{1 - \alpha}}} \cdot \exp\left(-\frac{4 \epsilon^2 n}{1 - \alpha}\right).
+  \]
+  If \(\alpha > \frac{1}{2}\), we're done, and if \(\alpha \leq \frac{1}{2}\), we get \(\beta \geq \frac{1}{4} \cdot \exp(-8\epsilon^2 n)\) as promised.
 </p>
 
 <p>
-  Now let's move on to the unknown-\(\epsilon\) case. Suppose you've designed some algorithm such that for every \(\epsilon > 0\) and \(s \in \{\pm 1\}\), given sample access to \(X_{s \cdot \epsilon}\), the algorithm has at least a 99% chance<small class="footnote">By Markov's inequality, a lower bound on the number of coin tosses the algorithm uses with high probability implies a lower bound on the expected number of coin tosses.</small> of halting within \(n(\epsilon)\) samples and outputting \(s\). I claim that there is some universal constant \(\gamma > 0\) and some universal sequence \(\epsilon_1, \epsilon_2, \dots \to 0\) such that for infinitely many<small class="footnote">I'm merely claiming a lower bound for arbitrarily small \(\epsilon\), not for all sufficiently small \(\epsilon\). This is similar to the distinction between saying "\(n(\epsilon) = \Omega(\cdots)\)" vs. saying "\(n(\epsilon) \neq o(\cdots)\)". Indeed, \(n(\epsilon)\) is <em>not</em> necessarily \(\Omega\left(\frac{\log \log(1/\epsilon)}{\epsilon^2}\right)\).</small> \(i\),
+  Now let's move on to the unknown-\(\epsilon\) case. Suppose you've designed some algorithm such that for every \(\epsilon > 0\) and \(s \in \{\pm 1\}\), given sample access to \(X_{s \cdot \epsilon}\), the algorithm has at least a 99% chance<small class="footnote">By <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov's inequality</a>, a lower bound on the number of coin tosses the algorithm uses with high probability implies a lower bound on the expected number of coin tosses.</small> of halting within \(n(\epsilon)\) samples and outputting \(s\). I claim that there is some universal constant \(\gamma > 0\) and some universal sequence \(\epsilon_1, \epsilon_2, \dots \to 0\) such that for infinitely many<small class="footnote">I'm merely claiming a lower bound for arbitrarily small \(\epsilon\), not for all sufficiently small \(\epsilon\). This is similar to the distinction between saying "\(n(\epsilon) = \Omega(\cdots)\)" vs. saying "\(n(\epsilon) \neq o(\cdots)\)". Indeed, \(n(\epsilon)\) is <em>not</em> necessarily \(\Omega\left(\frac{\log \log(1/\epsilon)}{\epsilon^2}\right)\).</small> \(i\),
   \[
     n(\epsilon_i) \geq \frac{\gamma \ln \ln(1/\epsilon_i)}{\epsilon_i^2}.
   \]
 </p>
 
 <p>
-  Here's the proof. Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \gamma / \epsilon_{i + 1}^2\). Therefore, if \(\gamma\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). It follows that when sampling from either \(X_{\epsilon_{i + 1}}\) or \(X_{-\epsilon_{i + 1}}\), there's at least a \(\frac{1}{6}\) chance that the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\). Assume without loss of generality that this happens when sampling from \(X_{\epsilon_{i + 1}}\).
+  Proof: Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \gamma / \epsilon_{i + 1}^2\). Therefore, if \(\gamma\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). It follows that when sampling from either \(X_{\epsilon_{i + 1}}\) or \(X_{-\epsilon_{i + 1}}\), there's at least a \(\frac{1}{5}\) chance that the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\). Assume without loss of generality that this happens when sampling from \(X_{\epsilon_{i + 1}}\). Let \(f \colon \{0, 1\}^{n_{i + 1}} \to \{0, 1\}\) be the indicator function for that event, i.e., \(f(x) = 1\) if and only if the number of samples your algorithm uses lies somewhere between \(n_i\) and \(n_{i + 1}\) when the first \(n_{i + 1}\) samples are described by \(x\).
 </p>
 
 <p>
-  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not the situation your algorithm was designed for, but it's a legitimate thought experiment. I'll show that there's still at least a \(\frac{1}{1000} \cdot \exp(-24 \epsilon_{i + 1}^2 n_{i + 1})\) chance that the number of samples your algorithm uses lies somewhere between \(n_i\) and \(n_{i + 1}\). Indeed, define \(f \colon \{0, 1\}^{n_{i + 1}} \to \{0, 1\}\) by letting \(f(x) = 1\) if and only if the number of samples your algorithm uses lies somewhere between \(n_i\) and \(n_{i + 1}\) when the first \(n_{i + 1}\) samples are given by \(x\). Just like in the known-\(\epsilon\) lower bound, define \(\beta = \E[f(X_0^n)]\) and \(\alpha = 1 - \E[f(X_{\epsilon_{i + 1}}^{n_{i + 1}})]\). We have already argued that \(\alpha \leq \frac{5}{6}\). If \(\beta > \frac{1}{1000}\), we are done, so assume \(\beta \leq \frac{1}{1000}\). It follows that
+  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not a situation your algorithm was designed for, but it's a legitimate thought experiment. Just like in the known-\(\epsilon\) lower bound, define \(\beta = \E[f(X_0^{n_{i + 1}})]\) and \(\alpha = 1 - \E[f(X_{\epsilon_{i + 1}}^{n_{i + 1}})]\). We have already argued that \(\alpha \leq \frac{4}{5}\). Therefore,
   \[
-    D(f(X_{\epsilon_{i + 1}}^{n_{i + 1}}) \| f(X_0^{n_{i + 1}})) \geq \frac{1}{6} \ln\left(\frac{1}{6 \beta}\right),
+    \begin{align*}
+      \beta &\geq \frac{1}{2^{\frac{1}{1 - \alpha}}} \cdot \exp\left(-\frac{4 \epsilon_{i + 1}^2 n_{i + 1}}{1 - \alpha}\right) \\
+      &\geq \frac{1}{32} \cdot \exp(-20 \epsilon_{i + 1}^2 n_{i + 1}).
+    \end{align*}
   \]
-  and just like before, that implies \(\beta \geq \frac{1}{6} \cdot \exp(-24 \epsilon_{i + 1}^2 n_{i + 1})\).
 </p>
 
 <p>
   Now, the events "the number of samples your algorithm uses lies between \(n_i\) and \(n_{i + 1}\)" are mutually exclusive as \(i\) varies, so the probability \(p\) that your algorithm ever halts satisfies
   \[
     \begin{align}
-    p&\geq \frac{1}{1000} \cdot \sum_i \exp\left(-24 \epsilon_i^2 \cdot n_i\right) \\
-    &\geq \frac{1}{1000} \cdot \sum_i \ln(1/\epsilon_i)^{-24\gamma} \\
-     &= \frac{1}{1000} \cdot \sum_i \frac{1}{i^{48 \gamma}}.
+    p&\geq \frac{1}{32} \cdot \sum_i \exp\left(-20 \epsilon_i^2 \cdot n_i\right) \\
+    &\geq \frac{1}{32} \cdot \sum_i \ln(1/\epsilon_i)^{-20\gamma} \\
+     &= \frac{1}{32} \cdot \sum_i \frac{1}{i^{40 \gamma}}.
     \end{align}
   \]
-  For \(\gamma \leq \frac{1}{48}\), the sum diverges, a contradiction.
+  For \(\gamma \leq \frac{1}{40}\), the sum diverges, a contradiction.
 </p>
 
 <p>
-  So if you play ping pong using these rules and the games take a long time to finish, don't blame the algorithm. The games will go faster if you get better at ping pong 🙂
+  So if you play ping pong using these rules and the games take a long time to finish, don't blame the algorithm. The games will go faster if you get really good at ping pong 🙂
 </p>
 
 <p>
   Thanks to Alicia Torres Hoza and Jalex Stark for helpful comments on drafts of this blog post.
 </p>
-<ol id="footnotes-container"></ol></div></div><section id="comments-section"><div class="main-column"><div class="main-column-inner"><div class="fb-comments" data-href="https://williamhoza.com/blog/determining-direction-of-coins-bias" data-width="100%" data-numposts="5"></div></div></div></section></main><script src="/blog/blog.js"></script></body></html>
+<ol id="footnotes-container"></ol></div></div><section id="comments-section"><div class="main-column"><div class="main-column-inner"><div class="fb-comments" data-href="https://williamhoza.com/blog/determining-direction-of-coins-bias/" data-width="100%" data-numposts="5"></div></div></div></section></main><script src="/blog/blog.js"></script></body></html>

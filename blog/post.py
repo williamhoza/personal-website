@@ -71,7 +71,7 @@ class Post:
           <section id="comments-section">
             <div class="main-column">
               <div class="main-column-inner">
-                <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}" data-width="100%" data-numposts="5"></div>
+                <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}/" data-width="100%" data-numposts="5"></div>
               </div>
             </div>
           </section>
