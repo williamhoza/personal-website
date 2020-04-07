@@ -15,6 +15,7 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
   texMacros = r"""
     \(\renewcommand{\epsilon}{\varepsilon}\)
     \(\renewcommand{\hat}{\widehat}\)
+    \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
   """
       
   fbContent = (

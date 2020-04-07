@@ -1,7 +1,3 @@
-<p>
-  [TODO: Not ready for publication yet. Proofs have bugs]
-</p>
-
 <h2>The problem</h2>
 
 <p>
@@ -112,38 +108,65 @@
 <p>
   Like I said earlier, using the simple algorithm I described, the expected number of coin tosses is
   \[ O\left(\frac{\log(1/\delta) + \log \log(1/\epsilon)}{\epsilon^2}\right). \]
-  In this section, I'll outline a proof that no algorithm can do better, asymptotically. It's well-known that even if \(\epsilon\) is known in advance, \(\Omega(\log(1/\delta) / \epsilon^2)\) coin tosses are necessary. (E.g., see Theorems 4.7 and 4.8 and Corollary 4.10 in <a href="https://webee.technion.ac.il/people/zivby/theses/phd/phd.ps">Ziv Bar-Yossef's PhD thesis</a>.) The interesting part is the \(\log \log(1/\epsilon)\) term.
+  In this section, I'll outline a proof that no algorithm can do better, asymptotically. It's well-known that even if \(\epsilon\) is known in advance, \(\Omega(\log(1/\delta) / \epsilon^2)\) coin tosses are necessary. The interesting part is the \(\log \log(1/\epsilon)\) term.
 </p>
 
 <p>
-  Let's start by reviewing a proof of the lower bound in the known-\(\epsilon\) case. Let \(X_{\epsilon}\) denote the <a href="https://en.wikipedia.org/wiki/Bernoulli_distribution">Bernoulli distribution</a> with parameter \(\frac{1}{2} + \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\), and let \(D(Y \| Z)\) denote the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> from \(Z\) to \(Y\). There's a "chain rule" for KL divergence that implies
+  Let's start by reviewing a proof of the lower bound in the known-\(\epsilon\) case. Let \(X_{\epsilon}\) be the distribution over \(\{0, 1\}\) with \(X_{\epsilon}(1) = \frac{1}{2} + \epsilon\) and \(X_{\epsilon}(0) = \frac{1}{2} - \epsilon\). For the sake of what's coming up later, let's prove a lower bound for the problem of distinguishing \(X_{\epsilon}\) from a <em>fair</em> coin (\(X_0\)), which is essentially equivalent to the original problem of distinguishing \(X_{\epsilon}\) from \(X_{-\epsilon}\). Let \(X_{\epsilon}^n\) denote the joint distribution of \(n\) independent samples from \(X_{\epsilon}\). Let \(f \colon \{0, 1\}^n \to \{0, 1\}\) be any function<small class="footnote">I'm bounding the worst-case number of samples here. The argument can be extended to lower-bound the expected number of samples; see Theorem 7.1 in <a href="https://epubs.siam.org/doi/abs/10.1137/S0097539797315306">this paper</a> by Dagum et al.</small>, the interpretation being that \(f\) is trying to output 1 on \(X_{\epsilon}^n\) and 0 on \(X_0^n\). I'll show that \(f\) has failure probability at least \(\frac{1}{5} \cdot \exp(-12\epsilon^2 n)\).
+</p>
+
+<p>
+  Let \(\alpha\) denote the failure probability on \(X_{\epsilon}\) and let \(\beta\) denote the failure probability on \(X_0\), i.e., \(\beta = \E[f(X_0^n)]\) and \(\alpha = 1 - \E[f(X_{\epsilon}^n)]\). Let \(D(Y \| Z)\) denote the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> from \(Z\) to \(Y\). Plugging in the definitions, \(D(f(X_{\epsilon}^n) \| f(X_0^n))\) is given by
   \[
-    D(X_{\epsilon}^{n} \| X_0^{n}) = n \cdot D(X_{\epsilon} \| X_0) \leq 4\epsilon^2 n.
+    (1 - \alpha) \ln\left(\frac{1 - \alpha}{\beta}\right) + \alpha \ln \left(\frac{\alpha}{1 - \beta}\right).
   \]
-  By the definition of KL divergence and <a href="https://en.wikipedia.org/wiki/Markov%27s_inequality">Markov's inequality</a>, this implies that if an event has probability \(q\) under \(X_{\epsilon}^n\), then it has probability at least \(\frac{q}{2} \cdot \exp(-\frac{8}{q} \epsilon^2 n)\) under \(X_0^n\). Taking \(q = 2/3\) shows that any algorithm for using \(n\) samples<small class="footnote">This argument gives a lower bound on the <em>worst-case</em> number of samples in the known-\(\epsilon\) case. See Theorem 4.8 and Corollary 4.10 in <a href="https://webee.technion.ac.il/people/zivby/theses/phd/phd.ps">Ziv Bar-Yossef's PhD thesis</a> for a lower bound on the <em>expected</em> number of samples.</small> to distinguish \(X_0\) from \(X_{\epsilon}\) has failure probability at least \(\frac{1}{3} \cdot \exp(-12 \epsilon^2 n)\).
-</p>
-
-<p>
-  Now let's move on to the unknown-\(\epsilon\) case. Suppose you've designed some algorithm such that for every \(\epsilon > 0\) and \(s \in \{\pm 1\}\), given sample access to \(X_{s \cdot \epsilon}\), the algorithm has at least a 99% chance<small class="footnote">By Markov's inequality, a lower bound on the number of coin tosses the algorithm uses with high probability implies a lower bound on the expected number of coin tosses.</small> of halting within \(n(\epsilon)\) samples and outputting \(s\). I claim that there is some universal constant \(\alpha > 0\) and some universal sequence \(\epsilon_1, \epsilon_2, \dots \to 0\) such that for infinitely many<small class="footnote">I'm merely claiming a lower bound for arbitrarily small \(\epsilon\), not for all sufficiently small \(\epsilon\). This is similar to the distinction between saying "\(n(\epsilon) = \Omega(\cdots)\)" vs. saying "\(n(\epsilon) \neq o(\cdots)\)". Indeed, \(n(\epsilon)\) is <em>not</em> necessarily \(\Omega\left(\frac{\log \log(1/\epsilon)}{\epsilon^2}\right)\).</small> \(i\),
+  If \(\alpha > \frac{1}{3}\) or \(\beta > \frac{1}{5}\), we are done, so assume \(\alpha \leq \frac{1}{3}\) and \(\beta \leq \frac{1}{5}\). In this case, the \(\log(1/\beta)\) term dominates. Specifically, one can show that
   \[
-    n(\epsilon_i) \geq \frac{\alpha \ln \ln(1/\epsilon_i)}{\epsilon_i^2}.
+    D(f(X_{\epsilon}^n) \| f(X_0^n)) \geq \frac{1}{3} \ln \left(\frac{2}{3 \beta}\right).
   \]
 </p>
 
 <p>
-  Here's the proof. Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \alpha / \epsilon_{i + 1}^2\). Therefore, if \(\alpha\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). It follows that when sampling from \(X_{\pm \epsilon_{i + 1}}\), there's at least a \(\frac{1}{4}\) chance that the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\).
+  On the other hand,
+  \[
+    \begin{align*}
+      D(f(X_{\epsilon}^n) \| f(X_0^n)) &\leq D(X_{\epsilon}^n \| X_0^n) \\
+      &\leq n \cdot D(X_{\epsilon} \| X_0) \\
+      &\leq 4 \epsilon^2 n.
+    \end{align*}
+  \]
+  (The first inequality follows from the <a href="http://www.stat.yale.edu/~yw562/teaching/598/lec04.pdf">"data processing inequality"</a> for KL divergence. The second inequality follows from the <a href="https://homes.cs.washington.edu/~anuprao/pubs/CSE533Autumn2010/lecture3.pdf">"chain rule"</a> for KL divergence. The last inequality is a straightforward computation.) Rearranging, we get \(\beta \geq \frac{2}{3} \exp(-12 \epsilon^2 n)\).
 </p>
 
 <p>
-  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not the situation your algorithm was designed for, but it's a legitimate thought experiment. As discussed earlier, any event that happens with probability at least \(q = \frac{1}{4}\) under \(X_{\epsilon_{i + 1}}^{n_{i + 1}}\) happens with probability at least \( \frac{1}{8} \cdot \exp(-32 \epsilon_{i + 1}^2 \cdot n_{i + 1}) \) under \(X_0^{n_{i + 1}}\). Therefore, if we give your algorithm sample access to \(X_0\), with at least that probability, the number of samples it uses lies somewhere between \(n_i\) and \(n_{i + 1}\). These are disjoint events as \(i\) varies, so the probability \(p\) that your algorithm ever halts satisfies
+  Now let's move on to the unknown-\(\epsilon\) case. Suppose you've designed some algorithm such that for every \(\epsilon > 0\) and \(s \in \{\pm 1\}\), given sample access to \(X_{s \cdot \epsilon}\), the algorithm has at least a 99% chance<small class="footnote">By Markov's inequality, a lower bound on the number of coin tosses the algorithm uses with high probability implies a lower bound on the expected number of coin tosses.</small> of halting within \(n(\epsilon)\) samples and outputting \(s\). I claim that there is some universal constant \(\gamma > 0\) and some universal sequence \(\epsilon_1, \epsilon_2, \dots \to 0\) such that for infinitely many<small class="footnote">I'm merely claiming a lower bound for arbitrarily small \(\epsilon\), not for all sufficiently small \(\epsilon\). This is similar to the distinction between saying "\(n(\epsilon) = \Omega(\cdots)\)" vs. saying "\(n(\epsilon) \neq o(\cdots)\)". Indeed, \(n(\epsilon)\) is <em>not</em> necessarily \(\Omega\left(\frac{\log \log(1/\epsilon)}{\epsilon^2}\right)\).</small> \(i\),
+  \[
+    n(\epsilon_i) \geq \frac{\gamma \ln \ln(1/\epsilon_i)}{\epsilon_i^2}.
+  \]
+</p>
+
+<p>
+  Here's the proof. Let \(\epsilon_i = \exp(-i^2)\) and \(n_i = n(\epsilon_i)\). Assume for a contradiction that for all sufficiently large \(i\), the inequality is violated. Then for all such \(i\), we have \(n_i \leq \gamma / \epsilon_{i + 1}^2\). Therefore, if \(\gamma\) is sufficiently small, by the known-\(\epsilon\) lower bound, \(n_i\) samples are not enough to distinguish \(X_{\epsilon_{i + 1}}\) from \(X_{-\epsilon_{i + 1}}\). It follows that when sampling from either \(X_{\epsilon_{i + 1}}\) or \(X_{-\epsilon_{i + 1}}\), there's at least a \(\frac{1}{6}\) chance that the number of samples your algorithm uses lies somewhere <em>between</em> \(n_i\) and \(n_{i + 1}\). Assume without loss of generality that this happens when sampling from \(X_{\epsilon_{i + 1}}\).
+</p>
+
+<p>
+  What would happen if we gave your algorithm sample access to a fair coin (\(X_0\))? That's not the situation your algorithm was designed for, but it's a legitimate thought experiment. I'll show that there's still at least a \(\frac{1}{1000} \cdot \exp(-24 \epsilon_{i + 1}^2 n_{i + 1})\) chance that the number of samples your algorithm uses lies somewhere between \(n_i\) and \(n_{i + 1}\). Indeed, define \(f \colon \{0, 1\}^{n_{i + 1}} \to \{0, 1\}\) by letting \(f(x) = 1\) if and only if the number of samples your algorithm uses lies somewhere between \(n_i\) and \(n_{i + 1}\) when the first \(n_{i + 1}\) samples are given by \(x\). Just like in the known-\(\epsilon\) lower bound, define \(\beta = \E[f(X_0^n)]\) and \(\alpha = 1 - \E[f(X_{\epsilon_{i + 1}}^{n_{i + 1}})]\). We have already argued that \(\alpha \leq \frac{5}{6}\). If \(\beta > \frac{1}{1000}\), we are done, so assume \(\beta \leq \frac{1}{1000}\). It follows that
+  \[
+    D(f(X_{\epsilon_{i + 1}}^{n_{i + 1}}) \| f(X_0^{n_{i + 1}})) \geq \frac{1}{6} \ln\left(\frac{1}{6 \beta}\right),
+  \]
+  and just like before, that implies \(\beta \geq \frac{1}{6} \cdot \exp(-24 \epsilon_{i + 1}^2 n_{i + 1})\).
+</p>
+
+<p>
+  Now, the events "the number of samples your algorithm uses lies between \(n_i\) and \(n_{i + 1}\)" are mutually exclusive as \(i\) varies, so the probability \(p\) that your algorithm ever halts satisfies
   \[
     \begin{align}
-    p&\geq \frac{1}{8} \cdot \sum_i \exp\left(-32 \epsilon_i^2 \cdot n_i\right) \\
-    &\geq \frac{1}{8} \cdot \sum_i \ln(1/\epsilon_i)^{-32\alpha} \\
-     &= \frac{1}{8} \cdot \sum_i \frac{1}{i^{64 \alpha}}.
+    p&\geq \frac{1}{1000} \cdot \sum_i \exp\left(-24 \epsilon_i^2 \cdot n_i\right) \\
+    &\geq \frac{1}{1000} \cdot \sum_i \ln(1/\epsilon_i)^{-24\gamma} \\
+     &= \frac{1}{1000} \cdot \sum_i \frac{1}{i^{48 \gamma}}.
     \end{align}
   \]
-  For \(\alpha \leq \frac{1}{64}\), the sum diverges, a contradiction.
+  For \(\gamma \leq \frac{1}{48}\), the sum diverges, a contradiction.
 </p>
 
 <p>
