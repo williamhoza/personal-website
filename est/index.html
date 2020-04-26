@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="airtable.browser.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      Redirecting...
+    </title>
+    
+    <style>
+      body {
+        background-color: #c0a0ff;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="message">
+      Hello Emily! One moment please... ⏳
+    </div>
+    
+    <script>
+      let Airtable = require('airtable');
+      
+      // The Airtable user corresponding to this API key doesn't have
+      // permission to do anything interesting, so there's no harm in
+      // making the API key publicly accessible
+      let base = new Airtable({apiKey: 'keytjX1EOJbJL9CMM'}).base('appfezQHWUiUfLtsb');
+      
+      base('Table 1').select({
+        maxRecords: 1,
+        view: "Grid view"
+      }).eachPage(function page(records, fetchNextPage) {
+          records.forEach(function(record) {
+            redirect(record.get('Link'), record.get('Modified'));
+          });
+      }, function done(err) {
+          if (err) {
+            document.querySelector("#message").innerHTML = "Error: " + err; 
+            return;
+          }
+          
+          document.querySelector("#message").innerHTML = "???";
+      });
+      
+      let redirectCalled = false;
+      
+      function redirect(url, dateString) {
+        if (redirectCalled) {
+          document.querySelector("#message").innerHTML = "Error: redirect called multiple times";
+          return;
+        }
+        
+        redirectCalled = true;
+        
+        let date = new Date(dateString);
+        let now = new Date();
+        if (Math.abs(now.getTime() - date.getTime()) > 20 * 60 * 1000) {
+          // Gotta be within 20 minutes
+          document.querySelector("#message").innerHTML = "Timestamp error: " + date + " vs. " + now;
+          return;
+        }
+        
+        window.location.replace(url);
+      }
+    </script>
+  </body>
+</html>
