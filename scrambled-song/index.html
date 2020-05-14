@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="sortable.js"></script>
+    
+    <style>
+      #segments {
+        font-size:0px;
+        text-align:center;
+      }
+      
+      #segments div {
+        display:inline-block;
+        background-color:#f0f0f0;
+        border:1px solid #c0c0c0;
+        padding:12px;
+        border-radius:10px;
+        cursor:pointer;
+        margin:5px;
+        font-size:24px;
+      }
+      
+      #segments .active {
+        background-color:#c0ffc0;
+      }
+      
+      #segments .ghost {
+        background-color: #ffffd0;
+      }
+      
+      #segments .drag {
+        color: rgba(0, 0, 0, 0);
+        background-color: rgba(0, 0, 0, 0);
+      }
+      
+      button {
+        font-size:24px;
+        margin:15px;
+        padding:10px 15px;
+      }
+      
+      #buttons {
+        text-align:center;
+        padding-bottom:10px;
+        border-bottom:1px solid #e0e0e0;
+        margin-bottom:10px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="buttons">
+      <button onclick="play();" style="color:#00a000;">▶</button> <button onclick="stop();" style="color:#ff0000;">◼</button>
+    </div>
+    
+    <div id="segments">
+    </div>
+    
+    <script type="text/javascript">
+      let aud = new Audio("kingdom-of-my-own.mp3");
+      
+      // Never changes order
+      let segments = [];
+      addSegment("[instrumental]", 6.5);
+      addSegment("[instrumental]", 11.5);
+      addSegment("I grew up", 12.75);
+      addSegment("in a kingdom", 13.7);
+      addSegment("far away", 16.5);
+      addSegment("where all was black and white", 18.7);
+      addSegment("and sometimes", 20.17);
+      addSegment("gray", 22.3);
+      addSegment("my charms were the greatest ever seen", 27.5);
+      addSegment("yet still they", 28.6);
+      addSegment("made", 29.05);
+      addSegment("my older sister", 31);
+      addSegment("queen", 33);
+      addSegment("so I hatched a plot to bring her down", 36);
+      addSegment("show them who should wear", 37.9);
+      addSegment("the crown", 38.8);
+      addSegment("they caught", 39.9);
+      addSegment("me and", 40.65);
+      addSegment("without a trial", 44);
+      addSegment("marooned me", 45.5);
+      addSegment("on a", 46.4);
+      addSegment("desert isle", 49.8);
+      addSegment("all I sought", 51.7);
+      addSegment("was", 52.43);
+      addSegment("a kingdom of my own", 54.9);
+      addSegment("where I could rule", 57.5);
+      addSegment("from a black and white", 59.35);
+      addSegment("throne", 60.4);
+      addSegment("and my dear", 61.81);
+      addSegment("sister", 63);
+      addSegment("will finally", 64.15);
+      addSegment("be outshone... the spotlight", 67);
+      addSegment("should be mine and mine", 68.77);
+      addSegment("alone", 71);
+      addSegment("that's why", 72.02);
+      addSegment("I need a", 72.95);
+      addSegment("kingdom of", 74);
+      addSegment("my", 74.5);
+      addSegment("own", 78);
+      addSegment("[instrumental]", 79.5);
+      addSegment("and", 79.87);
+      addSegment("now your", 80.5);
+      addSegment("jewel", 81.03);
+      addSegment("I hate to say", 82.2);
+      addSegment("must be destroyed", 83.7);
+      addSegment("so I can", 84.45);
+      addSegment("stay", 85.5);
+      addSegment("but someone", 86.55);
+      addSegment("has to pay", 87.65);
+      addSegment("the price", 90.4);
+      addSegment("so I", 91);
+      addSegment("can have", 91.75);
+      addSegment("my two-tone", 93);
+      addSegment("paradise", 95.8);
+      addSegment("I'll make", 96.83);
+      addSegment("your land", 98.7);
+      addSegment("a kingdom of my own", 101);
+      addSegment("where I will rule", 103.7);
+      addSegment("from a black and white throne", 106.5);
+      addSegment("and everybody", 109.44);
+      addSegment("will finally", 110.5);
+      addSegment("be outshone", 112.2);
+      addSegment("the spotlight", 113.5);
+      addSegment("will be mine and mine alone", 117.5);
+      addSegment("after your dear", 119.31);
+      addSegment("daddy's overthrown", 123);
+      addSegment("I've got some nerve", 124.55);
+      addSegment("but I deserve", 126);
+      addSegment("a kingdom", 127.7);
+      addSegment("of my very own", 139);
+      
+      // The list of indices displayed
+      let segmentPermutation = [];
+      for (let i = 0; i < segments.length; i++) {
+        segmentPermutation[i] = i;
+      }
+      
+      // The queue of indices to play
+      let queue = null;
+      
+      let timeout = null;
+      let sortable = null;
+      
+      function Segment(lyrics, startTime, endTime) {
+        this.lyrics = lyrics;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.control = document.createElement("div");
+        this.control.appendChild(document.createTextNode(this.lyrics));
+        this.control.addEventListener("click", function(evt) {
+          playSegment(this.dataset.id);
+        });
+        document.querySelector("#segments").appendChild(this.control);
+      }
+      
+      function addSegment(lyrics, endTime) {
+        let startTime = segments.length > 0 ? segments[segments.length - 1].endTime : 0;
+        let newSeg = new Segment(lyrics, startTime, endTime)
+        segments.push(newSeg);
+        newSeg.control.dataset.id = segments.length - 1;
+      }
+      
+      function playSegment(i) {
+        queue = [i];
+        playQueue();
+      }
+      
+      function stop() {
+        if (timeout != null) clearTimeout(timeout);
+        aud.pause();
+        
+        for (let i = 0; i < segments.length; i++) {
+          segments[i].control.classList.remove("active");
+        }
+      }
+      
+      function play() {
+        queue = segmentPermutation.slice();
+        playQueue();
+      }
+      
+      function playQueue() {
+        stop();
+        let curSeg = segments[queue[0]];
+        
+        aud.currentTime = curSeg.startTime;
+        curSeg.control.classList.add("active");
+        aud.play();
+        
+        timeout = setTimeout(nextSegment, (curSeg.endTime - curSeg.startTime) * 1000);
+      }
+      
+      function nextSegment() {
+        let curSeg = segments[queue[0]];
+        
+        if (aud.currentTime < curSeg.endTime) {
+          // Oops, too early
+          timeout = setTimeout(nextSegment, (curSeg.endTime - aud.currentTime) * 1000);
+          return;
+        }
+        
+        curSeg.control.classList.remove("active");
+        
+        if (queue.length == 1) {
+          // Done playing
+          aud.pause();
+          return;
+        }
+        
+        let oldIndex = queue[0];
+        queue.shift();
+        
+        let newSeg = segments[queue[0]];
+        
+        let newCurrentTime = aud.currentTime;
+        
+        if (queue[0] != oldIndex + 1) {
+          newCurrentTime = newSeg.startTime;
+          aud.currentTime = newCurrentTime;
+        }
+        
+        newSeg.control.classList.add("active");
+        
+        timeout = setTimeout(nextSegment, (newSeg.endTime - newCurrentTime) * 1000);
+      }
+      
+      function initSortable() {
+        let list = document.querySelector("#segments");
+        sortable = Sortable.create(list, {
+          animation: 150,
+          ghostClass: 'ghost',
+          dragClass: 'drag',
+          onEnd: function(evt) {
+            let arr = sortable.toArray();
+            for (let i = 0; i < arr.length; i++) {
+              segmentPermutation[i] = parseInt(arr[i]);
+            }
+          }
+        });
+      }
+      
+      initSortable();
+    </script>
+  </body>
+</html>
