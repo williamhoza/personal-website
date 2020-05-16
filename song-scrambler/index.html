@@ -57,7 +57,9 @@
   
   <body>
     <div id="buttons">
-      <button onclick="play();" style="color:#00a000;">▶</button> <button onclick="stop();" style="color:#ff0000;">◼</button>
+      <button onclick="play();">▶️</button>
+      <button onclick="stop();">⏹️</button>
+      <button onclick="shuffle();">🔀</button>
     </div>
     
     <div id="segments">
@@ -152,6 +154,26 @@
       let timeout = null;
       let sortable = null;
       
+      
+      function shuffle() {
+        if (confirm("Are you sure you want to shuffle?")) {
+          // Shuffle
+          for (let i = segmentPermutation.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            // Swap
+            let swp = segmentPermutation[j];
+            segmentPermutation[j] = segmentPermutation[i];
+            segmentPermutation[i] = swp;
+          }
+          
+          // Fix the DOM
+          let segmentsContainer = document.querySelector("#segments");
+          for (let i = 0; i < segmentPermutation.length; i++) {
+            segmentsContainer.appendChild(document.querySelector("#seg" + segmentPermutation[i]));
+          }
+        }
+      }
+      
       function Segment(lyrics, startTime, endTime) {
         this.lyrics = lyrics;
         this.startTime = startTime;
@@ -169,6 +191,7 @@
         let newSeg = new Segment(lyrics, startTime, endTime)
         segments.push(newSeg);
         newSeg.control.dataset.id = segments.length - 1;
+        newSeg.control.id = "seg" + (segments.length - 1);
       }
       
       function playSegment(i) {
