@@ -4,40 +4,46 @@
     <script src="sortable.js"></script>
     
     <style>
-      #segments {
+      select {
+        font-size:23px;
+      }
+      
+      #segmentListContainer > div {
         font-size:0px;
         text-align:center;
       }
       
-      #segments div {
+      #segmentListContainer > div > div {
         display:inline-block;
         background-color:#f0f0f0;
         border:1px solid #c0c0c0;
-        padding:12px;
+        padding:10px;
         border-radius:10px;
         cursor:pointer;
         margin:5px;
-        font-size:24px;
+        font-size:23px;
       }
       
-      #segments .active {
+      #segmentListContainer > div > .active {
         background-color:#c0ffc0;
       }
       
-      #segments .ghost {
+      #segmentListContainer > div > .ghost {
         background-color: #ffffd0;
       }
       
-      #segments .drag {
+      #segmentListContainer > div > .drag {
         color: rgba(0, 0, 0, 0);
         background-color: rgba(0, 0, 0, 0);
         border:1px solid black;
       }
       
       button {
-        font-size:24px;
+        font-size:36px;
         margin:15px;
-        padding:10px 15px;
+        padding:0;
+        background:none;
+        border:none;
       }
       
       #buttons {
@@ -45,6 +51,10 @@
         padding-bottom:10px;
         border-bottom:1px solid #e0e0e0;
         margin-bottom:20px;
+      }
+      
+      select {
+        margin:15px;
       }
     </style>
     
@@ -57,223 +67,384 @@
   
   <body>
     <div id="buttons">
-      <button onclick="play();">▶️</button>
-      <button onclick="stop();">⏹️</button>
-      <button onclick="shuffle();">🔀</button>
+      <select id="songSelect" onchange="songs[this.selectedIndex].activate();"></select>
+      <button onclick="activeSong.playFromPosition(0);">▶️</button>
+      <button onclick="activeSong.stop();">⏹️</button>
+      <button onclick="activeSong.shuffle();">🔀</button>
     </div>
     
-    <div id="segments">
+    <div id="segmentListContainer">
     </div>
     
     <script type="text/javascript">
-      let aud = new Audio("kingdom-of-my-own.mp3");
+      let songs = [];
       
-      // Never changes order
-      let segments = [];
-      addSegment("[instrumental]", 6.5);
-      addSegment("[instrumental]", 11.5);
-      addSegment("I grew up", 12.75);
-      addSegment("in a kingdom", 13.7);
-      addSegment("far away", 16.5);
-      addSegment("where all was black and white", 18.7);
-      addSegment("and sometimes", 20.17);
-      addSegment("gray", 22.3);
-      addSegment("my", 22.82);
-      addSegment("charms were the greatest ever seen", 27.5);
-      addSegment("yet still they", 28.6);
-      addSegment("made my older sister", 31);
-      addSegment("queen", 33);
-      addSegment("so I hatched a plot", 34.5);
-      addSegment("to bring her down", 36);
-      addSegment("show them who should wear", 37.9);
-      addSegment("the crown", 39);
-      addSegment("they caught", 39.9);
-      addSegment("me and", 40.65);
-      addSegment("without a trial", 44);
-      addSegment("marooned me", 45.5);
-      addSegment("on a", 46.35);
-      addSegment("desert isle", 49.8);
-      addSegment("all I sought", 51.7);
-      addSegment("was", 52.43);
-      addSegment("a kingdom of my own", 54.9);
-      addSegment("where I could rule", 57.5);
-      addSegment("from a black and white", 59.35);
-      addSegment("throne", 60.4);
-      addSegment("and my dear", 61.81);
-      addSegment("sister", 63);
-      addSegment("will finally", 64.15);
-      addSegment("be outshone... the spotlight", 67);
-      addSegment("should be mine and mine", 68.77);
-      addSegment("alone", 71);
-      addSegment("that's why", 72.02);
-      addSegment("I need a", 72.95);
-      addSegment("kingdom of", 74);
-      addSegment("my", 74.5);
-      addSegment("own", 78);
-      addSegment("[instrumental]", 79.5);
-      addSegment("and", 79.87);
-      addSegment("now your", 80.5);
-      addSegment("jewel", 81.03);
-      addSegment("I hate to say", 82.2);
-      addSegment("must be destroyed", 83.7);
-      addSegment("so I can", 84.45);
-      addSegment("stay", 85.5);
-      addSegment("but someone", 86.55);
-      addSegment("has to pay", 87.65);
-      addSegment("the price", 90.4);
-      addSegment("so I", 91);
-      addSegment("can have", 91.75);
-      addSegment("my two-tone", 93);
-      addSegment("paradise", 95.8);
-      addSegment("I'll make", 96.83);
-      addSegment("your land", 98.7);
-      addSegment("a kingdom of my own", 101);
-      addSegment("where I will rule", 103.7);
-      addSegment("from a black and white throne", 106.5);
-      addSegment("and everybody", 109.44);
-      addSegment("will finally", 110.5);
-      addSegment("be outshone", 112.2);
-      addSegment("the spotlight", 113.5);
-      addSegment("will be mine and mine alone", 117.5);
-      addSegment("after your dear", 119.31);
-      addSegment("daddy's overthrown", 123);
-      addSegment("I've got some nerve", 124.55);
-      addSegment("but I deserve", 126);
-      addSegment("a kingdom", 127.7);
-      addSegment("of my very own", 139);
+      let KOMO = addSong("kingdom-of-my-own.mp3", "A Kingdom of My Own");
+      let GLW = addSong("good-little-witch.mp3", "Good Little Witch");
       
-      // The list of indices displayed
-      let segmentPermutation = [];
-      for (let i = 0; i < segments.length; i++) {
-        segmentPermutation[i] = i;
+      let activeSong = null;
+      
+      function init() {
+        KOMO.addSegment("[instrumental]", 6.5);
+        KOMO.addSegment("[instrumental]", 11.5);
+        KOMO.addSegment("I grew up", 12.75);
+        KOMO.addSegment("in a kingdom", 13.7);
+        KOMO.addSegment("far away", 16.5);
+        KOMO.addSegment("where all was black and white", 18.7);
+        KOMO.addSegment("and sometimes", 20.17);
+        KOMO.addSegment("gray", 22.3);
+        KOMO.addSegment("my", 22.82);
+        KOMO.addSegment("charms were the greatest ever seen", 27.5);
+        KOMO.addSegment("yet still they", 28.6);
+        KOMO.addSegment("made my older sister", 31);
+        KOMO.addSegment("queen", 33);
+        KOMO.addSegment("so I hatched a plot", 34.5);
+        KOMO.addSegment("to bring her down", 36);
+        KOMO.addSegment("show them who should wear", 37.9);
+        KOMO.addSegment("the crown", 39);
+        KOMO.addSegment("they caught", 39.9);
+        KOMO.addSegment("me and", 40.65);
+        KOMO.addSegment("without a trial", 44);
+        KOMO.addSegment("marooned me", 45.5);
+        KOMO.addSegment("on a", 46.35);
+        KOMO.addSegment("desert isle", 49.8);
+        KOMO.addSegment("all I sought", 51.7);
+        KOMO.addSegment("was", 52.43);
+        KOMO.addSegment("a kingdom of my own", 54.9);
+        KOMO.addSegment("where I could rule", 57.5);
+        KOMO.addSegment("from a black and white", 59.35);
+        KOMO.addSegment("throne", 60.4);
+        KOMO.addSegment("and my dear", 61.81);
+        KOMO.addSegment("sister", 63);
+        KOMO.addSegment("will finally", 64.15);
+        KOMO.addSegment("be outshone... the spotlight", 67);
+        KOMO.addSegment("should be mine and mine", 68.77);
+        KOMO.addSegment("alone", 71);
+        KOMO.addSegment("that's why", 72.02);
+        KOMO.addSegment("I need a", 72.95);
+        KOMO.addSegment("kingdom of", 74);
+        KOMO.addSegment("my", 74.5);
+        KOMO.addSegment("own", 78);
+        KOMO.addSegment("[instrumental]", 79.5);
+        KOMO.addSegment("and", 79.87);
+        KOMO.addSegment("now your", 80.5);
+        KOMO.addSegment("jewel", 81.03);
+        KOMO.addSegment("I hate to say", 82.2);
+        KOMO.addSegment("must be destroyed", 83.7);
+        KOMO.addSegment("so I can", 84.45);
+        KOMO.addSegment("stay", 85.5);
+        KOMO.addSegment("but someone", 86.55);
+        KOMO.addSegment("has to pay", 87.65);
+        KOMO.addSegment("the price", 90.4);
+        KOMO.addSegment("so I", 91);
+        KOMO.addSegment("can have", 91.75);
+        KOMO.addSegment("my two-tone", 93);
+        KOMO.addSegment("paradise", 95.8);
+        KOMO.addSegment("I'll make", 96.83);
+        KOMO.addSegment("your land", 98.7);
+        KOMO.addSegment("a kingdom of my own", 101);
+        KOMO.addSegment("where I will rule", 103.7);
+        KOMO.addSegment("from a black and white throne", 106.5);
+        KOMO.addSegment("and everybody", 109.44);
+        KOMO.addSegment("will finally", 110.5);
+        KOMO.addSegment("be outshone", 112.2);
+        KOMO.addSegment("the spotlight", 113.5);
+        KOMO.addSegment("will be mine and mine alone", 117.5);
+        KOMO.addSegment("after your dear", 119.31);
+        KOMO.addSegment("daddy's overthrown", 123);
+        KOMO.addSegment("I've got some nerve", 124.55);
+        KOMO.addSegment("but I deserve", 126);
+        KOMO.addSegment("a kingdom", 127.7);
+        KOMO.addSegment("of my very own.", 139);
+        
+        KOMO.initSortable();
+        
+        GLW.addSegment("[instrumental]", 5.5);
+        GLW.addSegment("[instrumental]", 11);
+        GLW.addSegment("yes", 11.6);
+        GLW.addSegment("I turned your", 12.33);
+        GLW.addSegment("clogs into", 13.15);
+        GLW.addSegment("frogs", 13.7);
+        GLW.addSegment("and yes, I changed", 14.95);
+        GLW.addSegment("your flute to a", 15.85);
+        GLW.addSegment("newt", 16.3);
+        GLW.addSegment("but now I'd like", 17.67);
+        GLW.addSegment("to show", 18.2);
+        GLW.addSegment("that I'm sorry", 19.4);
+        GLW.addSegment("though they're kind of cute", 21.6);
+        GLW.addSegment("still", 22.8);
+        GLW.addSegment("I'll", 23.3);
+        GLW.addSegment("turn them all", 24.23);
+        GLW.addSegment("back now", 24.88);
+        GLW.addSegment("yes", 25.6);
+        GLW.addSegment("every spell", 26.45);
+        GLW.addSegment("I'll undo", 27.4);
+        GLW.addSegment("you'll see I'm not", 29.15);
+        GLW.addSegment("gonna stop", 30.1);
+        GLW.addSegment("until they're good as new", 32.5);
+        GLW.addSegment("cause I wanna be", 34.27);
+        GLW.addSegment("a good little witch", 35.7);
+        GLW.addSegment("give me a chance", 37.1);
+        GLW.addSegment("and I'll make the", 38.05);
+        GLW.addSegment("switch", 38.4);
+        GLW.addSegment("just give her a", 39.2);
+        GLW.addSegment("chance and she'll", 40.45);
+        GLW.addSegment("make a switch", 41.3);
+        GLW.addSegment("she wants to", 42);
+        GLW.addSegment("be a good little witch", 44.2);
+        GLW.addSegment("I don't believe it", 46.3);
+        GLW.addSegment("yeah she's always", 48);
+        GLW.addSegment("hexing us", 49);
+        GLW.addSegment("look this was my", 51);
+        GLW.addSegment("favorite toy ball", 52.1);
+        GLW.addSegment("she hexed", 53);
+        GLW.addSegment("now it's just a", 54.2);
+        GLW.addSegment("toy brick", 55);
+        GLW.addSegment("my cat", 56);
+        GLW.addSegment("used to purr", 56.82);
+        GLW.addSegment("like a kitten", 58);
+        GLW.addSegment("now she cluck cluck clucks", 59.75);
+        GLW.addSegment("like a chicken", 60.7);
+        GLW.addSegment("I had a", 62);
+        GLW.addSegment("box full of", 62.75);
+        GLW.addSegment("crayons", 63.52);
+        GLW.addSegment("now this blob", 64.62);
+        GLW.addSegment("is all that I've got", 66);
+        GLW.addSegment("and yes", 66.65);
+        GLW.addSegment("my little", 67.5);
+        GLW.addSegment("basset hound's cute", 68.7);
+        GLW.addSegment("but my matching", 69.7);
+        GLW.addSegment("tail is not", 71.2);
+        GLW.addSegment("but I want to be a", 73.05);
+        GLW.addSegment("good", 73.55);
+        GLW.addSegment("little witch", 74.3);
+        GLW.addSegment("give her a chance", 75.67);
+        GLW.addSegment("and she'll make a switch", 77);
+        GLW.addSegment("if we give her", 77.73);
+        GLW.addSegment("a chance", 78.4);
+        GLW.addSegment("this new little witch", 80);
+        GLW.addSegment("how do we know that she's", 81.8);
+        GLW.addSegment("gonna switch", 83.5);
+        GLW.addSegment("you'll see", 85);
+        GLW.addSegment("I'm gonna undo it all", 88);
+        GLW.addSegment("she is", 89.5);
+        GLW.addSegment("yeah", 91.5);
+        GLW.addSegment("when", 93);
+        GLW.addSegment("right now", 94.5);
+        GLW.addSegment("[instrumental]", 98);
+        GLW.addSegment("who's next", 99.1);
+        GLW.addSegment("me", 99.8);
+        GLW.addSegment("[instrumental]", 102);
+        GLW.addSegment("thank you", 104);
+        GLW.addSegment("my turn my turn", 105.5);
+        GLW.addSegment("help me no me fix me", 107.77);
+        GLW.addSegment("don't worry", 108.5);
+        GLW.addSegment("I'm gonna fix", 109.3);
+        GLW.addSegment("everyone", 110.4);
+        GLW.addSegment("[instrumental]", 114.5);
+        GLW.addSegment("so what do you think", 116.5);
+        GLW.addSegment("will you give her another", 117.75);
+        GLW.addSegment("chance", 118.4);
+        GLW.addSegment("yes", 119.1);
+        GLW.addSegment("I forgive you Lucinda", 120.7);
+        GLW.addSegment("I forgive you Lucinda--I forgive you", 122.15);
+        GLW.addSegment("I forgive you", 122.915);
+        GLW.addSegment("us too", 124);
+        GLW.addSegment("so do I", 125.5);
+        GLW.addSegment("she's gonna be", 126.68);
+        GLW.addSegment("a good little witch", 128.35);
+        GLW.addSegment("you're gonna see", 129.44);
+        GLW.addSegment("I'm making the switch", 131);
+        GLW.addSegment("yes we believe", 132.15);
+        GLW.addSegment("you're making a switch", 133.7);
+        GLW.addSegment("you're gonna be a", 135.1);
+        GLW.addSegment("good little witch", 139);
+        GLW.addSegment("you've had a change of", 140.65);
+        GLW.addSegment("heart", 141.8);
+        GLW.addSegment("and I'm making a brand new", 143.45);
+        GLW.addSegment("start", 144.64);
+        GLW.addSegment("from now on", 147.3);
+        GLW.addSegment("you're a good", 150);
+        GLW.addSegment("little witch.", 158);
+        
+        GLW.initSortable();
+        
+        KOMO.activate();
       }
-      
-      // The queue of indices to play
-      let queue = null;
       
       let timeout = null;
-      let sortable = null;
       
-      
-      function shuffle() {
-        if (confirm("Are you sure you want to shuffle?")) {
-          // Shuffle
-          for (let i = segmentPermutation.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            // Swap
-            let swp = segmentPermutation[j];
-            segmentPermutation[j] = segmentPermutation[i];
-            segmentPermutation[i] = swp;
-          }
-          
-          // Fix the DOM
-          let segmentsContainer = document.querySelector("#segments");
-          for (let i = 0; i < segmentPermutation.length; i++) {
-            segmentsContainer.appendChild(document.querySelector("#seg" + segmentPermutation[i]));
-          }
-        }
-      }
-      
-      function Segment(lyrics, startTime, endTime) {
+      function Segment(song, lyrics, startTime, endTime) {
+        this.song = song;
         this.lyrics = lyrics;
         this.startTime = startTime;
         this.endTime = endTime;
         this.control = document.createElement("div");
         this.control.appendChild(document.createTextNode(this.lyrics));
         this.control.addEventListener("click", function(evt) {
-          playSegment(this.dataset.id);
-        });
-        document.querySelector("#segments").appendChild(this.control);
-      }
-      
-      function addSegment(lyrics, endTime) {
-        let startTime = segments.length > 0 ? segments[segments.length - 1].endTime : 0;
-        let newSeg = new Segment(lyrics, startTime, endTime)
-        segments.push(newSeg);
-        newSeg.control.dataset.id = segments.length - 1;
-        newSeg.control.id = "seg" + (segments.length - 1);
-      }
-      
-      function playSegment(i) {
-        queue = [i];
-        playQueue();
-      }
-      
-      function stop() {
-        if (timeout != null) clearTimeout(timeout);
-        aud.pause();
-        
-        for (let i = 0; i < segments.length; i++) {
-          segments[i].control.classList.remove("active");
-        }
-      }
-      
-      function play() {
-        queue = segmentPermutation.slice();
-        playQueue();
-      }
-      
-      function playQueue() {
-        stop();
-        let curSeg = segments[queue[0]];
-        
-        aud.currentTime = curSeg.startTime;
-        curSeg.control.classList.add("active");
-        aud.play();
-        
-        timeout = setTimeout(nextSegment, (curSeg.endTime - curSeg.startTime) * 1000);
-      }
-      
-      function nextSegment() {
-        let curSeg = segments[queue[0]];
-        
-        if (aud.currentTime < curSeg.endTime) {
-          // Oops, too early
-          timeout = setTimeout(nextSegment, (curSeg.endTime - aud.currentTime) * 1000);
-          return;
-        }
-        
-        curSeg.control.classList.remove("active");
-        
-        if (queue.length == 1) {
-          // Done playing
-          aud.pause();
-          return;
-        }
-        
-        let oldIndex = queue[0];
-        queue.shift();
-        
-        let newSeg = segments[queue[0]];
-        
-        let newCurrentTime = aud.currentTime;
-        
-        if (queue[0] != oldIndex + 1) {
-          newCurrentTime = newSeg.startTime;
-          aud.currentTime = newCurrentTime;
-        }
-        
-        newSeg.control.classList.add("active");
-        
-        timeout = setTimeout(nextSegment, (newSeg.endTime - newCurrentTime) * 1000);
-      }
-      
-      function initSortable() {
-        let list = document.querySelector("#segments");
-        sortable = Sortable.create(list, {
-          animation: 150,
-          ghostClass: 'ghost',
-          dragClass: 'drag',
-          onEnd: function(evt) {
-            let arr = sortable.toArray();
-            for (let i = 0; i < arr.length; i++) {
-              segmentPermutation[i] = parseInt(arr[i]);
-            }
+          if (event.shiftKey) {
+            songs[this.dataset.songIndex].playIndividualSegment(this.dataset.id);
+          } else {
+            songs[this.dataset.songIndex].playFromPosition(Sortable.utils.index(this));
           }
         });
+        song.segmentListElement.appendChild(this.control);
       }
       
-      initSortable();
+      function addSong(filename, name) {
+        let newSong = new Song(filename, name);
+        songs.push(newSong);
+        newSong.index = songs.length - 1;
+        let songOption = document.createElement("option");
+        songOption.value = songs.length - 1;
+        songOption.appendChild(document.createTextNode(name));
+        document.querySelector("#songSelect").appendChild(songOption);
+        return newSong;
+      }
+      
+      function Song(filename, name) {
+        this.filename = filename;
+        this.name = name;
+        this.aud = new Audio(filename);
+        this.segmentListElement = document.createElement("div");
+        document.querySelector("#segmentListContainer").appendChild(this.segmentListElement);
+        this.segmentListElement.style.display = "none";
+        this.segments = [];
+      }
+      
+      Song.prototype.initSortable = function() {
+        let song = this;
+        
+        this.sortable = Sortable.create(this.segmentListElement, {
+          animation: 150,
+          ghostClass: 'ghost',
+          dragClass: 'drag'
+        });
+      }
+      
+      Song.prototype.addSegment = function(lyrics, endTime) {
+        let startTime = this.segments.length > 0 ? this.segments[this.segments.length - 1].endTime : 0;
+        let newSeg = new Segment(this, lyrics, startTime, endTime);
+        this.segments.push(newSeg);
+        newSeg.index = this.segments.length - 1;
+        newSeg.control.dataset.id = newSeg.index;
+        newSeg.control.dataset.songIndex = this.index;
+        newSeg.control.id = "seg-" + this.filename + "-" + (this.segments.length - 1);
+      }
+      
+      Song.prototype.shuffle = function() {
+        if (confirm("Are you sure you want to shuffle?")) {
+          let arr = this.sortable.toArray();
+          
+          // Shuffle
+          for (let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            // Swap
+            let swp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = swp;
+          }
+          
+          // Fix the DOM
+          this.sortable.sort(arr);
+        }
+      }
+      
+      Song.prototype.playIndividualSegment = function(index) {
+        let song = this;
+        
+        this.iterator = function*() {
+          yield song.segments[index];
+        }();
+        
+        this.playFromIterator();
+      }
+      
+      Song.prototype.playFromPosition = function(startIndex) {
+        let s = startIndex;
+        let song = this;
+        
+        this.iterator = function*() {
+          for (let i = s; i < song.segments.length; i++) {
+            let permutation = song.sortable.toArray();
+            yield song.segments[parseInt(permutation[i])];
+          }
+        }();
+        
+        this.playFromIterator();
+      }
+      
+      // Assumes this.iterator is already defined
+      Song.prototype.playFromIterator = function() {
+        this.stop();
+        this.activeSeg = null;
+        this.aud.play();
+        this.nextSegment();
+      }
+      
+      // Assumes this.iterator is already defined
+      Song.prototype.nextSegment = function() {
+        let oldIndex = -1;
+        
+        // Deal with "this" confusion
+        let song = this;
+        let callback = function() {
+          song.nextSegment.call(song);
+        }
+        
+        if (this.activeSeg != null) {
+          if (this.aud.currentTime < this.activeSeg.endTime) {
+            // Oops, too early
+            timeout = setTimeout(callback, (this.activeSeg.endTime - this.aud.currentTime) * 1000);
+            return;
+          }
+          
+          this.activeSeg.control.classList.remove("active");
+          oldIndex = this.activeSeg.index;
+        }
+        
+        let iterOb = this.iterator.next();
+        
+        if (iterOb.done) {
+          // Done playing
+          this.aud.pause();
+          return;
+        }
+        
+        this.activeSeg = iterOb.value;
+        
+        let newCurrentTime = this.aud.currentTime;
+        
+        if (this.activeSeg.index != oldIndex + 1) {
+          newCurrentTime = this.activeSeg.startTime;
+          this.aud.currentTime = newCurrentTime;
+        }
+        
+        this.activeSeg.control.classList.add("active");
+        
+        timeout = setTimeout(callback, (this.activeSeg.endTime - newCurrentTime) * 1000);
+      }
+      
+      Song.prototype.stop = function() {
+        if (timeout != null) clearTimeout(timeout);
+        this.aud.pause();
+        
+        for (let i = 0; i < this.segments.length; i++) {
+          this.segments[i].control.classList.remove("active");
+        }
+      }
+      
+      Song.prototype.activate = function() {
+        if (activeSong != null) {
+          activeSong.stop();
+          activeSong.segmentListElement.style.display = "none";
+        }
+        
+        activeSong = this;
+        this.segmentListElement.style.display = "block";
+      }
+      
+      init();
     </script>
   </body>
 </html>
