@@ -1,0 +1,18 @@
+{
+  "title": "Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas",
+  "authors": ["Dean Doron", "Pooya Hatami", "William Hoza"],
+  "abbreviation": "DHH",
+  "where-published-summary": "In CCC 2019.",
+  "timeline": "Manuscript posted online in November 2018; appeared at CCC in July 2019.",
+  "first-posted": "2018-11-05",
+  "version-links": [
+    {
+      "text": "CCC proceedings",
+      "href": "http://drops.dagstuhl.de/opus/volltexte/2019/10838/"
+    }, {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2018/183/"
+    }
+  ],
+  "version-notes": "The CCC proceedings version has some minor presentational improvements compared to the ECCC version."
+}

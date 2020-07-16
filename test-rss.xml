@@ -5,6 +5,16 @@
     <link>https://williamhoza.com</link>
     <description>Testing</description>
     <item>
+      <title>Test Item 12</title>
+      <link>https://williamhoza.com/test12</link>
+      <guid>https://williamhoza.com/test12</guid>
+      <pubDate>2020-07-15</pubDate>
+      <description>
+        &lt;img src="https://williamhoza.com/images/mandelbrot-mediumsmall.png" alt="Abraham Lincoln"&gt;
+        Testing alt text
+      </description>
+    </item>
+    <item>
       <title>Test Item 11</title>
       <link>https://williamhoza.com/test11</link>
       <guid>https://williamhoza.com/test11</guid>

@@ -1,0 +1,18 @@
+{
+  "title": "Simple Optimal Hitting Sets for Small-Success RL",
+  "authors": ["William M. Hoza", "David Zuckerman"],
+  "abbreviation": "HZ",
+  "where-published-summary": "To appear in SICOMP; preliminary version in FOCS 2018.",
+  "timeline": "Manuscript posted online in April 2018; appeared at FOCS in October 2018; to appear in SICOMP.",
+  "first-posted": "2018-04-09",
+  "version-links": [
+    {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2018/063/"
+    }, {
+      "text": "FOCS proceedings",
+      "href": "http://ieee-focs.org/FOCS-2018-Papers/pdfs/59f059.pdf"
+    }
+  ],
+  "version-notes": "The FOCS proceedings version has a couple extra references and different formatting compared to the ECCC version."
+}
