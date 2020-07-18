@@ -2,24 +2,24 @@
       \(\renewcommand{\epsilon}{\varepsilon}\)
       \(\renewcommand{\hat}{\widehat}\)
       \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
-    </span><main><article><h1>Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</h1><p>By Dean Doron, Pooya Hatami, and William Hoza</p><p><b>Timeline:</b> Manuscript posted online in November 2018; appeared at CCC in July 2019.</p><p><b>Read the paper:</b> <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">CCC proceedings</a><span> • </span><a href="https://eccc.weizmann.ac.il/report/2018/183/">ECCC</a></p><p><b>Version notes:</b> The CCC proceedings version has some minor presentational improvements compared to the ECCC version.</p><details><summary><b>Abstract</b> (for specialists)</summary><div class="indent"><p>
+    </span><main><article><h1>Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</h1><p>By Dean Doron, Pooya Hatami, and William M. Hoza</p><hr><p>Read the paper: <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">CCC proceedings</a><span> • </span><a href="https://eccc.weizmann.ac.il/report/2018/183/">ECCC</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
   We give an explicit pseudorandom generator (PRG) for read-once \(\mathbf{AC}^0\), i.e., constant-depth read-once formulas over the basis \(\{\wedge, \vee, \neg\}\) with unbounded fan-in. The seed length of our PRG is \(\widetilde{O}(\log(n/\varepsilon))\). Previously, PRGs with near-optimal seed length were known only for the depth-2 case (Gopalan et al. FOCS '12). For a constant depth \(d > 2\), the best prior PRG is a recent construction by Forbes and Kelley with seed length \(\widetilde{O}(\log^2 n + \log n \log(1/\varepsilon))\) for the more general model of constant-width read-once branching programs with arbitrary variable order (FOCS '18). Looking beyond read-once \(\mathbf{AC}^0\), we also show that our PRG fools read-once \(\mathbf{AC}^0[\oplus]\) with seed length \(\widetilde{O}(t + \log(n/\varepsilon))\), where \(t\) is the number of parity gates in the formula.
 </p>
 
 <p>
   Our construction follows Ajtai and Wigderson's approach of iterated pseudorandom restrictions (Advances in Computing Research '89). We assume by recursion that we already have a PRG for depth-\(d\) \(\mathbf{AC}^0\) formulas. To fool depth-\((d + 1)\) \(\mathbf{AC}^0\) formulas, we use the given PRG, combined with a small-bias distribution and almost \(k\)-wise independence, to sample a pseudorandom restriction. The analysis of Forbes and Kelley shows that our restriction approximately preserves the expectation of the formula. The crux of our work is showing that after \(\text{poly}(\log \log n)\) independent applications of our pseudorandom restriction, the formula simplifies in the sense that every gate other than the output has only \(\text{polylog } n\) remaining children. Finally, as the last step, we use a recent PRG by Meka, Reingold, and Tal (STOC '19) to fool this simpler formula.
 </p>
-</div></details><details><summary><b>Not-so-abstract</b> (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
   A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits \((x_1, x_2, x_3, \dots)\) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a statement that says something like
   \[
     ((x_3 = 0 \text{ AND } x_7 = 1 \text{ AND } x_2 = 1) \text{ OR } (x_6 = 1 \text{ AND } (x_5 = 0 \text{ OR } x_1 = 0) \text{ AND } \dots)).
   \]
   Each variable is only allowed to appear one time, and the parentheses are only allowed to be nested to a depth of, say, 100. For every statement of that form, the probability that the statement evaluates to true when you plug in the output of our pseudorandom generator is roughly the same as the probability that the statement evaluates to true when you plug in truly random bits. Our pseudorandom generator is "near-optimal", i.e., our algorithm makes very few coin tosses.
 </p>
-</div></details><p><b>Expository material:</b></p><div class="expository">
+</div></details><p>Manuscript posted online in November 2018; appeared at CCC in July 2019. The CCC proceedings version has some minor presentational improvements compared to the ECCC version.</p><hr><p>Expository material:</p><div class="expository">
   <iframe src="http://www.birs.ca/events/2019/5-day-workshops/19w5088/videos/embed/201907081331-Hoza.mp4" frameborder="0"  scrolling="auto" itemprop="video"></iframe>
   <p>
     <a href="http://www.birs.ca/events/2019/5-day-workshops/19w5088/videos/watch/201907081331-Hoza.html">Video</a> from my presentation at BIRS workshop 19w5088 (July 2019). Here are the <a href="BIRS-slides.pdf">slides</a> from that presentation; I used very similar slides for my presentation for my "Research Preparation Exam" (May 2019), part of the UT CS PhD program. See also <a href="CCC-slides.pdf">these shorter slides</a> from my presentation at CCC (July 2019).
   </p>
 </div>
-  </article></main></body></html>
+<hr> </article></main></body></html>

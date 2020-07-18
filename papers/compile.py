@@ -1,5 +1,5 @@
 from paper import Paper
-# import mainPage
+import listPage
 import os
 from collections import OrderedDict
 
@@ -26,11 +26,7 @@ def main():
     
     paper.compile()
     
-  # items1 = sorted(unsortedPosts.items(), key=lambda it:it[1].metadata["time-slot"], reverse=True)
-  # items2 = sorted(items1, key=lambda it:it[1].dt, reverse=True)
-  # posts = OrderedDict(items2)
-    
-  # mainPage.compile(posts)
+  listPage.compile(papers)
   
 if __name__ == "__main__":
   main()

@@ -88,3 +88,16 @@ summary::before {
 details[open] summary::before {
   content: '[-]';
 }
+
+hr {
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom:1px solid #e0e0e0;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+article > hr:last-child {
+  display:none;
+}

@@ -73,7 +73,7 @@ class Paper:
       
       errataSection = (
         <frag>
-          <p><b>Errata: 😬</b></p>
+          <p>Errata: 😬</p>
           {errataUL}
         </frag>
       )
@@ -90,7 +90,7 @@ class Paper:
         )
       recognitionSection = (
         <frag>
-          <p><b>What others think:</b></p>
+          <p>What others think:</p>
           {recognitionUL}
         </frag>
       )
@@ -102,19 +102,11 @@ class Paper:
     else:
       expositorySection = (
         <frag>
-          <p><b>Expository material:</b></p>
+          <hr />
+          <p>Expository material:</p>
           {self.expository}
         </frag>
       )
-      
-    if "version-notes" in self.metadata:
-      versionSection = (
-        <p>
-          <b>Version notes:</b> {html.rawhtml(self.metadata["version-notes"])}
-        </p>
-      )
-    else:
-      versionSection = None
     
     doc = (
       <html lang="en">
@@ -144,16 +136,13 @@ class Paper:
               <p>
                 By {authorText}
               </p>
+              <hr />
               <p>
-                <b>Timeline:</b> {self.metadata['timeline']}
+                Read the paper: {links}
               </p>
-              <p>
-                <b>Read the paper:</b> {links}
-              </p>
-              {versionSection}
               <details>
                 <summary>
-                  <b>Abstract</b> (for specialists)
+                  Abstract (for specialists)
                 </summary>
                 <div class="indent">
                   {self.abstract}
@@ -161,7 +150,7 @@ class Paper:
               </details>
               <details>
                 <summary>
-                  <b>Not-so-abstract</b> (for curious outsiders)
+                  Not-so-abstract (for curious outsiders)
                 </summary>
                 <p>
                   ⚠️ <em>This summary might gloss over some important details.</em>
@@ -170,7 +159,11 @@ class Paper:
                   {self.notSoAbstract}
                 </div>
               </details>
+              <p>
+                {self.metadata['timeline']} {html.rawhtml(self.metadata["version-notes"]) if "version-notes" in self.metadata else None}
+              </p>
               {expositorySection}
+              <hr />
               {errataSection}
               {recognitionSection}
             </article>

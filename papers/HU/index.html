@@ -2,7 +2,7 @@
       \(\renewcommand{\epsilon}{\varepsilon}\)
       \(\renewcommand{\hat}{\widehat}\)
       \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
-    </span><main><article><h1>Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace</h1><p>By William M. Hoza and Chris Umans</p><p><b>Timeline:</b> Manuscript posted online in October 2016; appeared at STOC in June 2017.</p><p><b>Read the paper:</b> <a href="https://arxiv.org/abs/1610.01199">arXiv</a><span> • </span><a href="http://dl.acm.org/citation.cfm?doid=3055399.3055414">STOC proceedings</a></p><p><b>Version notes:</b> The STOC proceedings version and the arXiv version are the same except for formatting.</p><details><summary><b>Abstract</b> (for specialists)</summary><div class="indent"><p>
+    </span><main><article><h1>Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace</h1><p>By William M. Hoza and Chris Umans</p><hr><p>Read the paper: <a href="https://arxiv.org/abs/1610.01199">arXiv</a><span> • </span><a href="http://dl.acm.org/citation.cfm?doid=3055399.3055414">STOC proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
   Assume that for every derandomization result for logspace algorithms, there is a pseudorandom generator strong enough to nearly recover the derandomization by iterating over all seeds and taking a majority vote. We prove under a precise version of this assumption that \(\mathbf{BPL} \subseteq \bigcap_{\alpha > 0} \mathbf{DSPACE}(\log^{1 + \alpha} n)\).
 </p>
 
@@ -13,10 +13,10 @@
 <p>
   Finally, we observe that in a certain <em>uniform</em> setting (namely, if we only worry about sequences of automata that can be generated in logspace), targeted pseudorandom generators against logspace <em>can</em> be transformed into simulation advice generators with similar parameters.
 </p>
-</div></details><details><summary><b>Not-so-abstract</b> (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
   There's a well-known conjecture in complexity theory ("\(\mathbf{L} = \mathbf{BPL}\)") that says that randomness isn't necessary for solving problems using a small amount of computer memory. The most promising approach to proving this conjecture is to design a suitable kind of "pseudorandom generator". But in principle, one could hope to prove \(\mathbf{L} = \mathbf{BPL}\) using a totally different approach. In this paper, we prove a theorem that can be roughly stated as follows. If every true statement along the lines of \(\mathbf{L} = \mathbf{BPL}\) can be proven using the pseudorandom generator approach, then in fact \(\mathbf{L} = \mathbf{BPL}\) (actually the conclusion is slightly weaker).
 </p>
-</div></details><p><b>Expository material:</b></p><div class="expository">
+</div></details><p>Manuscript posted online in October 2016; appeared at STOC in June 2017. The STOC proceedings version and the arXiv version are the same except for formatting.</p><hr><p>Expository material:</p><div class="expository">
   <a href="STOC-slides.pdf"><img src="STOC-slides.png"></a>
   <p>
     <a href="STOC-slides.pdf">Slides</a> from my presentation at STOC (June 2017). See also <a href="dagstuhl-slides.pdf">these slides</a> from my longer presentation at Dagstuhl Seminar 16411 (October 2016).
@@ -26,4 +26,4 @@
     <a href="STOC-poster.pdf">Poster</a> from my presentation at STOC (June 2017).
   </p>
 </div>
- <p><b>Errata: 😬</b></p><ul><li>(May 2017) In Lemma 2, the space complexity should be \(O(s + \log w + \log(1/\delta) + \log(1/\gamma))\). That is, there is a missing \(O(\log(1/\delta))\) term in the lemma statement. This does not affect anything else in the paper.</li></ul> <p><b>What others think:</b></p><ul><li>The paper was invited to the SICOMP special issue for STOC 2017.</li><li>Oded Goldreich wrote <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/225.html">a blog post</a> that mentions the paper.</li></ul></article></main></body></html>
+<hr><p>Errata: 😬</p><ul><li>(May 2017) In Lemma 2, the space complexity should be \(O(s + \log w + \log(1/\delta) + \log(1/\gamma))\). That is, there is a missing \(O(\log(1/\delta))\) term in the lemma statement. This does not affect anything else in the paper.</li></ul> <p>What others think:</p><ul><li>The paper was invited to the SICOMP special issue for STOC 2017.</li><li>Oded Goldreich wrote <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/225.html">a blog post</a> that mentions the paper.</li></ul></article></main></body></html>

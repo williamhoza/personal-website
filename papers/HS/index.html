@@ -2,7 +2,7 @@
       \(\renewcommand{\epsilon}{\varepsilon}\)
       \(\renewcommand{\hat}{\widehat}\)
       \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
-    </span><main><article><h1>The Adversarial Noise Threshold for Distributed Protocols</h1><p>By William M. Hoza and Leonard Schulman</p><p><b>Timeline:</b> Manuscript posted online in December 2014; appeared at SODA in January 2016.</p><p><b>Read the paper:</b> <a href="https://epubs.siam.org/doi/10.1137/1.9781611974331.ch18">SODA proceedings</a><span> • </span><a href="https://arxiv.org/abs/1412.8097">arXiv</a></p><p><b>Version notes:</b> I recommend that you read the SODA proceedings version. The SODA reviewers' feedback never got incorporated into the arXiv version.</p><details><summary><b>Abstract</b> (for specialists)</summary><div class="indent"><p>
+    </span><main><article><h1>The Adversarial Noise Threshold for Distributed Protocols</h1><p>By William M. Hoza and Leonard Schulman</p><hr><p>Read the paper: <a href="https://epubs.siam.org/doi/10.1137/1.9781611974331.ch18">SODA proceedings</a><span> • </span><a href="https://arxiv.org/abs/1412.8097">arXiv</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
   We consider the problem of implementing distributed protocols, despite adversarial channel errors, on synchronous-messaging networks with arbitrary topology.
 </p>
 
@@ -13,10 +13,10 @@
 <p>
   Next we investigate adversarial per-edge error rates, where the adversary is given an error budget on each edge of the network. We determine the limit for tolerable per-edge error rates on an arbitrary directed graph to within a factor of 2. However, the construction that approaches this limit has exponential round complexity, so we give another compiler, which transforms \(T\)-round protocols into \(\mathcal{O}(mT)\)-round simulations, and prove that for polynomial-query black box compilers, the per-edge error rate tolerated by this last compiler is within a constant factor of optimal.
 </p>
-</div></details><details><summary><b>Not-so-abstract</b> (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
   Imagine that many people (or computers) are connected by a network of communication channels. They would like to have a conversation, but unfortunately, an adversary is altering their messages to confuse them. The parties may deal with this noise by encoding their conversation in whatever way they like. In this paper, we determine the maximum amount of noise that can be tolerated in a couple different models as a function of the particular communication network.
 </p>
-</div></details><p><b>Expository material:</b></p><div class="expository">
+</div></details><p>Manuscript posted online in December 2014; appeared at SODA in January 2016. I recommend that you read the SODA proceedings version. The SODA reviewers' feedback never got incorporated into the arXiv version.</p><hr><p>Expository material:</p><div class="expository">
   <a href="SODA-slides.pdf"><img src="SODA-slides.png"></a>
   <p>
     <a href="SODA-slides.pdf">Slides</a> from my presentation at SODA (January 2016).
@@ -30,4 +30,4 @@
     Ran Gelles wrote a <a href="http://www.eng.biu.ac.il/~gellesr/survey.pdf">survey</a> that includes a summary of this paper (Section 7.3).
   </p>
 </div>
-  </article></main></body></html>
+<hr> </article></main></body></html>
