@@ -1,0 +1,11 @@
+<p>
+  A hitting set is a "one-sided" variant of a pseudorandom generator (PRG), naturally suited to derandomizing algorithms that have one-sided error. We study the problem of using a given hitting set to derandomize algorithms that have two-sided error, focusing on space-bounded algorithms. For our first result, we show that if there is a log-space hitting set for polynomial-width read-once branching programs (ROBPs), then not only does \(\mathbf{L}=\mathbf{RL}\), but \(\mathbf{L}=\mathbf{BPL}\) as well. This answers a question raised by Hoza and Zuckerman (FOCS 2018).
+</p>
+
+<p>
+  Next, we consider constant-width ROBPs. We show that if there are log-space hitting sets for constant-width ROBPs, then given black-box access to a constant-width ROBP \(f\), it is possible to deterministically estimate \(\mathbb{E}[f]\) to within \(\pm \varepsilon\) in space \(O(\log(n/\varepsilon))\). Unconditionally, we give a deterministic algorithm for this problem with space complexity \(O(\log^2 n+ \log(1/\varepsilon))\), slightly improving over previous work.
+</p>
+
+<p>
+  Finally, we investigate the limits of this line of work. Perhaps the strongest reduction along these lines one could hope for would say that for every explicit hitting set, there is an explicit PRG with similar parameters. In the setting of constant-width ROBPs over a large alphabet, we prove that establishing such a strong reduction is at least as difficult as constructing a good PRG outright. Quantitatively, we prove that if the strong reduction holds, then for every constant \(\alpha > 0\), there is an explicit PRG for constant-width ROBPs with seed length \(O(\log^{1+ \alpha} n)\). Along the way, unconditionally, we construct an improved hitting set for ROBPs over a large alphabet.
+</p>

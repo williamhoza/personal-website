@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1" async=""></script> <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script><script src="/mathjax-config.js"></script><script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Log-Seed Pseudorandom Generators via Iterated Restrictions</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Log-Seed Pseudorandom Generators via Iterated Restrictions"></head><body><span style="display:none;">
+      \(\renewcommand{\epsilon}{\varepsilon}\)
+      \(\renewcommand{\hat}{\widehat}\)
+      \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    </span><main><article><p><a href="/tcs/">Back to list of papers</a></p><hr><h1>Log-Seed Pseudorandom Generators via Iterated Restrictions</h1><p>By Dean Doron, Pooya Hatami, and William M. Hoza</p><hr><p>Read the paper: <a href="https://drops.dagstuhl.de/opus/volltexte/2020/12558/">CCC proceedings</a><span> • </span><a href="https://eccc.weizmann.ac.il/report/2019/149/">ECCC</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
+  There are only a few known general approaches for constructing explicit pseudorandom generators (PRGs). The "iterated restrictions" approach, pioneered by Ajtai and Wigderson (Advances in Computing Research '89), has provided PRGs with seed length \(\text{polylog } n\) or even \(\widetilde{O}(\log n)\) for several restricted models of computation. Can this approach ever achieve the optimal seed length of \(O(\log n)\)?
+</p>
+
+<p>
+  In this work, we answer this question in the affirmative. Using the iterated restrictions approach, we construct an explicit PRG for <em>read-once depth-2 \(\mathbf{AC}^0[\oplus]\) formulas</em> with seed length
+  \[
+    O(\log n) + \widetilde{O}(\log(1/\varepsilon)).
+  \]
+  In particular, our PRG achieves optimal seed length \(O(\log n)\) with near-optimal error \(\varepsilon = \exp(-\widetilde{\Omega}(\log n))\). Even for constant error, the best prior PRG for this model (which includes read-once CNFs and read-once \(\mathbb{F}_2\)-polynomials) has seed length \(\Theta(\log n \cdot (\log \log n)^2)\) (Lee, CCC '19).
+</p>
+
+<p>
+  A key step in the analysis of our PRG is a tail bound for <em>subset-wise symmetric polynomials</em>, a generalization of elementary symmetric polynomials. Like elementary symmetric polynomials, subset-wise symmetric polynomials provide a way to organize the expansion of \(\prod_{i = 1}^m (1 + y_i)\). Elementary symmetric polynomials simply organize the terms by <em>degree</em>, i.e., they keep track of the number of variables participating in each monomial. Subset-wise symmetric polynomials keep track of more data: for a fixed partition of \([m]\), they keep track of the number of variables <em>from each subset</em> participating in each monomial. Our tail bound extends prior work by Gopalan and Yehudayoff (arXiv 2014) on elementary symmetric polynomials.
+</p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+  A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits \((x_1, x_2, x_3, \dots)\) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a polynomial such as
+  \[
+    y = x_1 x_3 + x_2 x_7 x_8 + x_4 x_5 + \dots
+  \]
+  Each variable is only allowed to appear one time (it's "read-once"). The arithmetic is mod 2 (+ is really XOR, and \(y\) is either 0 or 1). For every polynomial \(y\) of that form, the expected value of \(y\) when you plug in the output of our pseudorandom generator is approximately the same (say, to within plus or minus 0.01) as it is when you plug in truly random bits. For a fixed error value like 0.01, our pseudorandom generator is <em>optimal</em>, i.e., it makes essentially the smallest possible number of coin tosses.
+</p>
+</div></details><p>Manuscript posted online in November 2019; appeared at CCC in July 2020. The CCC proceedings version has some minor presentational improvements compared to the ECCC version.</p><hr><p>Expository material:</p><div class="expository">
+  <iframe src="https://www.youtube.com/embed/uuezhiFR6mA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p>
+    <a href="https://www.youtube.com/watch?v=uuezhiFR6mA">Video</a> from my prerecorded presentation for CCC (July 2020). Here are the <a href="CCC-slides.pptx">slides</a> from that presentation.
+  </p>
+</div>
+<hr> </article></main></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1" async=""></script> <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script><script src="/mathjax-config.js"></script><script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Simple Optimal Hitting Sets for Small-Success RL</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Simple Optimal Hitting Sets for Small-Success RL"></head><body><span style="display:none;">
+      \(\renewcommand{\epsilon}{\varepsilon}\)
+      \(\renewcommand{\hat}{\widehat}\)
+      \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    </span><main><article><p><a href="/tcs/">Back to list of papers</a></p><hr><h1>Simple Optimal Hitting Sets for Small-Success RL</h1><p>By William M. Hoza and David Zuckerman</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2018/063/">ECCC</a><span> • </span><a href="http://ieee-focs.org/FOCS-2018-Papers/pdfs/59f059.pdf">FOCS proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
+  We give a simple explicit hitting set generator for read-once branching programs of width \(w\) and length \(r\) with known variable order. Our generator has seed length
+  \[
+    O\left(\frac{\log(wr) \log r}{\max\{1, \log \log w - \log \log r\}} + \log(1/\varepsilon)\right).
+  \]
+  This seed length improves on recent work by Braverman, Cohen, and Garg (STOC '18). In addition, our generator and its analysis are dramatically simpler than the work by Braverman et al. Our generator's seed length improves on all the classic generators for space-bounded computation (Nisan Combinatorica '92; Impagliazzo, Nisan, and Wigderson STOC '94; Nisan and Zuckerman JCSS '96) when \(\varepsilon\) is small.
+</p>
+
+<p>
+  When \(r \leq \text{polylog } w\), our generator has optimal seed length \(O(\log w + \log(1/\varepsilon))\). As a corollary, we show that every \(\mathbf{RL}\) algorithm that uses \(r\) random bits can be simulated by an \(\mathbf{NL}\) algorithm that uses only \(O(r/\log^c n)\) nondeterministic bits, where \(c\) is an arbitrarily large constant. Finally, we show that any \(\mathbf{RL}\) algorithm with small success probability \(\varepsilon\) can be simulated deterministically in space \(O(\log^{3/2} n + \log n \log \log(1/\varepsilon))\). This improves on work by Saks and Zhou (JCSS '99), who gave an algorithm that runs in space \(O(\log^{3/2} n + \sqrt{\log n} \log(1/\varepsilon))\).
+</p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+  In this paper, we present a set of binary strings \(H\) with the following guarantee. Suppose \(P\) is a property of binary strings such that a decent fraction of all binary strings have property \(P\). Suppose also that there is some algorithm for determining whether a given string \(x\) has property \(P\), using a small amount of memory and reading \(x\) just once from left to right. Then some string in \(H\) has property \(P\). Our set \(H\) is smaller than any such set discovered previously.
+</p>
+</div></details><p>Manuscript posted online in April 2018; appeared at FOCS in October 2018; to appear in SICOMP. The FOCS proceedings version has a couple extra references and different formatting compared to the ECCC version.</p><hr><p>Expository material:</p><div class="expository">
+  <a href="FOCS-slides.pdf"><img src="FOCS-slides.png"></a>
+  <p>
+    <a href="FOCS-slides.pdf">Slides</a> from my presentation at FOCS (October 2018). See also <a href="dagstuhl-slides.pdf">these slides</a> from my longer presentation at Dagstuhl Seminar 18391 (September 2018); I used very similar slides for my presentation at China Theory Week (September 2018) and my presentation at the UT Austin CS Theory Seminar (February 2019).
+  </p>
+  <iframe src="https://www.youtube.com/embed/qq8tsU3BXb0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p>
+    <a href="https://youtu.be/qq8tsU3BXb0">Video</a> from David's presentation at Princeton Theory Lunch (October 2018).
+  </p>
+  <iframe src="https://www.youtube.com/embed/NfzE-WfGgq8?start=6015" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p>
+    Sumegha Garg discusses the paper in her portion of <a href="https://www.youtube.com/watch?v=NfzE-WfGgq8">this STOC workshop</a> (June 2020); her presentation starts at around 1:40:15.
+  </p>
+  <iframe src="https://www.youtube.com/embed/Wjo7o8aOiQ4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p>
+    Omer Reingold discusses the paper in <a href="https://www.youtube.com/watch?v=Wjo7o8aOiQ4">this presentation</a> for the DIMACS Day of Complexity Tutorials (July 2019).
+  </p>
+  <a href="http://www.cs.tau.ac.il/~amnon/Classes/2018-Space/Lectures/HSG.pdf"><img src="instructor.png"></a>
+  <p>
+    The main result of the paper is covered in <a href="http://www.cs.tau.ac.il/~amnon/Classes/2018-Space/Lectures/HSG.pdf">these lecture notes</a> for a course taught by Amnon Ta-Shma (Spring 2018).
+  </p>
+</div>
+<hr> </article></main></body></html>

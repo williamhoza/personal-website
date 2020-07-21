@@ -1,7 +1,0 @@
-<p>
-  A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits \((x_1, x_2, x_3, \dots)\) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a polynomial such as
-  \[
-    y = x_1 x_3 + x_2 x_7 x_8 + x_4 x_5 + \dots
-  \]
-  Each variable is only allowed to appear one time (it's "read-once"). The arithmetic is mod 2 (+ is really XOR, and \(y\) is either 0 or 1). For every polynomial \(y\) of that form, the expected value of \(y\) when you plug in the output of our pseudorandom generator is approximately the same (say, to within plus or minus 0.01) as it is when you plug in truly random bits. For a fixed error value like 0.01, our pseudorandom generator is <em>optimal</em>, i.e., it makes essentially the smallest possible number of coin tosses.
-</p>

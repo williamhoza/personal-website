@@ -1,655 +1,200 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-123337994-1');
-  </script>
-  
-  <title>William M. Hoza</title>
-  <style>
-    .link {
-      border:1px solid #B0B0B0;
-      width:140px;
-    }
-
-    TH {
-      width:120px;
-      text-align:right;
-      padding-right:30px;
-      vertical-align:top;
-      font-weight:bold;
-    }
-
-    BODY {
-      font-family:sans-serif;
-    }
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    @media(min-width:920px) {
-      BODY {
-        background-color:#004000;
+    <title>William M. Hoza</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/main.css" />
+    
+    <meta property="og:title" content="William M. Hoza" />
+    
+    <style>
+      li.c {
+        color:red;
       }
       
-      .outer {
-        box-sizing:border-box;
-        max-width:900px;
-        margin:auto;
-        background-color:#FFFFFF;
-        padding:32px;
-        border-radius:32px;
+      li.l {
+        color:blue;
       }
-    }
-    
-    LI:not(:last-child) {
-      margin-bottom: 10px;
-    }
-    
-    LI.c {
-      color:red;
-    }
-    
-    LI.c span {
-      color:black
-    }
-    
-    LI.l {
-      color:blue;
-    }
-    
-    LI.l span {
-      color:black
-    }
-    
-    .section {
-      padding-top:1em;
-    }
-    
-    .summaxry {
-      padding-left:30px;
-      padding-top:20px;
-      padding-bottom:20px;
-      display:none;
-    }
-    
-    .summary {
-      display:inline-block;
-      vertical-align:top;
-    }
-    
-    SUMMARY {
-      cursor:pointer;
-      margin-top:0.5em;
-    }
-    
-    .details {
-      margin-top:1em;
-      margin-left:0.5em;
-    }
-    
-    DETAILS {
-      margin-left:0.5em;
-      margin-bottom:1em;
-      margin-top:-0.2em;
-    }
-  </style>
+      
+      li.c > span, li.l > span {
+        color:black;
+      }
+      
+      .link {
+        border:1px solid #e0e0e0;
+        width:140px;
+      }
+    </style>
+  </head>
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-</head>
-
-<body>
-  <div class="outer">
-    <div style="display:flex;align-items:flex-end;">
-      <img src="images/me.jpg" width="112px" style="display:block;" />
-      <div style="font-size:32px;margin-left:16px;">
-        William M. Hoza
-      </div>
-    </div>
-    
-    <div class="section">
-      <b>About me:</b>
-      I'm a fourth-year grad student at UT Austin studying <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical
-      computer science</a>. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
-      <br /><br />
-      I study computational complexity theory, which means I'm interested in the strengths of different computational resources. To what extent does randomness provide a computational advantage? How about quantum mechanics? Does parallelism always give a huge speedup? Is space more useful than time? Is it ever easier to check your work than it is to solve a problem from scratch? All of these questions can be made mathematically precise, and nobody knows the answers.
-      <br /><br />
-      My personal favorite open question is the "<b>L</b> vs. <b>BPL</b>" question: Is randomness ever necessary to solve a problem using only a little memory? To work on resolving this question, people like me study "pseudorandomness", which is any phenomenon where something looks more random than it actually is.
-    </div>
-    
-    <div class="section">
-      <b><a href="/blog">Blog</a></b>
-      <br />
-    </div>
-    
-    <div class="section">
-      <b>Research papers:</b> (Expand for more info)<br /><br />
-      
-      <a href="https://eccc.weizmann.ac.il/report/2020/016/">Hitting Sets Give Two-Sided Derandomization of Small Space</a>
-      <details>
-        <summary>With Kuan Cheng. In CCC 2020.</summary>
-        
-        <div class="details">
-          <u>Not-so-abstract</u>: A "decision problem" is a problem where the answer is always "yes" or "no," e.g., the problem of determining whether a given number is prime. Suppose there's a randomized algorithm A that solves some decision problem with high probability using a small amount of memory. Does that automatically mean there's a deterministic algorithm that solves the same problem using a similar amount of memory? In other words, is it always possible to "derandomize" any low-memory decision algorithm? Computer scientists think so, but we're not sure how to prove it. If A has the special feature that it never gives false positives, derandomization is potentially easier. Some of the most promising approaches treat A as a "black box," meaning that the deterministic algorithm would just simulate A in a few carefully crafted scenarios and then figure out the correct answer based on what A outputs in those scenarios. In this paper, we prove that if it is possible to derandomize all low-memory decision algorithms that never give false positives in a black-box manner, then it is possible to derandomize all low-memory decision algorithms, whether they give false positives or not. 
-          <br><br>
-          <u>Versions</u>: The <a href="https://drops.dagstuhl.de/opus/volltexte/2020/12562/">CCC proceedings version</a> and the <a href="https://eccc.weizmann.ac.il/report/2020/016/">ECCC version</a> are the same except for formatting.
-          <br><br>
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/watch?v=5CX1qaF5q4A">[video]</a>
-              <a href="/paper-resources/CH/CCC-slides.pptx">[slides]</a> -- from my prerecorded presentation for CCC (July 2020).
-            </li>
-          </ul>
-          <u>Notes</u>: This paper was invited to the Theory of Computing special issue for CCC 2020.
-        </div>
-      </details>
-      
-      <a href="https://drops.dagstuhl.de/opus/volltexte/2020/12558/">Log-Seed Pseudorandom Generators via Iterated Restrictions</a>
-      <details>
-        <summary>With Dean Doron and Pooya Hatami. In CCC 2020.</summary>
-        
-        <div class="details">
-          <u>Not-so-abstract</u>: A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits (x<sub>1</sub>, x<sub>2</sub>, x<sub>3</sub>, ...) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a polynomial such as
-          <div style="margin:20px;">
-            y = x<sub>1</sub>x<sub>3</sub> + x<sub>2</sub>x<sub>7</sub>x<sub>8</sub> + x<sub>4</sub>x<sub>5</sub> + ...
+  <body>
+    <main>
+      <article>
+        <img src="/images/me.jpg" style="width:112px;float:right;margin-left:20px;">
+        <h1>
+          William M. Hoza
+        </h1>
+        <p>
+          Hi! 🙂 You can reach me at whoza@utexas.edu.
+        </p>
+        <hr>
+        <p>
+          <a href="/tcs/" style="font-weight:bold;">Theoretical computer science stuff</a>
+        </p>
+        <p>
+          <a href="/blog/" style="font-weight:bold;">Blog</a>
+        </p>
+        <hr>
+        <p>
+          Here are some of my views, in case you're curious (or looking for something to disagree with me about).
+        </p>
+        <details>
+          <summary>Philosophical views</summary>
+          <div class="indent">
+            <ul style="margin-top:0;margin-bottom:0;padding-left:15px;">
+              <li>
+                I'm Catholic.
+              </li>
+              <li>
+                I think that every living human organism has <a href="https://plato.stanford.edu/entries/grounds-moral-status/#WhatFullMoraStatFMS">moral personhood</a>.
+              </li>
+              <li>
+                I am a <a href="http://plato.stanford.edu/entries/compatibilism/">compatibilist</a>. (Here's a <a href="/blog/can-of-worms">relevant blog post</a>.)
+              </li>
+              <li>
+                I am a <a href="http://plato.stanford.edu/entries/probability-interpret/#SubPro">Bayesian</a>.
+              </li>
+              <li>
+                I am a <a href="http://plato.stanford.edu/entries/time/#TheBThe">B-theorist</a>.
+              </li>
+            </ul>
           </div>
-          Each variable is only allowed to appear one time (it's "read-once"). The arithmetic is mod 2 (+ is really XOR, and y is either 0 or 1). For every polynomial y of that form, the expected value of y when you plug in the output of our pseudorandom generator is approximately the same (say, to within plus or minus 0.01) as it is when you plug in truly random bits. For a fixed error value like 0.01, our pseudorandom generator is *optimal*, i.e., it makes essentially the smallest possible number of coin tosses.
-          <br><br>
-          <u>Versions</u>: The <a href="https://drops.dagstuhl.de/opus/volltexte/2020/12558/">CCC proceedings version</a> has some minor presentational improvements compared to the <a href="https://eccc.weizmann.ac.il/report/2019/149/">ECCC version</a>.
-          <br><br>
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/watch?v=uuezhiFR6mA">[video]</a>
-              <a href="/paper-resources/DHH2/CCC-slides.pptx">[slides]</a> -- from my prerecorded presentation for CCC (July 2020).
-            </li>
-          </ul>
-        </div>
-      </details>
-      
-      <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</a>
-      <details>
-        <summary>With Dean Doron and Pooya Hatami. In CCC 2019.</summary>
-        
-        <div class="details">
-          <u>Not-so-abstract</u>: A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits (x<sub>1</sub>, x<sub>2</sub>, x<sub>3</sub>, ...) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a statement that says something like
-          <div style="margin:20px;">((x<sub>3</sub> = 0 AND x<sub>7</sub> = 1 AND x<sub>2</sub> = 1) OR (x<sub>6</sub> = 1 AND (x<sub>5</sub> = 0 OR x<sub>1</sub> = 0) AND ...)).</div>
-          Each variable is only allowed to appear one time, and the parentheses are only allowed to be nested to a depth of, say, 100. For every statement of that form, the probability that the statement evaluates to true when you plug in the output of our pseudorandom generator is roughly the same as the probability that the statement evaluates to true when you plug in truly random bits. Our pseudorandom generator is "near-optimal", i.e., our algorithm makes very few coin tosses.
-          <br><br>
-          <u>Versions</u>: The <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10838/">CCC proceedings version</a> has some minor presentational improvements compared to the <a href="https://eccc.weizmann.ac.il/report/2018/183/">ECCC version</a>.
-          <br><br>
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="http://www.birs.ca/events/2019/5-day-workshops/19w5088/videos/watch/201907081331-Hoza.html">[video]</a>
-              <a href="/paper-resources/DHH/birs-slides.pdf">[slides]</a> -- from
-              my presentation at BIRS workshop 19w5088 (July 2019). I used very similar slides for my presentation for my "Research Preparation Exam" (May 2019), part of the UT CS PhD program.
-            </li>
-            <li>
-              <a href="/paper-resources/DHH/ccc-slides.pdf">[slides]</a> -- from my presentation at CCC (July 2019).
-            </li>
-          </ul>
-        </div>
-      </details>
-      
-      <a href="https://eccc.weizmann.ac.il/report/2018/063/">Simple Optimal Hitting Sets for Small-Success <b>RL</b></a>
-      <details>
-        <summary>With David Zuckerman. To appear in SICOMP; preliminary version in FOCS 2018.</summary>
-        
-        <div class="details">
-          <u>Not-so-abstract</u>: In this paper, we present a set of
-          binary strings H with the following guarantee. Suppose P is a
-          property of binary strings such that a decent fraction of all
-          binary strings have property P. Suppose also that there is
-          some algorithm for determining whether a given string x has
-          property P, using a small amount of memory and reading x just
-          once from left to right. Then some string in H has property P.
-          Our set H is smaller than any such set discovered previously.
-          <br /><br />
-          <u>Versions</u>: The <a href="http://ieee-focs.org/FOCS-2018-Papers/pdfs/59f059.pdf">FOCS proceedings version</a> has a couple extra references and different formatting compared to the <a href="https://eccc.weizmann.ac.il/report/2018/063/">ECCC version</a>.
-          <br /><br />
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="paper-resources/HZ/focs-slides.pdf">[slides]</a> -- from my presentation at FOCS (October 2018).
-            </li>
-            <li>
-              <a href="paper-resources/HZ/dagstuhl-slides.pdf">[slides]</a> -- from my presentation at Dagstuhl Seminar 18391 (September 2018). I used very similar slides for my presentation at China Theory Week (September 2018) and my presentation at the UT Austin CS Theory Seminar (February 2019).
-            </li>
-            <li>
-              <a href="https://www.youtube.com/watch?v=qq8tsU3BXb0">[video]</a> -- from David's presentation at Princeton Theory Lunch (October 2018).
-            </li>
-          </ul>
-          <u>Notes</u>: The main result of the paper is covered in <a href="http://www.cs.tau.ac.il/~amnon/Classes/2018-Space/Lectures/HSG.pdf">these lecture notes</a> for a course taught by Amnon Ta-Shma. Sumegha Garg discusses the paper in <a href="https://www.youtube.com/watch?v=NfzE-WfGgq8">this STOC workshop</a>. Omer Reingold discusses the paper in <a href="https://www.youtube.com/watch?v=Wjo7o8aOiQ4">this talk</a>.
-        </div>
-      </details>
-      
-      <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10831/">Typically-Correct Derandomization for Small Time and Space</a>
-      <details>
-        <summary>In CCC 2019.</summary>
-        
-        <div class="details">
-          <u>Not-so-abstract</u>: A "randomized" algorithm tosses 
-          coins to make decisions, whereas a "deterministic" 
-          algorithm doesn't use any randomness. Most theoretical 
-          computer scientists believe that if a problem can be 
-          solved by a randomized algorithm, then it can also be 
-          solved by a deterministic algorithm that uses about the 
-          same amount of time and memory. But nobody knows how to 
-          prove it. In this paper, we prove that if a problem can 
-          be solved by a fast randomized algorithm, then it can 
-          also be solved by a deterministic algorithm that uses 
-          about the same amount of memory, with the caveat that 
-          the deterministic algorithm might give the wrong answer 
-          on a tiny fraction of inputs.
-          <br /><br />
-          <u>Versions</u>: The <a href="https://arxiv.org/abs/1711.00565">arXiv version</a> and the <a href="http://drops.dagstuhl.de/opus/volltexte/2019/10831/">CCC proceedings version</a> are the same except for formatting.
-          <br /><br />
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/watch?v=PxiCmJG4h5E">[video]</a>
-              <a href="/paper-resources/Hoz2/ccc-slides.pdf">[slides]</a> -- from my presentation at CCC (July 2019)
-            </li>
-            <li>
-              <a href="paper-resources/Hoz2/israel-slides.pdf">[slides]</a> -- from my presentation at HUJI's Theory of Computer Science Seminar (March 2018). I used very similar slides for my presentations at Weizmann Institute's Foundations of Computer Science Seminar (March 2018) and TAU's Theory of Computation Seminar (March 2018).
-            </li>
-          </ul>
-        </div>
-      </details>
-      
-      <a href="https://arxiv.org/abs/1703.07768">Quantum Communication-Query Tradeoffs</a>
-      <details>
-        <summary>Manuscript, 2017.</summary>
-        
-        <div class="details">
-          <u>Not-so-abstract</u>:
-            Quantum algorithms are algorithms that exploit quantum 
-            effects, requiring special hardware that, broadly 
-            speaking, nobody has managed to build yet. In this 
-            paper, we study quantum algorithms for two types of 
-            problems. In the first type of problem, Alice has some 
-            data x, Bob has some data y, and the two of them would 
-            like to figure out whether the pair (x, y) has some 
-            property P using as little communication as possible. 
-            For example, maybe x and y are numbers between 1 and a 
-            million, and P is the property that x &gt; y. The second 
-            type of problem is similar to the game 20 Questions. 
-            Alice chooses x. If Bob specifies y, then Alice tells 
-            him whether (x, y) has property P. Bob's goal is to 
-            learn x by making as few queries as possible. We prove 
-            that if the same property P is used to formulate each 
-            problem, then the two problems can't both have extremely 
-            efficient quantum algorithms.
-        </div>
-      </details>
-      
-      <a href="paper-resources/GH/prl-version.pdf">Universal Bell Correlations Do Not Exist</a>
-      <details>
-        <summary>With Cole A. Graham. In PRL, 2017.</summary>
-        <div class="details">
-          <u>Not-so-abstract</u>:
-          Bell's theorem says, roughly, that it follows from the laws
-          of quantum mechanics that two parties can interact
-          instantaneously across arbitrary distances. This phenomenon,
-          called "quantum nonlocality", has been called "the most
-          profound discovery of science". The nature of these
-          "interactions" is notoriously subtle. For example, the
-          no-communication theorem says that quantum nonlocality is
-          not useful for sending genuine signals. In this paper, we
-          rule out one possible approach to characterizing the exact
-          extent of the "nonlocal powers" granted by the laws of
-          quantum mechanics. In particular, aside from quantum
-          nonlocality, another situation in which two parties can
-          interact in a limited way is if there is some discrete,
-          classical device that each party is able to interact with.
-          We prove that quantum nonlocality is not quite equivalent to
-          any such discrete, classical device. 
-          <br /><br />
-          <u>Versions</u>: The
-          <a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.119.050402">PRL version</a>,
-          also available <a href="paper-resources/GH/prl-version.pdf">on this site</a>,
-          is much more compact than the earlier
-          <a href="https://arxiv.org/abs/1612.05680">arXiv version</a>.
-          The arXiv version has essentially the same results, but it
-          has more detailed definitions and proofs and some suggested
-          open problems. The arXiv version also uses slightly
-          different notation and is missing some references.
-          <br /><br />
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="paper-resources/GH/class-slides.pdf">[slides]</a> -- from my presentation in Scott Aaronson's course "Topics in Quantum and Classical Complexity Theory" (December 2016)
-            </li>
-          </ul>
-          <u>Copyright information</u>:
-          &copy; 2017 American Physical Society.
-        </div>
-      </details>
-      
-      <a href="https://arxiv.org/abs/1611.00783">Preserving Randomness for Adaptive Algorithms</a>
-      <details>
-        <summary>With Adam R. Klivans. In RANDOM 2018.</summary>
-        <div class="details">
-          <u>Not-so-abstract</u>:
-          Suppose you have a randomized algorithm that estimates 
-          some numeric quantity, and you plan to use it <i>k</i> 
-          times. Suppose the estimation algorithm makes <i>n</i> 
-          coin tosses. This situation seems to call for <i>nk</i> 
-          coin tosses in total. In this paper, we show that you 
-          can actually get away with only making about <i>n + k</i>
-          coin tosses if you use some tricks.
-          <br /><br />
-          <u>Versions</u>:
-          The <a href="https://arxiv.org/abs/1611.00783">arXiv version</a>
-          and the <a href="https://eccc.weizmann.ac.il/report/2016/172/">ECCC version</a>
-          are identical. The <a href="http://drops.dagstuhl.de/opus/volltexte/2018/9447/">RANDOM proceedings version</a> is more compact and skips a lot of the material.
-          <br /><br />
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="https://www.youtube.com/watch?v=4x4SCTALca8">[video]</a> -- from Adam's presentation at the Simons Institute "Proving and Using Pseudorandomness" workshop (March 2017)
-            </li>
-            <li>
-              <a href="paper-resources/HK/caltech-theory-seminar-slides.pdf">[slides]</a> -- from my presentation at Caltech's CS Theory Seminar (May 2017)
-            </li>
-            <li>
-              <a href="paper-resources/HK/random-slides.pdf">[slides]</a> -- from my presentation at RANDOM (August 2018)
-            </li>
-          </ul>
-        </div>
-      </details>
-      
-      <a href="https://arxiv.org/abs/1610.01199">Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace</a>
-      <details>
-        <summary>With Chris Umans. In STOC 2017.</summary>
-        <div class="details">
-          <u style="color:#800000; font-weight:bold">Erratum</u> (May 2017): In Lemma 2, the 
-          space complexity should be O(s + log w + log(1/&delta;) 
-          + log(1/&gamma;)). That is, there is a missing O(log(1/&delta;))
-          term in the lemma statement. This does not 
-          affect anything else in the paper. <br /><br />
-          <u>Not-so-abstract</u>:
-          There's a well-known conjecture in complexity theory
-          ("L = BPL") that says that randomness isn't necessary for
-          solving problems using a small amount of computer memory.
-          The most promising approach to proving this conjecture is to
-          design a suitable kind of "pseudorandom generator". But in
-          principle, one could hope to prove L = BPL using a totally
-          different approach. In this paper, we prove a theorem that
-          can be roughly stated as follows. If every true statement
-          along the lines of L = BPL can be proven using the
-          pseudorandom generator approach, then in fact L = BPL
-          (actually the conclusion is slightly weaker).
-          <br /><br />
-          <u>Versions</u>:
-          The <a href="http://dl.acm.org/citation.cfm?doid=3055399.3055414">STOC proceedings version</a>
-          and the <a href="https://arxiv.org/abs/1610.01199">arXiv version</a> are the same except for formatting.
-          <br /><br />
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="paper-resources/HU/dagstuhl-slides.pdf">[slides]</a> -- from my presentation at Dagstuhl Seminar 16411 (October 2016)
-            </li>
-            <li>
-              <a href="paper-resources/HU/stoc-slides.pdf">[slides]</a>
-              <a href="paper-resources/HU/stoc-poster.pdf">[poster]</a>
-              <a href="https://dl.acm.org/citation.cfm?id=3055414&picked=formats">[video]</a> -- from my presentation at STOC (June 2017)
-            </li>
-          </ul>
-          <u>Notes</u>: This paper was invited to the SIAM Journal 
-          of Computing special issue for STOC 2017. This paper is mentioned in
-          <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/225.html">this post</a>
-          by Oded Goldreich.
-        </div>
-      </details>
-      
-      <a href="http://epubs.siam.org/doi/10.1137/1.9781611974331.ch18">The Adversarial Noise Threshold for Distributed Protocols</a>
-      <details>
-        <summary>With Leonard J. Schulman. In SODA 2016.</summary>
-        <div class="details">
-          <u>Not-so-abstract</u>:
-          Imagine that many people (or computers) are connected by a
-          network of communication channels. They would like to have a
-          conversation, but unfortunately, an adversary is altering
-          their messages to confuse them. The parties may deal with
-          this noise by encoding their conversation in whatever way
-          they like. In this paper, we determine the maximum amount of
-          noise that can be tolerated in a couple different models as
-          a function of the particular communication network.
-          <br /><br />
-          <u>Versions</u>:
-          I recommend that you read the
-          <a href="http://epubs.siam.org/doi/10.1137/1.9781611974331.ch18">SODA proceedings version</a>.
-          The SODA reviewers' feedback never got incorporated into the
-          <a href="https://arxiv.org/abs/1412.8097">arXiv version</a>.
-          <br /><br />
-          <u>Presentation materials available online</u>:
-          <ul>
-            <li>
-              <a href="paper-resources/HS/SODA-slides.pdf">[slides]</a> -- from my presentation at SODA (January 2016)
-            </li>
-            <li>
-              <a href="paper-resources/HS/CMS-poster.pdf">[poster]</a> -- from my presentation at Caltech's CMS "Celebration of Undergraduate Research" (May 2015)
-            </li>
-          </ul>
-          <u>Notes</u>: This paper is summarized in Section
-          7.3 of
-          <a href="http://www.eng.biu.ac.il/~gellesr/survey.pdf">this survey article</a>
-          by Ran Gelles.
-        </div>
-      </details>
-    </div>
-    <hr />
-    <div class="section">
-      <b>Other stuff you can read:</b> (Expand for more info)<br /><br />
-      
-      <a href="https://whatsmyprolifeline.com">What's My Pro-Life Line?</a>
-      <details>
-        <summary>With Alicia Torres. Ongoing, started 2018.</summary>
-        
-        <div class="details">
-          <u>Description:</u> We suggest things you can say to promote and
-          defend the pro-life position with love and kindness. We have a
-          <a href="https://whatsmyprolifeline.com">website</a>, a
-          <a href="https://www.facebook.com/whatsmyprolifeline">Facebook page</a>,
-          an <a href="https://instagram.com/whatsmyprolifeline">Instagram profile</a>,
-          and a <a href="https://twitter.com/prolifelines">Twitter profile</a>.
-        </div>
-      </details>
-      
-      <a href="101stories">101 Illustrated Real Analysis Bedtime Stories</a>
-      <details>
-        <summary>With Laura Shou and others. Unfinished, last updated 2016.</summary>
-        
-        <div class="details">
-          <u>Description:</u> This is a recreational book. We present
-          real analysis in a way that is supposed to be enjoyable to
-          read.
-        </div>
-      </details>
-    </div>
-    <hr />
-    
-    <div class="section">
-      <details style="margin-top:-1em;">
-        <summary>Philosophical views</summary>
-        <ul style="margin-bottom:0px">
+        </details>
+        <details>
+          <summary>Political views</summary>
+          <p>
+            ⚠️<em>Chances are, whether you lean "left", "right", or some other direction, you are going to disagree with me about some of this stuff. I hope we can still be friends! Please trust that I want us all to thrive. I'm sure I'm wrong about some things.</em>
+          </p>
+          <div class="indent">
+            I'm a member of the <a href="https://solidarity-party.org/">American Solidarity Party</a>. My views on some specific U.S. issues:
+            <ul>
+              <li class="l">
+                <span>
+                  I favor making it very easy to legally immigrate to the U.S. I want the border between the U.S. and Mexico to be similar to the border between Texas and New Mexico. I don't think any special excuse or reason should be required to become a U.S. citizen.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I support a ban on any stem cell research that involves intentionally destroying human embryos. I also support bans on <i>in vitro</i> fertilization and human cloning. I think we all have fundamental dignity and value that doesn't depend on the circumstances of our conception, and I respect persons conceived <i>in vitro</i> as equals, whether they are embryos or adults.
+                </span>
+              </li>
+              <li class="l">
+                <span>
+                  I favor repealing the second amendment. In the meantime, I support strict gun control laws that are consistent with the second amendment.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I support a ban on abortion. I think we should use nonviolent methods to support pregnant women. I support government-funded pregnancy centers, and I think the government should ensure that all employed new mothers have access to paid maternity leave. (Here's a <a href="/blog/economic-theory-of-abortion-policies/">relevant blog post</a>. See also: <a href="https://whatsmyprolifeline.com">What's My Pro-Life Line?</a>)
+                </span>
+              </li>
+              <li class="l">
+                <span>
+                  I favor abolishing capital punishment. I also think the prison system is greatly overused. People who commit crimes should face consequences, but years of imprisonment is extreme.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I support a ban on physician-assisted suicide and all forms of euthanasia.
+                </span>
+              </li>
+              <li class="l">
+                <span>
+                  I favor giving every citizen the right to vote, regardless of age or criminal history. Yes, I'm serious, regardless of age.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I favor making adultery illegal, at <em>least</em> in cases where the non-participating spouse disapproves.
+                </span>
+              </li>
+              <li class="l">
+                <span>
+                  I support extensive government regulations and programs designed to protect the environment.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I oppose civil same-sex marriage institutions. I recognize that there is nothing shameful about being gay or lesbian or bisexual. I think sexual minorities are among those most harmed by same-sex marriage. I support legislation that protects sexual minorities from unjust discrimination and harrassment.
+                </span>
+              </li>
+              <li class="l">
+                <span>
+                  I oppose torture. More generally, I oppose almost all violent actions performed by the U.S. military. I am grateful for the service of those members of the military who honorably and ethically defend the country.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I support <a href="https://en.wikipedia.org/wiki/Originalism">originalism.</a>
+                </span>
+              </li>
+              <li class="l">
+                <span>
+                  I support extensive welfare programs.
+                </span>
+              </li>
+              <li class="c">
+                <span>
+                  I support serious free speech protections at public universities.
+                </span>
+              </li>
+              <li>
+                I oppose efforts by the NSA to weaken widely-used cryptographic software.
+              </li>
+            </ul>
+            I'd be happy to chat about any of this stuff <em>in person</em>.
+          </div>
+        </details>
+        <hr>
+        <ul class="paper-list">
           <li>
-            I'm Catholic.
+            <a href="https://whatsmyprolifeline.com" style="font-weight:bold;">What's My Pro-Life Line?</a><br>
+            A collaboration with Alicia Torres Hoza<br>
+            Ongoing, started 2018
           </li>
           <li>
-            I think that every living human organism has <a href="https://plato.stanford.edu/entries/grounds-moral-status/#WhatFullMoraStatFMS">moral personhood</a>.
-          </li>
-          <li>
-            I am a <a href="http://plato.stanford.edu/entries/compatibilism/">compatibilist</a>.
-          </li>
-          <li>
-            I am a <a href="http://plato.stanford.edu/entries/probability-interpret/#SubPro">Bayesian</a>.
-          </li>
-          <li>
-            I am a <a href="http://plato.stanford.edu/entries/time/#TheBThe">B-theorist</a>.
+            <a href="/101stories/" style="font-weight:bold;">101 Illustrated Real Analysis Bedtime Stories</a><br>
+            A collaboration with Laura Shou and others<br>
+            Unfinished, last updated 2016
           </li>
         </ul>
-      </details>
-      <details>
-        <summary>Political views (just in case you read my
-        philosophical views and you're still looking for something
-        to disagree with me about &#x1F642;)</summary>
-        <ul>
-          <li class="l">
-            <span>
-            I favor making it very easy to legally immigrate to the U.S.
-            I want the border between the U.S. and Mexico to be similar to
-            the border between Texas and New Mexico. I don't think any
-            special excuse or reason should be required to become a U.S.
-            citizen.
-            </span>
-          </li>
-          <li class="c">
-            <span>
-            I support a ban on any stem cell research that involves
-            intentionally destroying human embryos. I also support bans
-            on <i>in vitro</i> fertilization and human cloning. I think
-            we all have fundamental dignity and value that doesn't
-            depend on the circumstances of our conception, and I respect
-            persons conceived <i>in vitro</i> as equals, whether they
-            are embryos or adults.
-            </span>
-          </li>
-          <li class="l">
-            <span>
-            I favor repealing the second amendment. In the meantime,
-            I support strict gun control laws that are consistent with
-            the second amendment.
-            </span>
-          </li>
-          <li class="c">
-            <span>
-            I support a ban on abortion. I think we should use nonviolent
-            methods to support pregnant women. I support
-            government-funded pregnancy centers, and I think the
-            government should ensure that all employed new mothers have
-            access to paid maternity leave.
-            </span>
-          </li>
-          <li class="l">
-            <span>
-            I favor giving every citizen the right to vote,
-            regardless of age or criminal history. Yes, I'm serious,
-            regardless of age.
-            </span>
-          </li>
-          <li class="c">
-            <span>
-            I support a ban on physician-assisted suicide and all forms 
-            of euthanasia.
-            </span>
-          </li>
-          <li class="l">
-            <span>
-            I oppose torture. More generally, I oppose almost all violent
-            actions performed by the U.S. military. I am grateful for the
-            service of those members of the military who honorably and
-            ethically defend the country.
-            </span>
-          </li>
-          <li class="c">
-            <span>
-            I oppose civil same-sex marriage institutions. I recognize 
-            that there is nothing shameful about being gay or lesbian 
-            or bisexual. I think sexual minorities are among those most 
-            harmed by same-sex marriage. I support legislation that 
-            protects sexual minorities from unjust discrimination and 
-            harrassment.
-            </span>
-          </li>
-          <li class="l">
-            <span>
-            I support extensive government regulations and programs
-            designed to protect the environment.
-            </span>
-          </li>
-          <li class="c">
-            <span>
-            I support <a href="https://en.wikipedia.org/wiki/Originalism">originalism.</a>
-            </span>
-          </li>
-          <li class="l">
-            <span>
-            I favor abolishing capital punishment. I also think the
-            prison system is greatly overused. People who commit crimes
-            should face consequences, but years of imprisonment is
-            extreme.
-            </span>
-          </li>
-          <li class="c">
-            <span>
-            I support serious free speech protections at public
-            universities.
-            </span>
-          </li>
-          <li class="l">
-            <span>
-            I support extensive welfare programs.
-            </span>
-          </li>
-          <li>
-            I oppose efforts by the NSA to weaken cryptographic
-            software.
-          </li>
-        </ul>
-        I'm a member of the <a href="https://solidarity-party.org/">American Solidarity Party</a>.
-        I'd be happy to chat about any of this stuff <em>in person</em>.
-      </details>
-    </div>
-    
-    <hr>
-    
-    <div class="section">
-      <b>Video games, etc.:</b>
-      I occasionally masquerade as a programmer, in order to provide you with ways to waste your time:
-      <div style="text-align:left;padding-top:20px;padding-left:20px;">
-        <a href="hex"><img class="link" src="images/hex-small.png" title="Hex (2014)"/></a>
-        <a href="/timewarp/"><img class="link" src="images/timewarp-small.png" title="Time Warp (2012)"/></a>
-        <a href="periodicity"><img class="link" src="images/periodicity-small.png" title="Periodicity (2012)"/></a>
-        <a href="mandelbrot"><img class="link" src="images/mandelbrot-small.png" title="Mandelbrot Visualization (2012)"/></a>
-        <a href="poker"><img class="link" src="images/poker-small.png" title="Texas Hold 'em Chances (2012)"/></a>
-        <a href="/volleyball/"><img class="link" src="images/volleyball-small.png" title="Centrifuge Volleyball (2012)"/></a>
-        <a href="text"><img class="link" src="images/text-small.png" title="Text Particles (2011)"/></a>
-        <a href="marbles"><img class="link" src="images/marbles-small.png" title="Peg Solitaire (2011)"/></a>
-        <a href="/newton/"><img class="link" src="/images/newton-small.png" title="Newton's Nightmare (2010)"/></a>
-        <a href="/sproing/"><img class="link" src="images/sproing-small.png" title="Sproing (2010)"/></a>
-      </div>
-    </div>
-    
-    <div class="section">
-      <b>Contact:</b>
-      whoza@utexas.edu
-    </div>
-    
-    <div style="border-top:1px solid #B0B0C0;font-size:11pt;padding-top: 20px;margin-top:20px;">
-      "Finally, brothers, whatever is true, whatever is honorable, whatever is just, whatever is pure, whatever is lovely, whatever is gracious, if there is any excellence and if there is anything worthy of praise, think about these things." (Philippians 4:8)
-    </div>
-  </div>
-  
-  <script type="text/javascript">
-    var showing = [];
-  
-    function toggle(n) {
-      if (showing[n] === undefined) showing[n] = false;
-      
-      showing[n] = !showing[n];
-      document.getElementById('show' + n).innerHTML = showing[n]? "[hide]" : "[show]";
-      document.getElementById('summary' + n).style.display = showing[n]? "block" : "none";
-    }
-  </script>
-</body>
-
+        <hr>
+        <p>
+          Are you trying to procrastinate? Please, allow me to provide you with some video games and other distractions:
+        </p>
+        <div>
+          <a href="/hex/"><img class="link" src="/images/hex-small.png" title="Hex (2014)"/></a>
+          <a href="/timewarp/"><img class="link" src="/images/timewarp-small.png" title="Time Warp (2012)"/></a>
+          <a href="/periodicity/"><img class="link" src="/images/periodicity-small.png" title="Periodicity (2012)"/></a>
+          <a href="/mandelbrot/"><img class="link" src="/images/mandelbrot-small.png" title="Mandelbrot Visualization (2012)"/></a>
+          <a href="/poker/"><img class="link" src="/images/poker-small.png" title="Texas Hold 'em Chances (2012)"/></a>
+          <a href="/volleyball/"><img class="link" src="/images/volleyball-small.png" title="Centrifuge Volleyball (2012)"/></a>
+          <a href="/text/"><img class="link" src="/images/text-small.png" title="Text Particles (2011)"/></a>
+          <a href="/marbles/"><img class="link" src="/images/marbles-small.png" title="Peg Solitaire (2011)"/></a>
+          <a href="/newton/"><img class="link" src="/images/newton-small.png" title="Newton's Nightmare (2010)"/></a>
+          <a href="/sproing/"><img class="link" src="/images/sproing-small.png" title="Sproing (2010)"/></a>
+        </div>
+        <hr>
+        <p>
+          "Finally, brothers, whatever is true, whatever is honorable, whatever is just, whatever is pure, whatever is lovely, whatever is gracious, if there is any excellence and if there is anything worthy of praise, think about these things." (Philippians 4:8)
+        </p>
+      </article>
+    </main>
+  </body>
 </html>

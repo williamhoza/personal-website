@@ -1,7 +1,0 @@
-<p>
-  A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits \((x_1, x_2, x_3, \dots)\) that "look random" in some sense. In this paper, we present a pseudorandom generator whose output looks random in the following sense. Consider a statement that says something like
-  \[
-    ((x_3 = 0 \text{ AND } x_7 = 1 \text{ AND } x_2 = 1) \text{ OR } (x_6 = 1 \text{ AND } (x_5 = 0 \text{ OR } x_1 = 0) \text{ AND } \dots)).
-  \]
-  Each variable is only allowed to appear one time, and the parentheses are only allowed to be nested to a depth of, say, 100. For every statement of that form, the probability that the statement evaluates to true when you plug in the output of our pseudorandom generator is roughly the same as the probability that the statement evaluates to true when you plug in truly random bits. Our pseudorandom generator is "near-optimal", i.e., our algorithm makes very few coin tosses.
-</p>

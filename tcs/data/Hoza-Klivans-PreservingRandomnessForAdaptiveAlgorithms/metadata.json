@@ -1,0 +1,21 @@
+{
+  "title": "Preserving Randomness for Adaptive Algorithms",
+  "authors": ["William M. Hoza", "Adam R. Klivans"],
+  "abbreviation": "HK",
+  "where-published-summary": "In RANDOM 2018",
+  "timeline": "Manuscript posted online in November 2016; appeared at RANDOM in August 2018.",
+  "first-posted": "2016-11-02",
+  "version-links": [
+    {
+      "text": "arXiv",
+      "href": "https://arxiv.org/abs/1611.00783"
+    }, {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2016/172/"
+    }, {
+      "text": "RANDOM proceedings",
+      "href": "http://drops.dagstuhl.de/opus/volltexte/2018/9447/"
+    }
+  ],
+  "version-notes": "The arXiv version and the ECCC version are identical. The RANDOM proceedings version is more compact and skips a lot of the material."
+}
