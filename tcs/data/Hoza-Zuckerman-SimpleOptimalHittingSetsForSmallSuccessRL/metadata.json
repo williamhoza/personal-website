@@ -2,11 +2,14 @@
   "title": "Simple Optimal Hitting Sets for Small-Success RL",
   "authors": ["William M. Hoza", "David Zuckerman"],
   "abbreviation": "HZ",
-  "where-published-summary": "To appear in SICOMP; preliminary version in FOCS 2018",
-  "timeline": "Manuscript posted online in April 2018; appeared at FOCS in October 2018; to appear in SICOMP.",
+  "where-published-summary": "In SICOMP, 2020 (preliminary version in FOCS 2018)",
+  "timeline": "Manuscript posted online in April 2018; appeared at FOCS in October 2018; appeared in SICOMP in July 2020.",
   "first-posted": "2018-04-09",
   "version-links": [
     {
+      "text": "SICOMP",
+      "href": "SICOMP-version.pdf"
+    }, {
       "text": "ECCC",
       "href": "https://eccc.weizmann.ac.il/report/2018/063/"
     }, {
@@ -14,5 +17,6 @@
       "href": "http://ieee-focs.org/FOCS-2018-Papers/pdfs/59f059.pdf"
     }
   ],
-  "version-notes": "The FOCS proceedings version has a couple extra references and different formatting compared to the ECCC version."
+  "version-notes": "The <a href=\"https://epubs.siam.org/doi/abs/10.1137/19M1268707\">SICOMP version</a> (<a href=\"SICOMP-version.pdf\">pdf</a>) has improved presentation and updated references compared to the FOCS proceedings version, which in turn has a couple extra references compared to the ECCC version. The three versions also have different formatting.",
+  "copyright": "(regarding the journal version) First Published in SIAM Journal of Computing 49(4), published by the Society for Industrial and Applied Mathematics (SIAM). Copyright © by SIAM. Unauthorized reproduction of this article is prohibited."
 }

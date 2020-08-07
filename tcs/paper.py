@@ -97,6 +97,15 @@ class Paper:
     else:
       recognitionSection = None
       
+    if "copyright" in self.metadata:
+      copyrightSection = (
+        <p style="font-size:12px;">
+          Copyright info: {self.metadata["copyright"]}
+        </p>
+      )
+    else:
+      copyrightSection = None
+      
     if self.expository == None:
       expositorySection = None
     else:
@@ -170,6 +179,7 @@ class Paper:
               <hr />
               {errataSection}
               {recognitionSection}
+              {copyrightSection}
             </article>
           </main>
         </body>
