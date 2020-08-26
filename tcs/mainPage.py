@@ -58,13 +58,13 @@ def compile(papers):
               Theoretical computer science stuff
             </h1>
             <p>
-              I'm currently a fourth-year grad student at UT Austin, where I study theoretical computer science. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
+              I'm currently a fifth-year grad student at UT Austin, where I study theoretical computer science. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
             </p>
             <p>
               I study "computational complexity theory", which means I use the methods of mathematics to try to understand just how powerful different computational resources are. These "computational resources" include things like time, memory, communication, randomness, quantum mechanics, etc. I'm especially interested in the question of whether randomness is ever necessary for low-memory computation. To work on problems like that, people such as me study "pseudorandomness", which refers to any phenomenon where something looks more random than it actually is.
             </p>
             <p>
-              My research papers are listed below, sorted by the date they were first posted online, from newest to oldest. If you have any questions or comments, send me an <a href="mailto:whoza@utexas.edu">email</a>! Like most academic folks, I like getting emails about my research.
+              My research papers are listed below, sorted by the date they were first posted online, from newest to oldest. If you have any questions or comments, send me an <a href="mailto:whoza@utexas.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
             {paperList}
