@@ -1,0 +1,14 @@
+{
+  "title": "Pseudorandom Generators for Unbounded-Width Permutation Branching Programs",
+  "authors": ["William M. Hoza", "Edward Pyne", "Salil Vadhan"],
+  "abbreviation": "HPV",
+  "where-published-summary": "Manuscript, 2020",
+  "timeline": "Manuscript posted online in September 2020.",
+  "first-posted": "2020-09-13",
+  "version-links": [
+    {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2020/138/"
+    }
+  ]
+}
