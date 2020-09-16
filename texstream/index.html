@@ -12,7 +12,9 @@
     <style>
       #container {
         max-width:900px;
-        padding:24px;
+        padding-left:24px;
+        padding-right:24px;
+        padding-bottom:24px;
         box-sizing:border-box;
         margin:auto;
       }
@@ -22,13 +24,17 @@
         padding:0;
       }
       
-      .edit, .display {
+      .edit, .display, p {
         font-size:18px;
-        padding:5px;
+      }
+      
+      .display, p {
+        font-family:'Roboto', sans-serif;
       }
       
       .display {
-        font-family:'Roboto', sans-serif;
+        padding-top:5px;
+        padding-bottom:5px;
       }
       
       .edit {
@@ -36,12 +42,34 @@
         width:100%;
         scroll-margin:5px;
         box-sizing:border-box;
+        padding:5px;
+      }
+      
+      hr {
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-bottom:1px solid #c0c0c0;
+        margin-bottom:20px;
       }
     </style>
   </head>
   
   <body>
     <div id="container">
+      <p>
+        This is a simple tool for giving impromptu presentations with equations.
+      </p>
+      
+      <p>
+        Share your screen with your audience using, e.g., Zoom. Type below and hit enter. Put TeX expressions between dollar signs, e.g., <span style="font-family:monospace">\$x \mapsto x^2\$</span> becomes $x \mapsto x^2$.
+      </p>
+      
+      <p>
+        To go back and edit something, click on it or use the up/down arrow keys.
+      </p>
+      
+      <hr>
     </div>
     
     <script src="index.js"></script>
