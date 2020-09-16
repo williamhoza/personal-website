@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1" async=""></script>
     <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script>
@@ -24,12 +25,22 @@
         padding:0;
       }
       
-      .edit, .display, p {
+      .edit, .display, p, summary {
         font-size:18px;
       }
       
-      .display, p {
+      .display, p, summary {
         font-family:'Roboto', sans-serif;
+      }
+      
+      summary {
+        cursor:pointer;
+      }
+      
+      textarea {
+        width:100%;
+        box-sizing:border-box;
+        height:100px;
       }
       
       .display {
@@ -68,6 +79,21 @@
       <p>
         To go back and edit something, click on it or use the up/down arrow keys.
       </p>
+      
+      <details>
+        <summary>Macros</summary>
+        
+        <p>
+          Type macros in the box below (e.g., <span style="font-family:monospace">\renewcommand{\epsilon}{\varepsilon}</span>), then click "Save and Update". Don't type dollar signs here. Next time you open this webpage on this computer, your macros should still be here, but I recommend you save a copy of your macros elsewhere just in case.
+        </p>
+        
+        <form action="" onsubmit="updateMacros(); return false;">
+          <textarea id="macros"></textarea>
+          <input type="submit" value="Save and Update">
+        </form>
+        
+        <div id="macrosDisplay">&nbsp;</div>
+      </details>
       
       <hr>
     </div>

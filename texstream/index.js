@@ -2,6 +2,12 @@ let lines = [];
 let activeLine = null;
 
 function init() {
+  let macros = localStorage.getItem("macros");
+  if (macros != null) {
+    document.querySelector("#macros").value = macros;
+    updateMacros();
+  }
+  
   newLine();
 }
 
@@ -71,6 +77,16 @@ Line.prototype.activateEdit = function() {
   this.textBox.style.display = "";
   this.textBox.focus();
   activeLine = this;
+}
+
+function updateMacros() {
+  let macros = document.querySelector("#macros").value;
+  document.querySelector("#macrosDisplay").innerHTML = "$" + macros + "$";
+  for (let i = 0; i < lines.length; i++) {
+    lines[i].displayBox.innerHTML = lines[i].val;
+  }
+  if (MathJax.typeset) MathJax.typeset();
+  localStorage.setItem("macros", macros);
 }
 
 init();
