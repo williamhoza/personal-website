@@ -11,6 +11,12 @@ function init() {
   newLine();
 }
 
+function considerNewLine() {
+  if (lines[lines.length - 1].textBox.value != "") {
+    newLine();
+  }
+}
+
 function newLine() {
   lines.push(new Line(lines.length));
 }
@@ -22,7 +28,11 @@ function Line(index) {
   let parentLine = this;
   this.textBox.addEventListener("keydown", function(evt) {
     if (evt.keyCode == 13) { // ENTER
-      parentLine.activateDisplay();
+      if (parentLine.index < lines.length - 1) {
+        lines[lines.length - 1].activateEdit();
+      } else {
+        considerNewLine();
+      }
     } else if(evt.keyCode == 38) { // UP ARROW
       if (parentLine.index > 0) {
         lines[parentLine.index - 1].activateEdit();
@@ -31,7 +41,7 @@ function Line(index) {
       if (parentLine.index < lines.length - 1) {
         lines[parentLine.index + 1].activateEdit();
       } else if (parentLine.index == lines.length - 1) {
-        parentLine.activateDisplay();
+        considerNewLine();
       }
     }
   });
@@ -47,12 +57,7 @@ function Line(index) {
   this.index = index;
   this.activateEdit();
 }
-Line.prototype.activateDisplay = function(activateEditElsewhere=true) {  
-  if (this.textBox.value == "" && this.index < lines.length - 1) {
-    this.textBox.value = "-";
-  }
-    
-  
+Line.prototype.activateDisplay = function() {
   this.textBox.style.display = "none";
   this.displayBox.style.display = "";
   if (this.textBox.value != this.val) {
@@ -62,17 +67,9 @@ Line.prototype.activateDisplay = function(activateEditElsewhere=true) {
   }
   
   activeLine = null;
-  
-  if (activateEditElsewhere) {
-    if (this.index == lines.length - 1 && this.textBox.value != "") {
-      newLine();
-    } else {
-      lines[lines.length - 1].activateEdit();
-    }
-  }
 }
 Line.prototype.activateEdit = function() {
-  if (activeLine != null) activeLine.activateDisplay(false);
+  if (activeLine != null) activeLine.activateDisplay();
   this.displayBox.style.display = "none";
   this.textBox.style.display = "";
   this.textBox.focus();

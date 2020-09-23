@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1" async=""></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script>
+    <script src="mathjax-config.js"></script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script>
+    
+    <meta property="og:url" content="https://williamhoza.com/textual-whiteboard">
+    <meta property="og:title" content="Textual Whiteboard">
+    <meta property="og:description" content="This is a simple tool to facilitate explaining things with equations. Share your screen with your audience using, e.g., Zoom. Type below and hit enter. Put TeX expressions between dollar signs...">
+    <meta property="og:image" content="https://williamhoza.com/textual-whiteboard/fb.png">
+    <meta property="og:image:width" content="1350">
+    <meta property="og:image:height" content="709">
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400&amp;display=swap" rel="stylesheet">
+    
+    <title>
+      Textual Whiteboard
+    </title>
+    
+    <style>
+      #container {
+        max-width:900px;
+        padding-left:24px;
+        padding-right:24px;
+        padding-bottom:24px;
+        box-sizing:border-box;
+        margin:auto;
+      }
+      
+      body {
+        margin:0;
+        padding:0;
+      }
+      
+      .edit, .display, p, summary {
+        font-size:18px;
+      }
+      
+      .display, p, summary {
+        font-family:'Roboto', sans-serif;
+      }
+      
+      summary {
+        cursor:pointer;
+      }
+      
+      textarea {
+        width:100%;
+        box-sizing:border-box;
+        height:100px;
+      }
+      
+      .display {
+        padding-top:5px;
+        padding-bottom:5px;
+        cursor:pointer;
+        min-height:1.25em;
+      }
+      
+      .edit {
+        font-family:monospace;
+        width:100%;
+        scroll-margin:5px;
+        box-sizing:border-box;
+        padding:5px;
+      }
+      
+      hr {
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-bottom:1px solid #c0c0c0;
+        margin-bottom:20px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="container">
+      <p>
+        This is a simple tool to facilitate explaining things with equations.
+      </p>
+      
+      <p>
+        Share your screen with your audience using, e.g., Zoom. Type below and hit enter. Put TeX expressions between dollar signs, e.g., <span style="font-family:monospace" class="mathjax_ignore">$x \mapsto x^2$</span> becomes $x \mapsto x^2$.
+      </p>
+      
+      <p>
+        To go back and edit something, click on it or use the up/down arrow keys.
+      </p>
+      
+      <details>
+        <summary>Macros</summary>
+        
+        <p>
+          Type macros in the box below (e.g., <span style="font-family:monospace">\renewcommand{\epsilon}{\varepsilon}</span>), then click "Save and Update". Don't type dollar signs here. Next time you open this webpage on this computer, your macros should still be here, but I recommend you save a copy of your macros elsewhere just in case.
+        </p>
+        
+        <form action="" onsubmit="updateMacros(); return false;">
+          <textarea id="macros"></textarea>
+          <input type="submit" value="Save and Update">
+        </form>
+        
+        <div id="macrosDisplay">&nbsp;</div>
+      </details>
+      
+      <hr>
+    </div>
+    
+    <script src="index.js"></script>
+  </body>
+</html>
