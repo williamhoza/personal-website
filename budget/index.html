@@ -432,7 +432,7 @@
         if (this.startTime = null) this.startTime = timestamp;
         elapsedTime = timestamp - this.startTime;
         this.value = this.startValue + this.netAutomaticDailyChange * elapsedTime / (1000 * 86400);
-        this.valueDiv.innerHTML = "$" + this.value.toFixed(5);
+        this.valueDiv.innerHTML = "$" + this.value.toFixed(6);
         
         let emoji;
         
