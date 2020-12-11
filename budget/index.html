@@ -506,6 +506,7 @@
         
         if (message != "" || password == null) {
           password = prompt(message + "Password:");
+          if (password == null) password = "";
           localStorage.setItem("budget-password", password);
         }
         base = getBase(password);
