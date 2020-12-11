@@ -2,8 +2,8 @@
   "title": "Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace",
   "authors": ["William M. Hoza", "Chris Umans"],
   "abbreviation": "HU",
-  "where-published-summary": "In STOC 2017",
-  "timeline": "Manuscript posted online in October 2016; appeared at STOC in June 2017.",
+  "where-published-summary": "To appear in SICOMP (preliminary version in STOC 2017)",
+  "timeline": "Manuscript posted online in October 2016; appeared at STOC in June 2017; will appear in the SICOMP special issue for STOC 2017.",
   "first-posted": "2016-10-04",
   "version-links": [
     {
@@ -22,7 +22,6 @@
     }
   ],
   "recognition": [
-    "The paper was invited to the SICOMP special issue for STOC 2017.",
     "Oded Goldreich wrote <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/225.html\">a blog post</a> that mentions the paper."
   ]
 }
