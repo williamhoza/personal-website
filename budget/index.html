@@ -235,8 +235,8 @@
           env.oneTimeTransactionsLoadingDiv.style.display = "none";
         })
       }
-      Envelope.prototype.processOneTimeTransactionRecord = function(record) {
-        let row = this.oneTimeTransactionsTable.insertRow();
+      Envelope.prototype.processOneTimeTransactionRecord = function(record, pos=-1) {
+        let row = this.oneTimeTransactionsTable.insertRow(pos);
         
         let descCell = row.insertCell();
         descCell.appendChild(document.createTextNode(record.fields["Description"]));
@@ -357,7 +357,11 @@
         this.containerDiv.appendChild(this.settingsForm);
         
         let unitP = document.createElement("p");
-        unitP.appendChild(document.createTextNode("All rates are in dollars per day."));
+        unitP.appendChild(document.createTextNode("All rates are in dollars per day. This envelope's net rate of increase is $"));
+        this.netAutomaticDailyChangeSpan = document.createElement("span");
+        this.netAutomaticDailyChangeSpan.innerHTML = "?";
+        unitP.appendChild(this.netAutomaticDailyChangeSpan);
+        unitP.appendChild(document.createTextNode(" per day."));
         unitP.style.marginTop = "0";
         this.settingsForm.appendChild(unitP);
         
@@ -434,6 +438,8 @@
         this.value = this.startValue + this.netAutomaticDailyChange * elapsedTime / (1000 * 86400);
         this.valueDiv.innerHTML = "$" + this.value.toFixed(6);
         
+        this.netAutomaticDailyChangeSpan.innerHTML = this.netAutomaticDailyChange.toFixed(2);
+        
         let emoji;
         
         if (this.netAutomaticDailyChange < 0) {
@@ -479,18 +485,22 @@
         
         let env = this;
         
-        return base('One-Time Transactions').create([{"fields": {"Description": this.withdrawalDescriptionField.value, "Amount Withdrawn": parseFloat(this.withdrawalAmountField.value), "Envelope": [this.airtableID]}}]).then(function(records) {
-          env.reload().then(function() {
+        return base('One-Time Transactions').create([{"fields": {"Description": this.withdrawalDescriptionField.value, "Amount Withdrawn": parseFloat(this.withdrawalAmountField.value), "Envelope": [this.airtableID]}}]).catch(err => error(err))
+          .then(function(records) {
+            // For simplicity, we assume that if we've begun fetching the one-time transactions by this point, then we have failed or will fail to fetch this new one-time transaction, so we need to insert it into the table separately
+            if (env.oneTimeTransactionsFetchingBegun) {
+              return env.processOneTimeTransactionRecord(records[0], 0);
+            } else {
+              return new Promise((resolve, reject) => resolve()); 
+            }
+          }).then(() => env.reload())
+          .then(function() {
             env.withdrawalSubmitButton.value = "Submit";
             env.withdrawalSubmitButton.disabled = "";
             env.withdrawalDescriptionField.value = "";
             env.withdrawalAmountField.value = "";
             if (displayedForm == env.withdrawalForm) toggleForm(env.withdrawalForm);
           });
-        }).catch(function(err) {
-          env.withdrawalSubmitButton.value = "Error"
-          error(err);
-        });
       }
       
       function timer(timestamp) {
@@ -561,6 +571,7 @@
       function loadData() {
         base('Envelopes').select({view: "Grid view"}).eachPage(function(records, fetchNextPage) {
           records.forEach(function(record) {
+            console.log(record);
             envelopes.push(new Envelope(record));
           });
           fetchNextPage();
