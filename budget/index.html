@@ -16,17 +16,19 @@
     <style>
       body {
         font-family: 'Roboto', sans-serif;
+        background-color: #004000;
       }
       
       #outerDiv {
-        max-width:800px;
+        max-width:480px;
         margin:auto;
       }
       
       .envelope {
-        border:1px solid #e0e0e0;
-        padding:10px;
-        margin:10px;
+        background-color:#e0ffe0;
+        padding:20px;
+        margin-bottom:10px;
+        border-radius:10px;
       }
       
       .envelopeName {
@@ -57,7 +59,7 @@
       }
       
       form {
-        border-top:1px solid #e0e0e0;
+        border-top:1px solid #004000;
         margin-top:10px;
         padding-top:10px;
         display:none;
@@ -102,7 +104,29 @@
         max-width:250px;
       }
       
+      #headerDiv, #loadingDiv {
+        text-align:center;
+        color:white;
+        font-size:18px;
+        padding-top:20px;
+        padding-bottom:20px;
+      }
+      
       svg > g > g:last-child { pointer-events: none; }
+      
+      button, input[type=submit] {
+        border-radius:10px;
+        border:1px solid black;
+        background-color:white;
+      }
+      
+      button:hover, input[type=submit]:hover {
+        background-color:#c0f0ff;
+      }
+      
+      button:focus, input[type=submit]:focus {
+        outline:none;
+      }
     </style>
   </head>
   
@@ -110,6 +134,7 @@
     <div id="errorDiv"></div>
     
     <div id="outerDiv">
+      <div id="headerDiv">Alicia and William's Budget</div>
       <div id="loadingDiv">Loading...</div>
       <div id="envelopesDiv"></div>
       
@@ -246,7 +271,7 @@
           
           data.addRow(['[Unallocated]', this.netAutomaticDailyChange]);
           
-          let options = {chartArea: {left:0,width:"100%"}};
+          let options = {chartArea: {left:0,width:"100%"}, backgroundColor: "transparent"};
           
           if (this.ATChart == null) this.ATChart = new google.visualization.PieChart(this.automaticTransactionPieChartDiv);
           this.ATChart.draw(data, options);
