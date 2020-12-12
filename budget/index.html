@@ -139,7 +139,7 @@
       <div id="envelopesDiv"></div>
       
       <form id="newEnvelopeForm" class="envelope" onsubmit = "event.preventDefault(); createNewEnvelope();">
-        <input required id="newEnvelopeName" type="text" placeholder="New Envelope Name">
+        <input required id="newEnvelopeName" type="text" placeholder="New envelope name">
         <input required id="newEnvelopeDepositRate" type="number" min="0" step="0.01" placeholder="Deposit rate ($/day)">
         <input required id="newEnvelopeInitialValue" type="number" step="0.01" placeholder="Initial value ($)">
         <input id="newEnvelopeSubmitButton" type="submit" value="Create New Envelope">
@@ -270,6 +270,9 @@
           data.sort([{column: 1, desc:true}]);
           
           data.addRow(['[Unallocated]', this.netAutomaticDailyChange]);
+          
+          let formatter = new google.visualization.NumberFormat({prefix: '$'});
+          formatter.format(data, 1);
           
           let options = {chartArea: {left:0,width:"100%"}, backgroundColor: "transparent"};
           
