@@ -168,7 +168,7 @@
       let base = null;
       let envelopes = [];
       let displayedForm = null;
-      let googleChartsPromise = google.charts.load('current', {'packages':['corechart']});
+      let googleChartsPromise = null;
       
       function error(err) {
         document.querySelector("#errorDiv").innerHTML = err.toString();
@@ -659,7 +659,8 @@
             document.querySelector("#loadingDiv").style.display = "none";
             document.querySelector("#newEnvelopeForm").style.display = "block";
             window.requestAnimationFrame(timer);
-            googleChartsPromise = googleChartsPromise.catch(err => console.error(err)).then(function() {
+            
+            googleChartsPromise = google.charts.load('current', {'packages':['corechart']}).catch(err => console.error(err)).then(function() {
               let dataArr = [['Envelope', 'Daily Deposit']];
               for (let i = 0; i < envelopes.length; i++) {
                 dataArr.push([envelopes[i].name, envelopes[i].dailyDeposit]);
