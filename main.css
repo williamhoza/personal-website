@@ -42,6 +42,7 @@ li:not(:last-child) {
   align-items:center;
   grid-template-columns: auto;
   gap:10px;
+  margin-bottom:10px;
 }
 
 .expository p:not(:last-child) {
