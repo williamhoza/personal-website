@@ -99,6 +99,12 @@
         <option value = "T_ghost">
           Ghost
         </option>
+        <option value = "T_vfreeze">
+          Freeze (vertical)
+        </option>
+        <option value = "T_hfreeze">
+          Freeze (horizontal)
+        </option>
         <option value = "T_custom">
           Custom
         </option>
@@ -599,6 +605,42 @@ newColor = function(x, y, t)
   return c2;
 };
 };
+
+transforms['T_vfreeze'] = function()
+{
+savedFrames = 300;
+
+newColor = function(x, y, t)
+{
+  if (Math.abs(y - (t % savedFrames) / savedFrames * imageHeight) < 1) {
+    return [255, 255, 0];
+  } else {
+    var sourceX = imageWidth - x - 1;
+    var sourceY = y;
+    var sourceT = Math.min(t, savedFrames * Math.floor(t / savedFrames) + Math.floor(y / imageHeight * savedFrames));
+
+    return rawVideo(sourceX, sourceY, sourceT);
+  }
+};
+}
+
+transforms['T_hfreeze'] = function()
+{
+savedFrames = 300;
+
+newColor = function(x, y, t)
+{
+  if (Math.abs(x - (t % savedFrames) / savedFrames * imageWidth) < 1) {
+    return [255, 255, 0];
+  } else {
+    var sourceX = imageWidth - x - 1;
+    var sourceY = y;
+    var sourceT = Math.min(t, savedFrames * Math.floor(t / savedFrames) + Math.floor(x / imageWidth * savedFrames));
+
+    return rawVideo(sourceX, sourceY, sourceT);
+  }
+};
+}
 
   /* END TRANSFORMATIONS */
   
