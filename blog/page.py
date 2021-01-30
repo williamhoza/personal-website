@@ -64,7 +64,7 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
         <script src="/blog/blog-mathjax-config.js"></script>
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="fb:admins" content="grumpybuffalo"/>
+        <meta property="fb:admins" content="wmhoza"/>
         
         {titleElement}
         
