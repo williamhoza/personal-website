@@ -58,13 +58,16 @@ def compile(papers):
               Theoretical computer science stuff
             </h1>
             <p>
-              I'm currently a fifth-year grad student at UT Austin, where I study theoretical computer science. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
+              I'm currently a fifth-year grad student in the CS department at UT Austin. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
             </p>
             <p>
-              I study "computational complexity theory", which means I use the methods of mathematics to try to understand just how powerful different computational resources are. These "computational resources" include things like time, memory, communication, randomness, quantum mechanics, etc. I'm especially interested in the question of whether randomness is ever necessary for low-memory computation. To work on problems like that, people such as me study "pseudorandomness", which refers to any phenomenon where something looks more random than it actually is.
+              I study <em>pseudorandomness and derandomization</em>. I think of randomness as a scarce computational resource — a type of algorithmic "fuel." Randomized algorithms are great, but all else being equal, an algorithm that uses fewer random bits is better than an algorithm that uses more random bits. (Analogously, a faster algorithm is better than a slower algorithm; a car that uses less gasoline is better than a car that uses more gasoline.) Deterministic algorithms are best of all. Some of my work consists of designing <em>pseudorandom generators</em>, which use a small number of random bits to generate a long sequence of bits that "look random" and can often be used as a substitute for truly random bits.
             </p>
             <p>
-              My research papers are listed below, sorted by the date they were first posted online, from newest to oldest. If you have any questions or comments, send me an <a href="mailto:whoza@utexas.edu">email</a>! Like most researchers, I like getting emails about my work.
+              More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> and the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>.
+            </p>
+            <p>
+              My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, send me an <a href="mailto:whoza@utexas.edu">email</a>! I like getting emails about my work (as do most researchers).
             </p>
             <hr />
             {paperList}
