@@ -386,7 +386,7 @@
         withdrawButton.addEventListener("click", function() {
           toggleForm(env.withdrawalForm);
           if (env.withdrawalForm == displayedForm) {
-            env.withdrawalDescriptionField.focus();
+            env.withdrawalAmountField.focus();
           }
         });
         buttonDiv.appendChild(withdrawButton);
@@ -399,18 +399,18 @@
         });
         this.containerDiv.appendChild(this.withdrawalForm);
         
-        this.withdrawalDescriptionField = document.createElement("input");
-        this.withdrawalDescriptionField.type = "text";
-        this.withdrawalDescriptionField.placeholder = "Description";
-        this.withdrawalDescriptionField.required = "required";
-        this.withdrawalForm.appendChild(this.withdrawalDescriptionField);
-        
         this.withdrawalAmountField = document.createElement("input");
         this.withdrawalAmountField.type = "number";
         this.withdrawalAmountField.step = "0.01";
         this.withdrawalAmountField.required = "required";
         this.withdrawalAmountField.placeholder = "Number of dollars";
         this.withdrawalForm.appendChild(this.withdrawalAmountField);
+        
+        this.withdrawalDescriptionField = document.createElement("input");
+        this.withdrawalDescriptionField.type = "text";
+        this.withdrawalDescriptionField.placeholder = "Description";
+        this.withdrawalDescriptionField.required = "required";
+        this.withdrawalForm.appendChild(this.withdrawalDescriptionField);
         
         this.withdrawalSubmitButton = document.createElement("input");
         this.withdrawalSubmitButton.type = "submit";
