@@ -15,6 +15,12 @@
     }
   ],
   "version-notes": "The ITCS proceedings version and the ECCC version are the same except for formatting.",
+  "errata": [
+    {
+      "date": "February 2021",
+      "text": "The first step of the proof of Corollary 2.6 is not correct. The corollary should be modified to assume \\(\\ell \\delta < 1\\), and the bound in the conclusion should be \\(\\varepsilon = \\ell \\delta / (1 - \\ell \\delta)\\). Correspondingly, Theorem 3.8 should assume \\(\\varepsilon \\leq 0.1 / \\ell\\) instead of merely \\(\\varepsilon \\leq 0.12\\). The main results of the paper are unaffected."
+    }
+  ],
   "recognition": [
     "Oded Goldreich <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/291.html\">blogged</a> about the paper."
   ]

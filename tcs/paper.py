@@ -73,7 +73,7 @@ class Paper:
       
       errataSection = (
         <frag>
-          <p>Errata: 😬</p>
+          <p>☢️ Errata:</p>
           {errataUL}
         </frag>
       )
