@@ -33,8 +33,11 @@ class Paper:
     
     mathjaxScript = <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     
+    goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+    
     gaScript1.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
     mathjaxScript.set_attr("async", "")
+    goatScript.set_attr("async", "")
     
     texMacros = r"""
       \(\renewcommand{\epsilon}{\varepsilon}\)
@@ -182,6 +185,7 @@ class Paper:
               {copyrightSection}
             </article>
           </main>
+          {goatScript}
         </body>
       </html>
     )

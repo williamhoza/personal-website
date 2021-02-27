@@ -5,7 +5,10 @@ def compile(papers):
   gaScript1 = <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
   gaScript2 = <script>{html.rawhtml("""window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');""")}</script>
   
+  goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+  
   gaScript1.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
+  goatScript.set_attr("async", "")
   
   paperList = <ol class="paper-list"></ol>
   for paper in reversed(papers):
@@ -73,6 +76,7 @@ def compile(papers):
             {paperList}
           </article>
         </main>
+        {goatScript}
       </body>
     </html>
   )
