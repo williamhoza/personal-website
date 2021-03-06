@@ -2,15 +2,12 @@
 from pyxl import html
 
 def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTags=None):
-  gaScript1 = <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
-  gaScript2 = <script>{html.rawhtml("""window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');""")}</script>
   
   mathjaxScript = <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   
   goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
   
-  gaScript1.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
-  mathjaxScript.set_attr("async", "")
+  mathjaxScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
   goatScript.set_attr("async", "")
   
   fbScript = "(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));"
@@ -62,8 +59,6 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
     <html lang="en">
       <head>
         <meta charset="utf-8" />
-        {gaScript1}
-        {gaScript2}
         <script src="/blog/blog-mathjax-config.js"></script>
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -27,16 +27,12 @@ class Paper:
     else:
       self.expository = None
     
-  def compile(self):
-    gaScript1 = <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
-    gaScript2 = <script>{html.rawhtml("""window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');""")}</script>
-    
+  def compile(self): 
     mathjaxScript = <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     
     goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
     
-    gaScript1.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
-    mathjaxScript.set_attr("async", "")
+    mathjaxScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
     goatScript.set_attr("async", "")
     
     texMacros = r"""
@@ -124,8 +120,6 @@ class Paper:
       <html lang="en">
         <head>
           <meta charset="utf-8" />
-          {gaScript1}
-          {gaScript2}
           <script src="/mathjax-config.js"></script>
           {mathjaxScript}
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -2,13 +2,8 @@
 from pyxl import html
     
 def compile(papers):
-  gaScript1 = <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
-  gaScript2 = <script>{html.rawhtml("""window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');""")}</script>
-  
   goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
-  
-  gaScript1.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
-  goatScript.set_attr("async", "")
+  goatScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
   
   paperList = <ol class="paper-list"></ol>
   for paper in reversed(papers):
@@ -38,8 +33,6 @@ def compile(papers):
     <html lang="en">
       <head>
         <meta charset="utf-8" />
-        {gaScript1}
-        {gaScript2}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
         <title>William Hoza's TCS Stuff</title>
