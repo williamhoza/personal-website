@@ -2,7 +2,7 @@
   "title": "Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas",
   "authors": ["Dean Doron", "Pooya Hatami", "William M. Hoza"],
   "abbreviation": "DHH",
-  "where-published-summary": "In CCC 2019",
+  "where-published-summary": ["CCC 2019"],
   "timeline": "Manuscript posted online in November 2018; appeared at CCC in July 2019.",
   "first-posted": "2018-11-05",
   "version-links": [

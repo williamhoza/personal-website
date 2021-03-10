@@ -2,7 +2,7 @@
   "title": "Typically-Correct Derandomization for Small Time and Space",
   "authors": ["William M. Hoza"],
   "abbreviation": "H",
-  "where-published-summary": "In CCC 2019",
+  "where-published-summary": ["CCC 2019"],
   "timeline": "Manuscript posted online in November 2017; appeared at CCC in July 2019.",
   "first-posted": "2017-11-01",
   "version-links": [

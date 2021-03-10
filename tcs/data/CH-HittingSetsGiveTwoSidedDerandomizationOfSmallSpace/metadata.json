@@ -2,7 +2,7 @@
   "title": "Hitting Sets Give Two-Sided Derandomization of Small Space",
   "authors": ["Kuan Cheng", "William M. Hoza"],
   "abbreviation": "CH",
-  "where-published-summary": "In CCC 2020",
+  "where-published-summary": ["CCC 2020"],
   "timeline": "Manuscript posted online in February 2020; appeared at CCC in July 2020.",
   "first-posted": "2020-02-18",
   "version-links": [

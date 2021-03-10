@@ -2,11 +2,14 @@
   "title": "Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace",
   "authors": ["William M. Hoza", "Chris Umans"],
   "abbreviation": "HU",
-  "where-published-summary": "To appear in SICOMP (preliminary version in STOC 2017)",
-  "timeline": "Manuscript posted online in October 2016; appeared at STOC in June 2017; will appear in the SICOMP special issue for STOC 2017.",
+  "where-published-summary": ["STOC 2017", "SICOMP, 2021 (special issue for STOC 2017)"],
+  "timeline": "Manuscript posted online in October 2016; appeared at STOC in June 2017; appeared in the SICOMP special issue for STOC 2017 in March 2021.",
   "first-posted": "2016-10-04",
   "version-links": [
     {
+      "text": "SICOMP",
+      "href": "SICOMP-version.pdf"
+    }, {
       "text": "arXiv",
       "href": "https://arxiv.org/abs/1610.01199"
     }, {
@@ -14,13 +17,8 @@
       "href": "http://dl.acm.org/citation.cfm?doid=3055399.3055414"
     }
   ],
-  "version-notes": "The STOC proceedings version and the arXiv version are the same except for formatting.",
-  "errata": [
-    {
-      "date": "May 2017",
-      "text": "In Lemma 2, the space complexity should be \\(O(s + \\log w + \\log(1/\\delta) + \\log(1/\\gamma))\\). That is, there is a missing \\(O(\\log(1/\\delta))\\) term in the lemma statement. This does not affect anything else in the paper."
-    }
-  ],
+  "version-notes": "The <a href=\"https://epubs.siam.org/doi/abs/10.1137/17M1145707\">SICOMP version</a> (<a href=\"SICOMP-version.pdf\">pdf</a>) has several minor improvements compared to the STOC proceedings version and the arXiv version, including fixing a minor error. The latter two versions are the same except for formatting.",
+  "copyright": "(regarding the journal version) First Published in SIAM Journal of Computing in 2021, published by the Society for Industrial and Applied Mathematics (SIAM). Copyright © by SIAM. Unauthorized reproduction of this article is prohibited.",
   "recognition": [
     "Oded Goldreich wrote <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/225.html\">a blog post</a> that mentions the paper."
   ]

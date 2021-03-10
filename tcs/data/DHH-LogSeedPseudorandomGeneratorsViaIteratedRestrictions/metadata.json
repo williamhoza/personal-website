@@ -2,7 +2,7 @@
   "title": "Log-Seed Pseudorandom Generators via Iterated Restrictions",
   "authors": ["Dean Doron", "Pooya Hatami", "William M. Hoza"],
   "abbreviation": "DHH",
-  "where-published-summary": "In CCC 2020",
+  "where-published-summary": ["CCC 2020"],
   "timeline": "Manuscript posted online in November 2019; appeared at CCC in July 2020.",
   "first-posted": "2019-11-04",
   "version-links": [

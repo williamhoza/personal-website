@@ -2,7 +2,7 @@
   "title": "Preserving Randomness for Adaptive Algorithms",
   "authors": ["William M. Hoza", "Adam R. Klivans"],
   "abbreviation": "HK",
-  "where-published-summary": "In RANDOM 2018",
+  "where-published-summary": ["RANDOM 2018"],
   "timeline": "Manuscript posted online in November 2016; appeared at RANDOM in August 2018.",
   "first-posted": "2016-11-02",
   "version-links": [

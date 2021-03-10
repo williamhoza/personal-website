@@ -7,25 +7,28 @@ def compile(papers):
   
   paperList = <ol class="paper-list"></ol>
   for paper in reversed(papers):
-    otherAuthors = paper.metadata["authors"].copy()
-    print(otherAuthors)
-    otherAuthors.remove("William M. Hoza")
-    if len(otherAuthors) > 1:
-      otherAuthors[-1] = f"and {otherAuthors[-1]}"
+    authorList = paper.metadata["authors"].copy()
+    if len(authorList) > 1:
+      authorList[-1] = f"and {authorList[-1]}"
     
-    delimiter = ", " if len(otherAuthors) > 2 else " "
-    authorText = delimiter.join(otherAuthors)
+    delimiter = ", " if len(authorList) > 2 else " "
     
-    if authorText != "":
-      authorHTML = <frag>With {authorText}<br /></frag>
-    else:
-      authorHTML = None
+    authorHTML = <frag>{delimiter.join(authorList)}<br /></frag>
+    
+    wherePublished = <frag></frag>
+    first = True
+    for item in paper.metadata["where-published-summary"]:
+      if not first:
+        wherePublished.append(<span> • </span>)
+        
+      first = False
+      wherePublished.append(<frag>{item}</frag>)
     
     paperList.append(
-      <li>
-        <a href="papers/{paper.slug}" style="font-weight:bold;">{paper.metadata["title"]}</a><br />
+      <li style="font-style:italic;">
+        <a href="papers/{paper.slug}" style="font-weight:bold;font-style:normal;">{paper.metadata["title"]}</a><br />
         {authorHTML}
-        {paper.metadata["where-published-summary"]}
+        {wherePublished}
       </li>
     )
   
