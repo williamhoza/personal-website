@@ -20,6 +20,6 @@
   "version-notes": "The <a href=\"https://epubs.siam.org/doi/abs/10.1137/17M1145707\">SICOMP version</a> (<a href=\"SICOMP-version.pdf\">pdf</a>) has several minor improvements compared to the STOC proceedings version and the arXiv version, including fixing a minor error. The latter two versions are the same except for formatting.",
   "copyright": "(regarding the journal version) First Published in SIAM Journal of Computing in 2021, published by the Society for Industrial and Applied Mathematics (SIAM). Copyright © by SIAM. Unauthorized reproduction of this article is prohibited.",
   "recognition": [
-    "Oded Goldreich wrote <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/225.html\">a blog post</a> that mentions the paper."
+    "Oded Goldreich mentions the paper in <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/225.html\">this blog post</a>."
   ]
 }
