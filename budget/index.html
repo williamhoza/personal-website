@@ -180,7 +180,7 @@
         document.querySelector("#newEnvelopeSubmitButton").disabled = "disabled";
         document.querySelector("#newEnvelopeSubmitButton").value = "Working...";
         // Create the envelope record
-        base('Envelopes').create([{"fields": {"Name": document.querySelector("#newEnvelopeName").value}}]).catch(err => error(err))
+        base('Envelopes').create([{"fields": {"Name": document.querySelector("#newEnvelopeName").value, "Active": true}}]).catch(err => error(err))
           .then(function(recArr) {
             let envRec = recArr[0];
             
