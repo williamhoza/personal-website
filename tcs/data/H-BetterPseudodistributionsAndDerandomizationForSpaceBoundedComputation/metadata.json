@@ -1,0 +1,17 @@
+{
+  "title": "Better Pseudodistributions and Derandomization for Space-Bounded Computation",
+  "authors": ["William M. Hoza"],
+  "abbreviation": "H",
+  "where-published-summary": ["Manuscript 2021"],
+  "timeline": "Manuscript posted online in March 2021.",
+  "first-posted": "2021-03-27",
+  "version-links": [
+    {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2021/048/"
+    }
+  ],
+  "recognition": [
+    "Oded Goldreich discusses the paper in <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/302.html\">this blog post</a>."
+  ]
+}

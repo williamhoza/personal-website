@@ -1,0 +1,11 @@
+<p>
+Three decades ago, Nisan constructed an explicit pseudorandom generator (PRG) that fools <span style="white-space:nowrap">width-\(n\)</span> <span style="white-space:nowrap">length-\(n\)</span> read-once branching programs (ROBPs) with error \(\epsilon\) and seed length \(O(\log^2 n + \log n \cdot \log(1/\epsilon))\) (Combinatorica 1992). Nisan's generator remains the best explicit PRG known for this important model of computation. However, a recent line of work starting with Braverman, Cohen, and Garg (Braverman, Cohen, and Garg SICOMP 2020; Chattopadhyay and Liao CCC 2020; Cohen, Doron, Renard, Sberlo, and Ta-Shma ECCC 2021; Pyne and Vadhan ECCC 2021) has shown how to construct <em>weighted</em> pseudorandom generators (WPRGs, aka pseudorandom pseudodistribution generators) with better seed lengths than Nisan's generator when the error parameter \(\epsilon\) is small.
+</p>
+
+<p>
+In this work, we present an explicit WPRG for <span style="white-space:nowrap">width-\(n\)</span> <span style="white-space:nowrap">length-\(n\)</span> ROBPs with seed length \(O(\log^2 n + \log(1/\epsilon))\). Our seed length eliminates \(\log \log\) factors from prior constructions, and our generator completes this line of research in the sense that further improvements would require beating Nisan's generator in the standard constant-error regime. Our technique is a variation of a recently-discovered reduction that converts moderate-error PRGs into low-error WPRGs (Cohen et al. ECCC 2021; Pyne and Vadhan ECCC 2021). Our version of the reduction uses averaging samplers.
+</p>
+
+<p>
+We also point out that as a consequence of the recent work on WPRGs, any randomized <span style="white-space:nowrap">space-\(S\)</span> decision algorithm can be simulated deterministically in space \(O(S^{3/2} / \sqrt{\log S})\). This is a slight improvement over Saks and Zhou's celebrated \(O(S^{3/2})\) bound (JCSS 1999). For this application, our improved WPRG is not necessary.
+</p>
