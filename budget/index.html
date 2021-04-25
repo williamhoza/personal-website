@@ -317,7 +317,7 @@
         descCell.appendChild(document.createTextNode(record.fields["Description"]));
         
         let amountCell = row.insertCell();
-        amountCell.appendChild(document.createTextNode("$" + record.fields["Amount Withdrawn"]));
+        amountCell.appendChild(document.createTextNode("$" + record.fields["Amount Withdrawn"].toFixed(2)));
         
         let dateCell = row.insertCell();
         let d = new Date(record.fields["Date"]);
