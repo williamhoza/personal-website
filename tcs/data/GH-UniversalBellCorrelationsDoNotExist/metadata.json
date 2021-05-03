@@ -14,7 +14,7 @@
       "href": "PRL-version.pdf"
     }
   ],
-  "version-notes": "The <a href=\"https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.119.050402\">PRL version</a> (<a href=\"PRL-version.pdf\">pdf</a>) is much more compact than the earlier arXiv version. The arXiv version has essentially the same results, but it has more detailed definitions and proofs and some suggested open problems. The arXiv version also uses slightly different notation and is missing some references.",
+  "version-notes": "The <a href=\"https://doi.org/10.1103/PhysRevLett.119.050402\">PRL version</a> (<a href=\"PRL-version.pdf\">pdf</a>) is much more compact than the earlier arXiv version. The arXiv version has essentially the same results, but it has more detailed definitions and proofs and some suggested open problems. The arXiv version also uses slightly different notation and is missing some references.",
   "copyright": "© 2017 American Physical Society",
   "recognition": [
     "Scott Aaronson mentions the paper in <a href=\"https://www.scottaaronson.com/blog/?p=5382\">this blog post</a>."

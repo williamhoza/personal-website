@@ -17,6 +17,6 @@
       "href": "http://ieee-focs.org/FOCS-2018-Papers/pdfs/59f059.pdf"
     }
   ],
-  "version-notes": "The <a href=\"https://epubs.siam.org/doi/abs/10.1137/19M1268707\">SICOMP version</a> (<a href=\"SICOMP-version.pdf\">pdf</a>) has improved presentation and updated references compared to the FOCS proceedings version, which in turn has a couple extra references compared to the ECCC version. The three versions also have different formatting.",
+  "version-notes": "The <a href=\"https://doi.org/10.1137/19M1268707\">SICOMP version</a> (<a href=\"SICOMP-version.pdf\">pdf</a>) has improved presentation and updated references compared to the FOCS proceedings version, which in turn has a couple extra references compared to the ECCC version. The three versions also have different formatting.",
   "copyright": "(regarding the journal version) First Published in SIAM Journal of Computing 49(4), published by the Society for Industrial and Applied Mathematics (SIAM). Copyright © by SIAM. Unauthorized reproduction of this article is prohibited."
 }
