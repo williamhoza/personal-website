@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #colorblock {
+        display:inline-block;
+        width:400px;
+        height:400px;
+      }
+      
+      button {
+        font-size:24px;
+      }
+      
+      #scoreDiv {
+        font-size:24px;
+        margin-top:10px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div style="text-align:center;">
+      <div id="colorblock"></div>
+      <br />
+      <button id="button0" onclick="guess(0)" disabled="true">Purple</button>
+      <button id="button1" onclick="guess(1)" disabled="true">Blue</button>
+      <div id="scoreDiv">Score: <span id="scoreSpan">0/0</span></div>
+    </div>
+    
+    <script>
+      let trueColor = 0;
+      let testColors = ["#919098", "#8e9398"];
+      let tries = 0;
+      let correct = 0;
+      
+      function nextColor(steps) {
+        let color = "";
+        
+        if (steps > 0) {
+          color = "rgb(" + Math.floor(Math.random() * 256) + ", " + Math.floor(Math.random() * 256) + ", " + Math.floor(Math.random() * 256) + ")";
+        } else {
+          trueColor = Math.floor(Math.random() * 2);
+          color = testColors[trueColor];
+        }
+        
+        document.querySelector("#colorblock").style.backgroundColor = color;
+        
+        if (steps > 0) {
+          setTimeout(function() { nextColor(steps - 1); }, 100);
+        } else {
+          document.querySelector("#button0").disabled = false;
+          document.querySelector("#button1").disabled = false;
+        }
+      }
+      
+      nextColor(20);
+      
+      function guess(index) {
+        if (index == trueColor) {
+          correct++;
+        }
+        tries++;
+        document.querySelector("#scoreSpan").innerHTML = correct + "/" + tries;
+        nextColor(20);
+      }
+    </script>
+  </body>
+</html>
