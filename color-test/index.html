@@ -62,6 +62,8 @@
         }
         tries++;
         document.querySelector("#scoreSpan").innerHTML = correct + "/" + tries;
+        document.querySelector("#button0").disabled = true;
+        document.querySelector("#button1").disabled = true;
         nextColor(20);
       }
     </script>
