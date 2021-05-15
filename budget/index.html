@@ -405,6 +405,7 @@
         let d = new Date(record.fields["Date"]);
         dateCell.appendChild(document.createTextNode(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()));
         dateCell.title = d.toString();
+        dateCell.style.whiteSpace = "nowrap";
         
         this.oneTimeTransactions.push({"amountWithdrawn": record.fields["Amount Withdrawn"], "date": d});
       }
@@ -614,7 +615,6 @@
         this.graphForm.appendChild(this.graphLoadingDiv);
         
         this.balanceHistoryGraphDiv = document.createElement("div");
-        //this.balanceHistoryGraphDiv.classList.add("chartDiv");
         this.graphForm.appendChild(this.balanceHistoryGraphDiv);
         
         document.querySelector("#envelopesDiv").appendChild(this.containerDiv);
