@@ -315,7 +315,7 @@
             let formatter = new google.visualization.NumberFormat({prefix: '$'});
             formatter.format(data, 1);
             
-            let options = {backgroundColor: "transparent", legend: {position: "none"}};
+            let options = {backgroundColor: "transparent", legend: {position: "none"}, vAxis: {format: 'currency'}};
             
             if (env.BalanceHistoryGraph == null) env.BalanceHistoryGraph = new google.visualization.LineChart(env.balanceHistoryGraphDiv);
             env.BalanceHistoryGraph.draw(data, options);
