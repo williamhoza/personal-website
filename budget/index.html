@@ -399,7 +399,7 @@
         descCell.appendChild(document.createTextNode(record.fields["Description"]));
         
         let amountCell = row.insertCell();
-        amountCell.appendChild(document.createTextNode("$" + record.fields["Amount Withdrawn"].toFixed(2)));
+        amountCell.appendChild(document.createTextNode(dollars(record.fields["Amount Withdrawn"])));
         
         let dateCell = row.insertCell();
         let d = new Date(record.fields["Date"]);
@@ -623,7 +623,7 @@
         if (this.startTime = null) this.startTime = timestamp;
         elapsedTime = timestamp - this.startTime;
         this.value = this.startValue + this.netAutomaticDailyChange * elapsedTime / (1000 * 86400);
-        this.valueDiv.innerHTML = "$" + this.value.toFixed(6);
+        this.valueDiv.innerHTML = dollars(this.value, 6);
         
         this.netAutomaticDailyChangeSpan.innerHTML = this.netAutomaticDailyChange.toFixed(2);
         
@@ -792,6 +792,14 @@
               chart.draw(data, options);
             });
           });
+      }
+      
+      function dollars(num, digitsAfterDecimal=2) {
+        if (num > 0) {
+          return "$" + num.toFixed(digitsAfterDecimal);
+        } else {
+          return "-$" + (-num).toFixed(digitsAfterDecimal);
+        }
       }
       
       function getBase(password) {
