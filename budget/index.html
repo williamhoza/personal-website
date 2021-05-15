@@ -248,9 +248,14 @@
         this.loadRecord(record);
         this.automaticTransactions = [];
         this.automaticTransactionsFetchingBegun = false;
-        this.oneTimeTransactionsFetchingBegun = false;
+        this.oneTimeTransactionsFetchingPromise = null;
+        this.oneTimeTransactions = [];
+        this.automaticTransactionChangesFetchingPromise = null;
+        this.rateChanges = [];
+        this.balanceHistory = [];
         this.ATChart = null;
         this.createDOM();
+        this.balanceHistoryGraphGenerated = false;
       }
       Envelope.prototype.loadRecord = function(record) {
         this.name = record.fields["Name"];
@@ -300,15 +305,92 @@
           });
         }
       }
-      Envelope.prototype.fetchOneTimeTransactions = function() {
-        this.oneTimeTransactionsFetchingBegun = true;
+      Envelope.prototype.generateBalanceHistoryGraph = function() {
         let env = this;
-        return base('One-Time Transactions').select({view: "Grid view", filterByFormula: "{Envelope} = " + env.id}).eachPage(function(records, fetchNextPage) {
+        
+        if (!env.balanceHistoryGraphGenerated) {
+          googleChartsPromise = googleChartsPromise.catch(err => console.error(err)).then(function () {
+            let data = google.visualization.arrayToDataTable(env.balanceHistory);
+                      
+            let formatter = new google.visualization.NumberFormat({prefix: '$'});
+            formatter.format(data, 1);
+            
+            let options = {backgroundColor: "transparent", legend: {position: "none"}};
+            
+            if (env.BalanceHistoryGraph == null) env.BalanceHistoryGraph = new google.visualization.LineChart(env.balanceHistoryGraphDiv);
+            env.BalanceHistoryGraph.draw(data, options);
+            env.graphLoadingDiv.style.display = "none";
+          });
+        }
+        
+        env.balanceHistoryGraphGenerated = true;
+      }
+      Envelope.prototype.generateBalanceHistory = function() {
+        let env = this;
+        return this.fetchOneTimeTransactions().then(function() {
+          return env.fetchAutomaticTransactionChanges();
+        }).then(function() {
+          env.balanceEvents = env.rateChanges.concat(env.oneTimeTransactions);
+          env.balanceEvents.push({"date": new Date(), "amountWithdrawn": 0});
+          env.balanceEvents.sort((a, b) => a["date"].getTime() - b["date"].getTime());
+          
+          env.balanceHistory.push(["Date", "Balance"]);
+          
+          let balance = 0;
+          let rate = 0;
+          let lastTime = null;
+          for (let i = 0; i < env.balanceEvents.length; i++) {            
+            let d = env.balanceEvents[i]["date"];
+            
+            if (lastTime != null) {
+              // Calculate balance immediately prior to event
+              let days = (d.getTime() - lastTime.getTime()) / (1000 * 60 * 60 * 24);
+              balance = balance + rate * days;
+            }
+            env.balanceHistory.push([d, balance]);
+            
+            if ("amountWithdrawn" in env.balanceEvents[i]) {
+              // One time transaction
+              balance = balance - env.balanceEvents[i]["amountWithdrawn"];
+              env.balanceHistory.push([d, balance]);
+            } else {
+              // Rate change
+              rate = rate + env.balanceEvents[i]["rateChange"];
+            }
+            
+            lastTime = d;
+          }
+        });
+      }
+      Envelope.prototype.fetchAutomaticTransactionChanges = function() {
+        if (this.automaticTransactionChangesFetchingPromise != null) return this.automaticTransactionChangesFetchingPromise;
+        
+        let env = this;
+        this.automaticTransactionChangesFetchingPromise = base('Automatic Transaction Changes').select({view: "Grid view", filterByFormula: "{Envelope} = " + env.id}).eachPage(function(records, fetchNextPage) {
+          records.forEach(record => env.processAutomaticTransactionChangeRecord(record));
+          fetchNextPage().catch(err => error(err));
+        }).catch(err => error(err));
+        return this.automaticTransactionChangesFetchingPromise;
+      }
+      Envelope.prototype.processAutomaticTransactionChangeRecord = function(record) {
+        let change = record.fields["New Daily Amount"];
+        if ("Previous Daily Amount" in record.fields) {
+          change = change - record.fields["Previous Daily Amount"][0];
+        }
+        
+        let d = new Date(record.fields["Timestamp"]);
+        
+        this.rateChanges.push({"rateChange" : change, "date": d});
+      }
+      Envelope.prototype.fetchOneTimeTransactions = function() {
+        if (this.oneTimeTransactionsFetchingPromise != null) return this.oneTimeTransactionsFetchingPromise;
+        
+        let env = this;
+        this.oneTimeTransactionsFetchingPromise = base('One-Time Transactions').select({view: "Grid view", filterByFormula: "{Envelope} = " + env.id}).eachPage(function(records, fetchNextPage) {
           records.forEach(record => env.processOneTimeTransactionRecord(record));
           fetchNextPage().catch(err => error(err));
-        }).catch(err => error(err)).then(function() {
-          env.oneTimeTransactionsLoadingDiv.style.display = "none";
-        })
+        }).catch(err => error(err));
+        return this.oneTimeTransactionsFetchingPromise;
       }
       Envelope.prototype.processOneTimeTransactionRecord = function(record, pos=-1) {
         let row = this.oneTimeTransactionsTable.insertRow(pos);
@@ -323,6 +405,8 @@
         let d = new Date(record.fields["Date"]);
         dateCell.appendChild(document.createTextNode(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()));
         dateCell.title = d.toString();
+        
+        this.oneTimeTransactions.push({"amountWithdrawn": record.fields["Amount Withdrawn"], "date": d});
       }
       Envelope.prototype.updateSettings = function() {
         this.settingsUpdateButton.disabled = "disabled";
@@ -496,7 +580,9 @@
         oneTimeTransactionsButton.innerHTML = "Transactions";
         oneTimeTransactionsButton.addEventListener("click", function() {
           toggleForm(env.oneTimeTransactionsForm);
-          if (!env.oneTimeTransactionsFetchingBegun) env.fetchOneTimeTransactions();
+          env.fetchOneTimeTransactions().then(function() {
+            env.oneTimeTransactionsLoadingDiv.style.display = "none";
+          });
         });
         buttonDiv.appendChild(oneTimeTransactionsButton);
         
@@ -509,6 +595,27 @@
         this.oneTimeTransactionsLoadingDiv = document.createElement("div");
         this.oneTimeTransactionsLoadingDiv.appendChild(document.createTextNode("Loading..."));
         this.oneTimeTransactionsForm.appendChild(this.oneTimeTransactionsLoadingDiv);
+        
+        let graphButton = document.createElement("button");
+        graphButton.innerHTML = "Graph";
+        graphButton.addEventListener("click", function() {
+          toggleForm(env.graphForm);
+          env.generateBalanceHistory().then(function() {
+            env.generateBalanceHistoryGraph();
+          });
+        });
+        buttonDiv.appendChild(graphButton);
+        
+        this.graphForm = document.createElement("form");
+        this.containerDiv.appendChild(this.graphForm);
+        
+        this.graphLoadingDiv = document.createElement("div");
+        this.graphLoadingDiv.appendChild(document.createTextNode("Loading..."));
+        this.graphForm.appendChild(this.graphLoadingDiv);
+        
+        this.balanceHistoryGraphDiv = document.createElement("div");
+        //this.balanceHistoryGraphDiv.classList.add("chartDiv");
+        this.graphForm.appendChild(this.balanceHistoryGraphDiv);
         
         document.querySelector("#envelopesDiv").appendChild(this.containerDiv);
       }
