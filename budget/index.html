@@ -149,7 +149,10 @@
     
     <div id="outerDiv">
       <div id="headerDiv">Alicia and William's Budget</div>
-      <div id="loadingDiv">Loading...</div>
+      <label for="firstLoad" id="loadingDiv" style="display:block;">Loading...</label>
+      <div style="text-align:center;">
+        <progress id="firstLoad" value="0" max="2"></progress>
+      </div>
       <div id="envelopesDiv"></div>
       
       <form id="newEnvelopeForm" class="envelope" onsubmit = "event.preventDefault(); createNewEnvelope();">
@@ -709,6 +712,7 @@
         base = getBase(password);
         pingAirtable().then(function(records) {
           console.log("Initialized");
+          document.querySelector("#firstLoad").value = "1";
           loadData();
         }).catch(function(err) {
           console.error(err);
@@ -765,6 +769,8 @@
         }).catch(err => error(err))
           .then(() => {
             document.querySelector("#loadingDiv").style.display = "none";
+            document.querySelector("#firstLoad").value = "2";
+            document.querySelector("#firstLoad").style.display = "none";
             document.querySelector("#newEnvelopeForm").style.display = "block";
             window.requestAnimationFrame(timer);
             

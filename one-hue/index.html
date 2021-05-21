@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <canvas width="893" height="1052" id="canv"></canvas>
+    
+    <script>
+      const WIDTH = 893;
+      const HEIGHT = 1042;
+      let canv = document.querySelector("#canv");
+      let ctx = canv.getContext('2d');
+      let img = new Image();
+      img.src = 'before.jpg';
+      img.addEventListener('load', function() {
+        ctx.drawImage(img, 0, 0);
+        collapseHue();
+      });
+      
+      function collapseHue() {
+        const TARGET_HUE = 204/360;
+        let imgData = ctx.getImageData(0, 0, WIDTH, HEIGHT);
+        for (let i = 0; i < imgData.data.length; i+= 4) {
+          let origHSV = rgbToHsv(imgData.data[i], imgData.data[i + 1], imgData.data[i + 2]);
+          
+          let hueDistance = Math.abs(TARGET_HUE - origHSV[0]);
+          hueDistance = Math.min(hueDistance, 1 - hueDistance);
+          // hueDistance is at most 1/2
+          
+          let newHue = TARGET_HUE;
+          let newSat = origHSV[1] * (1/2 - hueDistance) * 2;
+          let newVal = origHSV[2];
+          
+          let newRGB = hsvToRgb(newHue, newSat, newVal);
+          imgData.data[i] = newRGB[0];
+          imgData.data[i + 1] = newRGB[1];
+          imgData.data[i + 2] = newRGB[2];
+        }
+        ctx.putImageData(imgData, 0, 0);
+      }
+      
+      // RGB to HSV and vice versa from https://gist.github.com/mjackson/5311256
+      function rgbToHsv(r, g, b) {
+        r /= 255, g /= 255, b /= 255;
+
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, v = max;
+
+        var d = max - min;
+        s = max == 0 ? 0 : d / max;
+
+        if (max == min) {
+          h = 0; // achromatic
+        } else {
+          switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+
+          h /= 6;
+        }
+
+        return [ h, s, v ];
+      }
+      
+      function hsvToRgb(h, s, v) {
+        var r, g, b;
+
+        var i = Math.floor(h * 6);
+        var f = h * 6 - i;
+        var p = v * (1 - s);
+        var q = v * (1 - f * s);
+        var t = v * (1 - (1 - f) * s);
+
+        switch (i % 6) {
+          case 0: r = v, g = t, b = p; break;
+          case 1: r = q, g = v, b = p; break;
+          case 2: r = p, g = v, b = t; break;
+          case 3: r = p, g = q, b = v; break;
+          case 4: r = t, g = p, b = v; break;
+          case 5: r = v, g = p, b = q; break;
+        }
+
+        return [ r * 255, g * 255, b * 255 ];
+      }
+    </script>
+  </body>
+</html>
