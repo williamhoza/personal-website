@@ -63,6 +63,7 @@ li:not(:last-child) {
 
 .expository > a {
   font-size:0;
+  text-decoration:none;
 }
 
 .expository img {
@@ -74,6 +75,18 @@ li:not(:last-child) {
 .expository iframe {
   width:300px;
   height:200px;
+}
+
+.emoji-img {
+  width:300px;
+  height:200px;
+  display:grid;
+  border:1px solid #e0e0e0;
+  box-sizing:border-box;
+  align-content:center;
+  text-align:center;
+  font-size:120px;
+  padding-bottom:12px;
 }
 
 mjx-container {
