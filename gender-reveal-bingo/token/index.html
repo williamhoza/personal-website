@@ -1,11 +1,285 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Gender Reveal Bingo: Generating a Token</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+      body, button, input[type=submit] {
+        font-family: 'Roboto', sans-serif;
+        font-size:20px;
+      }
+      
+      main {
+        max-width:730px;
+        margin:auto;
+      }
+      
+      #sensitive-warning {
+        border:25px solid red;
+        padding-left:15px;
+        padding-right:15px;
+        text-align:center;
+        display:none;
+      }
+      
+      #non-sensitive-confirmation {
+        border:5px solid #008000;
+        border-radius:25px;
+        padding-left:15px;
+        padding-right:15px;
+        text-align:center;
+        display:none;
+        margin-bottom:20px;
+      }
+      
+      button, input[type=submit] {
+        height:45px;
+        vertical-align:middle;
+      }
+      
+      .instruction-category {
+        border:2px solid #404040;
+        backgrxound-color:#f8f8f8;
+        padding-left:15px;
+        padding-right:15px;
+        margin-bottom:15px;
+        border-radius:25px;
+      }
+      
+      li {
+        margin-bottom:5px;
+      }
+      
+      #sex-selector {
+        display:none;
+      }
+      
+      label {
+        border:3px solid #e0e0e0;
+        padding:10px;
+        border-radius:10px;
+        display:inline-block;
+        margin-bottom:15px;
+        cursor:pointer;
+      }
+      
+      #male:checked + label {
+        background-color:#E0F8FF;
+        border-color:black;
+      }
+      
+      #female:checked + label {
+        background-color:#FFE8F0;
+        border-color:black;
+      }
+      
+      .emoji {
+        font-family: apple color emoji,segoe ui emoji,noto color emoji,android emoji,emojisymbols,emojione mozilla,twemoji mozilla,segoe ui symbol;
+      }
+      
+      #copy-instructions {
+        display:none;
+      }
+      
+      #token-display {
+        text-align:center;
+        display:none;
+      }
+      
+      input[type=text] {
+        width:270px;
+        padding:10px;
+        box-sizing:border-box;
+        font-family:'Roboto Mono', monospace;
+        boxrder-radius:5px;
+        border:1px solid #c0c0c0;
+        text-align:center;
+        font-size:14px;
+        height:45px;
+        vertical-align:middle;
+      }
+      
+      #copied-notification {
+        display:inline-block;
+        background-color:#404040;
+        color:white;
+        opacity:0;
+        visibility:hidden;
+        transition-property:opacity,visibility,top;
+        transition-timing-function:linear;
+        padding:10px;
+        border-radius:10px;
+        font-size:18px;
+        margin-bottom:20px;
+      }
+    </style>
   </head>
   
   <body>
-    TODO
+    <main>
+      <div id="sensitive-warning">
+        <p style="font-weight:bold;">
+          🚨 DO NOT LET PARENTS SEE SCREEN 🚨
+        </p>
+        
+        <p style="font-size:16px;">
+          Hide the device's screen from anyone who doesn't want to learn the sex of the baby yet.
+        </p>
+      </div>
+      
+      <div id="non-sensitive-confirmation">
+        <p>
+          ✔️ It is safe to look at the screen 🙂
+        </p>
+        
+        <p style="font-size:16px;">
+          The sex of the baby is hidden.
+        </p>
+      </div>
+      
+      <div id="initial-instructions">
+        <div class="instruction-category">
+          <p>
+            <strong>Parents:</strong>
+          </p>
+          <ol>
+            <li>
+              Give the device to your doctor (or your nurse, or anyone you trust who knows the sex of your baby).
+            </li>
+            <li>
+              Make sure that you can't see the screen.
+            </li>
+          </ol>
+        </div>
+        
+        <div class="instruction-category">
+          <p>
+            <strong>Doctor (or anyone else who knows the sex of the baby):</strong>
+          </p>
+          <ol>
+            <li>
+              Make sure that <em>only you</em> can see the device's screen.
+            </li>
+            <li>
+              When you're ready, click this button:
+              <button onclick="start();">
+                Start
+              </button>
+            </li>
+          </ol>
+        </div>
+      </div>
+      
+      <form id="sex-selector" onsubmit="event.preventDefault(); try { formSubmit(); } catch(e) { console.log(e); } return false;">
+        <p>
+          What is the sex of the baby?
+        </p>
+        
+        <div id="sex-options">
+          <div id="male-option">
+            <input type="radio" required id="male" name="sex-of-baby">
+            <label for="male">Male <span class="emoji">♂️</span></label>
+          </div>
+          <div id="female-option">
+            <input type="radio" required id="female" name="sex-of-baby">
+            <label for="female">Female <span class="emoji">♀️</span></label>
+          </div>
+        </div>
+        
+        <input type="submit" style="margin-top:20px;">
+      </form>
+      
+      <div class="instruction-category" id="copy-instructions">
+        <p>
+          <strong>Parents:</strong> Copy the token below and save it somewhere.
+        </p>
+        <p style="font-size:16px;">
+          For example, you could email it to yourself. The sex of the baby is encoded in the token, and you will need it later.
+        </p>
+        <p style="font-size:16px;">
+          ⚠️ <em>If you lose it, you will have to go through this process again to generate a new token!</em>
+        </p>
+      </div>
+      
+      <div id="token-display">
+        <div id="copied-notification">
+          ✔️ Copied to clipboard
+        </div>
+        <div id="token-and-copy-button">
+          <input type="text" id="token-input" readonly value="Error"><button onclick="copyToken();">Copy 📋</button>
+        </div>
+      </div>
+    </main>
+    
+    <script src="../tokens.js"></script>
+    
+    <script>
+      'use strict';
+      let toastVanishTimeout = null;
+      const copiedNotification = document.querySelector("#copied-notification");
+      
+      // Randomize male/female order, so the parents can't learn the sex based on the location of the doctor's finger
+      if (Math.floor(Math.random()*2) == 1) {
+        document.querySelector("#sex-options").insertBefore(document.querySelector("#female-option"), document.querySelector("#male-option"));
+      }
+      
+      function copyToken() {
+        document.querySelector("#token-input").select();
+        document.execCommand("copy");
+        copiedNotification.style.transitionDuration = "0s";
+        copiedNotification.style.opacity = "1";
+        copiedNotification.style.visibility = "visible";
+        
+        if (toastVanishTimeout != null) clearTimeout(toastVanishTimeout);
+        toastVanishTimeout = setTimeout(function() {
+          copiedNotification.style.transitionDuration = "2s";
+          copiedNotification.style.opacity = "0";
+          copiedNotification.style.visibility = "hidden";
+        }, 0);
+      }
+      
+      function start() {
+        document.querySelector("#initial-instructions").style.display = "none";
+        document.querySelector("#sensitive-warning").style.display = "block";
+        document.querySelector("#sex-selector").style.display = "block";
+      }
+      
+      function formSubmit() {
+        let isFemale;
+        let maleRadio = document.querySelector("#male");
+        let femaleRadio = document.querySelector("#female");
+        
+        // Let's be a little paranoid about this
+        if (maleRadio.checked && !femaleRadio.checked) {
+          isFemale = 0;
+        } else if(femaleRadio.checked && !maleRadio.checked) {
+          isFemale = 1;
+        } else {
+          console.error("Bad form data");
+          return;
+        }
+        
+        // Just in case...
+        maleRadio.checked = false;
+        femaleRadio.checked = false;
+        
+        let token = generateToken(isFemale);
+        document.querySelector("#token-input").value = token;
+        localStorage.setItem("gender-reveal-bingo-token", token);
+        
+        document.querySelector("#sex-selector").style.display = "none";
+        document.querySelector("#sensitive-warning").style.display = "none";
+        
+        document.querySelector("#non-sensitive-confirmation").style.display = "block";
+        document.querySelector("#copy-instructions").style.display = "block";
+        document.querySelector("#token-display").style.display = "block";
+        
+        window.navigator.vibrate(500);
+      }
+    </script>
   </body>
 </html>
