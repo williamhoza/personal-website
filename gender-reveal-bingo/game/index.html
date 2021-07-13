@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Gender Reveal Bingo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chicle&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    
+    <style>
+      body, button {
+        font-family: 'Roboto', sans-serif;
+        font-size:20px;
+      }
+      
+      #token-error-div {
+        max-width:800px;
+        margin:auto;
+        padding:15px;
+        text-align:center;
+        border:10px solid red;
+        display:none;
+      }
+      
+      #loading-div {
+        max-width:800px;
+        margin:auto;
+        display:none;
+      }
+      
+      #choices-div {
+        max-width:800px;
+        margin:auto;
+        display:none;
+      }
+      
+      hr {
+        border-width:0px;
+        border-bottom:1px solid #a0a0a0;
+      }
+      
+      #bingo-container {
+        height:0px;
+        overflow:hidden;
+      }
+            
+      .bingo-card-boy, .bingo-card-girl {
+        break-before:page;
+        page-break-before:always;
+        height:100vh;
+        overflow:hidden;
+        color-adjust:exact;
+        -webkit-print-color-adjust:exact;
+      }
+      
+      .bingo-card-boy {
+        background-color:#D6E1FF;
+      }
+      
+      .bingo-card-girl {
+        background-color:#FFD6E7;
+      }
+      
+      table {
+        margin:auto;
+        border-spacing:0.1in;
+      }
+      
+      .bingo-card-team-header {
+        text-align:center;
+        font-size:64px;
+        font-family:'Quicksand', sans-serif;
+        padding:20px;
+        text-transform:uppercase;
+      }
+      
+      .bingo-card-cell {
+        width:1.45in;
+        height:1.45in;
+        box-sizing:border-box;
+        background-color:white;
+        border-radius:10px;
+      }
+      
+      .bingo-card-cell svg {
+        display:block;
+      }
+      
+      .free-cell-female, .free-cell-male {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-family:'Chicle', cursive;
+        font-size:64px;
+        color-adjust:exact;
+        -webkit-print-color-adjust:exact;
+      }
+      
+      .free-cell-female {
+        color:#ff5297;
+      }
+      
+      .free-cell-male {
+        color:#668fff;
+      }
+      
+      .bingo-card-footer {
+        text-align:center;
+        font-size:14px;
+        padding:10px;
+        font-family:'Quicksand', sans-serif;
+      }
+      
+      @media print {
+        body {
+          margin:0;
+          padding:0;
+        }
+        
+        #choices-div {
+          display:none !important;
+        }
+        
+        #bingo-container {
+          height:auto;
+        }
+      }
+      
+      @page {
+        size: 8.5in 11in;
+        margin:0;
+      }
+      
+      summary {
+        cursor:pointer;
+      }
+      
+      #word-list {
+        background-color:#f8f8f8;
+        border:1px solid #a0a0a0;
+        padding-left:10px;
+        margin-top:10px;
+      }
+      
+      #word-list ol li {
+        margin-bottom:5px;
+      }
+      
+      #wheel-container {
+        position:absolute;
+        left:0;
+        bottom:0;
+        width:100%;
+        height:40vh;
+        overflow:hidden;
+        display:none;
+        transition:opacity 1s;
+      }
+      
+      .wheel {
+        position:absolute;
+        top:0;
+      }
+      
+      .wheel-frame {
+        width:100%;
+        height:100%;
+      }
+      
+      .active-wedge-indicator-svg {
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        z-index:-10;
+      }
+      
+      #wheel-pointer-svg {
+        width:50px;
+        height:50px;
+        display:block;
+        margin:auto;
+        position:relative;
+      }
+      
+      #wheel-pointer {
+        stroke:black;
+        stroke-width:3;
+        fill:yellow;
+      }
+      
+      .background-disc {
+        fill:#f8f8f8;
+      }
+      
+      .wedge-frame {
+        stroke:black;
+        stroke-width:2;
+        fill:none;
+      }
+      
+      .active-wedge-indicator {
+        fill:#ffffa0;
+      }
+      
+      .wheel-icon {
+        width:100px;
+        height:100px;
+        display:inline-block;
+        position:absolute;
+        left:calc(50% - 50px);
+        top:calc(50% - 50px);
+      }
+      
+      #next-button {
+        display:block;
+        margin:auto;
+      }
+      
+      #current-item {
+        width:200px;
+        height:200px;
+        box-shadow:0 10px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+        transition:opacity 1s;
+        opacity:0;
+        position:absolute;
+        bottom:calc(40vh - 200px);
+        left:calc(50% - 100px);
+      }
+      
+      #gameplay-info {
+        display:none;
+        height:60vh;
+        overflow:auto;
+      }
+      
+      #previous-items div {
+        display:inline-block;
+        width:80px;
+        height:80px;
+        border:1px solid black;
+        margin:5px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="token-error-div">
+      <p>
+        ❌ Error: <span id="error-message"></span>
+      </p>
+      
+      <p style="font-size:16px;">
+        Uh oh. Are you sure you copied the link correctly? Unfortunately, you might have to <a href="../get-link">generate a new link</a>.
+      </p>
+    </div>
+    
+    <div id="loading-div">
+      Loading your bingo game...
+    </div>
+    
+    <div id="choices-div">
+      <p>
+        ✔️ Your bingo game has loaded successfully.
+      </p>
+      <hr>
+      <p>
+        <strong>Before</strong> your gender reveal party, click this button to print your Bingo cards: <button onclick="window.print();">Print 🖨️</button>
+      </p>
+      <p>
+        There are <span class="team-size">?</span> bingo cards for Team Boy and <span class="team-size">?</span> bingo cards for Team Girl.
+      </p>
+      <ul>
+        <li>
+          If you have <strong>fewer than <span class="twice-team-size">?</span> players</strong>, that's fine. Just print out however many you need (but make sure there is at least one player on each team).
+        </li>
+        <li>
+          If you have <strong>more than <span class="twice-team-size">?</span> players</strong>, that's fine too. Print multiple copies of some of the bingo cards so that everybody gets one.
+        </li>
+      </ul>
+      <hr>
+      <p>
+        <strong>During</strong> your gender reveal party, pull up this webpage on a screen that all the players can see, and click this button to start the game: <button onclick="playGame();">Play ▶️</button>
+      </p>
+      <p>
+        Alternatively, you can simply access the list of words by clicking below.
+      </p>
+      <details>
+        <summary>
+           Word List
+        </summary>
+        <div id="word-list"></div>
+      </details>
+      <p>
+        ⚠️ <em>If you study the list of words and the bingo cards too closely, you might accidentally figure out the sex of your baby early!</em>
+      </p>
+    </div>
+    
+    <div id="bingo-container">
+    </div>
+    
+    <div id="gameplay-info">
+      <button id="next-button" onclick="game.nextItem();">Next 📢</button>
+      <div id="previous-items"></div>
+    </div>
+    
+    <div id="current-item"></div>
+    
+    <div id="wheel-container">
+      <svg viewBox="0 0 50 50" id="wheel-pointer-svg">
+        <polygon points="25, 45 5, 5.359 45, 5.359" id="wheel-pointer">
+      </svg>
+    </div>
+    
+    <script src="../tokens.js"></script>
+    <script src="prg.js"></script>
+    <script src="rigged-bingo.js"></script>
+    
+    <script>
+      const token = (new URLSearchParams(window.location.search)).get("t");
+      let tokenData;
+      let ERR;
+      let cont = false;
+      
+      if (token == null) {
+        document.querySelector("#token-error-div").style.display = "block";
+        document.querySelector("#error-message").innerHTML = "Missing token";
+      } else {
+        try {
+          tokenData = tokenToData(token);
+          cont = true;
+        } catch(e) {
+          document.querySelector("#token-error-div").style.display = "block";
+          document.querySelector("#error-message").innerHTML = e.message;
+        }
+      }
+      
+      let game;
+      
+      if (cont) loadGame();
+      
+      async function loadGame() {
+        game = new BingoGame(tokenData["isFemale"], new PRG(tokenData["seed"]));
+        document.querySelector("#loading-div").style.display = "block";
+        document.querySelectorAll(".team-size").forEach(a => a.innerHTML = TEAM_SIZE);
+        document.querySelectorAll(".twice-team-size").forEach(a => a.innerHTML = 2*TEAM_SIZE);
+        await game.generateDOM(document.querySelector("#bingo-container"), document.querySelector("#word-list"), document.querySelector("#wheel-container"));
+        await document.fonts.ready;
+        document.querySelector("#loading-div").style.display = "none";
+        document.querySelector("#choices-div").style.display = "block";
+      }
+      
+      async function playGame() {
+        document.querySelector("#choices-div").style.display = "none";
+        document.querySelector("#wheel-container").style.display = "block";
+        document.querySelector("#gameplay-info").style.display = "block";
+        game.wheel.spinIndefinitely();
+      }
+    </script>
+  </body>
+</html>

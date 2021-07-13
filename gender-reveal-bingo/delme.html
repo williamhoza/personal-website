@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="a" style="width:100px;height:100px;margin:100px;border:1px solid black;position:relative;">
+      <div id="b" style="width:10px;height:10px;background-color:red;position:absolute;left:45px;top:45px;transform:translateY(-30px);"></div>
+    </div>
+  </body>
+  
+  <script src="game/bezier.js"></script>
+  
+  <script>
+    let keyframes = [{transform: ""}];
+    for (let i = 0; i < 25; i++) {
+      keyframes.push({transform: "rotate(" + i*28 + "deg)", offset: i*0.04});
+      keyframes.push({transform: "rotate(" + (i + 1)*28 + "deg)", offset: i*0.04});
+    }
+    keyframes.push({transform: "rotate(700deg)", offset: 1});
+    console.log(keyframes);
+    
+    let anim = document.querySelector("#a").animate(keyframes, {
+      duration:5000,
+      easing:"cubic-bezier(0, 0, 0.58, 1)",
+      fill:"forwards"
+    });
+    
+    const easingFunction = bezier(0, 0, 0.58, 1)
+    
+    //window.requestAnimationFrame(update);
+    let startTime = null;
+    
+    function update(timestamp) {
+      if (startTime == null) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      
+      const progress = easingFunction(anim.currentTime / 5000);
+      document.querySelector("#b").style.transform = "rotate(-" + (progress * 700) + "deg) translateY(-30px)";
+      window.requestAnimationFrame(update);
+    }
+  </script>
+</html>

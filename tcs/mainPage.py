@@ -57,16 +57,32 @@ def compile(papers):
               Theoretical computer science stuff
             </h1>
             <p>
-              I'm currently a fifth-year grad student in the CS department at UT Austin. I have the good fortune to be advised by <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a>. Previously, I was an undergrad at Caltech, where I was lucky to receive valuable mentorship from <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a>.
+              I'm currently a postdoc "at" the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I put "at" in quotes because I still physically live in Austin, TX for now, where I recently completed my grad school work (my official graduation date is in August 2021).
             </p>
             <p>
-              I study <em>pseudorandomness and derandomization</em>. You can think of randomness as a scarce computational resource — a type of algorithmic "fuel." Randomized algorithms are great, but all else being equal, an algorithm that uses fewer random bits is better than an algorithm that uses more random bits. (Analogously, a faster algorithm is better than a slower algorithm; a car that uses less gasoline is better than a car that uses more gasoline.) Deterministic algorithms are best of all. One approach for using fewer random bits is to design <em>pseudorandom generators</em>, which use a small number of random bits to generate a long sequence of bits that "look random" and can often be used as a substitute for truly random bits. I'm especially interested in pseudorandom generators that are <em>provably</em> correct.
+              I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> and the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>.
+            </p>
+            <details>
+              <summary>
+                 A short explanation of what "derandomization" means (for curious outsiders)
+              </summary>
+              <div class="indent">
+                <p>
+                  Some algorithms use randomness to solve computational problems. For example, one of the best known methods for finding a large prime number is to pick a large number at random, check if it's prime, and try again if necessary.
+                </p>
+                <p>
+                  You can think of randomness as a scarce computational resource — a type of algorithmic "fuel." Randomized algorithms are okay, but all else being equal, an algorithm that uses <em>fewer</em> random bits is better than an algorithm that uses more random bits, just like a faster algorithm is better than a slower algorithm, or a car that uses less gasoline is better than a car that uses more gasoline. Algorithms that don't use any randomness ("deterministic" algorithms) are best of all. For example, it would be nice to have a fast deterministic algorithm for finding large prime numbers. "Derandomization" is the art of converting randomized algorithms into deterministic algorithms.
+                </p>
+                <p>
+                  One approach for using fewer random bits is to design <em>pseudorandom generators</em>, which use a small number of random bits to generate a long sequence of bits that "look random" and can often be used as a substitute for truly random bits. I'm especially interested in pseudorandom generators that are <em>provably</em> correct.
+                </p>
+              </div>
+            </details>
+            <p>
+              I'm grateful for all the mentorship I've received, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor) and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
             </p>
             <p>
-              More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> and the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>.
-            </p>
-            <p>
-              My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, send me an <a href="mailto:whoza@utexas.edu">email</a>! I like getting emails about my work (as do most researchers).
+              My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, send me an <a href="mailto:whoza@utexas.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
             {paperList}

@@ -42,4 +42,9 @@ class PRG {
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
   }
+  
+  // Returns a random float in the interval [0, 1), like Math.random()
+  randomFloat() {
+    return this.randomInt(Number.MAX_SAFE_INTEGER) / Number.MAX_SAFE_INTEGER;
+  }
 }

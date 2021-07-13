@@ -106,7 +106,7 @@ class GF2Extension {
 }
 
 const FIELD = new GF2Extension(new GF2Poly([1, 1, 0, 0, 0, 0, 1])); // t^6 + t + 1 is irreducible over GF(2)
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:_"; // One character represents one field element. We use : and _ because they don't interrupt double-click selection (hopefully)
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~"; // One character represents one field element. We use _ and ~ because they are safe to use in URLs.
 console.assert(ALPHABET.length == FIELD.size);
 
 const SEED_LENGTH = 128; // Number of random bits included in each token

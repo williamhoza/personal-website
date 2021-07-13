@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Gender Reveal Bingo: Generating a Token</title>
+    <title>Gender Reveal Bingo: Getting a Bingo Link</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -63,7 +63,7 @@
         padding:10px;
         border-radius:10px;
         display:inline-block;
-        margin-bottom:15px;
+        margin-bottom:35px;
         cursor:pointer;
       }
       
@@ -95,12 +95,14 @@
         padding:10px;
         box-sizing:border-box;
         font-family:'Roboto Mono', monospace;
-        boxrder-radius:5px;
         border:1px solid #c0c0c0;
         text-align:center;
         font-size:14px;
         height:45px;
         vertical-align:middle;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
       }
       
       #copied-notification {
@@ -133,11 +135,11 @@
       
       <div id="non-sensitive-confirmation">
         <p>
-          ✔️ It is safe to look at the screen 🙂
+          ✔️ Please give the device back to the parents now 🙂
         </p>
         
         <p style="font-size:16px;">
-          The sex of the baby is hidden.
+          The sex of the baby is hidden, so it is safe for the parents to look at the screen.
         </p>
       </div>
       
@@ -193,16 +195,18 @@
         <input type="submit" style="margin-top:20px;">
       </form>
       
-      <div class="instruction-category" id="copy-instructions">
-        <p>
-          <strong>Parents:</strong> Copy the token below and save it somewhere.
-        </p>
-        <p style="font-size:16px;">
-          For example, you could email it to yourself. The sex of the baby is encoded in the token, and you will need it later.
-        </p>
-        <p style="font-size:16px;">
-          ⚠️ <em>If you lose it, you will have to go through this process again to generate a new token!</em>
-        </p>
+      <div id="copy-instructions">
+        <div class="instruction-category">
+          <p>
+            <strong>Parents:</strong> Copy the link below and save it somewhere.
+          </p>
+          <p style="font-size:16px;">
+            For example, you could email it to yourself. The sex of your baby is encoded in the link, and you will need the link later.
+          </p>
+          <p style="font-size:16px;">
+            ⚠️ <em>If you lose it, you will have to go through this process again to generate a new link!</em>
+          </p>
+        </div>
       </div>
       
       <div id="token-display">
@@ -268,8 +272,8 @@
         femaleRadio.checked = false;
         
         let token = generateToken(isFemale);
-        document.querySelector("#token-input").value = token;
-        localStorage.setItem("gender-reveal-bingo-token", token);
+        let bingoURL = (new URL("../game/?t=" + token, location.href)).href;
+        document.querySelector("#token-input").value = bingoURL;
         
         document.querySelector("#sex-selector").style.display = "none";
         document.querySelector("#sensitive-warning").style.display = "none";
