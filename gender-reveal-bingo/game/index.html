@@ -72,7 +72,7 @@
         text-align:center;
         font-size:64px;
         font-family:'Quicksand', sans-serif;
-        padding:20px;
+        padding:5px 20px 20px;
         text-transform:uppercase;
       }
       
@@ -106,11 +106,18 @@
         color:#668fff;
       }
       
-      .bingo-card-footer {
-        text-align:center;
+      .bingo-card-footer, .bingo-card-game-id-header, .bingo-card-player-id-header {
         font-size:14px;
         padding:10px;
         font-family:'Quicksand', sans-serif;
+      }
+      
+      .bingo-card-footer {
+        text-align:center;
+      }
+      
+      .bingo-card-player-id-header {
+        text-align:right;
       }
       
       @media print {
@@ -153,7 +160,7 @@
         left:0;
         bottom:0;
         width:100%;
-        height:40vh;
+        height:300px;
         overflow:hidden;
         display:none;
         transition:opacity 1s;
@@ -215,9 +222,17 @@
         top:calc(50% - 50px);
       }
       
-      #next-button {
-        display:block;
-        margin:auto;
+      #controls {
+        display:flex;
+        padding:5px;
+      }
+      
+      #bingo-verification-form {
+        flex-grow:1;
+      }
+      
+      #false-bingo {
+        opacity:0;
       }
       
       #current-item {
@@ -227,27 +242,94 @@
         transition:opacity 1s;
         opacity:0;
         position:absolute;
-        bottom:calc(40vh - 200px);
+        bottom:100px;
         left:calc(50% - 100px);
+        display:none;
       }
       
       #gameplay-info {
         display:none;
-        height:60vh;
-        overflow:auto;
+        height:calc(100vh - 300px);
+        flex-direction:column;
+      }
+      
+      :root {
+        --prev-item-size: 100px;
+      }
+      
+      #previous-items {
+        flex-grow:1;
+        overflow:hidden;
+        display:grid;
+        grid-template-columns:repeat(auto-fill, calc(var(--prev-item-size) + 10px));
+        grid-template-rows:repeat(auto-fill, calc(var(--prev-item-size) + 10px));
+        justify-content:center;
       }
       
       #previous-items div {
         display:inline-block;
-        width:80px;
-        height:80px;
+        width:var(--prev-item-size);
+        height:var(--prev-item-size);
         border:1px solid black;
+        box-sizing:border-box;
         margin:5px;
+      }
+      
+      #game-over {
+        height:300px;
+        width:100%;
+        display:none;
+        position:absolute;
+        bottom:0;
+        text-align:center;
+        font-size:30px;
+        padding:30px;
+        box-sizing:border-box;
+      }
+      
+      #bingo-confirmed-banner {
+        height:300px;
+        width:100%;
+        display:none;
+        position:absolute;
+        bottom:0;
+        text-align:center;
+        font-size:100px;
+        font-family:'Quicksand', sans-serif;
+        color:white;
+        flex-direction:column;
+        justify-content:center;
+        overflow:hidden;
+      }
+      
+      .confetti-piece {
+        position:absolute;
+        animation: confetti 1000ms infinite ease-out;
+        top:0;
+      }
+      
+      @keyframes confetti {
+        from {
+          opacity:0;
+        }
+        
+        20% {
+          opacity:1;
+        }
+        
+        80% {
+          opacity:1;
+        }
+        
+        to {
+          transform:translateY(300px);
+          opacity:0;
+        }
       }
     </style>
   </head>
   
-  <body>
+  <body onkeydown="body_keydown(event);">
     <div id="token-error-div">
       <p>
         ❌ Error: <span id="error-message"></span>
@@ -303,8 +385,30 @@
     </div>
     
     <div id="gameplay-info">
-      <button id="next-button" onclick="game.nextItem();">Next 📢</button>
+      <div id="controls">
+        <form id="bingo-verification-form" onsubmit="event.preventDefault(); try { game.verifyBingo(); } catch(e) { console.log(e); } return false;">
+          <select id="player-id-select" required>
+            <option value="">Player ID</option>
+          </select>
+          <input type="submit" id="bingo-verification-button" value="Verify Bingo" disabled="disabled">
+          <span id="false-bingo">❌ Sorry, invalid bingo. Please double check your card!</span>
+        </form>
+        <button id="next-button" onclick="game.nextItem();" disabled="disabled">Spin the Wheel! [PgDn]</button>
+      </div>
       <div id="previous-items"></div>
+    </div>
+    
+    <div id="game-over">
+      ⏰ Somebody should have gotten a bingo by now. Everyone double check your card!
+    </div>
+    
+    <div id="bingo-confirmed-banner">
+      <div>
+        BINGO CONFIRMED!
+      </div>
+      <div>
+        BABY HOZA IS A <span id="bingo-confirmed-gender">?</span>!
+      </div>
     </div>
     
     <div id="current-item"></div>
@@ -324,6 +428,7 @@
       let tokenData;
       let ERR;
       let cont = false;
+      let game;
       
       if (token == null) {
         document.querySelector("#token-error-div").style.display = "block";
@@ -331,6 +436,7 @@
       } else {
         try {
           tokenData = tokenToData(token);
+          game = new BingoGame(token, tokenData["isFemale"], new PRG(tokenData["seed"]));
           cont = true;
         } catch(e) {
           document.querySelector("#token-error-div").style.display = "block";
@@ -338,12 +444,9 @@
         }
       }
       
-      let game;
+      if (cont) loadDOM();
       
-      if (cont) loadGame();
-      
-      async function loadGame() {
-        game = new BingoGame(tokenData["isFemale"], new PRG(tokenData["seed"]));
+      async function loadDOM() {
         document.querySelector("#loading-div").style.display = "block";
         document.querySelectorAll(".team-size").forEach(a => a.innerHTML = TEAM_SIZE);
         document.querySelectorAll(".twice-team-size").forEach(a => a.innerHTML = 2*TEAM_SIZE);
@@ -356,8 +459,15 @@
       async function playGame() {
         document.querySelector("#choices-div").style.display = "none";
         document.querySelector("#wheel-container").style.display = "block";
-        document.querySelector("#gameplay-info").style.display = "block";
+        document.querySelector("#gameplay-info").style.display = "flex";
+        document.querySelector("#current-item").style.display = "block";
+        document.body.style.margin = "0";
         game.wheel.spinIndefinitely();
+      }
+      
+      function body_keydown(evt) {
+        // Page down key. Chosen because of PowerPoint clickers
+        if (evt.keyCode == 34 && game.ready) game.nextItem();
       }
     </script>
   </body>

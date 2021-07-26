@@ -9,9 +9,9 @@ class PRG {
     this.a = BigInt(0);
     this.b = BigInt(0);
     
-    console.assert(seed.length == 128);
+    eAssert(seed.length == 128);
     for (let i = 0; i < 128; i++) {
-      console.assert(seed[i] == 0 || seed[i] == 1);
+      eAssert(seed[i] == 0 || seed[i] == 1);
       if (i < 64) {
         this.a += BigInt(seed[i]) * (1n << BigInt(i));
       } else {

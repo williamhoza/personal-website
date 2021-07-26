@@ -18,7 +18,7 @@ class GF2Poly {
   static fromInt(n) {
     let coeffs = [];
     for (let i = 0; n >> i != 0; i++) {
-      console.assert(i < 1000); // I don't expect to be dealing with big fields, so if n is big it probably means there's a bug
+      eAssert(i < 1000); // I don't expect to be dealing with big fields, so if n is big it probably means there's a bug
       coeffs[i] = (n >> i) & 1;
     }
     return new GF2Poly(coeffs);
@@ -94,7 +94,7 @@ class GF2Extension {
   inverse(x) {
     // The inverse of x is given by x^{2^d - 2} where d is the degree of the field extension
     // Note 2^d - 2 = 2^1 + 2^2 + ... + 2^{d - 1}
-    console.assert(x.degree >= 0);
+    eAssert(x.degree >= 0);
     let ret = new GF2Poly([1]);
     let currentPower = x;
     for (let i = 0; i < this.degree - 1; i++) {
@@ -107,20 +107,20 @@ class GF2Extension {
 
 const FIELD = new GF2Extension(new GF2Poly([1, 1, 0, 0, 0, 0, 1])); // t^6 + t + 1 is irreducible over GF(2)
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~"; // One character represents one field element. We use _ and ~ because they are safe to use in URLs.
-console.assert(ALPHABET.length == FIELD.size);
+eAssert(ALPHABET.length == FIELD.size);
 
 const SEED_LENGTH = 128; // Number of random bits included in each token
 
 const RS_MESSAGE_LENGTH = Math.ceil((SEED_LENGTH + 1) / FIELD.degree); // We use Reed-Solomon error correcting codes
 const RS_REDUNDANCY = 6;
 const RS_CODEWORD_LENGTH = RS_MESSAGE_LENGTH + RS_REDUNDANCY;
-console.assert(RS_CODEWORD_LENGTH + 1 <= FIELD.size); // Required for our specific RS code (one output of low-degree poly is deliberately excluded from the codeword)
+eAssert(RS_CODEWORD_LENGTH + 1 <= FIELD.size); // Required for our specific RS code (one output of low-degree poly is deliberately excluded from the codeword)
 
 // "data": an object with data["isFemale"] (a bit) and data["seed"] (an array of bits of length SEED_LENGTH)
 // "token": an encoding of the data into a 25-symbol string, where each symbol comes from a 64-symbol alphabet. The encoding is designed so that (a) the gender is obfuscated, and (b) error detection is possible.
 
 function dataToToken(data) {
-  console.assert(data["seed"].length == SEED_LENGTH);
+  eAssert(data["seed"].length == SEED_LENGTH);
   let bits = data["seed"].concat([data["isFemale"]]);
   
   // Encode sequence of bits as sequence of field elements
@@ -142,13 +142,12 @@ function dataToToken(data) {
 }
 
 function intToChar(n) {
-  console.assert(n < ALPHABET.length);
+  eAssert(n < ALPHABET.length);
   return ALPHABET[n];
 }
 
 function charToInt(c) {
   let ret = ALPHABET.indexOf(c);
-  console.assert(ret != -1);
   return ret;
 }
 
@@ -163,18 +162,18 @@ function generateToken(isFemale) {
   return dataToToken(data);
 }
 
-// Recover data from token. Throws an exception if the token is invalid
+// Recover data from token
 function tokenToData(token) {
-  if (token.length != RS_CODEWORD_LENGTH) throw new Error("Invalid token (bad length)");
+  eAssert(token.length == RS_CODEWORD_LENGTH, "Invalid token (bad length)");
   let codeword = [];
   for (let i = 0; i < RS_CODEWORD_LENGTH; i++) {
     let n = charToInt(token[i]);
-    if (n == -1) throw new Error("Invalid token (unknown character)");
+    eAssert(n != -1, "Invalid token (unknown character)");
     codeword[i] = GF2Poly.fromInt(n);
   }
 
   let message = RSDecode(codeword);
-  if (message == null) throw new Error("Invalid token (failed RS error detection)");
+  eAssert(message != null, "Invalid token (failed RS error detection)");
   
   // Convert to bit array
   let bits = [];
@@ -193,7 +192,7 @@ function tokenToData(token) {
 // Input: An array of instances of GF2Poly of length RS_MESSAGE_LENGTH
 // Output: A longer array of instances of GF2Poly (the codeword). The codeword consists of all but the last symbol in the message, followed by RS_REDUNDANCY + 1 many new symbols. The last symbol of the message (which encodes the gender) is therefore "obfuscated". E.g., recovering the last symbol of the message requires querying message.length many symbols from the codeword.
 function RSEncode(message) {
-  console.assert(message.length == RS_MESSAGE_LENGTH);
+  eAssert(message.length == RS_MESSAGE_LENGTH);
   
   let givenEvalPoints = [];
   let extrapEvalPoints = [];
@@ -210,7 +209,7 @@ function RSEncode(message) {
 
 // Inverts RSEncode. Does NOT perform error correction, only error detection. Returns null given a non-codeword.
 function RSDecode(codeword) {
-  console.assert(codeword.length == RS_CODEWORD_LENGTH);
+  eAssert(codeword.length == RS_CODEWORD_LENGTH);
   
   let givenEvalPoints = [];
   let extrapEvalPoints = [];
@@ -241,7 +240,7 @@ function RSDecode(codeword) {
 // extrapEvalPoints: an array of field elements
 // Outputs the array extrapValues such that for all i, extrapValues[i] == p(extrapEvalPoints[i]), where p is some degree-(L - 1) polynomial such that for all i, givenValues[i] == p(givenEvalPoints[i])
 function lagrangeInterpolate(givenEvalPoints, givenValues, extrapEvalPoints) {
-  console.assert(givenEvalPoints.length == givenValues.length);
+  eAssert(givenEvalPoints.length == givenValues.length);
   
   // The polynomial p is given by
   // p(x) = sum_i givenValues[i] * prod_{j \neq i} (x - givenEvalPoints[j]) / (givenEvalPoints[i] - givenEvalPoints[j])
@@ -275,5 +274,8 @@ function lagrangeInterpolate(givenEvalPoints, givenValues, extrapEvalPoints) {
   return extrapValues;
 }
 
+function eAssert(b, msg) {
+  if (!b) throw new Error(msg);
+}
 
 
