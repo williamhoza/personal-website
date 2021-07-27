@@ -1,4 +1,9 @@
 'use strict';
+const TOKEN_ERRORS = {
+  LENGTH_ERROR: {msg: "Invalid token (bad length)"},
+  RS_ERROR: {msg: "Invalid token (failed RS error detection)"},
+  CHAR_ERROR: {msg: "Invalid token (unknown character)"}
+}
 
 // An instance of this class is a polynomial over GF(2).
 class GF2Poly {
@@ -164,16 +169,16 @@ function generateToken(isFemale) {
 
 // Recover data from token
 function tokenToData(token) {
-  eAssert(token.length == RS_CODEWORD_LENGTH, "Invalid token (bad length)");
+  eAssert(token.length == RS_CODEWORD_LENGTH, TOKEN_ERRORS.LENGTH_ERROR);
   let codeword = [];
   for (let i = 0; i < RS_CODEWORD_LENGTH; i++) {
     let n = charToInt(token[i]);
-    eAssert(n != -1, "Invalid token (unknown character)");
+    eAssert(n != -1, TOKEN_ERRORS.CHAR_ERROR);
     codeword[i] = GF2Poly.fromInt(n);
   }
 
   let message = RSDecode(codeword);
-  eAssert(message != null, "Invalid token (failed RS error detection)");
+  eAssert(message != null, TOKEN_ERRORS.RS_ERROR);
   
   // Convert to bit array
   let bits = [];
@@ -274,8 +279,9 @@ function lagrangeInterpolate(givenEvalPoints, givenValues, extrapEvalPoints) {
   return extrapValues;
 }
 
-function eAssert(b, msg) {
-  if (!b) throw new Error(msg);
+function eAssert(b, err) {
+  console.assert(b);
+  if (!b) throw err;
 }
 
 

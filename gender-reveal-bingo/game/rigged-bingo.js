@@ -9,12 +9,6 @@ const NUM_BINGO_ITEMS = 70;
 const MIN_DURATION = 35;
 const MAX_DURATION = 50;
 
-// Each card in the winning team will have a distinct bingo time, and we support even the extreme case of 1 human player per team
-eAssert(MAX_DURATION >= MIN_DURATION + TEAM_SIZE);
-
-// We need enough "late" items to force the bingo timing
-eAssert(MAX_DURATION + TEAM_SIZE + 10 <= NUM_BINGO_ITEMS);
-
 const LOW_DENSITY = 17;
 const HIGH_DENSITY = 20;
 
@@ -386,6 +380,12 @@ class BingoGame {
     this.id = id;
     this.winnerFemale = winnerFemale;
     this.gen = gen;
+    
+    // Each card in the winning team will have a distinct bingo time, and we support even the extreme case of 1 human player per team
+    eAssert(MAX_DURATION >= MIN_DURATION + TEAM_SIZE);
+
+    // We need enough "late" items to force the bingo timing
+    eAssert(MAX_DURATION + TEAM_SIZE + 10 <= NUM_BINGO_ITEMS);
     
     // Think of as a standard order
     this.bingoItems = Array(NUM_BINGO_ITEMS).fill(null).map(a => new BingoItem(this));
