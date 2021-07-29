@@ -42,7 +42,7 @@
       }
       
       #bingo-container {
-        height:0;
+        height:0px;
         overflow:hidden;
       }
             
@@ -57,55 +57,29 @@
       }
       
       .bingo-card-boy {
-        baxckground-color:#D6E1FF;
-        background-color:#dee7ff;
+        background-color:#D6E1FF;
       }
       
       .bingo-card-girl {
-        baxckground-color:#FFD6E7;
-        background-color:#ffdae9;
+        background-color:#FFD6E7;
       }
       
       table {
         margin:auto;
-        border-spacing:0.08in;
+        border-spacing:0.1in;
       }
       
-      .bingo-card-main-header {
-        width:8in;
-        margin:auto;
-        background-size:2.8in;
-        background-position-x:center;
-        background-repeat:no-repeat;
-        height:1.8in;
-        position:relative;
-      }
-      
-      .bingo-card-boy .bingo-card-main-header {
-        background-image:url("team-boy-text.svg");
-      }
-      
-      .bingo-card-girl .bingo-card-main-header {
-        background-image:url("team-girl-text.svg");
-      }
-      
-      .bingo-card-main-header img {
-        position:absolute;
-      }
-      
-      .bingo-card-main-header img:first-child {
-        width:2.07in;
-        left:0.3in;
-      }
-      
-      .bingo-card-main-header img:last-child {
-        width:2.3in;
-        right:0.2in;
+      .bingo-card-team-header {
+        text-align:center;
+        font-size:64px;
+        font-family:'Quicksand', sans-serif;
+        padding:5px 20px 20px;
+        text-transform:uppercase;
       }
       
       .bingo-card-cell {
-        width:1.18in;
-        height:1.18in;
+        width:1.45in;
+        height:1.45in;
         box-sizing:border-box;
         background-color:white;
         border-radius:10px;
@@ -120,7 +94,7 @@
         align-items:center;
         justify-content:center;
         font-family:'Chicle', cursive;
-        font-size:50px;
+        font-size:64px;
         color-adjust:exact;
         -webkit-print-color-adjust:exact;
       }
@@ -133,43 +107,17 @@
         color:#668fff;
       }
       
-      .bingo-card-footer, .bingo-card-game-id-header {
+      .bingo-card-footer, .bingo-card-game-id-header, .bingo-card-player-id-header {
+        font-size:14px;
         padding:10px;
         font-family:'Quicksand', sans-serif;
       }
       
-      .bingo-card-game-id-header {
-        font-size:12px;
-        text-align:center;
-        margin-bottom:0.2in;
-      }
-      
       .bingo-card-footer {
-        font-size:18px;
-        display:flex;
-        width:8in;
-        margin:auto;
-        background-image:url("stork-pair.png");
-        background-position-x:2.45in;
-        background-size:3.78in;
-        background-repeat:no-repeat;
-        justify-content:space-between;
-        height:2.17in;
-        box-sizing:border-box;
-        margin-top:0.08in;
+        text-align:center;
       }
       
-      .bingo-card-footer p {
-        margin-top:0.05in;
-        line-height:1.7;
-      }
-      
-      .bingo-card-footer p:first-child {
-        text-align:left;
-        width:2.05in;
-      }
-      
-      .bingo-card-footer p:last-child {
+      .bingo-card-player-id-header {
         text-align:right;
       }
       
@@ -276,9 +224,16 @@
       }
       
       #controls {
-        padding:5px;
         display:flex;
-        justify-content:space-between;
+        padding:5px;
+      }
+      
+      #bingo-verification-form {
+        flex-grow:1;
+      }
+      
+      #false-bingo {
+        opacity:0;
       }
       
       #current-item {
@@ -384,10 +339,6 @@
           opacity:0;
         }
       }
-      
-      #false-bingo {
-        visibility:hidden;
-      }
     </style>
   </head>
   
@@ -439,7 +390,6 @@
       <p>
         <strong>During</strong> your gender reveal party, pull up this webpage on a screen that all the players can see, and click this button to start the game: <button onclick="playGame();">Play ▶️</button>
       </p>
-      <!--
       <p>
         Alternatively, you can simply access the list of words by clicking below.
       </p>
@@ -451,7 +401,7 @@
       </details>
       <p>
         ⚠️ <em>If you study the list of words and the bingo cards too closely, you might accidentally figure out the sex of your baby early!</em>
-      </p>-->
+      </p>
     </div>
     
     <div id="bingo-container">
@@ -459,14 +409,16 @@
     
     <div id="gameplay-info">
       <div id="controls">
-        <span id="false-bingo">❌ Sorry, invalid bingo. Please double check your card!</span>
+        <form id="bingo-verification-form" onsubmit="event.preventDefault(); try { game.verifyBingo(); } catch(e) { console.log(e); } return false;">
+          <select id="player-id-select" required>
+            <option value="">Player ID</option>
+          </select>
+          <input type="submit" id="bingo-verification-button" value="Verify Bingo" disabled="disabled">
+          <span id="false-bingo">❌ Sorry, invalid bingo. Please double check your card!</span>
+        </form>
         <button id="next-button" onclick="game.nextItem();" disabled="disabled">Spin the Wheel! [PgDn]</button>
       </div>
-      <div id="previous-items">
-        <div id="free-cell-selector" onclick="game.toggleFreeCellSelected();">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation:isolate" viewBox="0 0 1000 1000"><defs><clipPath id="_clipPath_iYttnPg4tr6D6W8QwE2vOa9eh6HyRUw6"><rect width="1000" height="1000"/></clipPath></defs><g clip-path="url(#_clipPath_iYttnPg4tr6D6W8QwE2vOa9eh6HyRUw6)"><g clip-path="url(#_clipPath_2bmUps31SXi8iBgEQnJlfIphKdIyWbJR)"><text transform="matrix(1,0,0,1,41,344)" style="font-family:'Chicle';font-weight:400;font-size:400px;font-style:normal;fill:#ff5297;stroke:none;">free</text></g><defs><clipPath id="_clipPath_2bmUps31SXi8iBgEQnJlfIphKdIyWbJR"><rect x="0" y="0" width="535" height="483.6" transform="matrix(1,0,0,1,41,-22)"/></clipPath></defs><g clip-path="url(#_clipPath_LogQmg0l3G9zz6chV32jCOnpgBjLgIo0)"><text transform="matrix(1,0,0,1,412,911.4)" style="font-family:'Chicle';font-weight:400;font-size:400px;font-style:normal;fill:#668fff;stroke:none;">free</text></g><defs><clipPath id="_clipPath_LogQmg0l3G9zz6chV32jCOnpgBjLgIo0"><rect x="0" y="0" width="535" height="483.6" transform="matrix(1,0,0,1,412,545.4)"/></clipPath></defs><line x1="162" y1="843" x2="870" y2="126" stroke-width="20" stroke="rgb(0,0,0)" stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="3"/></g></svg>
-        </div>
-      </div>
+      <div id="previous-items"></div>
     </div>
     
     <div id="game-over">
@@ -525,7 +477,7 @@
         document.querySelector("#loading-div").style.display = "block";
         document.querySelectorAll(".team-size").forEach(a => a.innerHTML = TEAM_SIZE);
         document.querySelectorAll(".twice-team-size").forEach(a => a.innerHTML = 2*TEAM_SIZE);
-        await game.generateDOM(document.querySelector("#bingo-container"), document.querySelector("#wheel-container"));
+        await game.generateDOM(document.querySelector("#bingo-container"), document.querySelector("#word-list"), document.querySelector("#wheel-container"));
         await document.fonts.ready;
         document.querySelector("#loading-div").style.display = "none";
         document.querySelector("#choices-div").style.display = "block";

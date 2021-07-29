@@ -1,19 +1,19 @@
 'use strict';
 
 // There will be this many cards per team. (The actual number of human players per team could be a different number.)
-const TEAM_SIZE = 11;
+const TEAM_SIZE = 10;
 
-const NUM_BINGO_ITEMS = 84;
+const NUM_BINGO_ITEMS = 70;
 
 // The duration of the game will be somewhat random. It will also depend somewhat on the number of human players.
 const MIN_DURATION = 35;
-const MAX_DURATION = 54;
+const MAX_DURATION = 50;
 
 const LOW_DENSITY = 17;
 const HIGH_DENSITY = 20;
 
 // Milliseconds
-const WHEEL_SPIN_TIME = 10000;
+const WHEEL_SPIN_TIME = 1000; // 10000;
 
 // Spinning easing
 const EASING_FUNCTION = "cubic-bezier(0, 0.8, 0.2, 1)";
@@ -45,8 +45,8 @@ class BingoItem {
     } else {
       this.selected = true;
       this.historyDiv.classList.add("selected");
+      this.game.checkForBingo();
     }
-    this.game.checkForBingo();
   }
 }
 
@@ -334,50 +334,56 @@ class BingoCard {
     outerDiv.classList.add(this.isTeamFemale ? "bingo-card-girl" : "bingo-card-boy");
     containerElement.append(outerDiv);
     
-    const idHeader = document.createElement("div");
-    idHeader.append("Game ID: " + this.game.id);
-    idHeader.classList.add("bingo-card-game-id-header");
-    outerDiv.append(idHeader);
+    const tbl = document.createElement("table");
+    outerDiv.appendChild(tbl);
     
-    const mainHeader = document.createElement("div");
-    mainHeader.classList.add("bingo-card-main-header");
-    outerDiv.append(mainHeader);
+    const idHeader = tbl.insertRow();
     
-    const storkImage1 = document.createElement("img");
-    storkImage1.src = "stork1.png";
-    mainHeader.append(storkImage1);
+    const gameIDHeader = idHeader.insertCell();
+    gameIDHeader.append("Game ID: " + this.game.id);
+    gameIDHeader.classList.add("bingo-card-game-id-header");
+    gameIDHeader.colSpan = "3";
     
-    const storkImage2 = document.createElement("img");
-    storkImage2.src = "stork2.png";
-    mainHeader.append(storkImage2);
+    const playerIDHeader = idHeader.insertCell();
+    playerIDHeader.append("Player ID: " + this.playerID);
+    playerIDHeader.classList.add("bingo-card-player-id-header");
+    playerIDHeader.colSpan = "2";
     
-    const itemTable = document.createElement("table");
-    itemTable.classList.add("bingo-item-table");
-    outerDiv.appendChild(itemTable);
+    const genderText = this.isTeamFemale ? "Girl" : "Boy";
+    
+    // Team header
+    const teamHeader = tbl.insertRow().insertCell();
+    teamHeader.append("Team " + genderText);
+    teamHeader.classList.add("bingo-card-team-header");
+    teamHeader.colSpan = "5";
     
     // Cells
     for (let i = 0; i < 5; i++) {
-      let row = itemTable.insertRow();
+      let row = tbl.insertRow();
       for (let j = 0; j < 5; j++) {
         this.cells[i][j].generateDOM(row);
       }
     }
     
-    const footer = document.createElement("div");
+    // Explanation at bottom
+    let footer = tbl.insertRow().insertCell();
+    
+    let footerLineOne = document.createElement("p");
+    let footerOpener = document.createElement("strong");
+    footerOpener.append("The game is rigged.");
+    footerLineOne.append(footerOpener, " The winning team was determined in advance by a computer system.");
+    
+    let footerLineTwo = document.createElement("p");
+    let footerTeamName = document.createElement("strong");
+    footerTeamName.append("TEAM ", genderText.toUpperCase());
+    footerLineTwo.append("You are on ", footerTeamName, ". If someone from your team wins, it means the baby is a ", genderText.toLowerCase(), ".");
+    
+    let footerLineThree = document.createElement("p");
+    footerLineThree.append("If you win, you are encouraged to shout, \"BINGO! IT'S A ", genderText.toUpperCase(), "!\"");
+    
+    footer.append(footerLineOne, footerLineTwo, footerLineThree);
     footer.classList.add("bingo-card-footer");
-    outerDiv.append(footer);
-    
-    const leftFooterP = document.createElement("p");
-    const leftFooterOpener = document.createElement("strong");
-    leftFooterOpener.append("The game is rigged.");
-    leftFooterP.append(leftFooterOpener, " The winning team was determined in advance by a computer system.");
-    footer.append(leftFooterP);
-    
-    const genderText = this.isTeamFemale ? "girl" : "boy";
-    const rightFooterP = document.createElement("p");
-    rightFooterP.append("If someone from your team", document.createElement("br"), "wins, it means the baby is a", document.createElement("br"), genderText + ". If you win, shout,", document.createElement("br"), "\"Bingo! It's a " + genderText + "!\"");
-    
-    footer.append(rightFooterP);
+    footer.colSpan = "5";
   }
 }
 
@@ -410,7 +416,6 @@ class BingoGame {
     
     this.time = -1;
     this.celebrating = false;
-    this.freeCellSelected = false;
     
     // The order that they appear on the wheel
     this.wheelItemList = this.bingoItems.slice();
@@ -486,23 +491,10 @@ class BingoGame {
     }
   }
   
-  // TODO: Refactor by making a special "free" item
-  toggleFreeCellSelected() {
-    if (this.freeCellSelected) {
-      this.freeCellSelected = false;
-      document.querySelector("#free-cell-selector").classList.remove("selected");
-    } else {
-      this.freeCellSelected = true;
-      document.querySelector("#free-cell-selector").classList.add("selected");
-    }
-    this.checkForBingo();
-  }
-  
-  async generateDOM(cardContainer, wheelContainer) {
+  async generateDOM(cardContainer, wordListContainer, wheelContainer) {
     // Fetch item images
     const response = await fetch("items.json");
     const itemData = await response.json();
-    console.assert(itemData.length == NUM_BINGO_ITEMS);
     for (let i = 0; i < this.bingoItems.length; i++) {
       this.bingoItems[i].title = itemData[i]["title"];
       this.bingoItems[i].imgSrc = itemData[i]["img"];
@@ -514,8 +506,7 @@ class BingoGame {
       this.cardsByGender[1 - this.firstCardFemale][i].generateDOM(cardContainer);
     }
     
-    // Generate word list (never mind)
-    /*
+    // Generate word list
     const ol = document.createElement("ol");
     wordListContainer.append(ol);
     for (let i = 0; i < this.announcedItemList.length; i++) {
@@ -523,10 +514,18 @@ class BingoGame {
       li.append(this.announcedItemList[i].title);
       ol.append(li);
     }
-    */
     
     // Generate wheel
     this.wheel = new Wheel(this, wheelContainer);
+    
+    // Generate bingo verification selector
+    const sel = document.querySelector("#player-id-select");
+    for (let i = 0; i < 2 * TEAM_SIZE; i++) {
+      const opt = document.createElement("option");
+      opt.value = i + 1;
+      opt.append(i + 1);
+      sel.append(opt);
+    }
     
     // Generate bingo confirmation banner
     if (this.winnerFemale) {
@@ -541,6 +540,7 @@ class BingoGame {
   async nextItem() {
     this.ready = false;
     document.querySelector("#next-button").disabled = "disabled";
+    document.querySelector("#bingo-verification-button").disabled = "disabled";
     
     if (this.time >= 0) {      
       // Remove previous wedge from wheel
@@ -574,7 +574,7 @@ class BingoGame {
       
       // Recalculate side length
       let sideLength = 0;
-      const numItems = this.time + 2; // Time is zero-indexed, and there's the free cell
+      const numItems = this.time + 1;
       
       // In theory we ought to allow l to be arbitrarily large, but let's cut it off at 6 rows
       for (let l = 1; l < 6; l++) {
@@ -594,41 +594,59 @@ class BingoGame {
       
       
       document.querySelector("#next-button").disabled = "";
+      document.querySelector("#bingo-verification-button").disabled = "";
       this.ready = true;
       
     } else {
       document.querySelector("#game-over").style.display = "block";
+      document.querySelector("#bingo-verification-button").disabled = "";
     }
   }
   
   checkForBingo() {
     if (!this.celebrating) {
-      let numSelected = this.bingoItems.filter(it => it.selected).length;
-      if (this.freeCellSelected) numSelected++;
-
-      if (numSelected >= 5) {
-        for (let i = 0; i < TEAM_SIZE; i++) {
-          const card = this.cardsByGender[this.winnerFemale][i];
-          for (let j = 0; j < card.allLines.length; j++) {
-            if (card.allLines[j].every(c => ((c.item == null && c.card.game.freeCellSelected) || c.item.selected))) {
-              this.celebrateBingo();
-              break;
-            }
+      for (let i = 0; i < TEAM_SIZE; i++) {
+        const card = this.cardsByGender[this.winnerFemale][i];
+        for (let j = 0; j < card.allLines.length; j++) {
+          if (card.allLines[j].every(c => (c.item == null || c.item.selected))) {
+            this.celebrateBingo();
+            break;
           }
-          if (this.celebrating) break;
         }
-        
-        if (!this.celebrating) document.querySelector("#false-bingo").style.visibility = "visible";
-      } else {
-        document.querySelector("#false-bingo").style.visibility = "hidden";
+        if (this.celebrating) break;
       }
+    }
+  }
+  
+  // TODO: Delete this method
+  verifyBingo() {
+    const playerID = parseInt(document.querySelector("#player-id-select").value);
+    const g = this.firstCardFemale ^ (1 - (playerID % 2));
+    const i = Math.floor((playerID - 1) / 2);
+    
+    const verified = (g == this.winnerFemale && this.time >= this.cardsByGender[g][i].bingoTime);
+    
+    const falseBingo = document.querySelector("#false-bingo");
+    falseBingo.getAnimations().forEach(a => a.finish());
+    
+    if (verified) {
+      falseBingo.style.opacity = 0;
+      this.celebrateBingo();
+    } else {
+      falseBingo.style.opacity = 1;
+      falseBingo.animate([
+        { opacity: "1", offset: 0 },
+        { opacity: "1", offset: 0.8 },
+        { opacity: "0", offset: 1}
+      ], {
+        duration: 5000,
+        fill: "forwards"
+      });
     }
   }
   
   celebrateBingo() {
     this.celebrating = true;
-    document.querySelector("#false-bingo").style.visibility = "hidden";
-    
     const banner = document.querySelector("#bingo-confirmed-banner");
     banner.style.display = "flex";
     document.querySelector("#current-item").style.transition = "none";
