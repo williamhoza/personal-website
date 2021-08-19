@@ -57,10 +57,7 @@ def compile(papers):
               Theoretical computer science stuff
             </h1>
             <p>
-              I'm currently a postdoc "at" the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I put "at" in quotes because I still physically live in Austin, TX for now, where I recently completed my grad school work (my official graduation date is in August 2021).
-            </p>
-            <p>
-              I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> and the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>.
+              I'm currently a postdoc "at" the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I put "at" in quotes because I still physically live in Austin, TX for now, where I recently finished grad school. I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>, and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
             </p>
             <details>
               <summary>
@@ -68,7 +65,7 @@ def compile(papers):
               </summary>
               <div class="indent">
                 <p>
-                  Some algorithms use randomness to solve computational problems. For example, one of the best known methods for finding a large prime number is to pick a large number at random, check if it's prime, and try again if necessary.
+                  Some algorithms use randomness to solve computational problems. For example, one of the best methods known for finding a large prime number is to pick a large number at random, check if it's prime, and try again if necessary.
                 </p>
                 <p>
                   You can think of randomness as a scarce computational resource — a type of algorithmic "fuel." Randomized algorithms are okay, but all else being equal, an algorithm that uses <em>fewer</em> random bits is better than an algorithm that uses more random bits, just like a faster algorithm is better than a slower algorithm, or a car that uses less gasoline is better than a car that uses more gasoline. Algorithms that don't use any randomness ("deterministic" algorithms) are best of all. For example, it would be nice to have a fast deterministic algorithm for finding large prime numbers. "Derandomization" is the art of converting randomized algorithms into deterministic algorithms.
