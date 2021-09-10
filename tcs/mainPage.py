@@ -57,7 +57,7 @@ def compile(papers):
               Theoretical computer science stuff
             </h1>
             <p>
-              I'm currently a postdoc "at" the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I put "at" in quotes because I still physically live in Austin, TX for now, where I recently finished grad school. I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>, and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
+              I'm currently a postdoc at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>, and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
             </p>
             <details>
               <summary>
@@ -79,7 +79,7 @@ def compile(papers):
               I'm grateful for all the mentorship I've received, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor) and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
             </p>
             <p>
-              My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, send me an <a href="mailto:whoza@utexas.edu">email</a>! Like most researchers, I like getting emails about my work.
+              My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, please send me an <a href="mailto:williamhoza@berkeley.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
             {paperList}
