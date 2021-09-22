@@ -75,14 +75,23 @@ def compile(papers):
                 </p>
               </div>
             </details>
-            <p>
-              I'm grateful for all the mentorship I've received, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor) and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
-            </p>
+            <hr />
+            <div class="expository">
+              <iframe src="https://www.youtube.com/embed/rjQKOBsFE-g" frameborder="0"></iframe>
+              <p>
+                <a href="https://www.youtube.com/watch?v=rjQKOBsFE-g">Video</a> of a 10-minute overview of my research that I presented for the Simons Institute's "Meet the Fellows Welcome Event" (September 2021). Here are the <a href="simons-meet-the-fellows-slides.pptx">slides</a> from that presentation.
+              </p>
+            </div>
+            <hr />
             <p>
               My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, please send me an <a href="mailto:williamhoza@berkeley.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
             {paperList}
+            <hr />
+            <p>
+              I'm grateful for all the mentorship I've received over the years, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor) and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
+            </p>
           </article>
         </main>
         {goatScript}
