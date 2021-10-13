@@ -66,7 +66,7 @@ class Paper:
       for erratum in self.metadata["errata"]:
         errataUL.append(
           <li>
-            ({erratum["date"]}) {erratum["text"]}
+            ({erratum["date"]}) {html.rawhtml(erratum["text"])}
           </li>
         )
       
@@ -115,6 +115,13 @@ class Paper:
           {self.expository}
         </frag>
       )
+      
+    if "dissertation" in self.metadata and self.metadata["dissertation"]:
+      paperType = "dissertation"
+      preAuthorText = "PhD dissertation by "
+    else:
+      paperType = "paper"
+      preAuthorText = "By "
     
     doc = (
       <html lang="en">
@@ -144,11 +151,11 @@ class Paper:
                 {self.metadata['title']}
               </h1>
               <p>
-                By {authorText}
+                {preAuthorText + authorText}
               </p>
               <hr />
               <p>
-                Read the paper: {links}
+                Read the {paperType}: {links}
               </p>
               <details>
                 <summary>
@@ -184,16 +191,21 @@ class Paper:
       </html>
     )
     
-    if os.path.exists(f"papers/{self.slug}"):
-      assert os.path.isdir(f"papers/{self.slug}"), "Slug problem"
+    if "dissertation" in self.metadata and self.metadata["dissertation"]:
+      self.dirPath = "dissertation"
     else:
-      os.makedirs(f"papers/{self.slug}")
+      self.dirPath = f"papers/{self.slug}"
       
-    indexFile = open(f"papers/{self.slug}/index.html", "w", encoding="utf-8")
+    if os.path.exists(self.dirPath):
+      assert os.path.isdir(self.dirPath), "Slug problem"
+    else:
+      os.makedirs(self.dirPath)
+      
+    indexFile = open(f"{self.dirPath}/index.html", "w", encoding="utf-8")
     indexFile.write("<!DOCTYPE html>" + str(doc))
     
     if os.path.exists(f"data/{self.filename}/assets"):
       for asset in os.listdir(f"data/{self.filename}/assets"):
-        if not os.path.exists(f"papers/{self.slug}/{asset}"):
+        if not os.path.exists(f"{self.dirPath}/{asset}"):
           assetPath = os.path.join(f"data/{self.filename}/assets", asset)
-          shutil.copy(assetPath, f"papers/{self.slug}/")
+          shutil.copy(assetPath, f"{self.dirPath}/")

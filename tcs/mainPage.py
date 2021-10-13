@@ -26,7 +26,7 @@ def compile(papers):
     
     paperList.append(
       <li style="font-style:italic;">
-        <a href="papers/{paper.slug}" style="font-weight:bold;font-style:normal;">{paper.metadata["title"]}</a><br />
+        <a href="{paper.dirPath}" style="font-weight:bold;font-style:normal;">{paper.metadata["title"]}</a><br />
         {authorHTML}
         {wherePublished}
       </li>

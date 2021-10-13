@@ -18,7 +18,7 @@
   "errata": [
     {
       "date": "February 2021",
-      "text": "The first step of the proof of Corollary 2.6 is not correct. The corollary should be modified to assume \\(\\ell \\delta < 1\\), and the bound in the conclusion should be \\(\\varepsilon = \\ell \\delta / (1 - \\ell \\delta)\\). Correspondingly, Theorem 3.8 should assume \\(\\varepsilon \\leq 0.1 / \\ell\\) instead of merely \\(\\varepsilon \\leq 0.12\\). The main results of the paper are unaffected."
+      "text": "The proof of Corollary 2.6 is not correct. See Corollary 5.1.17 in <a href='https://doi.org/10.26153/tsw/15500'>my PhD dissertation</a> for a corrected version, and similarly see Claim 5.1.14 in <a href='https://doi.org/10.26153/tsw/15500'>my PhD dissertation</a> for a corrected version of Theorem 3.8 in the paper. The main results of the paper are unaffected."
     }
   ],
   "recognition": [
