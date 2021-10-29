@@ -33,6 +33,8 @@ function showNotification(total) {
         title: "Log Movement"
       }
     ],
-    tag: "singleton"
+    tag: "singleton",
+    icon: "pregnancy.png",
+    badge: "pregnancy.png"
   });
 }
