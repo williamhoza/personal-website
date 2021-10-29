@@ -2,22 +2,73 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      button {
+        font-size:16px;
+        padding:5px;
+      }
+    </style>
   </head>
   <body>
-    <button onclick="main();">
+    <button onclick="show();">
       Show Notification
     </button>
     
-    <div id="log">?</div>
+    <button onclick="if (db != null) downloadEvents();">
+      Download Timestamps
+    </button>
+    
+    <div id="test"></div>
     
     <script>
-      async function main() {
-        document.querySelector("#log").innerHTML = navigator.serviceWorker;
-        const swReg = await navigator.serviceWorker.register("sw.js");
+      navigator.serviceWorker.register("sw.js");
+      
+      async function show() {
         const permission = await window.Notification.requestPermission();
         if (permission == "granted") {
-          swReg.showNotification("Test Title", {"body": "Hello World"});
+          navigator.serviceWorker.ready.then(reg => {
+            reg.active.postMessage({type: "showNotification"});
+          });
         }
+      }
+      
+      let dbReq = indexedDB.open("counter-db");
+      let db = null;
+      
+      dbReq.onupgradeneeded = function() {
+        // Create store
+        dbReq.result.createObjectStore("events", {autoIncrement: true});
+      }
+      
+      dbReq.onsuccess = function() {
+        db = dbReq.result;
+      }
+      
+      function downloadEvents() {
+        let transaction = db.transaction("events");
+        let eventsStore = transaction.objectStore("events");
+        let req = eventsStore.getAll();
+        req.onsuccess = function() {
+          let s = "";
+          for (let i = 0; i < req.result.length; i++) {
+            s += req.result[i]["timestamp"] + "\n";
+          }
+          let filename = "counter-data-";
+          let now = new Date();
+          filename += now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + "-" + now.getHours() + "-" + now.getMinutes() + "-" + now.getSeconds();
+          filename += ".txt";
+          downloadFile(s, filename);
+        }
+      }
+      
+      function downloadFile(contents, filename) {
+        let el = document.createElement("a");
+        el.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(contents));
+        el.setAttribute("download", filename);
+        el.style.display = "none";
+        document.body.appendChild(el);
+        el.click();
+        document.body.removeChild(el);
       }
     </script>
   </body>
