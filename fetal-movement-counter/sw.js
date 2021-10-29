@@ -3,7 +3,7 @@ self.addEventListener('message', () => {
   showNotification(null);
 });
 
-let dbReq = indexedDB.open("counter-db");
+let dbReq = indexedDB.open("fetal-movement-counter-db");
 let db = null;
 
 dbReq.onsuccess = function() {
@@ -12,8 +12,8 @@ dbReq.onsuccess = function() {
 
 self.addEventListener('notificationclick', (event) => {
   if (event.action == 'rec') {
-    let transaction = db.transaction("events", "readwrite");
-    let eventsStore = transaction.objectStore("events");
+    let transaction = db.transaction("fetal-movements", "readwrite");
+    let eventsStore = transaction.objectStore("fetal-movements");
     
     let newEvent = { timestamp: new Date() };
     let req = eventsStore.add(newEvent);
@@ -25,12 +25,12 @@ self.addEventListener('notificationclick', (event) => {
 
 function showNotification(total) {
   
-  this.registration.showNotification("Counter", {
-    body: "Ready to log." + (total == null ? "" : " Total events logged: " + total),
+  this.registration.showNotification("Fetal Movement Counter", {
+    body: "Ready!" + (total == null ? "" : " Total movements logged: " + total),
     actions: [
       {
         action: "rec",
-        title: "Log Event"
+        title: "Log Movement"
       }
     ],
     tag: "singleton"

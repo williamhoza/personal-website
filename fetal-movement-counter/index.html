@@ -32,12 +32,12 @@
         }
       }
       
-      let dbReq = indexedDB.open("counter-db");
+      let dbReq = indexedDB.open("fetal-movement-counter-db");
       let db = null;
       
       dbReq.onupgradeneeded = function() {
         // Create store
-        dbReq.result.createObjectStore("events", {autoIncrement: true});
+        dbReq.result.createObjectStore("fetal-movements", {autoIncrement: true});
       }
       
       dbReq.onsuccess = function() {
@@ -45,8 +45,8 @@
       }
       
       function downloadEvents() {
-        let transaction = db.transaction("events");
-        let eventsStore = transaction.objectStore("events");
+        let transaction = db.transaction("fetal-movements");
+        let eventsStore = transaction.objectStore("fetal-movements");
         let req = eventsStore.getAll();
         req.onsuccess = function() {
           let s = "";
