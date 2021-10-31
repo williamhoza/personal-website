@@ -24,26 +24,29 @@ function getDB() {
   return dbGetter;
 }
 
-self.addEventListener('notificationclick', (event) => {
-  if (event.action == 'rec') {
-    showNotification(false, null);
-    getDB().then(db => {
+self.addEventListener('notificationclick', async (event) => {
+  event.waitUntil(new Promise(async (resolve, reject) => {
+    if (event.action == 'rec') {
+      showNotification(false, null);
+      let db = await getDB();
       let transaction = db.transaction("fetal-movements", "readwrite");
       let eventsStore = transaction.objectStore("fetal-movements");
       
       let newEvent = { timestamp: new Date() };
       let req = eventsStore.add(newEvent);
+      let res = resolve;
       req.onsuccess = function() {
         showNotification(true, req.result);
+        res();
       }
-    });
-  }
+    }
+  }));
 });
 
 function showNotification(ready, total) {
   let nBody, nActions;
   if (ready) {
-    nBody = "Ready!" + (total == null ? "" : " Total movements logged: " + total);
+    nBody = total == null ? "" : " Total movements logged: " + total;
     nActions = [
       {
         action: "rec",
