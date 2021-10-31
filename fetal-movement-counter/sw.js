@@ -46,7 +46,7 @@ self.addEventListener('notificationclick', async (event) => {
 function showNotification(ready, total) {
   let nBody, nActions;
   if (ready) {
-    nBody = total == null ? "" : " Total movements logged: " + total;
+    nBody = total == null ? "" : "Total movements logged: " + total;
     nActions = [
       {
         action: "rec",
