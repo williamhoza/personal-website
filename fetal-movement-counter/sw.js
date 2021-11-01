@@ -27,7 +27,7 @@ function getDB() {
 self.addEventListener('notificationclick', async (event) => {
   event.waitUntil(new Promise(async (resolve, reject) => {
     if (event.action == 'rec') {
-      showNotification(false, null);
+      // showNotification(false, null);
       let db = await getDB();
       let transaction = db.transaction("fetal-movements", "readwrite");
       let eventsStore = transaction.objectStore("fetal-movements");
