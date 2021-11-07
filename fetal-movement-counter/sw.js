@@ -1,6 +1,6 @@
-console.log("Service worker created [3]");
 self.addEventListener('message', () => {
-  showNotification(true, null);
+  console.log("Hello");
+  showNotification("", []);
 });
 
 let dbGetter;
@@ -24,45 +24,74 @@ function getDB() {
   return dbGetter;
 }
 
-self.addEventListener('notificationclick', async (event) => {
-  event.waitUntil(new Promise(async (resolve, reject) => {
-    if (event.action == 'rec') {
-      // showNotification(false, null);
-      let db = await getDB();
-      let transaction = db.transaction("fetal-movements", "readwrite");
-      let eventsStore = transaction.objectStore("fetal-movements");
-      
-      let newEvent = { timestamp: new Date() };
-      let req = eventsStore.add(newEvent);
-      let res = resolve;
-      req.onsuccess = function() {
-        showNotification(true, req.result);
-        res();
-      }
+function saveData(data) {
+  return new Promise(async (resolve, reject) => {
+    let db = await getDB();
+    let transaction = db.transaction("fetal-movements", "readwrite");
+    
+    let res = resolve;
+    transaction.oncomplete = function() {
+      showNotification("Saved! ", []);
+      res();
     }
-  }));
+    transaction.onerror = function() {
+      this.registration.showNotification("Fetal Movement Counter", {
+        body: "Error! Data not saved. " + transaction.error + " Yikes...",
+        icon: "pregnancy.png",
+        badge: "pregnancy.png"
+      });
+      res();
+    }
+    transaction.onabort = function() {
+      this.registration.showNotification("Fetal Movement Counter", {
+        body: "Error! Data not saved. Transaction aborted. Yikes...",
+        icon: "pregnancy.png",
+        badge: "pregnancy.png"
+      });
+      res();
+    }
+    
+    let eventsStore = transaction.objectStore("fetal-movements");
+    for (let i = 0; i < data.length; i++) {
+      eventsStore.add({timestamp: data[i]});
+    }
+    transaction.commit();
+  });
+}
+
+self.addEventListener("notificationclose", (event) => {
+  if (event.notification.data && "length" in event.notification.data && event.notification.data.length > 0) {
+    event.waitUntil(saveData(event.notification.data));
+  }
 });
 
-function showNotification(ready, total) {
-  let nBody, nActions;
-  if (ready) {
-    nBody = total == null ? "" : "Total movements logged: " + total;
-    nActions = [
+self.addEventListener("notificationclick", (event) => {
+  if (event.action == "rec") {
+    // Add timestamp to notification data without modifying database
+    unsavedData = event.notification.data;
+    unsavedData.push(new Date());
+    showNotification("", unsavedData);
+  } else if (event.action == "save") {
+    // Save unsaved data to database
+    event.waitUntil(saveData(event.notification.data));
+  }
+});
+
+function showNotification(msg, unsavedData) {
+  this.registration.showNotification("Fetal Movement Counter", {
+    body: msg + unsavedData.length + " unsaved fetal movements.",
+    actions: [
       {
         action: "rec",
         title: "Log Movement"
+      }, {
+        action: "save",
+        title: "Save"
       }
-    ];
-  } else {
-    nBody = "Working...";
-    nActions = [];
-  }
-  
-  this.registration.showNotification("Fetal Movement Counter", {
-    body: nBody,
-    actions: nActions,
+    ],
     tag: "singleton",
     icon: "pregnancy.png",
-    badge: "pregnancy.png"
+    badge: "pregnancy.png",
+    data: unsavedData
   });
 }
