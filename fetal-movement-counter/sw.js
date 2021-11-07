@@ -61,7 +61,7 @@ function saveData(data) {
 
 self.addEventListener("notificationclose", (event) => {
   if (event.notification.data && "length" in event.notification.data && event.notification.data.length > 0) {
-    event.waitUntil(saveData(event.notification.data));
+    showNotification("Save before closing! ", event.notification.data);
   }
 });
 
