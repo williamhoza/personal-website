@@ -77,6 +77,16 @@ self.addEventListener("notificationclick", (event) => {
   }
 });
 
+self.addEventListener("install", event => {
+  this.skipWaiting();
+});
+
+self.addEventListener("activate", event => {
+  this.registration.showNotification("Fetal Movement Counter", {
+    body: "[Activate event fired]"
+  });
+});
+
 function showNotification(msg, unsavedData) {
   this.registration.showNotification("Fetal Movement Counter", {
     body: msg + unsavedData.length + " unsaved fetal movements.",
