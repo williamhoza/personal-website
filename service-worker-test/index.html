@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  
+  <body>
+    <button onclick="show();">
+      Show Notification
+    </button>
+    
+    <script>
+      navigator.serviceWorker.register("service-worker.js");
+      
+      async function show() {
+        await window.Notification.requestPermission();
+        const reg = await navigator.serviceWorker.ready;
+        reg.active.postMessage({});
+      }
+    </script>
+  </body>
+</html>
