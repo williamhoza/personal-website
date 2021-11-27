@@ -12,7 +12,7 @@
 
 'use strict';
 
-const NUM_CARDS = 20;
+const NUM_CARDS = 30;
 const NUM_BINGO_ITEMS = 84;
 
 // Milliseconds
@@ -156,18 +156,6 @@ class BingoCard {
     const outerDiv = document.createElement("div");
     outerDiv.classList.add("bingo-card");
     containerElement.append(outerDiv);
-    
-    const mainHeader = document.createElement("div");
-    mainHeader.classList.add("bingo-card-main-header");
-    outerDiv.append(mainHeader);
-    
-    const storkImage1 = document.createElement("img");
-    storkImage1.src = "stork1.png";
-    mainHeader.append(storkImage1);
-    
-    const storkImage2 = document.createElement("img");
-    storkImage2.src = "stork2.png";
-    mainHeader.append(storkImage2);
     
     const itemTable = document.createElement("table");
     itemTable.classList.add("bingo-item-table");

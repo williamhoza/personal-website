@@ -63,11 +63,23 @@
         color-adjust:exact;
         -webkit-print-color-adjust:exact;
         xbackground-image:url("stork-pair.png");
+        box-sizing:border-box;
+        padding-top:1in;
       }
       
       table {
         margin:auto;
         border-spacing:0.08in;
+      }
+      
+      .bingo-card:nth-child(odd) .bingo-item-table {
+        margin-left:0.6in;
+        margin-right:0;
+      }
+      
+      .bingo-card:nth-child(even) .bingo-item-table {
+        margin-left:0.2in;
+        margin-right:0;
       }
       
       .bingo-card-main-header {
@@ -104,8 +116,8 @@
       }
       
       .bingo-card-cell {
-        width:1.18in;
-        height:1.18in;
+        width:1.45in;
+        height:1.45in;
         box-sizing:border-box;
         background-color:white;
         border-radius:10px;
