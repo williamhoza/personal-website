@@ -3,13 +3,12 @@
   "authors": ["Andrej Bogdanov", "William M. Hoza", "Gautam Prakriya", "Edward Pyne"],
   "abbreviation": "BHPP",
   "where-published-summary": ["Manuscript 2021"],
-  "timeline": "Manuscript posted online in November 2021.",
+  "timeline": "A manuscript with Edward Pyne as the sole author was posted online in October 2021; an updated version with the current author list was posted online in November 2021.",
   "first-posted": "2021-11-03",
   "version-links": [
     {
       "text": "ECCC",
       "href": "https://eccc.weizmann.ac.il/report/2021/143/"
     }
-  ],
-  "version-notes": "An earlier version of the manuscript, with Edward Pyne as the sole author, was posted online in October 2021."
+  ]
 }
