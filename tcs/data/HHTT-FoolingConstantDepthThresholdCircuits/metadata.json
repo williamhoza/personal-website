@@ -3,12 +3,16 @@
   "authors": ["Pooya Hatami", "William M. Hoza", "Avishay Tal", "Roei Tell"],
   "abbreviation": "HHTT",
   "where-published-summary": ["FOCS 2021"],
-  "timeline": "A manuscript was first posted online in January 2021; the paper was presented at FOCS 2021 in February 2022.",
+  "timeline": "A manuscript was first posted online in January 2021; the paper appeared at FOCS 2021 in February 2022.",
   "first-posted": "2021-01-08",
   "version-links": [
     {
       "text": "ECCC",
       "href": "https://eccc.weizmann.ac.il/report/2021/002/"
+    }, {
+      "text": "FOCS proceedings",
+      "href": "https://doi.org/10.1109/FOCS52979.2021.00019"
     }
-  ]
+  ],
+  "version-notes": "The FOCS proceedings version is merely an \"extended abstract\" with no proofs."
 }
