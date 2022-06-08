@@ -70,7 +70,7 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
         <script src="/blog/blog-mathjax-config.js"></script>
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="fb:app_id" content="696618438072867" />
+        <meta property="fb:app_id" content="696618438072867" />
         
         {titleElement}
         
