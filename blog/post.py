@@ -18,10 +18,20 @@ class Post:
     self.dt = date.fromisoformat(self.metadata["date"])
     
   def humanReadableDate(self):
+    if "draft" in self.metadata and self.metadata["draft"]:
+      return ""
+      
     return f"{self.dt:%B} {self.dt.day}, {self.dt.year}"
     
   def compile(self):
     controls = ("controls" in self.metadata and self.metadata["controls"])
+    
+    if "draft" in self.metadata and self.metadata["draft"]:
+      draftText = <span style="color:red">[draft]</span>
+      fbComments = <span style="color:gray">[comments not yet enabled]</span>
+    else:
+      draftText = None
+      fbComments = <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}/" data-width="100%" data-numposts="5"></div>
     
     if controls:
       main = (
@@ -30,7 +40,7 @@ class Post:
             <div class="main-column">
               <div class="main-column-inner">
                 <h1>
-                  {self.metadata["title"]}
+                  {self.metadata["title"]} {draftText}
                 </h1>
                 <time datetime="{self.dt.isoformat()}">{self.humanReadableDate()}</time>
               </div>
@@ -48,7 +58,7 @@ class Post:
           <section id="comments-section" class="column-container">
             <div class="main-column">
               <div class="main-column-inner">
-                <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}" data-width="100%" data-numposts="5"></div>
+                {fbComments}
               </div>
             </div>
           </section>
@@ -60,7 +70,7 @@ class Post:
           <div class="main-column">
             <div class="main-column-inner">
               <h1>
-                {self.metadata["title"]}
+                {self.metadata["title"]} {draftText}
               </h1>
               <time datetime="{self.dt.isoformat()}">{self.humanReadableDate()}</time>
               {self.body}
@@ -71,7 +81,7 @@ class Post:
           <section id="comments-section">
             <div class="main-column">
               <div class="main-column-inner">
-                <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}/" data-width="100%" data-numposts="5"></div>
+                {fbComments}
               </div>
             </div>
           </section>

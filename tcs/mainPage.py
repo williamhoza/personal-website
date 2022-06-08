@@ -57,7 +57,7 @@ def compile(papers):
               Theoretical computer science stuff
             </h1>
             <p>
-              I'm currently a postdoc at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>, and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
+              I'm currently a postdoc in <a href="https://www.avishaytal.org/">Avishay Tal</a>'s group at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>, and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
             </p>
             <details>
               <summary>

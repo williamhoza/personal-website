@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="/blog/blog-mathjax-config.js"></script><script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta property="fb:admins" content="wmhoza"><title>Notation for nonempty intersection | William Hoza's blog</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/blog/blog.css"><meta property="og:url" content="https://williamhoza.com/blog/notation-for-nonempty-intersection/"><meta property="og:type" content="article"><meta property="og:description" content="There is no standard mathematical symbol for the intersection relation. You've probably encountered the symbol for the intersection *operation*. If A and B are sets, then A \cap B is &quot;the intersection&quot; of A and B, i.e., the set of all x such that x \in A and x \in B. It's the middle part of a Venn diagram. That's all well and good, but I'm talking about the intersection *relation*. We say that A &quot;intersects&quot; B if there *exists* some x such that x \in A and x \in B."><link rel="stylesheet" href="/blog/notation-for-nonempty-intersection/index.css"><meta property="og:title" content="Notation for nonempty intersection"><meta property="og:image" content="https://williamhoza.com/blog/notation-for-nonempty-intersection/og.png"><meta property="og:image:width" content="1500"><meta property="og:image:height" content="785"></head><body><div id="fb-root"></div><script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script><span style="display:none;">
+    \(\renewcommand{\epsilon}{\varepsilon}\)
+    \(\renewcommand{\hat}{\widehat}\)
+    \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    \(\renewcommand{\emptyset}{\varnothing}\)
+  </span><header class="one-column-container"><div class="main-column"><div class="main-column-inner"><a href="/blog">William Hoza's Blog</a></div></div></header> <main class="one-column-container"><div class="main-column"><div class="main-column-inner"><h1>Notation for nonempty intersection <span style="color:red">[draft]</span></h1><time datetime="2023-01-01"></time><p>
+  There is no standard mathematical symbol for the intersection relation.
+</p>
+
+<p>
+  You've probably encountered the symbol for <a href="https://en.wikipedia.org/wiki/Intersection_(set_theory)">the intersection <em>operation</em></a>. If \(A\) and \(B\) are sets, then "the intersection" of \(A\) and \(B\), denoted \(A \cap B\), is the set of all \(x\) such that \(x \in A\) and \(x \in B\). It's the middle part of a Venn diagram.
+</p>
+
+<img src="venn-diagram.svg" style="width:200px;display:block;margin:auto;">
+
+<p>
+  That's fine, but I'm talking about <a href="https://en.wikipedia.org/wiki/Intersection_(set_theory)#Intersecting_and_disjoint_sets">the intersection <em>relation</em></a>. We say that \(A\) "intersects" \(B\) if there exists some \(x\) such that \(x \in A\) and \(x \in B\). To express the condition using symbols, a common approach is to write \(A \cap B \neq \emptyset\). It gets the job done, but it's clunky, it's kind of a double negative, and every time I read it, it's like my mind hits a speed bump.
+</p>
+
+<p>
+  For comparison, consider the equation \(A \cap B = A\). When I read that equation, I have to do some mental processing before I understand what it is telling me: \(A\) is a subset of \(B\). In contrast, when I see the elegant notation \(A \subseteq B\), the meaning is so clear that I <em>cannot avoid</em> understanding it. (Try reading the word "elephant" and not thinking of an elephant...) I am grateful for the subset symbol. I feel that mathematics would be needlessly hobbled if we were all writing \(A \cap B = A\) instead of \(A \subseteq B\).
+</p>
+
+<p>
+  I propose that we write \(A \ni\!\in B\) to indicate that \(A\) intersects \(B\). The idea is that the condition \(x \in A \cap B\) can also be written \(A \ni x \in B\). If you erase the \(x\) and smush everything together, you get \(A \ni\!\in B\).
+</p>
+
+<div style="text-align:center;overflow:hidden;">
+  <img id="Ani-img" src="Ani.png"><img id="x-img" src="x.png"><img id="inB-img" src="inB.png">
+</div>
+<!-- Downloadable version of the animation: https://williamhoza.com/blog/notation-for-nonempty-intersection/animation-1756.webp -->
+
+<p>
+  Going forward, I plan to write \(A \ni\!\in B\) in my research papers instead of \(A \cap B \neq \emptyset\). (I'll always include the definition, and if I have coauthors who would rather not use the new symbol, I won't insist.) In TeX, you can typeset the symbol using the commands <code>\ni\joinrel\in</code>. For disjoint sets, you could use the <a href="https://ctan.org/pkg/centernot">centernot</a> package to get \(A \centernot {\ni\!\in} B\), but I'm not sure it's an improvement over the equation \(A \cap B = \emptyset\).
+</p>
+
+<p>
+  I'm not the first to suggest notation for intersecting sets. Reddit user nickmcclendon <a href="https://www.reddit.com/r/math/comments/lyicl/i_propose_these_symbols_to_denote_overlapping_and/">proposed</a> a symbol in 2011. His symbol resembles the <a href="https://ctan.org/pkg/amsfonts">amssymb</a> <code>\between</code> symbol, which looks like this: \(A \between B\). I would be fine with that notation or any other reasonable notation. I just want <em>something</em> to catch on and become standard!
+</p>
+<ol id="footnotes-container"></ol></div></div><section id="comments-section"><div class="main-column"><div class="main-column-inner"><span style="color:gray">[comments not yet enabled]</span></div></div></section></main><script src="/blog/blog.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>

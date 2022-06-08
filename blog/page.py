@@ -16,6 +16,7 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
     \(\renewcommand{\epsilon}{\varepsilon}\)
     \(\renewcommand{\hat}{\widehat}\)
     \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    \(\renewcommand{\emptyset}{\varnothing}\)
   """
       
   fbContent = (

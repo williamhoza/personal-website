@@ -24,7 +24,7 @@ def compile(posts):
       <div class="main-column">
         <div class="main-column-inner">
           <p class="main-page-intro">
-            Hi, I'm <a href="/">William Hoza</a>. This is my blog. My blog posts are listed below, and an RSS feed is <a href="/blog/rss.xml">here</a>.
+            Hi, I'm <a href="/">William Hoza</a>. My blog posts are listed below, and an RSS feed is <a href="/blog/rss.xml">here</a>.
           </p>
           {postLinkList}
         </div>

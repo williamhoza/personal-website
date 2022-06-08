@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <canvas id="canv" width="1756" height="296"></canvas>
+    <video id="vid"></video>
+    
+    <script src="cubic-bezier.js"></script>
+    
+    <script>
+      let images = [];
+      let filenames = ["Ani.png", "x.png", "inB.png"];
+      let promises = [];
+      let timingFunction = bezier(0.42, 0, 0.58, 1);
+      let starttime;
+      
+      let canv = document.querySelector("#canv");
+      let ctx = canv.getContext('2d');
+      let mediaRecorder;
+      
+      async function init() {
+        for (let i = 0; i < filenames.length; i++) {
+          let img = new Image();
+          img.src = filenames[i];
+          promises[i] = new Promise((res, rej) => {
+            img.onload = function() {
+              res();
+            }
+          });
+          images[i] = img;
+        }
+        
+        for (let i = 0; i < filenames.length; i++) {
+          await promises[i];
+        }
+        
+        ctx.fillStyle = "#FFFFFF";
+        
+        mediaRecorder = new MediaRecorder(canv.captureStream(), {mimeType: "video/webm"});
+        mediaRecorder.start();
+        mediaRecorder.ondataavailable = function(evt) {
+          const blob = new Blob([evt.data], {type: "video/webm"});
+          document.querySelector("#vid").src = window.URL.createObjectURL(blob);
+        }
+        window.requestAnimationFrame(timer);
+      }
+      
+      function timer(timestamp) {
+        if (starttime == undefined) starttime = timestamp;
+        const elapsed = timestamp - starttime;
+        
+        if (elapsed > 4000) {
+          mediaRecorder.stop();
+        } else {
+          render(elapsed);
+          window.requestAnimationFrame(timer);
+        }
+      }
+      
+      function render(t) {
+        ctx.fillRect(0, 0, 1756, 296);
+        
+        let xWidth;
+        // Phase 1: Pause at full width (800 ms)
+        if (t <= 800) xWidth = 507;
+        // Phase 2: Width decreases (1200 ms)
+        if (t > 800 && t <= 2000) xWidth = 507 * (1 - timingFunction((t - 800) / 1200));
+        // Phase 3: Pause at width 0 (800 ms)
+        if (t > 2000 && t <= 2800) xWidth = 0;
+        // Phase 4: Width increases (1200 ms)
+        if (t > 2800 && t <= 4000) xWidth = 507 * timingFunction((t - 2800) / 1200);
+        
+        let xHeight = 296 * xWidth / 507;
+        
+        console.log(xWidth, xHeight);
+        
+        ctx.drawImage(images[2], 616 + (507 - xWidth) / 2 + xWidth, 0);
+        ctx.drawImage(images[0], (507 - xWidth) / 2 + 1, 0);
+        ctx.drawImage(images[1], 616 + (507 - xWidth) / 2, (296 - xHeight) / 2, xWidth, xHeight);
+      }
+      
+      init();
+    </script>
+  </body>
+</html>

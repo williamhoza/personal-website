@@ -1,0 +1,30 @@
+#Ani-img, #x-img, #inB-img {
+  height:50px;
+  vertical-align:middle;
+}
+
+#x-img {
+  animation-duration: 2s;
+  animation-name: smush;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes smush {
+  0% {
+    height:50px;
+  }
+
+  20% {
+    height:50px;
+    animating-timing-function:ease-in-out;
+  }
+  
+  80% {
+    height:0px;
+  }
+  
+  100% { 
+    height:0px;
+  ]
+}

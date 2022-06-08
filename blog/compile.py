@@ -8,9 +8,11 @@ def main():
   slugs = [f.name for f in os.scandir(".") if f.is_dir() and f.name != "__pycache__"]
   unsortedPosts = {}
   for slug in slugs:
-    unsortedPosts[slug] = Post(slug)
-    unsortedPosts[slug].compile()
-    
+    newPost = Post(slug)
+    newPost.compile()
+    if "draft" not in newPost.metadata or not newPost.metadata["draft"]:
+      unsortedPosts[slug] = Post(slug)
+  
   items1 = sorted(unsortedPosts.items(), key=lambda it:it[1].metadata["time-slot"], reverse=True)
   items2 = sorted(items1, key=lambda it:it[1].dt, reverse=True)
   posts = OrderedDict(items2)

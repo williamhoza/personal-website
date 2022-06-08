@@ -21,5 +21,7 @@ window.MathJax = {
         });
       });
     }
-  }
+  },
+  loader: {load: ['[tex]/centernot']},
+  tex: {packages: {'[+]': ['centernot']}}
 };
