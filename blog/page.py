@@ -10,7 +10,6 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
   mathjaxScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
   goatScript.set_attr("async", "")
   
-  fbScript = "(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));"
   
   texMacros = r"""
     \(\renewcommand{\epsilon}{\varepsilon}\)
@@ -18,6 +17,9 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
     \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
     \(\renewcommand{\emptyset}{\varnothing}\)
   """
+  
+  """
+  fbScript = "(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2'; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));"
       
   fbContent = (
     <frag>
@@ -27,6 +29,9 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
       </script>
     </frag>
   )
+  """
+  
+  fbContent = html.rawhtml('<div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=696618438072867&autoLogAppEvents=1" nonce="pvRAb9ux"></script>')
   
   header = (
     <header>
@@ -56,6 +61,8 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
       </title>
     )
   
+  # <meta property="fb:admins" content="wmhoza"/>
+  
   doc = (
     <html lang="en">
       <head>
@@ -63,7 +70,7 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
         <script src="/blog/blog-mathjax-config.js"></script>
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="fb:admins" content="wmhoza"/>
+        <meta name="fb:app_id" content="696618438072867" />
         
         {titleElement}
         
