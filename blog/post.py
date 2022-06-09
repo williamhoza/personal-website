@@ -28,10 +28,11 @@ class Post:
     
     if "draft" in self.metadata and self.metadata["draft"]:
       draftText = <span style="color:red">[draft]</span>
-      fbComments = <span style="color:gray">[comments not yet enabled]</span>
+      comments = <span style="color:gray">[comments not yet enabled]</span>
     else:
       draftText = None
-      fbComments = <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}/" data-width="100%" data-numposts="5"></div>
+      # fbComments = <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}/" data-width="100%" data-numposts="5"></div>
+      comments = <script src="https://giscus.app/client.js" data-repo="williamhoza/blog-comments" data-repo-id="R_kgDOHeMfrQ" data-category="Announcements" data-category-id="DIC_kwDOHeMfrc4CPjCb" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async></script>
     
     if controls:
       main = (
@@ -58,7 +59,7 @@ class Post:
           <section id="comments-section" class="column-container">
             <div class="main-column">
               <div class="main-column-inner">
-                {fbComments}
+                {comments}
               </div>
             </div>
           </section>
@@ -81,7 +82,7 @@ class Post:
           <section id="comments-section">
             <div class="main-column">
               <div class="main-column-inner">
-                {fbComments}
+                {comments}
               </div>
             </div>
           </section>

@@ -31,7 +31,7 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
   )
   """
   
-  fbContent = html.rawhtml('<div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=696618438072867&autoLogAppEvents=1" nonce="pvRAb9ux"></script>')
+  # fbContent = html.rawhtml('<div id="fb-root"></div><script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=696618438072867&autoLogAppEvents=1" nonce="pvRAb9ux"></script>')
   
   header = (
     <header>
@@ -62,6 +62,8 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
     )
   
   # <meta property="fb:admins" content="wmhoza"/>
+  # <meta property="fb:app_id" content="696618438072867" />
+  # {fbContent}
   
   doc = (
     <html lang="en">
@@ -70,7 +72,6 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
         <script src="/blog/blog-mathjax-config.js"></script>
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="fb:app_id" content="696618438072867" />
         
         {titleElement}
         
@@ -83,7 +84,6 @@ def compile(controls, main, extraHeadElements, indexFile, title=None, ogImageTag
       </head>
       
       <body>
-        {fbContent}
         <span style="display:none;">{texMacros}</span>
         {header}
         {main}
