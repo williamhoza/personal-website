@@ -2,8 +2,10 @@
 from pyxl import html
     
 def compile(papers):
+  mathjaxScript = <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
   goatScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
+  mathjaxScript.set_attr("async", "")
   
   paperList = <ol class="paper-list"></ol>
   for paper in reversed(papers):
@@ -36,6 +38,8 @@ def compile(papers):
     <html lang="en">
       <head>
         <meta charset="utf-8" />
+        <script src="/mathjax-config.js"></script>
+        {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
         <title>William Hoza's TCS Stuff</title>

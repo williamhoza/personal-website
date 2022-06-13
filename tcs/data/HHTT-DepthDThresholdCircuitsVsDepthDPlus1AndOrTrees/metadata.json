@@ -1,0 +1,14 @@
+{
+  "title": "Depth-\\(d\\) Threshold Circuits vs. Depth-\\((d + 1)\\) AND-OR Trees",
+  "authors": ["Pooya Hatami", "William M. Hoza", "Avishay Tal", "Roei Tell"],
+  "abbreviation": "HHTT",
+  "where-published-summary": ["Manuscript 2022"],
+  "timeline": "The paper was posted online in June 2022.",
+  "first-posted": "2022-06-11",
+  "version-links": [
+    {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2022/087/"
+    }
+  ]
+}
