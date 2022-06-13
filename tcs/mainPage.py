@@ -42,7 +42,7 @@ def compile(papers):
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        <title>William Hoza's TCS Stuff</title>
+        <title>William Hoza's TCS Research</title>
         
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/main.css" />
@@ -58,10 +58,10 @@ def compile(papers):
             </p>
             <hr />
             <h1>
-              Theoretical computer science stuff
+              Theoretical computer science research
             </h1>
             <p>
-              I'm currently a postdoc in <a href="https://www.avishaytal.org/">Avishay Tal</a>'s group at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study <em>pseudorandomness and derandomization</em>. More generally, I'm interested in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a>, and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
+              I'm currently a postdoc in <a href="https://www.avishaytal.org/">Avishay Tal</a>'s group at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a>, especially aspects related to <em>pseudorandomness and derandomization</em>. I'm also interested in the <a href="https://en.wikipedia.org/wiki/Analysis_of_Boolean_functions">analysis of Boolean functions</a> and other topics in <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>.
             </p>
             <details>
               <summary>
