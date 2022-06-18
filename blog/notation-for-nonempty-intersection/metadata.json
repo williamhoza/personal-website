@@ -1,8 +1,8 @@
 {
   "title": "Notation for nonempty intersection",
-  "date": "2023-01-01",
+  "date": "2022-06-18",
   "time-slot": 0,
-  "draft": true,
+  "draft": false,
   "snippet": "There is no standard mathematical symbol for the intersection relation. You've probably encountered the symbol for the intersection *operation*. If A and B are sets, then \"the intersection\" of A and B, denoted A \\cap B, is the set of all x such that x \\in A and x \\in B. It's the middle part of a Venn diagram. That's fine, but I'm talking about the intersection *relation*. We say that A \"intersects\" B if there exists some x such that x \\in A and x \\in B.",
   "styling": true,
   "og-image": "og.png",
