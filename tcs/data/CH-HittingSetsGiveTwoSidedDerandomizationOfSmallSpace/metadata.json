@@ -16,6 +16,7 @@
   ],
   "version-notes": "The CCC proceedings version and the ECCC version are the same except for formatting.",
   "recognition": [
-    "This paper was invited to the Theory of Computing special issue for CCC 2020."
+    "This paper was invited to the Theory of Computing special issue for CCC 2020.",
+    "Oded Goldreich discusses the paper in <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/324.html\">this blog post</a>."
   ]
 }
