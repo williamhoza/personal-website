@@ -2,8 +2,8 @@
   "title": "Hitting Sets Give Two-Sided Derandomization of Small Space",
   "authors": ["Kuan Cheng", "William M. Hoza"],
   "abbreviation": "CH",
-  "where-published-summary": ["CCC 2020"],
-  "timeline": "We posted a manuscript online in February 2020; I presented the paper at CCC in July 2020.",
+  "where-published-summary": ["CCC 2020", "ToC (special issue for CCC 2020, to appear)"],
+  "timeline": "We posted a manuscript online in February 2020; I presented the paper at CCC in July 2020; the final version will appear in the ToC special issue for CCC 2020.",
   "first-posted": "2020-02-18",
   "version-links": [
     {
@@ -16,7 +16,6 @@
   ],
   "version-notes": "The CCC proceedings version and the ECCC version are the same except for formatting.",
   "recognition": [
-    "This paper was invited to the Theory of Computing special issue for CCC 2020.",
     "Oded Goldreich discusses the paper in <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/324.html\">this blog post</a>."
   ]
 }
