@@ -318,11 +318,14 @@
             let formatter = new google.visualization.NumberFormat({prefix: '$'});
             formatter.format(data, 1);
             
-            let options = {backgroundColor: "transparent", legend: {position: "none"}, vAxis: {format: 'currency'}};
+            // TODO fix min below
+            let minDate = env.graphRangePossibilities[parseInt(env.graphRangeSelector.value)][1];
+            let options = {backgroundColor: "transparent", legend: {position: "none"}, vAxis: {format: 'currency'}, hAxis: {viewWindow: {min: minDate}}};
             
             if (env.BalanceHistoryGraph == null) env.BalanceHistoryGraph = new google.visualization.LineChart(env.balanceHistoryGraphDiv);
             env.BalanceHistoryGraph.draw(data, options);
             env.graphLoadingDiv.style.display = "none";
+            env.graphRangeSelector.style.display = "";
           });
         }
         
@@ -617,6 +620,29 @@
         this.graphLoadingDiv.appendChild(document.createTextNode("Loading..."));
         this.graphForm.appendChild(this.graphLoadingDiv);
         
+        const now = new Date().getTime();
+        this.graphRangePossibilities = [
+          ["All Time", null],
+          ["Past Year", new Date(now - 1000 * 60 * 60 * 24 * 365)],
+          ["Past Month", new Date(now - 1000 * 60 * 60 * 24 * 30)]
+        ];
+        
+        this.graphRangeSelector = document.createElement("select");
+        this.graphRangeSelector.style.display = "none";
+        this.graphRangeSelector.addEventListener("change", function() {
+          env.balanceHistoryGraphGenerated = false;
+          env.generateBalanceHistoryGraph();
+        });
+        this.graphRangeOptions = [];
+        
+        for (let i = 0; i < this.graphRangePossibilities.length; i++) {
+          this.graphRangeOptions[i] = document.createElement("option");
+          this.graphRangeOptions[i].appendChild(document.createTextNode(this.graphRangePossibilities[i][0]));
+          this.graphRangeOptions[i].value = i;
+          this.graphRangeSelector.appendChild(this.graphRangeOptions[i]);
+        }
+        this.graphForm.appendChild(this.graphRangeSelector);
+        
         this.balanceHistoryGraphDiv = document.createElement("div");
         this.graphForm.appendChild(this.balanceHistoryGraphDiv);
         
@@ -762,7 +788,6 @@
       function loadData() {
         base('Envelopes').select({view: "Grid view"}).eachPage(function(records, fetchNextPage) {
           records.forEach(function(record) {
-            console.log(record);
             envelopes.push(new Envelope(record));
           });
           fetchNextPage();
