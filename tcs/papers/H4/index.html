@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="/mathjax-config.js"></script><script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Recent Progress on Derandomizing Space-Bounded Computation</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Recent Progress on Derandomizing Space-Bounded Computation"></head><body><span style="display:none;">
+      \(\renewcommand{\epsilon}{\varepsilon}\)
+      \(\renewcommand{\hat}{\widehat}\)
+      \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    </span><main><article><p><a href="/tcs/">Back to list of papers</a></p><hr><h1>Recent Progress on Derandomizing Space-Bounded Computation</h1><p>Survey paper by William M. Hoza</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2022/121/">ECCC</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
+  Is randomness ever necessary for space-efficient computation? It is commonly conjectured that \(\mathsf{L} = \mathsf{BPL}\), meaning that halting decision algorithms can always be derandomized without increasing their space complexity by more than a constant factor. In the past few years (say, from 2017 to 2022), there has been some exciting progress toward proving this conjecture. Thanks to recent work, we have new pseudorandom generators (PRGs), new black-box derandomization algorithms (generalizations of PRGs), and new non-black-box derandomization algorithms. This article is a survey of these recent developments. We organize the underlying techniques into four overlapping themes:
+</p>
+
+<ol>
+  <li>The <em>iterated pseudorandom restrictions</em> framework for designing PRGs, especially PRGs for functions computable by arbitrary-order read-once branching programs.</li>
+  <li>The <em>inverse Laplacian</em> perspective on derandomizing \(\mathsf{BPL}\) and the related concept of local consistency.</li>
+  <li><em>Error reduction</em> procedures, including methods of designing low-error weighted pseudorandom generators (WPRGs).</li>
+  <li>The continued use of <em>spectral expander graphs</em> in this domain via the derandomized square operation and the Impagliazzo-Nisan-Wigderson PRG (STOC 1994).</li>
+</ol>
+
+<p>
+  We give an overview of these ideas and their applications, and we discuss the challenges ahead.
+</p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+  A "randomized" algorithm tosses coins to make decisions, whereas a "deterministic" algorithm doesn't use any randomness. In practice, randomized algorithms are often more efficient than deterministic algorithms. However, all else being equal, deterministic algorithms are preferable, because we don't always have access to random bits. "Derandomization" is the art of converting randomized algorithms into deterministic algorithms without making them significantly worse in other respects.
+</p>
+
+<p>
+  For several decades now, theoretical computer scientists have been trying to prove that every algorithm can be derandomized without significantly increasing the amount of <em>memory</em> that the algorithm uses. This is an expository paper that summarizes the progress that researchers have made on this problem in the last few years.
+</p>
+</div></details><p>I posted a manuscript online in August 2022. </p><hr><p>Expository material:</p><div class="expository">
+  <a href="columbia-slides.pptx"><img src="columbia-slides.png"></a>
+  <p>
+    <a href="columbia-slides.pptx">Slides</a> from my presentation for the Columbia Theory Seminar (March 2022). I used very similar slides for a presentation at Oberwolfach Meeting 2146 on Complexity Theory (November 2021). Note: The presentation predates the article.
+  </p>
+</div>
+<hr> <p>What others think:</p><ul><li>Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/331.html">this blog post</a>.</li></ul> </article></main><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>

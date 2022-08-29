@@ -119,6 +119,9 @@ class Paper:
     if "dissertation" in self.metadata and self.metadata["dissertation"]:
       paperType = "dissertation"
       preAuthorText = "PhD dissertation by "
+    elif "survey" in self.metadata and self.metadata["survey"]:
+      paperType = "paper"
+      preAuthorText = "Survey paper by "
     else:
       paperType = "paper"
       preAuthorText = "By "
