@@ -81,9 +81,9 @@ def compile(papers):
             </details>
             <hr />
             <div class="expository">
-              <iframe src="https://www.youtube.com/embed/rjQKOBsFE-g" frameborder="0"></iframe>
+              <iframe src="https://www.youtube.com/embed/L7SbTgtAsNY" frameborder="0"></iframe>
               <p>
-                <a href="https://www.youtube.com/watch?v=rjQKOBsFE-g">Video</a> of a 10-minute overview of my research that I presented for the Simons Institute's "Meet the Fellows Welcome Event" (September 2021). Here are the <a href="simons-meet-the-fellows-slides.pptx">slides</a> from that presentation.
+                <a href="https://www.youtube.com/watch?v=L7SbTgtAsNY">Video</a> of a 10-minute overview of my research that I presented for the Simons Institute's "Meet the Fellows Welcome Event" (September 2022). Here are the <a href="simons-meet-the-fellows-2022-slides.pptx">slides</a> from that presentation.
               </p>
             </div>
             <hr />
