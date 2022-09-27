@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <canvas id="canv" width="512" height="512" style="border:1px solid red;">
+    </canvas>
+    
+    <script>
+      const canv = document.querySelector("#canv");
+      const ctx = canv.getContext('2d');
+      let instructionQueue;
+      let pX;
+      let pY;
+      let nX;
+      let nY;
+      let dir;
+      let timeUntilParticle = 0;
+      let timeBetweenParticles = 0;
+      let FLength;
+      let iterations;
+      let particles;
+      let particleDensity;
+      let millisecondsPerCycle;
+      let startTime;
+      let maxIterations;
+      let particleSize;
+      let speed;
+      
+      function animate(maxIts, partDens, spd) {
+        maxIterations = maxIts;
+        particleDensity = partDens;
+        speed = spd;
+        startTime = null;
+        window.requestAnimationFrame(timer);
+      }
+      
+      function timer(ts) {
+        if (startTime == null) startTime = ts;
+        const elapsedTime = ts - startTime;
+        for (let n = 1; n < maxIterations; n++) {
+          iterations = n;
+          particles = particleDensity * (Math.pow(4, n) - 1);
+          particleSize = 128 / Math.pow(2, n);
+          millisecondsPerCycle = (Math.pow(4, n) - 1) / speed;
+          draw(elapsedTime / millisecondsPerCycle);
+        }
+        window.requestAnimationFrame(timer);
+      }
+      
+      function draw(offset) {
+        instructionQueue = [iterations];
+        pX = 0.5;
+        pY = 0.5;
+        dir = 0;
+        const totalF = Math.pow(4, iterations) - 1;
+        FLength = 512 / Math.pow(2, iterations)
+        timeBetweenParticles = totalF / particles;
+        timeUntilParticle = (offset * totalF) % timeBetweenParticles;
+        
+        ctx.fillStyle = "rgba(255, 255, 255, 0.01)";
+        ctx.fillRect(0, 0, 512, 512);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        while (step()) {
+          // nothing
+        }
+      }
+      
+      function step() {
+        if (instructionQueue.length == 0) return false;
+        let ins = instructionQueue.pop();
+        if (ins == "F") {
+          // Move forward one step
+          nX = pX;
+          nY = pY;
+          
+          if (dir == 0) nX++;
+          if (dir == 1) nY++;
+          if (dir == 2) nX--;
+          if (dir == 3) nY--;
+          
+          // Draw any appropriate particles
+          let distTraveled = 0;
+          while (1 - distTraveled > timeUntilParticle) {
+            distTraveled += timeUntilParticle;
+            let cX = pX + (nX - pX) * distTraveled;
+            let cY = pY + (nY - pY) * distTraveled;
+            ctx.fillRect(cX * FLength - particleSize / 2, cY * FLength - particleSize / 2, particleSize, particleSize);
+            timeUntilParticle = timeBetweenParticles;
+          }
+          
+          timeUntilParticle -= (1 - distTraveled);
+          pX = nX;
+          pY = nY;
+          
+          return true;
+        } else if(ins == "+") {
+          // Turn
+          dir = (dir + 1) % 4;
+          return true;
+        } else if(ins == "-") {
+          // Turn
+          dir = (dir + 3) % 4;
+          return true;
+        } else {
+          // Expand
+          const expansion = ins > 0 ? "+BF-AFA-FB+" : "-AF+BFB+FA-";
+          const s = Math.abs(ins) - 1;
+          for (let i = 0; i < expansion.length; i++) {
+            if (expansion[i] == "A") {
+              if (s > 0) instructionQueue.push(s);
+            } else if (expansion[i] == "B") {
+              if (s > 0) instructionQueue.push(-s);
+            } else {
+              instructionQueue.push(expansion[i]);
+            }
+          }
+          return true;
+        }
+      }
+    </script>
+  </body>
+</html>

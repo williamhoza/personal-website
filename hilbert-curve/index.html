@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <canvas id="canv" width="512" height="512" style="border:1px solid red;">
+    </canvas>
+    
+    <script>
+      const canv = document.querySelector("#canv");
+      const ctx = canv.getContext('2d');
+      let agents;
+      let startTime;
+      let totalTime;
+      let imgData = ctx.getImageData(0, 0, 512, 512);
+      
+      function drawHilbertCurves(itsArr, milliseconds) {
+        agents = [];
+        for (let i = 0; i < itsArr.length; i++) {
+          agents[i] = new HilbertAgent(itsArr[i]);
+        }
+        startTime = null;
+        totalTime = milliseconds;
+        window.requestAnimationFrame(timer);
+      }
+      
+      function timer(ts) {
+        if (startTime == null) startTime = ts;
+        const elapsedTime = ts - startTime;
+        // ctx.putImageData(imgData, 0, 0);
+        for (let i = 0; i < agents.length; i++) {
+          agents[i].update(Math.min(1, elapsedTime / totalTime));
+        }
+        //imgData = ctx.getImageData(0, 0, 512, 512);
+        // ctx.clearRect(0, 0, 512, 512);
+        // for (let i = 0; i < agents.length; i++) {
+        //   agents[i].drawCurrentLocation();
+        // }
+        if (elapsedTime <= totalTime) window.requestAnimationFrame(timer);
+      }
+      
+      function HilbertAgent(iterations) {
+        this.iterations = iterations;
+        
+        // See the Wikipedia description of a "Lindenmeyer system"
+        // A positive number k reperesents an "A" instruction that should be unraveled k more times
+        // A negative number -k represents a "B" instruction that should be unraveled k more times
+        // F represents forward, +/- represent turning
+        this.instructionQueue = [this.iterations];
+        
+        // Total number of F instructions that will be executed
+        this.totalF = Math.pow(4, this.iterations) - 1;
+        
+        // Number of F instructions executed so far -- can be fractional
+        this.numFExecuted = 0;
+        
+        // In each step, the agent moves this far in canvas pixels
+        this.FLength = 512 / Math.pow(2, this.iterations);
+        
+        // The agent's most recent pitstop was at (pX, pY). These are half-integer coordinates in units of FLength
+        this.pX = 0.5;
+        this.pY = 0.5;
+        this.cX = 0.5;
+        this.cY = 0.5;
+        
+        ctx.moveTo(this.pX * this.FLength, this.pY * this.FLength);
+        
+        // The agent is currently headed in direction dir
+        // 0 is right, 1 is down, 2 is left, 3 is up
+        this.dir = 0;
+        
+        this.imgData = ctx.getImageData(0, 0, 512, 512);
+      }
+      
+      HilbertAgent.prototype.drawCurrentLocation = function() {
+        //ctx.fillStyle = "#000000";
+        //ctx.fillRect(this.cX * this.FLength - 5, this.cY * this.FLength - 5, 10, 10);
+        //ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        // ctx.fillRect((this.cX - 1) * this.FLength, (this.cY - 1) * this.FLength, this.FLength * 2, this.FLength * 2);
+        ctx.fillRect(this.cX * this.FLength - 5, this.cY * this.FLength - 5, 10, 10);
+      }
+      
+      // t is time between 0 and 1
+      HilbertAgent.prototype.update = function(t) {
+        // const targetFExecuted = t * this.totalF;
+        const targetFExecuted = Math.max(0, Math.min(this.totalF, -0.5 + t * (this.totalF + 1)));
+        
+        // Complete whole F instructions
+        while (Math.floor(this.numFExecuted) < Math.floor(targetFExecuted)) {
+          this.step(true);
+          this.draw(1);
+          this.pX = this.nX;
+          this.pY = this.nY;
+        }
+        
+        // Fractional F at the end
+        this.step(false);
+        let p = this.draw(targetFExecuted - this.numFExecuted);
+        this.cX = p[0];
+        this.cY = p[1];
+        
+        ctx.stroke();
+      }
+      
+      HilbertAgent.prototype.draw = function(frac) {
+        ctx.moveTo(this.pX * this.FLength, this.pY * this.FLength);
+        const cX = this.pX + (this.nX - this.pX) * frac;
+        const cY = this.pY + (this.nY - this.pY) * frac;
+        ctx.lineTo(cX * this.FLength, cY * this.FLength);
+        
+        return [cX, cY];
+      }
+      
+      // Sets nX and nY to be the next pitstop
+      // If record is set to true, then the F instruction will be "actually" performed, whereas otherwise it will just be a "dry run"
+      HilbertAgent.prototype.step = function(record) {
+        let success = false;
+        while (!success) {
+          success = this.stepHelper(record);
+        }
+      }
+      
+      HilbertAgent.prototype.stepHelper = function(record) {
+        if (this.instructionQueue.length == 0) return true;
+        let ins = this.instructionQueue.pop();
+        if (ins == "F") {
+          // Move forward one step
+          this.nX = this.pX;
+          this.nY = this.pY;
+          
+          if (this.dir == 0) this.nX++;
+          if (this.dir == 1) this.nY++;
+          if (this.dir == 2) this.nX--;
+          if (this.dir == 3) this.nY--;
+          
+          if (record) {
+            this.numFExecuted = Math.floor(this.numFExecuted) + 1;
+          } else {
+            this.instructionQueue.push("F");
+          }
+          return true;
+        } else if(ins == "+") {
+          // Turn
+          this.dir = (this.dir + 1) % 4;
+          return false;
+        } else if(ins == "-") {
+          // Turn
+          this.dir = (this.dir + 3) % 4;
+          return false;
+        } else {
+          // Expand
+          const expansion = ins > 0 ? "+BF-AFA-FB+" : "-AF+BFB+FA-";
+          const s = Math.abs(ins) - 1;
+          for (let i = 0; i < expansion.length; i++) {
+            if (expansion[i] == "A") {
+              if (s > 0) this.instructionQueue.push(s);
+            } else if (expansion[i] == "B") {
+              if (s > 0) this.instructionQueue.push(-s);
+            } else {
+              this.instructionQueue.push(expansion[i]);
+            }
+          }
+          return false;
+        }
+      }
+    </script>
+  </body>
+</html>
