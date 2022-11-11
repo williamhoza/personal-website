@@ -2,8 +2,8 @@
   "title": "Better Pseudodistributions and Derandomization for Space-Bounded Computation",
   "authors": ["William M. Hoza"],
   "abbreviation": "H",
-  "where-published-summary": ["RANDOM 2021"],
-  "timeline": "I posted a manuscript online in March 2021; I presented the paper at RANDOM in August 2021.",
+  "where-published-summary": ["RANDOM 2021", "ToC (special issue for RANDOM 2021, to appear)"],
+  "timeline": "I posted a manuscript online in March 2021; I presented the paper at RANDOM in August 2021; the full version of the paper will appear in the Theory of Computing special issue for RANDOM 2021.",
   "first-posted": "2021-03-27",
   "version-links": [
     {
@@ -16,7 +16,6 @@
   ],
   "version-notes": "The RANDOM proceedings version and the ECCC version are the same except for minor, superficial differences.",
   "recognition": [
-    "The paper was invited to the Theory of Computing special issue for RANDOM 2021.",
     "Oded Goldreich discusses the paper in <a href=\"http://www.wisdom.weizmann.ac.il/~oded/MC/302.html\">this blog post</a>."
   ]
 }
