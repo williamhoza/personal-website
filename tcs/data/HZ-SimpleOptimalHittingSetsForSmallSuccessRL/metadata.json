@@ -14,7 +14,7 @@
       "href": "https://eccc.weizmann.ac.il/report/2018/063/"
     }, {
       "text": "FOCS proceedings",
-      "href": "http://ieee-focs.org/FOCS-2018-Papers/pdfs/59f059.pdf"
+      "href": "https://doi.org/10.1109/FOCS.2018.00015"
     }
   ],
   "version-notes": "The <a href=\"https://doi.org/10.1137/19M1268707\">SICOMP version</a> (<a href=\"SICOMP-version.pdf\">pdf</a>) has improved presentation and updated references compared to the FOCS proceedings version, which in turn has a couple extra references compared to the ECCC version. The three versions also have different formatting.",
