@@ -2,8 +2,8 @@
   "title": "Depth-\\(d\\) Threshold Circuits vs. Depth-\\((d + 1)\\) AND-OR Trees",
   "authors": ["Pooya Hatami", "William M. Hoza", "Avishay Tal", "Roei Tell"],
   "abbreviation": "HHTT",
-  "where-published-summary": ["Manuscript 2022"],
-  "timeline": "We posted a manuscript online in June 2022.",
+  "where-published-summary": ["STOC 2023 (to appear)"],
+  "timeline": "We posted a manuscript online in June 2022; the paper will be presented at STOC in June 2023.",
   "first-posted": "2022-06-11",
   "version-links": [
     {
