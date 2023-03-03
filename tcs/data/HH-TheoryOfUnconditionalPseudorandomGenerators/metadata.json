@@ -1,0 +1,15 @@
+{
+  "title": "Theory of Unconditional Pseudorandom Generators",
+  "authors": ["Pooya Hatami", "William M. Hoza"],
+  "abbreviation": "HH",
+  "where-published-summary": ["ECCC 2023"],
+  "survey": true,
+  "timeline": "We posted a manuscript online in March 2023.",
+  "first-posted": "2023-03-03",
+  "version-links": [
+    {
+      "text": "ECCC",
+      "href": "https://eccc.weizmann.ac.il/report/2023/019/"
+    }
+  ]
+}

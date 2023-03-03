@@ -7,6 +7,7 @@ def compile(papers):
   goatScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
   mathjaxScript.set_attr("async", "")
   
+  expositoryList = <ol class="paper-list"></ol>
   paperList = <ol class="paper-list"></ol>
   for paper in reversed(papers):
     authorList = paper.metadata["authors"].copy()
@@ -26,13 +27,16 @@ def compile(papers):
       first = False
       wherePublished.append(<frag>{item}</frag>)
     
-    paperList.append(
-      <li style="font-style:italic;">
-        <a href="{paper.dirPath}" style="font-weight:bold;font-style:normal;">{paper.metadata["title"]}</a><br />
+    paperLI = <li style="font-style:italic;">
+        <a href="{paper.dirPath}" style="font-wexight:bold;font-style:normal;">{paper.metadata["title"]}</a><br />
         {authorHTML}
         {wherePublished}
       </li>
-    )
+      
+    if (("survey" in paper.metadata and paper.metadata["survey"]) or ("dissertation" in paper.metadata and paper.metadata["dissertation"])):
+      expositoryList.append(paperLI)
+    else:
+      paperList.append(paperLI)
   
   doc = (
     <html lang="en">
@@ -61,7 +65,7 @@ def compile(papers):
               Theoretical computer science research
             </h1>
             <p>
-              I'm currently a postdoc in <a href="https://www.avishaytal.org/">Avishay Tal</a>'s group at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study pseudorandomness, derandomization, circuit complexity, and other topics in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> (and more broadly, <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>).
+              I'm currently a postdoc in <a href="https://www.avishaytal.org/">Avishay Tal</a>'s group at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study pseudorandomness, derandomization, circuit complexity, and other topics in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> (and more broadly, <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>). Here's a <a href="https://www.youtube.com/watch?v=L7SbTgtAsNY">video</a> of a 10-minute overview of my research that I presented for the Simons Institute's "Meet the Fellows Welcome Event" (September 2022). Here are the <a href="simons-meet-the-fellows-2022-slides.pptx">slides</a> from that presentation.
             </p>
             <details>
               <summary>
@@ -79,18 +83,18 @@ def compile(papers):
                 </p>
               </div>
             </details>
-            <hr />
-            <div class="expository">
-              <iframe src="https://www.youtube.com/embed/L7SbTgtAsNY" frameborder="0"></iframe>
-              <p>
-                <a href="https://www.youtube.com/watch?v=L7SbTgtAsNY">Video</a> of a 10-minute overview of my research that I presented for the Simons Institute's "Meet the Fellows Welcome Event" (September 2022). Here are the <a href="simons-meet-the-fellows-2022-slides.pptx">slides</a> from that presentation.
-              </p>
-            </div>
-            <hr />
             <p>
-              My research papers are listed below, sorted by the date they were first posted online (newest to oldest). If you have a question or comment, please send me an <a href="mailto:williamhoza@berkeley.edu">email</a>! Like most researchers, I like getting emails about my work.
+              My research papers are listed below. If you have a question or comment, please send me an <a href="mailto:williamhoza@berkeley.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
+            <h2>
+              Surveys, etc.
+            </h2>
+            {expositoryList}
+            <hr />
+            <h2>
+              Ordinary research papers
+            </h2>
             {paperList}
             <hr />
             <p>

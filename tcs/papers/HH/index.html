@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script src="/mathjax-config.js"></script><script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Theory of Unconditional Pseudorandom Generators</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Theory of Unconditional Pseudorandom Generators"></head><body><span style="display:none;">
+      \(\renewcommand{\epsilon}{\varepsilon}\)
+      \(\renewcommand{\hat}{\widehat}\)
+      \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    </span><main><article><p><a href="/tcs/">Back to list of papers</a></p><hr><h1>Theory of Unconditional Pseudorandom Generators</h1><p>Survey paper by Pooya Hatami and William M. Hoza</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2023/019/">ECCC</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
+This is a survey of unconditional <em>pseudorandom generators</em> (PRGs). A PRG uses a short, truly random seed to generate a long, "pseudorandom" sequence of bits. To be more specific, for each restricted model of computation (e.g., bounded-depth circuits or read-once branching programs), we would like to design a PRG that "fools" the model, meaning that every function computable in the model behaves approximately the same when we plug in pseudorandom bits from the PRG as it does when we plug in truly random bits. In this survey, we discuss four major paradigms for designing PRGs:
+</p>
+
+<ol>
+  <li>We present several PRGs based on \(k\)-wise uniform generators, small-bias generators, and simple combinations thereof, including proofs of Viola's theorem on fooling low-degree polynomials (Comput. Complexity 2009) and Braverman's theorem on fooling \(\mathbf{AC}^0\) circuits (J. ACM 2010).</li>
+  <li>We present several PRGs based on "recycling" random bits to take advantage of communication bottlenecks, such as the Impagliazzo-Nisan-Wigderson generator (STOC 1994).</li>
+  <li>We present connections between PRGs and computational hardness, including the Nisan-Wigderson framework for converting a hard Boolean function into a PRG (J. Comput. Syst. Sci. 1994).</li>
+  <li>We present PRG frameworks based on random restrictions, including the "polarizing random walks" framework (Chattopadhyay, Hatami, Hosseini, and Lovett, Theory Comput. 2019).</li>
+</ol>
+
+<p>
+  We explain how to use these paradigms to construct PRGs that work <em>unconditionally</em>, with no unproven mathematical assumptions. The PRG constructions use ingredients such as finite field arithmetic, expander graphs, and randomness extractors. The analyses use techniques such as Fourier analysis, sandwiching approximators, and simplification-under-restrictions lemmas.
+</p>
+</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
+  A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits that "appear random" in some sense. To be more specific, in the context of complexity theory, we want the output bits to appear random to any "sufficiently efficient" observer. This is expository work that describes techniques for designing pseudorandom generators.
+</p>
+</div></details><p>We posted a manuscript online in March 2023. </p><hr>  </article></main><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
