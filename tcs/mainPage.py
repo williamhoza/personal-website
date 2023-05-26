@@ -84,6 +84,9 @@ def compile(papers):
               </div>
             </details>
             <p>
+              Starting in July 2023, I will be an assistant professor in the Department of Computer Science at the University of Chicago 🙂
+            </p>
+            <p>
               My research papers are listed below. If you have a question or comment, please send me an <a href="mailto:williamhoza@berkeley.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
