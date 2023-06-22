@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  
+  <body>
+    <div id="out">
+    </div>
+    
+    <script>
+      const pickupSound = new Audio("pickup.mp3");
+      
+      if (window.DeviceMotionEvent == undefined) {
+        alert("error: device motion not available");
+      } else {
+        alert("in business?");
+        window.addEventListener("devicemotion", function(e) {
+          let total = Math.sqrt(Math.pow(e.acceleration.x, 2) + Math.pow(e.acceleration.y, 2) + Math.pow(e.acceleration.z, 2));
+          if (total > 0.6) pickupSound.play();
+        });
+      }
+    </script>
+  </body>
+</html>
