@@ -62,14 +62,14 @@ def compile(papers):
             </p>
             <hr />
             <h1>
-              Theoretical computer science research
+              Research
             </h1>
             <p>
-              I'm currently a postdoc in <a href="https://www.avishaytal.org/">Avishay Tal</a>'s group at UC Berkeley through the <a href="https://simons.berkeley.edu/">Simons Institute for the Theory of Computing</a>. I study pseudorandomness, derandomization, circuit complexity, and other topics in <a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a> (and more broadly, <a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">theoretical computer science</a>). Here's a <a href="https://www.youtube.com/watch?v=L7SbTgtAsNY">video</a> of a 10-minute overview of my research that I presented for the Simons Institute's "Meet the Fellows Welcome Event" (September 2022). Here are the <a href="simons-meet-the-fellows-2022-slides.pptx">slides</a> from that presentation.
+              I study <strong>computational complexity theory</strong>. I'm especially interested in pseudorandomness, derandomization, and circuit complexity. Here's a 10-minute overview of my research from September 2022: <a href="https://www.youtube.com/watch?v=L7SbTgtAsNY">[video]</a> <a href="simons-meet-the-fellows-2022-slides.pptx">[slides]</a>
             </p>
             <details>
               <summary>
-                 A short explanation of what "derandomization" means (for curious outsiders)
+                 Click here for a short explanation of what "derandomization" means (for curious outsiders).
               </summary>
               <div class="indent">
                 <p>
@@ -84,10 +84,7 @@ def compile(papers):
               </div>
             </details>
             <p>
-              Starting in July 2023, I will be an assistant professor in the Department of Computer Science at the University of Chicago 🙂
-            </p>
-            <p>
-              My research papers are listed below. If you have a question or comment, please send me an <a href="mailto:williamhoza@berkeley.edu">email</a>! Like most researchers, I like getting emails about my work.
+              My research papers are listed below. If you have a question or comment, please send me an <a href="mailto:williamhoza@uchicago.edu">email</a>! Like most researchers, I like getting emails about my work.
             </p>
             <hr />
             <h2>
@@ -101,7 +98,7 @@ def compile(papers):
             {paperList}
             <hr />
             <p>
-              I'm grateful for all the mentorship I've received over the years, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor) and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
+              I'm grateful for all the mentorship I've received over the years, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor), <a href="https://www.avishaytal.org/">Avishay Tal</a> (a postdoc mentor), and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
             </p>
           </article>
         </main>
