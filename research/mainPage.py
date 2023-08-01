@@ -46,7 +46,7 @@ def compile(papers):
         {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        <title>William Hoza's TCS Research</title>
+        <title>Research | William Hoza</title>
         
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/main.css" />
