@@ -147,7 +147,7 @@ class Paper:
           <main>
             <article>
               <p>
-                <a href="/tcs/">Back to list of papers</a>
+                <a href="/research/">Back to list of papers</a>
               </p>
               <hr />
               <h1>
