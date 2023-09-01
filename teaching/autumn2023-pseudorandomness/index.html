@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="/main.css" />
     
     <meta property="og:title" content="Pseudorandomness | Autumn 2023 | William Hoza" />
+
+    <style>
+      summary {
+        font-weight:bold;
+      }
+    </style>
   </head>
   
   <body>
@@ -35,57 +41,70 @@
           <strong>Meetings: </strong> Tuesdays and Thursdays, 9:30am - 10:50am (location TBA)
         </p>
         <hr />
-        <p>
-          <strong>Course Description: </strong> What is the role of randomness in computing? Algorithm designers often introduce random choices into their algorithms in an effort to solve problems as efficiently as possible. This is a powerful and valuable paradigm, but it raises the question, where are we supposed to get random bits so that we can run these algorithms? In this course, we will think of randomness as an "expensive" or "scarce" computational resource. All else being equal, an algorithm that uses fewer random bits is better than an algorithm that uses more random bits, just like a faster algorithm is better than a slower algorithm. With this motivation, we will study pseudorandomness, i.e., we will study objects that appear more random than they actually are. We will mainly focus on the theory of unconditional pseudorandom generators, which use a small truly random "seed" to generate a long sequence of bits that appear random to any "sufficiently efficient" observer. Other topics will include randomness extractors, the derandomization of algorithms, and expander graphs.
-        </p>
-        <p>
-          <strong>Texts: </strong> We will use the following two texts, each of which is available for free online.
-        </p>
-        <ul>
-          <li><a href="https://eccc.weizmann.ac.il/report/2023/019/">"Theory of Unconditional Pseudorandom Generators" by Hatami and Hoza.</a> Please let me know if you find any mistakes in this text!</li>
-          <li><a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">"Pseudorandomness" by Vadhan.</a></li>
-        </ul>
-        <p>
-          <strong>Tentative Course Outline:</strong>
-        </p>
-        <ol type="I">
-          <li>
-            <em>Small Bias and Limited Independence</em> (approximately two weeks). Defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2).
-          </li>
-          <li>
-            <em>Expanders and Extractors</em> (approximately three weeks). The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
-          </li>
-          <li>
-            <em>Circuits</em> (approximately two weeks). The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
-          </li>
-          <li>
-            <em>Random Restrictions</em> (approximately two weeks). Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
-          </li>
-        </ol>
-        <p>
-          <strong>Classes:</strong> (The information below will be updated throughout the quarter.)
-        </p>
-        <ol>
-          <li>Tuesday 9/26:</li>
-          <li>Thursday 9/28:</li>
-          <li>Tuesday 10/3:</li>
-          <li>Thursday 10/5:</li>
-          <li>Tuesday 10/10:</li>
-          <li>Thursday 10/12:</li>
-          <li>Tuesday 10/17:</li>
-          <li>Thursday 10/19:</li>
-          <li>Tuesday 10/24:</li>
-          <li>Thursday 10/26:</li>
-          <li>Tuesday 10/31:</li>
-          <li>Thursday 11/2:</li>
-          <li>Tuesday 11/7:</li>
-          <li>Thursday 11/9:</li>
-          <li>Tuesday 11/14:</li>
-          <li>Thursday 11/16:</li>
-          <li style="list-style-type:none;"><em>(No class on 11/21 or 11/23 due to Thanksgiving Break)</em></li>
-          <li value="17">Tuesday 11/28:</li>
-          <li>Thursday 11/30:</li>
-        </ol>
+        <details>
+          <summary>Course Description</summary>
+          <div class="indent">
+          What is the role of randomness in computing? Algorithm designers often introduce random choices into their algorithms in an effort to solve problems as efficiently as possible. This is a powerful and valuable paradigm, but it raises the question, where are we supposed to get random bits so that we can run these algorithms? In this course, we will think of randomness as an "expensive" or "scarce" computational resource. All else being equal, an algorithm that uses fewer random bits is better than an algorithm that uses more random bits, just like a faster algorithm is better than a slower algorithm. With this motivation, we will study pseudorandomness, i.e., we will study objects that appear more random than they actually are. We will mainly focus on the theory of unconditional pseudorandom generators, which use a small truly random "seed" to generate a long sequence of bits that appear random to any "sufficiently efficient" observer. Other topics will include randomness extractors, the derandomization of algorithms, and expander graphs.
+          </div>
+        </details>
+        <details>
+          <summary>Texts</summary>
+          <div class="indent">
+            We will use the following two texts, each of which is available for free online.
+            <ul>
+              <li><a href="https://eccc.weizmann.ac.il/report/2023/019/">"Theory of Unconditional Pseudorandom Generators" by Hatami and Hoza.</a> Please let me know if you find any mistakes in this text!</li>
+              <li><a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">"Pseudorandomness" by Vadhan.</a></li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>Tentative Course Outline</summary>
+          <div class="indent">
+            <ol type="I">
+              <li>
+                <em>Small Bias and Limited Independence</em> (approximately two weeks). Defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2).
+              </li>
+              <li>
+                <em>Expanders and Extractors</em> (approximately three weeks). The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
+              </li>
+              <li>
+                <em>Circuits</em> (approximately two weeks). The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
+              </li>
+              <li>
+                <em>Random Restrictions</em> (approximately two weeks). Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
+              </li>
+            </ol>
+          </div>
+        </details>
+        <details>
+          <summary>Classes</summary>
+          <div class="indent">
+            (The information below will be updated throughout the quarter.)
+            <ol>
+              <li>Tuesday 9/26:</li>
+              <li>Thursday 9/28:</li>
+              <li>Tuesday 10/3:</li>
+              <li>Thursday 10/5:</li>
+              <li>Tuesday 10/10:</li>
+              <li>Thursday 10/12:</li>
+              <li>Tuesday 10/17:</li>
+              <li>Thursday 10/19:</li>
+              <li>Tuesday 10/24:</li>
+              <li>Thursday 10/26:</li>
+              <li>Tuesday 10/31:</li>
+              <li>Thursday 11/2:</li>
+              <li>Tuesday 11/7:</li>
+              <li>Thursday 11/9:</li>
+              <li>Tuesday 11/14:</li>
+              <li>Thursday 11/16:</li>
+              <li style="list-style-type:none;"><em>(No class on 11/21 or 11/23 due to Thanksgiving Break)</em></li>
+              <li value="17">Tuesday 11/28:</li>
+              <li>Thursday 11/30:</li>
+              <li>Tuesday 12/5:</li>
+              <li>Thursday 12/7:</li>
+            </ol>
+          </div>
+        </details>
       </article>
     </main>
     
