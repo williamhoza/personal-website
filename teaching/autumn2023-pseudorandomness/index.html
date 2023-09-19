@@ -17,16 +17,15 @@
       }
 
       .toc-item::after {
-        content: ": ";
+        content: ":";
       }
 
-      #toc {
-        list-style: none;
-        padding-left: 20px;
+      html {
+        scroll-behavior:smooth;
       }
 
-      #toc li {
-        margin-bottom:5px;
+      .toc-item:target {
+        background-color:yellow;
       }
     </style>
   </head>
@@ -57,7 +56,7 @@
         <p>
           Jump to: <span id="toc-loading">(loading...)</span>
         </p>
-        <ol id="toc"></ol>
+        <ul id="toc"></ul>
         <hr />
         <p>
           <strong class="toc-item">Course Description</strong>
@@ -147,7 +146,7 @@
           <li><em>For partial credit: </em> Anything at all, but you must make a note of which resources you used to solve which problems. You do not need to mention using course texts or course notes.</li>
         </ul>
         <p>
-          Here are a few examples of resources that you may <em>not</em> use if you wish to receive full credit on a problem: Wikipedia, ChatGPT, Stack Exchange.
+          Here are a few examples of resources that you may <em>not</em> use if you wish to receive full credit on a problem: Wikipedia, ChatGPT, Stack Exchange, research papers.
         </p>
         <hr />
         <p>
@@ -163,13 +162,13 @@
         <hr />
         <p>
           <strong class="toc-item">Academic Honesty Catch-All Policy</strong>
-          Students frequently find themselves in "gray area" situations that are not clearly covered by course policies. For example, maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different class. 
+          Students frequently find themselves in "gray area" situations that are not clearly covered by course policies. For example, maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different course. 
         </p>
         <p>
           In such circumstances, you should simply write a note explaining what happened and include it with your submission.
         </p>
         <p>
-          I encourage you to follow this simple protocol in every class you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, you might receive a grade penalty, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
+          I encourage you to follow this simple protocol in every course you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, you might receive a grade penalty, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
         </p>
       </p>
     </main>
