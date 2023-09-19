@@ -15,6 +15,19 @@
       summary {
         font-weight:bold;
       }
+
+      .toc-item::after {
+        content: ": ";
+      }
+
+      #toc {
+        list-style: none;
+        padding-left: 20px;
+      }
+
+      #toc li {
+        margin-bottom:5px;
+      }
     </style>
   </head>
   
@@ -38,101 +51,116 @@
           <strong>Instructor: </strong> <a href="/">William Hoza</a>
         </p>
         <p>
-          <strong>Meetings: </strong> Tuesdays and Thursdays, 9:30am - 10:50am (location TBA)
+          <strong>Meetings: </strong> Tuesdays and Thursdays, 9:30am - 10:50am, RY 255
         </p>
         <hr />
-        <details>
-          <summary>Course Description</summary>
-          <div class="indent">
+        <p>
+          Jump to: <span id="toc-loading">(loading...)</span>
+        </p>
+        <ol id="toc"></ol>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Description</strong>
           What is the role of randomness in computing? Algorithm designers often introduce random choices into their algorithms in an effort to solve problems as efficiently as possible. This is a powerful and valuable paradigm, but it raises the question, where are we supposed to get random bits so that we can run these algorithms? In this course, we will think of randomness as an "expensive" or "scarce" computational resource. All else being equal, an algorithm that uses fewer random bits is better than an algorithm that uses more random bits, just like a faster algorithm is better than a slower algorithm. With this motivation, we will study pseudorandomness, i.e., we will study objects that appear more random than they actually are. We will mainly focus on the theory of unconditional pseudorandom generators, which use a small truly random "seed" to generate a long sequence of bits that appear random to any "sufficiently efficient" observer. Other topics will include randomness extractors, the derandomization of algorithms, and expander graphs.
-          </div>
-        </details>
-        <details>
-          <summary>Texts</summary>
-          <div class="indent">
-            We will use the following two texts, each of which is available for free online.
-            <ul>
-              <li><a href="https://eccc.weizmann.ac.il/report/2023/019/">"Theory of Unconditional Pseudorandom Generators" by Hatami and Hoza.</a> Please let me know if you find any mistakes in this text!</li>
-              <li><a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">"Pseudorandomness" by Vadhan.</a></li>
-            </ul>
-          </div>
-        </details>
-        <details>
-          <summary>Tentative Course Outline</summary>
-          <div class="indent">
-            <ol type="I">
-              <li>
-                <em>Small Bias Distributions and Limited Independence</em> (approximately two weeks). Defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2).
-              </li>
-              <li>
-                <em>Expanders and Extractors</em> (approximately three weeks). The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
-              </li>
-              <li>
-                <em>Circuits</em> (approximately two weeks). The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
-              </li>
-              <li>
-                <em>Random Restrictions</em> (approximately two weeks). Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
-              </li>
-            </ol>
-          </div>
-        </details>
-        <details>
-          <summary>Classes</summary>
-          <div class="indent">
-            (The information below will be updated throughout the quarter.)
-            <ol>
-              <li>Tuesday 9/26:</li>
-              <li>Thursday 9/28:</li>
-              <li>Tuesday 10/3:</li>
-              <li>Thursday 10/5:</li>
-              <li>Tuesday 10/10:</li>
-              <li>Thursday 10/12:</li>
-              <li>Tuesday 10/17:</li>
-              <li>Thursday 10/19:</li>
-              <li>Tuesday 10/24:</li>
-              <li>Thursday 10/26:</li>
-              <li>Tuesday 10/31:</li>
-              <li>Thursday 11/2:</li>
-              <li>Tuesday 11/7:</li>
-              <li>Thursday 11/9:</li>
-              <li>Tuesday 11/14:</li>
-              <li>Thursday 11/16:</li>
-              <li style="list-style-type:none;"><em>(No class on 11/21 or 11/23 due to Thanksgiving Break)</em></li>
-              <li value="17">Tuesday 11/28:</li>
-              <li>Thursday 11/30:</li>
-              <li>Tuesday 12/5:</li>
-              <li>Thursday 12/7:</li>
-            </ol>
-          </div>
-        </details>
-        <details>
-          <summary>Grading</summary>
-          <div class="indent">
-            (Details TBA)
-            <ul>
-              <li>50-80% homework (there will probably be four problem sets throughout the quarter)</li>
-              <li>15-35% project (see below)</li>
-              <li>0-20% participation</li>
-            </ul>
-          </div>
-        </details>
-        <details>
-          <summary>Project</summary>
-          <div class="indent">
-            <p>
-              Pseudorandomness is an active area of research. There are many important theorems in this area that we won't have time to cover in class, including lots of exciting recent work!
-            </p>
-            <p>
-              You will study one such theorem and write an exposition. You will explain what the theorem means and why it matters, and you will explain some or all of the proof.
-            </p>
-            <p>
-              You can select your theorem from a list that will be provided, or, with permission, you can choose a theorem that is not on the list. Further details TBA.
-            </p>
-          </div>
-        </details>
-      </article>
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Texts</strong>
+          We will use the following two texts, each of which is available for free online.
+        </p>
+        <ul>
+          <li><a href="https://eccc.weizmann.ac.il/report/2023/019/">"Theory of Unconditional Pseudorandom Generators" by Hatami and Hoza.</a> Please let me know if you find any mistakes in this text!</li>
+          <li><a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">"Pseudorandomness" by Vadhan.</a></li>
+        </ul>
+        <hr />
+        <p>
+          <strong class="toc-item">Tentative Course Outline</strong>
+        </p>
+        <ol type="I">
+          <li>
+            <em>Small Bias Distributions and Limited Independence</em> (approximately two weeks). Defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2).
+          </li>
+          <li>
+            <em>Expanders and Extractors</em> (approximately three weeks). The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
+          </li>
+          <li>
+            <em>Circuits</em> (approximately two weeks). The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
+          </li>
+          <li>
+            <em>Random Restrictions</em> (approximately two weeks). Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
+          </li>
+        </ol>
+        <hr />
+        <p>
+          <strong class="toc-item">Classes</strong>
+          (The information below will be updated throughout the quarter.)
+        </p>
+        <ol>
+          <li>Tuesday 9/26:</li>
+          <li>Thursday 9/28:</li>
+          <li>Tuesday 10/3:</li>
+          <li>Thursday 10/5:</li>
+          <li>Tuesday 10/10:</li>
+          <li>Thursday 10/12:</li>
+          <li>Tuesday 10/17:</li>
+          <li>Thursday 10/19:</li>
+          <li>Tuesday 10/24:</li>
+          <li>Thursday 10/26:</li>
+          <li>Tuesday 10/31:</li>
+          <li>Thursday 11/2:</li>
+          <li>Tuesday 11/7:</li>
+          <li>Thursday 11/9:</li>
+          <li>Tuesday 11/14:</li>
+          <li>Thursday 11/16:</li>
+          <li style="list-style-type:none;"><em>(No class on 11/21 or 11/23 due to Thanksgiving Break)</em></li>
+          <li value="17">Tuesday 11/28:</li>
+          <li>Thursday 11/30:</li>
+          <li>Tuesday 12/5:</li>
+          <li>Thursday 12/7:</li>
+        </ol>
+        <hr />
+        <p>
+          <strong class="toc-item">Grading</strong>
+        </p>
+        <ul>
+          <li>65% problem sets (there will be four problem sets throughout the quarter)</li>
+          <li>25% project (see below)</li>
+          <li>10% participation</li>  
+        </ul>
+        <hr />
+        <p>
+          <strong class="toc-item">Project</strong>
+          Pseudorandomness is an active area of research. There are many important theorems in this area that we won't have time to cover in class, including lots of exciting recent work!
+        </p>
+        <p>
+          You will study one such theorem and write an exposition. You will explain what the theorem means and why it matters, and you will explain some or all of the proof.
+        </p>
+        <p>
+          You can select your theorem from a list that will be provided, or, with permission, you can choose a theorem that is not on the list. Further details TBA.
+        </p>
+      </p>
     </main>
     
     <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+      function generateTOC() {
+        const sectionTitles = document.getElementsByClassName("toc-item");
+        for (i = 0; i < sectionTitles.length; i++) {
+          const title = sectionTitles[i].innerText;
+          const urlTitle = title.replaceAll(" ", "-").toLowerCase();
+          sectionTitles[i].id = urlTitle;
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.innerText = title;
+          link.href = "#" + urlTitle;
+          listItem.appendChild(link);
+          document.querySelector("#toc").appendChild(listItem);
+        }
+        document.querySelector("#toc-loading").style.display = "none";
+      }
+
+      generateTOC();
+    </script>
   </body>
 </html>
