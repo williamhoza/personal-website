@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script src="/mathjax-config.js"></script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <title>Pseudorandomness | Autumn 2023 | William Hoza</title>
@@ -47,7 +49,7 @@
           <strong>Term: </strong> Autumn 2023 at the University of Chicago
         </p>
         <p>
-          <strong>Instructor: </strong> <a href="/">William Hoza</a>
+          <strong>Instructor: </strong> <a href="/">William Hoza</a>, <a href="mailto:williamhoza@chicago.edu">williamhoza@uchicago.edu</a>
         </p>
         <p>
           <strong>Meetings: </strong> Tuesdays and Thursdays, 9:30am - 10:50am, RY 255
@@ -94,6 +96,82 @@
         </ol>
         <hr />
         <p>
+          <strong class="toc-item">Grading</strong>
+        </p>
+        <ul>
+          <li>65% problem sets</li>
+          <li>25% project</li>
+          <li>10% participation</li>  
+        </ul>
+        <hr />
+        <p>
+          <strong class="toc-item">Problem Sets</strong>
+          There will be four proof-based problem sets throughout the quarter. You will submit your solutions to these problem sets through Canvas.
+        </p>
+        <p>
+          You are encouraged to collaborate with your classmates on problem sets. However, you must adhere to the following rules:
+        </p>
+        <ul>
+          <li>Before discussing a problem with a classmate, you must work on the problem on your own for at least 20 minutes.</li>
+          <li>You must write your solution on your own. While writing your solution, you may not consult any notes that you took during a discussion with another classmate.</li>
+          <li>In your write-up, you must list any classmates who contributed to your solution through discussion. There will not be any penalty. The fact that A contributed to B's solution does not necessarily mean that B contributed to A's solution.</li>
+        </ul>
+        <p>
+          Beyond discussions with me and discussions with classmates as discussed above, you may use the following resources while working on the problem sets.
+        </p>
+        <ul>
+          <li><em>For full credit: </em> The course texts and any course notes that might be posted on this webpage.</li>
+          <li><em>For partial credit: </em> Anything at all, but you must make a note of which resources you used to solve which problems. You don't need to mention using course texts or course notes. You also don't need to mention it if I help you with a problem.</li>
+        </ul>
+        <p>
+          Here are a few examples of resources that you may <em>not</em> use if you wish to receive full credit on a problem: Wikipedia, ChatGPT, Stack Exchange, research papers.
+        </p>
+        <p>
+          Late work will receive partial credit. Specifically, if you turn in a problem set \(x\) days late, where \(0 < x < 5\), then your score will be multiplied by \(\cos^2(\frac{\pi x}{10})\), with some rounding. The value \(x\) can be fractional. Work turned in five or more days late will not receive any credit.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Project</strong>
+          Pseudorandomness is an active area of research. There are many important theorems in this area that we won't have time to cover in class, including lots of exciting recent work!
+        </p>
+        <p>
+          You will study one such theorem and write an exposition. You will explain what the theorem means and why it matters, and you will explain some or all of the proof.
+        </p>
+        <p>
+          You can select your theorem from a list that will be provided, or, with permission, you can choose a theorem that is not on the list. Further details TBA.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Academic Honesty Catch-All Policy</strong>
+          Students frequently find themselves in "gray area" situations that are not clearly covered by course policies. For example, maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different course. 
+        </p>
+        <p>
+          In such circumstances, you should simply write a note explaining what happened and include it with your submission.
+        </p>
+        <p>
+          I encourage you to follow this simple protocol in every course you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, you might receive a grade penalty, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Accessibility and Accommodations</strong>
+          I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
+        </p>
+        <p>
+          To highlight one example, I am happy to work with students who are pregnant/parenting to figure out the best way to make the course work for you.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Inclusion and Atmosphere</strong>
+          This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect.
+        </p>
+        <p>
+          To highlight one facet of this topic, you are encouraged to ask questions in class, and you should make your classmates feel comfortable asking questions in class. There is no shame in not knowing something or not understanding something. Questions make the course better for everyone.
+        </p>
+        <p>
+          To highlight another facet, computer scientists can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.
+        </p>
+        <hr />
+        <p>
           <strong class="toc-item">Classes</strong>
           (The information below will be updated throughout the quarter.)
         </p>
@@ -120,60 +198,7 @@
           <li>Tuesday 12/5:</li>
           <li>Thursday 12/7:</li>
         </ol>
-        <hr />
-        <p>
-          <strong class="toc-item">Grading</strong>
-        </p>
-        <ul>
-          <li>65% problem sets (there will be four problem sets throughout the quarter)</li>
-          <li>25% project (see below)</li>
-          <li>10% participation</li>  
-        </ul>
-        <hr />
-        <p>
-          <strong class="toc-item">Collaboration Policy for Problem Sets</strong>
-          You are encouraged to collaborate with your classmates on problem sets. However, you must adhere to the following rules:
-        </p>
-        <ul>
-          <li>Before discussing a problem with a classmate, you must work on the problem on your own for at least 20 minutes.</li>
-          <li>You must write your solution on your own. While writing your solution, you may not consult any notes that you took during a discussion with another classmate.</li>
-          <li>In your write-up, you must list any classmates who contributed to your solution through discussion. There will not be any penalty. The fact that A contributed to B's solution does not necessarily mean that B contributed to A's solution.</li>
-        </ul>
-        <hr />
-        <p>
-          <strong class="toc-item">Resource Policy for Problem Sets</strong>
-          You may use the following resources while working on the problem sets.
-        </p>
-        <ul>
-          <li><em>For full credit: </em> The course texts, any course notes that might be posted on this webpage, and your classmates as described in the collaboration policy section.</li>
-          <li><em>For partial credit: </em> Anything at all, but you must make a note of which resources you used to solve which problems. You don't need to mention using course texts or course notes. You also don't need to mention it if I help you with a problem.</li>
-        </ul>
-        <p>
-          Here are a few examples of resources that you may <em>not</em> use if you wish to receive full credit on a problem: Wikipedia, ChatGPT, Stack Exchange, research papers.
-        </p>
-        <hr />
-        <p>
-          <strong class="toc-item">Project</strong>
-          Pseudorandomness is an active area of research. There are many important theorems in this area that we won't have time to cover in class, including lots of exciting recent work!
-        </p>
-        <p>
-          You will study one such theorem and write an exposition. You will explain what the theorem means and why it matters, and you will explain some or all of the proof.
-        </p>
-        <p>
-          You can select your theorem from a list that will be provided, or, with permission, you can choose a theorem that is not on the list. Further details TBA.
-        </p>
-        <hr />
-        <p>
-          <strong class="toc-item">Academic Honesty Catch-All Policy</strong>
-          Students frequently find themselves in "gray area" situations that are not clearly covered by course policies. For example, maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different course. 
-        </p>
-        <p>
-          In such circumstances, you should simply write a note explaining what happened and include it with your submission.
-        </p>
-        <p>
-          I encourage you to follow this simple protocol in every course you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, you might receive a grade penalty, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
-        </p>
-      </p>
+      </article>
     </main>
     
     <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
