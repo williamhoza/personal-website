@@ -29,6 +29,26 @@
       .toc-item:target {
         background-color:yellow;
       }
+
+      td {
+        vertical-align:top;
+      }
+
+      table, td {
+        border: 1px solid gray;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      td {
+        padding:5px;
+      }
+
+      td:first-child {
+        white-space:nowrap;
+      }
     </style>
   </head>
   
@@ -69,21 +89,49 @@
         </p>
         <hr />
         <p>
-          <strong class="toc-item">Tentative Course Outline</strong>
+          <strong class="toc-item">Course Timeline</strong>
+          (The information below will be updated throughout the quarter.)
         </p>
-        <ol type="I">
-          <li>
-            <em>Small Bias Distributions and Limited Independence</em> (approximately two weeks). Defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2).
-          </li>
-          <li>
-            <em>Expanders and Extractors</em> (approximately three weeks). The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
-          </li>
-          <li>
-            <em>Circuits</em> (approximately two weeks). The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
-          </li>
-          <li>
-            <em>Random Restrictions</em> (approximately two weeks). Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
-          </li>
+        <p>
+          Part I: Small-Bias Distributions and Limited Independence (approximately two weeks). Defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2). <em>Suggested reading: HH sections 1.0-2.4.</em>
+        </p>
+        <ol>
+          <li>Tuesday 9/26:</li>
+          <li>Thursday 9/28:</li>
+          <li>Tuesday 10/3:</li>
+          <li>Thursday 10/5:</li>
+        </ol>
+        <p>
+          Part II: Expanders and Extractors (approximately three weeks). The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
+        </p>
+        <ol>
+          <li value="5">Tuesday 10/10:</li>
+          <li>Thursday 10/12:</li>
+          <li>Tuesday 10/17:</li>
+          <li>Thursday 10/19:</li>
+          <li>Tuesday 10/24:</li>
+          <li>Thursday 10/26:</li>
+        </ol>
+        <p>
+          Part III: Circuits (approximately two weeks). The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
+        </p>
+        <ol>
+          <li value="11">Tuesday 10/31:</li>
+          <li>Thursday 11/2:</li>
+          <li>Tuesday 11/7:</li>
+          <li>Thursday 11/9:</li>
+        </ol>
+        <p>
+          Part IV: Random Restrictions (approximately two weeks). Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
+        </p>
+        <ol>
+          <li value="15">Tuesday 11/14:</li>
+          <li>Thursday 11/16:</li>
+          <li style="list-style-type:none;"><em>(No class on 11/21 or 11/23 due to Thanksgiving Break)</em></li>
+          <li value="17">Tuesday 11/28:</li>
+          <li>Thursday 11/30:</li>
+          <li>Tuesday 12/5:</li>
+          <li>Thursday 12/7:</li>
         </ol>
         <hr />
         <p>
@@ -103,7 +151,9 @@
         <p>
           <strong class="toc-item">Problem Sets</strong>
           There will be four proof-based problem sets throughout the quarter. Submit your solutions through Canvas.
-          You are encouraged to collaborate with your classmates on problem sets, but you must adhere to the following rules.
+        </p>
+        <p>
+          <em>Collaboration.</em> You are encouraged to collaborate with your classmates on problem sets, but you must adhere to the following rules.
         </p>
         <ul>
           <li>Before discussing a problem with a classmate, you must work on the problem on your own for at least 20 minutes.</li>
@@ -111,22 +161,13 @@
           <li>In your write-up, you must list any classmates who contributed to your solution through discussion. There will not be any penalty. The fact that A contributed to B's solution does not necessarily mean that B contributed to A's solution.</li>
         </ul>
         <p>
-          Beyond discussions with me and discussions with classmates as discussed above, you may use the following resources while working on the problem sets.
-        </p>
-        <ul>
-          <li><em>For full credit: </em> The course texts and any course notes that might be posted on this webpage.</li>
-          <li><em>For partial credit: </em> Anything at all, subject to the following two conditions.
-            <ul style="margin-top:5px;">
-              <li>You must make a note of which resources you used when you were working on each problem. You must disclose using a resource even if it was ultimately unhelpful for solving the problem. (You don't need to mention using course texts or course notes. You also don't need to mention it if I help you with a problem.)</li>
-              <li>If you consult an outside resource while working on a problem, then you must not discuss that problem with your classmates.</li>
-            </ul>
-          </li>
-        </ul>
-        <p>
-          Here are a few examples of resources that you may <em>not</em> use if you wish to receive full credit on a problem: Wikipedia, ChatGPT, Stack Exchange, research papers.
+          <em>Permitted Resources.</em> Beyond discussions with me and discussions with classmates as discussed above, you may use the course texts and any notes that might be posted on this webpage. If you wish to receive full credit on a problem, you may not use any other resources. Here are a few examples of resources that you may <em>not</em> use: Wikipedia, ChatGPT, Stack Exchange, research papers.
         </p>
         <p>
-          Late work will receive partial credit. Specifically, if you turn in a problem set \(x\) days late, where \(0 < x < 5\), then your score will be multiplied by \(\cos^2(\frac{\pi x}{10})\), with some rounding. The value \(x\) can be fractional. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation. If you give me sufficiently early notice that you will be observing a religious holiday, then that day will also be excluded from the lateness calculation. Work turned in five or more days late will not receive any credit.
+          <em>Outside Resources.</em> If you wish, you may use outside resources to solve a problem for partial credit. If you decide to go this route, you must make a note of which outside resources you used when you were working on each problem. You must disclose using a resource even if it was ultimately unhelpful for solving the problem. Furthermore, if you consult an outside resource while working on a problem, then you must not discuss that prblem with your classmates.
+        </p>
+        <p>
+          <em>Late Submissions.</em> Late work will receive partial credit. Specifically, if you turn in a problem set \(x\) days late, where \(0 < x < 5\), then your score will be multiplied by \(\cos^2(\frac{\pi x}{10})\), with some rounding. The value \(x\) can be fractional. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation. If you give me sufficiently early notice that you will be observing a religious holiday, then that day will also be excluded from the lateness calculation. Work turned in five or more days late will not receive any credit.
         </p>
         <hr />
         <p>
@@ -169,34 +210,6 @@
         <p>
           To highlight another facet, computer scientists can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.
         </p>
-        <hr />
-        <p>
-          <strong class="toc-item">Class Summaries</strong>
-          (The information below will be updated throughout the quarter.)
-        </p>
-        <ol>
-          <li>Tuesday 9/26: <em>(tentative)</em> Course overview, PRG concept, k-wise uniformity, shallow decision trees.</li>
-          <li>Thursday 9/28: <em>(tentative)</em> Small-bias generators, Boolean Fourier analysis, almost k-wise uniformity.</li>
-          <li>Tuesday 10/3:</li>
-          <li>Thursday 10/5:</li>
-          <li>Tuesday 10/10:</li>
-          <li>Thursday 10/12:</li>
-          <li>Tuesday 10/17:</li>
-          <li>Thursday 10/19:</li>
-          <li>Tuesday 10/24:</li>
-          <li>Thursday 10/26:</li>
-          <li>Tuesday 10/31:</li>
-          <li>Thursday 11/2:</li>
-          <li>Tuesday 11/7:</li>
-          <li>Thursday 11/9:</li>
-          <li>Tuesday 11/14:</li>
-          <li>Thursday 11/16:</li>
-          <li style="list-style-type:none;"><em>(No class on 11/21 or 11/23 due to Thanksgiving Break)</em></li>
-          <li value="17">Tuesday 11/28:</li>
-          <li>Thursday 11/30:</li>
-          <li>Tuesday 12/5:</li>
-          <li>Thursday 12/7:</li>
-        </ol>
       </article>
     </main>
     
