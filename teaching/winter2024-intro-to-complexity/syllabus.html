@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="/mathjax-config.js"></script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Pseudorandomness | Autumn 2023 | William Hoza</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/main.css" />
+    
+    <meta property="og:title" content="Pseudorandomness | Autumn 2023 | William Hoza" />
+
+    <style>
+      summary {
+        font-weight:bold;
+      }
+
+      .toc-item::after {
+        content: ":";
+      }
+
+      html {
+        scroll-behavior:smooth;
+      }
+
+      .toc-item:target {
+        background-color:yellow;
+      }
+
+      td {
+        vertical-align:top;
+      }
+
+      table, td {
+        border: 1px solid gray;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      td {
+        padding:5px;
+      }
+
+      td:first-child {
+        white-space:nowrap;
+      }
+
+        #toc-container {
+            display:none;
+        }
+    </style>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <h1>
+          CMSC 39600-1: Pseudorandomness (Autumn 2023)
+        </h1>
+        <p>
+          <strong>Full Course Title: </strong> "Topics in Theoretical Computer Science: Pseudorandomness"
+        </p>
+        <p>
+          <strong>Term: </strong> Autumn 2023 at the University of Chicago
+        </p>
+        <p>
+          <strong>Instructor: </strong> <a href="/">William Hoza</a> (<a href="mailto:williamhoza@chicago.edu">williamhoza@uchicago.edu</a>)
+        </p>
+        <p>
+          <strong>Meetings: </strong> Tuesdays and Thursdays, 9:30am - 10:50am, JCL 354
+        </p>
+        <p>
+          <strong>Office Hours: </strong> Tuesdays, 11am - 12pm, JCL 311
+        </p>
+        <p>
+          <strong>Course Webpage: </strong> <a href="https://williamhoza.com/teaching/autumn2023-pseudorandomness/">https://williamhoza.com/teaching/autumn2023-pseudorandomness/</a>
+        </p>
+        <div id="toc-container">
+          <hr />
+          <p>
+            Jump to: <span id="toc-loading">(loading...)</span>
+          </p>
+          <ul id="toc"></ul>
+        </div>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Description</strong>
+          What is the role of randomness in computing? Algorithm designers often introduce random choices into their algorithms in an effort to solve problems as efficiently as possible. This is a powerful and valuable paradigm, but it raises the question, where are we supposed to get random bits so that we can run these algorithms? In this course, we will think of randomness as an "expensive" or "scarce" computational resource. All else being equal, an algorithm that uses fewer random bits is better than an algorithm that uses more random bits, just like a faster algorithm is better than a slower algorithm. With this motivation, we will study pseudorandomness, i.e., we will study objects that appear more random than they actually are. We will mainly focus on the theory of unconditional pseudorandom generators, which use a small truly random "seed" to generate a long sequence of bits that appear random to any "sufficiently efficient" observer. Other topics will include randomness extractors, the derandomization of algorithms, and expander graphs.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Timeline</strong>
+        </p>
+        <p>
+          <em>Part I: Small-Bias Distributions and Limited Independence</em> (approximately two weeks). Tentative topic list: defining pseudorandom generators (PRGs), k-wise uniformity, small-bias generators, Boolean Fourier analysis, decision trees, width-2 branching programs, Viola's PRG for low-degree polynomials over GF(2).
+        </p>
+        <p>
+          <em>Part II: Expanders and Extractors</em> (approximately three weeks). Tentative topic list: The L vs. BPL problem, read-once branching programs, spectral expander graphs, the Impagliazzo-Nisan-Wigderson PRG, the derandomized squaring operation, Reingold's theorem, randomness extractors, the Nisan-Zuckerman PRG, the Guruswami-Umans-Vadhan extractor, randomness-efficient sampling.
+        </p>
+        <p>
+          <em>Part III: Circuits</em> (approximately two weeks). Tentative topic list: The P vs. BPP problem, the Sipser-Gacs-Lautemann theorem, Adleman's theorem, circuit lower bounds, bounded-depth circuits, the Nisan-Wigderson PRG, the sandwiching lemma, Braverman's theorem.
+        </p>
+        <p>
+          <em>Part IV: Random Restrictions</em> (approximately two weeks). Tentative topic list: Switching lemmas, PRGs from polarizing random walks, the Ajtai-Wigderson PRG framework, arbitrary-order read-once branching programs, the Forbes-Kelley PRG, the Impagliazzo-Meka-Zuckerman PRG.
+        </p>
+        <hr />
+        <p style="page-break-before:always;">
+          <strong class="toc-item">Texts</strong>
+          We will use the following two texts, each of which is available for free online.
+        </p>
+        <ul>
+          <li><a href="https://eccc.weizmann.ac.il/report/2023/019/">"Theory of Unconditional Pseudorandom Generators" by Hatami and Hoza.</a> Please let me know if you find any mistakes in this text!</li>
+          <li><a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">"Pseudorandomness" by Vadhan.</a></li>
+        </ul>
+        <hr />
+        <p>
+          <strong class="toc-item">Grading</strong>
+          65% problem sets, 25% project, 10% participation.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Problem Sets</strong>
+          There will be four proof-based problem sets throughout the quarter. Submit your solutions through <a href="https://canvas.uchicago.edu/courses/52362">Canvas</a>.
+        </p>
+        <p>
+          <em>Collaboration.</em> You are encouraged to collaborate with your classmates on problem sets, but you must adhere to the following rules.
+        </p>
+        <ul>
+          <li>Before discussing a problem with a classmate, you must work on the problem on your own for at least 20 minutes.</li>
+          <li>You must ultimately write your solution on your own. While writing your solution, you may not consult any notes that you took during a discussion with another classmate.</li>
+          <li>In your write-up, you must list any classmates who contributed to your solution through discussion. There will not be any penalty. The fact that A contributed to B's solution does not necessarily mean that B contributed to A's solution.</li>
+        </ul>
+        <p>
+          <em>Permitted Resources for Full Credit.</em> Beyond discussions with me and discussions with classmates as discussed above, you may use the course texts and any notes that might be posted on this webpage. If you wish to receive full credit on a problem, you may not use any other resources.
+        </p>
+        <p>
+          <em>Outside Resources for Partial Credit.</em> If you wish, you may use outside resources (Wikipedia, ChatGPT, Stack Exchange, research papers, etc.) to solve a problem for partial credit. If you decide to go this route, you must make a note of which outside resources you used when you were working on each problem. You must disclose using a resource even if it was ultimately unhelpful for solving the problem. Furthermore, if you consult an outside resource while working on a problem, then you must not discuss that problem with your classmates.
+        </p>
+        <p>
+          <em>Late Submissions.</em> Late work will receive partial credit. Specifically, if you turn in a problem set \(x\) days late, where \(0 < x < 5\), then your score will be multiplied by \(\cos^2(\frac{\pi x}{10})\), with some rounding. The value \(x\) can be fractional. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation. If you give me sufficiently early notice that you will be observing a religious holiday, then that day will also be excluded from the lateness calculation. Work turned in five or more days late will not receive any credit.
+        </p>
+        <hr />
+        <p style="page-break-before:always;">
+          <strong class="toc-item">Project</strong>
+          Pseudorandomness is an active area of research. There are many important theorems in this area that we won't have time to cover in class, including lots of exciting recent work!
+        </p>
+        <p>
+          You will study one such theorem and write an exposition. You will explain what the theorem means and why it matters, and you will explain some or all of the proof.
+        </p>
+        <p>
+          You can select your theorem from a list that will be provided, or, with permission, you can choose a theorem that is not on the list. Further details TBA.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Academic Honesty Catch-All Policy</strong>
+          Students frequently find themselves in "gray area" situations that are not clearly covered by course policies. For example, maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different course. 
+        </p>
+        <p>
+          In such circumstances, you should simply write a note explaining what happened and include it with your submission.
+        </p>
+        <p>
+          I encourage you to follow this simple protocol in every course you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, you might receive a grade penalty, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Accessibility and Accommodations</strong>
+          I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
+        </p>
+        <p>
+          To highlight one example, I am happy to work with students who are pregnant/parenting to figure out the best way to make the course work for you.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Inclusion and Atmosphere</strong>
+          This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect.
+        </p>
+        <p>
+          To highlight one facet of this topic, you are encouraged to ask questions in class, and you should make your classmates feel comfortable asking questions in class. There is no shame in not knowing something or not understanding something. Questions make the course better for everyone.
+        </p>
+        <p>
+          To highlight another facet, computer scientists can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.
+        </p>
+      </article>
+    </main>
+    
+    <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+      function generateTOC() {
+        const sectionTitles = document.getElementsByClassName("toc-item");
+        for (i = 0; i < sectionTitles.length; i++) {
+          const title = sectionTitles[i].innerText;
+          const urlTitle = title.replaceAll(" ", "-").toLowerCase();
+          sectionTitles[i].id = urlTitle;
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.innerText = title;
+          link.href = "#" + urlTitle;
+          listItem.appendChild(link);
+          document.querySelector("#toc").appendChild(listItem);
+        }
+        document.querySelector("#toc-loading").style.display = "none";
+      }
+
+      generateTOC();
+    </script>
+  </body>
+</html>
