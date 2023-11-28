@@ -2,9 +2,9 @@
   "title": "Weighted Pseudorandom Generators via Inverse Analysis of Random Walks and Shortcutting",
   "authors": ["Lijie Chen", "William M. Hoza", "Xin Lyu", "Avishay Tal", "Hongxun Wu"],
   "abbreviation": "CHLTW",
-  "where-published-summary": ["FOCS 2023 (to appear)"],
-  "timeline": "We posted a manuscript online in August 2023; the paper will appear at FOCS in November 2023.",
-  "first-posted": "2022-08-08",
+  "where-published-summary": ["FOCS 2023"],
+  "timeline": "We posted a manuscript online in August 2023; Hongxun presented the paper at FOCS in November 2023.",
+  "first-posted": "2023-08-08",
   "version-links": [
     {
       "text": "ECCC",
