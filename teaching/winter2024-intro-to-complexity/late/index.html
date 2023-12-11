@@ -107,7 +107,14 @@
                 let x = lateness(deadline, submission, excludedDays);
                 document.querySelector("#x").innerHTML = x;
                 
-                let latenessFactor = Math.sqrt(1 - Math.pow(x/5, 2));
+                let latenessFactor;
+                if (x <= 0) {
+                    latenessFactor = 1;
+                } else if (x >= 5) {
+                    latenessFactor = 0;
+                } else {
+                    latenessFactor = Math.sqrt(1 - Math.pow(x/5, 2));
+                }
                 document.querySelector("#lateness-factor").innerHTML = latenessFactor.toFixed(5);
 
                 let finalScore = parseFloat(document.querySelector("#on-time-score").value) * latenessFactor;
