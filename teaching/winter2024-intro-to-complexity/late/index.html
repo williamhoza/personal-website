@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <p>
+            When was the homework due? (If the student got an extension, put the extended deadline.) <br />
+            <input type="datetime-local" value="2024-01-11T17:00" id="deadline-input" />
+        </p>
+        
+        <p>
+            When was the homework actually submitted? <br />
+            <input type="datetime-local" value="2024-01-11T17:00" id="submission-input" />
+        </p>
+        
+        <p>
+            Which days should be excluded from the lateness calculation?
+            <ul id="excluded-ul">
+                <li>Saturdays</li>
+                <li>Sundays</li>
+                <li>MLK day (January 15)</li>
+                <li id="add-excluded-li"><button onclick="addExcluded();">Add another</button></li>
+            </ul>
+        </p>
+
+        <p>
+            What score would the homework have received if it had been turned in on time? <br />
+            <input type="number" id="on-time-score" />
+        </p>
+
+        <p>
+            <button onclick="calculate();">Calculate adjusted score</button>
+        </p>
+
+        <p>
+            Number of days late: <span id="x">???</span><br />
+            Lateness multiplier: <span id="lateness-factor">???</span><br />
+            Final score: <span id="score">???</span><br />
+        </p>
+
+        <script>
+            const HOLIDAYS = [new Date("January 15, 2024")];
+            let excludedInputs = [];
+
+            function addExcluded() {
+                let newLI = document.createElement("li");
+                let newInput = document.createElement("input");
+                newInput.type = "date";
+                newLI.appendChild(newInput);
+                excludedInputs.push(newInput);
+                document.querySelector("#excluded-ul").insertBefore(newLI, document.querySelector("#add-excluded-li"));
+            }
+
+            // Given date objects representing the deadline and the submission datetime, this function calculates how late the submission was
+            // TODO: Think about how to deal with daylight savings time
+            function lateness(deadline, submission, excludedDays) {
+                // The implementation of this function prioritizes being bug-free rather than being efficient
+                deadline.setMilliseconds(0);
+                submission.setMilliseconds(0);
+
+                if (isExcluded(deadline, excludedDays)) {
+                    // Act as if the deadline was at midnight the following night
+                    deadline.setDate(deadline.getDate() + 1);
+                    deadline.setHours(0);
+                    deadline.setMinutes(0);
+                    deadline.setSeconds(0);
+                }
+
+                if (isExcluded(submission, excludedDays)) {
+                    // Act as if the submission was at midnight the previous night
+                    submission.setHours(0);
+                    submission.setMinutes(0);
+                    submission.setSeconds(0);
+                }
+
+                let ret = (submission.getTime() - deadline.getTime()) / (1000 * 60 * 60 * 24);
+
+                while(deadline.getTime() < submission.getTime()) {
+                    if (isExcluded(deadline, excludedDays)) {
+                        ret = ret - 1;
+                    }
+                    deadline.setDate(deadline.getDate() + 1);
+                }
+
+                return ret;
+            }
+
+            // Given a date object, this function tells whether that day is excluded from lateness calculations
+            function isExcluded(d, excludedDays) {
+                if (d.getDay() == 0) return true; // Sunday
+                if (d.getDay() == 6) return true; // Saturday
+                for (let i = 0; i < excludedDays.length; i++) {
+                    if (d.getYear() == excludedDays[i].getYear() && d.getMonth() == excludedDays[i].getMonth() && d.getDate() == excludedDays[i].getDate()) return true;
+                }
+                return false;
+            }
+
+            function calculate() {
+                let excludedDays = HOLIDAYS.slice(0);
+                for (let i = 0; i < excludedInputs.length; i++) {
+                    if (excludedInputs[i].value != "") excludedDays.push(new Date(excludedInputs[i].value + "T00:00:00"));
+                }
+
+                let deadline = new Date(document.querySelector("#deadline-input").value);
+                let submission = new Date(document.querySelector("#submission-input").value);
+                let x = lateness(deadline, submission, excludedDays);
+                document.querySelector("#x").innerHTML = x;
+                
+                let latenessFactor = Math.sqrt(1 - Math.pow(x/5, 2));
+                document.querySelector("#lateness-factor").innerHTML = latenessFactor.toFixed(5);
+
+                let finalScore = parseFloat(document.querySelector("#on-time-score").value) * latenessFactor;
+                document.querySelector("#score").innerHTML = finalScore.toFixed(1);
+            }
+        </script>
+    </body>
+</html>
