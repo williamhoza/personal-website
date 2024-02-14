@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="/mathjax-config-2.js"></script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Introduction to Complexity Theory | Winter 2024 | William Hoza</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/main.css" />
+    
+    <meta property="og:title" content="Introduction to Complexity Theory | Winter 2024 | William Hoza" />
+
+    <style>
+      summary {
+        font-weight:bold;
+      }
+
+      .toc-item::after {
+        content: ":";
+      }
+
+      html {
+        scroll-behavior:smooth;
+      }
+
+      .toc-item:target {
+        background-color:yellow;
+      }
+
+      td {
+        vertical-align:top;
+      }
+
+      table, td {
+        border: 1px solid #000000;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td {
+        padding:15px;
+      }
+
+      @media print {
+        #toc-container {
+          display:none;
+        }
+      }
+
+      .reading, .note {
+        margin-top:10px;
+        margin-left:30px;
+      }
+
+      .reading::before {
+        content: "Reading: ";
+        font-style: italic;
+      }
+
+      .note {
+        font-style:italic;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <p style="color:red;">
+          (DRAFT)
+        </p>
+        <hr />
+        <h1>
+          CMSC 28100-1: Introduction to Complexity Theory (Spring 2024)
+        </h1>
+        <p>
+          <strong>Term: </strong> Spring 2024 at the University of Chicago
+        </p>
+        <p>
+          <strong>Instructor: </strong> <a href="/">William Hoza</a> (<a href="mailto:williamhoza@uchicago.edu">williamhoza@uchicago.edu</a>)
+        </p>
+        <p>
+          <strong>Meetings: </strong> Mondays, Wednesdays, and Fridays | 9:30am - 10:20am | location TBA
+        </p>
+        <p>
+          <strong>Textbook: </strong> <em>Introduction to the Theory of Computing, 3rd Edition</em> by Michael Sipser. ISBN-13: 9780357670583.
+        </p>
+        <div id="toc-container">
+          <hr />
+          <p>
+            Jump to: <span id="toc-loading">(loading...)</span>
+          </p>
+          <ul id="toc"></ul>
+        </div>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Description</strong>
+          In this course, we will study the mathematical and philosophical foundations of computer science. Our central mission will be to understand <em>which problems can be solved through computation</em>, focusing especially on impossibility proofs. In the first part of the course, we will develop techniques for proving certain problems, such as the "halting problem," cannot be solved by any algorithm whatsoever. In the second part of the course, we will study computation in a world with limited resources. We will prove that certain problems are "intractable," meaning that they cannot be solved by polynomial-time algorithms. We will develop the theory of "NP-completeness," which enables us to identify many important problems that are <em>probably</em> intractable, and we will discuss the challenge of actually <em>proving</em> that such problems are intractable. Finally, we will investigate the relationships between various computational resources, such as time, space, and randomness.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Office Hours</strong>
+          TBA
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Timeline</strong>
+          (The information below will be updated throughout the quarter.)
+        </p>
+        <table>
+          <tr><td>
+            Monday 3/18: <em>(Class summary will go here)</em>
+            <div class="reading">Chapter 0 and Sections 3.0-3.1.</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 3/20:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 3/22:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 3/25:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 3/27:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 3/29:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/1:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/3:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/5:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/8:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/10:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/12:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/15:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/17: (Tentative) Midterm exam.
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/19:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/22:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/24:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/26:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/29:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 5/1:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/3:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 5/6:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 5/8:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/10:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 5/13:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 5/15:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/17: Course summary and review.
+            <div class="reading"></div>
+          </td></tr>
+        </table>
+        <hr />
+        <p>
+          <strong class="toc-item">Problem Set Policies</strong>
+          There will be six or seven problem sets throughout the quarter. Submit your solutions through Gradescope.
+        </p>
+        <ol>
+          <li>Problem set 1, due March 26 at 5pm</li>
+          <li>Problem set 2, due April 2 at 5pm</li>
+          <li>
+            Problem set 3, tentatively due April 9 at 5pm
+            <div class="note">(In-class midterm exam tentatively scheduled for April 17)</div>
+          </li>
+          <li>Problem set 4, tentatively due April 23 at 5pm</li>
+          <li>Problem set 5, due April 30 at 5pm</li>
+          <li>Problem set 6, due May 7 at 5pm</li>
+          <li>
+            Problem set 7, tentatively due May 14 at 5pm
+            <div class="note">(Final exam)</div>
+          </li>
+        </ol>
+        <p>
+          <em>Collaboration.</em> You are encouraged to collaborate with your classmates on problem sets, but you must adhere to the following rules.
+        </p>
+        <ul>
+          <li>Work on each problem on your own for at least five minutes before discussing it with classmates.</li>
+          <li>Write your solution on your own. While you are writing your solution, do not consult any notes that you might have taken during discussions with classmates.</li>
+          <li>In your write-up, list any classmates who helped you figure out the solution. The fact that student A contributed to student B's solution does not necessarily mean that student B contributed to student A's solution.</li>
+          <li>Do not post solutions or partial solutions anywhere that your classmates are likely to find them, such as Ed. (You are welcome to use Ed to ask clarification questions and to discuss general concepts.) Please let me know if you are aware of intentional or unintentional violations of this policy.</li>
+        </ul>
+        <p>
+          <em>Permitted Resources.</em> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook and any slides or notes posted in the "Course Timeline" section of this webpage. You may not use any other resources. Some examples of prohibited resources are Wikipedia, ChatGPT, and Stack Exchange.
+        </p>
+        <p>
+          <em>Late Submissions.</em> You are strongly encouraged to complete each problem set within the allotted time. If you don't master the subject matter of a particular problem set by the time the problem set is due, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+        </p>
+        <ul>
+          <li>If you submit your solution to a problem \(x\) days late, where \(0 < x < 4\), then your score will be multiplied by \(\sqrt{1 - (x/4)^2}\), with some rounding. The value \(x\) can be fractional. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation.</li>
+          <li>This late work policy is applied on a problem-by-problem basis. For example, if you submit your solution to problem 1 of a particular problem set on time and you submit your solution to problem 2 of that same problem set one day late, then you will receive full credit for problem 1 and partial credit for problem 2. (However, if a problem is divided into parts, then you must submit the solutions to all parts simultaneously.) If you wish to submit solutions to two problems at two different times, please follow <a href="gradescope-instructions.txt">these instructions</a>.</li>
+          <li>Eventually, I will post official solutions. If you look at the official solutions, then from that point onward, you are not permitted to submit your own solutions for that problem set. Submitting solutions after looking at the official solutions would be an academic honesty violation.</li>
+          <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
+        </ul>
+        <p>
+          <em>Extensions.</em> Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, if a problem set deadline falls on a religious holiday and you give me sufficiently early notice that you will be observing that holiday, then I will give you a 24-hour extension on that problem set.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Grading</strong>
+          40% problem sets, 20% midterm exam, 40% final exam.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Academic Honesty Catch-All Policy</strong>
+          Even if you have <em>no intention of being dishonest,</em> you might nevertheless find yourself in an "ethically problematic" situation at some point. For example, maybe you and a classmate work together to solve a homework problem, and then <em>afterward</em> you remember that you were supposed to work on the problem on your own for at least five minutes before collaborating. Or maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different course.
+        </p>
+        <p>
+          In such circumstances, you should simply send me an email explaining what happened.
+        </p>
+        <p>
+          I encourage you to follow this simple protocol in every course you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, I might have to take some points off your score, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Inclusion and Accessibility</strong>
+          This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect. I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
+        </p>
+        <p>
+          To highlight a few facets of these topics:
+        </p>
+        <ul>
+          <li>You are encouraged to ask questions in class, and you should make your classmates feel comfortable asking questions in class. There is no shame in not knowing something or not understanding something. Questions make the course better for everyone.</li>
+          <li>I am happy to work with any students who are pregnant/parenting to figure out the best way to make the course work for you.</li>
+          <li>Computer scientists and mathematicians can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.</li>
+        </ul>
+      </article>
+    </main>
+    
+    <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+      function generateTOC() {
+        const sectionTitles = document.getElementsByClassName("toc-item");
+        for (i = 0; i < sectionTitles.length; i++) {
+          const title = sectionTitles[i].innerText;
+          const urlTitle = title.replaceAll(" ", "-").toLowerCase();
+          sectionTitles[i].id = urlTitle;
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.innerText = title;
+          link.href = "#" + urlTitle;
+          listItem.appendChild(link);
+          document.querySelector("#toc").appendChild(listItem);
+        }
+        document.querySelector("#toc-loading").style.display = "none";
+      }
+
+      generateTOC();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+Suppose you have already submitted solutions for one or more problems through Gradescope. Now you wish to submit solutions for one or more additional problems.
+
+In this case, you should submit a document to Gradescope consisting of ONLY THE NEW SOLUTION(S).
+
+For the problems for which you have already submitted a solution, your new document should simply say "See previous submission" in place of the solution. This will help us to make sure we give you the points you deserve for your earlier submission.
