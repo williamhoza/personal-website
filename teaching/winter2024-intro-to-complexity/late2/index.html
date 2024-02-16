@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <style>
+            #days-late, #hours-late, #minutes-late {
+                width:50px;
+            }
+
+            #score {
+                color:#800000;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>
+            Partial Credit Calculator for Late Work
+        </h3>
+        <p>
+            (Introduction to Complexity Theory, Winter 2024)
+        </p>
+
+        <hr />
+
+        <p>
+            When was the homework due? (If the student got an extension, put the extended deadline.) <br />
+            <input type="datetime-local" value="2024-01-11T17:00" id="deadline-input" />
+        </p>
+        
+        <p>
+            How late was the submission, according to Gradescope? (How much time passed between the [extended] due date and the submission time?) <br />
+            <input type="number" id="days-late" min="0" /> days, <input type="number" id="hours-late" min="0" max="23" /> hours, and <input type="number" id="minutes-late" min="0" max="59" /> minutes
+        </p>
+
+        <p>
+            How many points would the student have received for this problem if it had been turned in on time? <br />
+            <input type="number" id="on-time-score" />
+        </p>
+
+        <p>
+            <button onclick="calculate();">Calculate score adjustment</button>
+        </p>
+        
+        <p>
+            The following days will be excluded from the lateness calculation.
+            <ul id="excluded-ul">
+                <li>Saturdays</li>
+                <li>Sundays</li>
+                <li>MLK day (January 15)</li>
+            </ul>
+        </p>
+
+        <p>
+            <strong>The student should receive <span id="score">???</span> points for this problem.<br /></strong>
+        </p>
+
+        <p>
+            Submission date/time: <span id="submission-date">???</span><br />
+            Number of days late ("x"): <span id="x">???</span><br />
+            Lateness multiplier: <span id="lateness-factor">???</span>
+        </p>
+
+
+        <script>
+            const HOLIDAYS = [new Date("January 15, 2024")];
+            let excludedInputs = [];
+
+            // Given date objects representing the deadline and the submission datetime, this function calculates how late the submission was
+            // TODO: Think about how to deal with daylight savings time
+            function lateness(deadline, submission, excludedDays) {
+                // The implementation of this function prioritizes being bug-free rather than being efficient
+                deadline.setMilliseconds(0);
+                submission.setMilliseconds(0);
+
+                if (isExcluded(deadline, excludedDays)) {
+                    // Act as if the deadline was at midnight the following night
+                    deadline.setDate(deadline.getDate() + 1);
+                    deadline.setHours(0);
+                    deadline.setMinutes(0);
+                    deadline.setSeconds(0);
+                }
+
+                if (isExcluded(submission, excludedDays)) {
+                    // Act as if the submission was at midnight the previous night
+                    submission.setHours(0);
+                    submission.setMinutes(0);
+                    submission.setSeconds(0);
+                }
+
+                let ret = (submission.getTime() - deadline.getTime()) / (1000 * 60 * 60 * 24);
+
+                while(deadline.getTime() < submission.getTime()) {
+                    if (isExcluded(deadline, excludedDays)) {
+                        ret = ret - 1;
+                    }
+                    deadline.setDate(deadline.getDate() + 1);
+                }
+
+                return ret;
+            }
+
+            // Given a date object, this function tells whether that day is excluded from lateness calculations
+            function isExcluded(d, excludedDays) {
+                if (d.getDay() == 0) return true; // Sunday
+                if (d.getDay() == 6) return true; // Saturday
+                for (let i = 0; i < excludedDays.length; i++) {
+                    if (d.getYear() == excludedDays[i].getYear() && d.getMonth() == excludedDays[i].getMonth() && d.getDate() == excludedDays[i].getDate()) return true;
+                }
+                return false;
+            }
+
+            function parseFloatDef(s, def) {
+                let ret = parseFloat(s);
+                if (isNaN(ret)) return def;
+                return ret;
+            }
+
+            function calculate() {
+                let excludedDays = HOLIDAYS.slice(0);
+
+                let deadline = new Date(document.querySelector("#deadline-input").value);
+                let submission = new Date(deadline);
+                submission.setDate(submission.getDate() + parseFloatDef(document.querySelector("#days-late").value, 0));
+                submission.setHours(submission.getHours() + parseFloatDef(document.querySelector("#hours-late").value, 0));
+                submission.setMinutes(submission.getMinutes() + parseFloatDef(document.querySelector("#minutes-late").value, 0));
+                document.querySelector("#submission-date").innerHTML = submission.toLocaleString();
+
+                let x = lateness(deadline, submission, excludedDays);
+                document.querySelector("#x").innerHTML = x.toFixed(5);
+                
+                let latenessFactor;
+                if (x <= 0) {
+                    latenessFactor = 1;
+                } else if (x >= 5) {
+                    latenessFactor = 0;
+                } else {
+                    latenessFactor = Math.sqrt(1 - Math.pow(x/5, 2));
+                }
+                document.querySelector("#lateness-factor").innerHTML = latenessFactor.toFixed(5);
+
+                let finalScore = parseFloat(document.querySelector("#on-time-score").value) * latenessFactor;
+                document.querySelector("#score").innerHTML = finalScore.toFixed(1);
+            }
+        </script>
+    </body>
+</html>
