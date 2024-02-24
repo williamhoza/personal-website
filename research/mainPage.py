@@ -65,7 +65,7 @@ def compile(papers):
               Research
             </h1>
             <p>
-              I study <strong>computational complexity theory</strong>. I'm especially interested in pseudorandomness, derandomization, and circuit complexity. Here's a 10-minute overview of my research from September 2022: <a href="https://www.youtube.com/watch?v=L7SbTgtAsNY">[video]</a> <a href="simons-meet-the-fellows-2022-slides.pptx">[slides]</a>
+              I study <strong>computational complexity theory</strong>. I'm especially interested in pseudorandomness, derandomization, and circuit complexity. Click <a href="research-summary-2024-02-23.pdf">here</a> to see a poster-style image from February 2024 summarizing my research areas.
             </p>
             <details>
               <summary>
