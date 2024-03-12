@@ -128,7 +128,7 @@
                     </p>
 
                     <p id="final-score-message" style="display:none;">
-                        Enter the adjusted scores below in the <em>main</em> "Problem set <span class="pset-num">???</span>" Gradescope assignment. Leave the raw scores in the "LATE" assignment unchanged. If the student did not submit anything for the main assignment, please submit a blank PDF on their behalf.
+                        Enter the adjusted scores below in the <em>main</em> "Problem set <span class="pset-num">???</span>" Gradescope assignment. Leave the raw scores in the "LATE" assignment unchanged. If the student did not submit anything for the main assignment, please submit a blank PDF on their behalf. If you modify any of the raw scores in the future to address regrade requests, remember to repeat this process to get the updated adjusted scores.
                     </p>
 
                     <table id="results-list">
@@ -137,13 +137,12 @@
                             <th>Extension</th>
                             <th>Deadline</th>
                             <th id="raw-score-th">Raw Score</th>
-                            <th id="penalty-th">Penalty</th>
                             <th id="final-score-th">Adjusted Score</th>
                         </tr>
                     </table>
 
                     <p id="submit-button">
-                        <input type="submit" value="Show lateness penalties">
+                        <input type="submit" value="Show scores">
                     </p>
                 </form>
             </article>
@@ -160,12 +159,10 @@
 
             function showResults() {
                 document.querySelector("#raw-score-th").style.display = "table-cell";
-                document.querySelector("#penalty-th").style.display = "table-cell";
                 document.querySelector("#final-score-th").style.display = "table-cell";
 
                 for (let i = 0; i < submissions.length; i++) {
                     submissions[i].rawScoreCell.style.display = "";
-                    submissions[i].latenessPenaltyCell.style.display = "";
                     submissions[i].finalScoreCell.style.display = "";
                 }
 
@@ -224,9 +221,7 @@
                     }
 
                     this.finalScore = Math.round(this.rawScore * this.latenessFactor * 10) / 10;
-                    this.latenessPenalty = this.rawScore - this.finalScore;
 
-                    this.latenessPenaltyCell.innerHTML = this.latenessPenalty.toFixed(1);
                     this.finalScoreCell.innerHTML = this.finalScore.toFixed(1);
                     this.finalScoreCell.title = `Explanation: The problem set was due on a ${DAY_NAMES[this.deadline.getDay()]}. The solution was submitted ${this.rawLateness.toFixed(2)} days later, on a ${DAY_NAMES[this.submissionDateTime.getDay()]}. After excluding Saturdays and Sundays, we consider the submission to be ${this.adjustedLateness.toFixed(2)} days late. Plugging into the formula, the lateness multiplier is ${this.latenessFactor.toFixed(2)}.`
                 }
