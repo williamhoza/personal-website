@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script src="/mathjax-config-2.js"></script>
-    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async=""></script>
+    <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
+    <script src="/temml/temml.min.js"></script>
+    <script src="/temml/auto-render.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <title>Introduction to Complexity Theory | Spring 2024 | William Hoza</title>
@@ -105,8 +106,11 @@
         </p>
         <hr />
         <p>
-          <strong class="toc-item">Office Hours</strong>
-          TBA
+          <strong class="toc-item">Office Hours</strong> Some weeks will have modified office hours, which will be posted on Ed. By default, the office hours are as follows.
+          <ul>
+            <li>Mondays, 10:30am - 12:30pm, location TBD (William)</li>
+            <li>TA office hours TBD</li>
+          </ul>
         </p>
         <hr />
         <p>
@@ -253,7 +257,11 @@
         </p>
         <hr />
         <p>
-          <strong class="toc-item">Grading Policies</strong> Your overall grade in this course will be calculated using the formula \[G = 0.65 \cdot A + 0.35 \cdot B + 0.3 \cdot B^6 \cdot \max(B - A, 0).\] In this formula, \(B\) is your score on the final exam (normalized to be between 0 and 1), and \(A\) is the weighted sum of your scores on everything prior to the final exam (again, normalized to be between 0 and 1). The weights for calculating \(A\) are as follows.
+          <strong class="toc-item">Grading Policies</strong> Your overall grade in this course will be calculated using the formula
+          $$
+            G = 0.65 \cdot A + 0.35 \cdot B + 0.3 \cdot B^6 \cdot \max(B - A, 0).
+          $$
+          In this formula, $B$ is your score on the final exam (normalized to be between 0 and 1), and $A$ is the weighted sum of your scores on everything prior to the final exam (again, normalized to be between 0 and 1). The weights for calculating $A$ are as follows.
         </p>
         <ul>
           <li>5%: Problem set 1.</li>
@@ -264,7 +272,7 @@
           <em>Late Work.</em> You are strongly encouraged to complete each problem set within the allotted time. If you don't master the subject matter of a particular problem set by the time the problem set is due, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
         </p>
         <ul>
-          <li>If you submit your solution to a problem \(x\) days late, where \(0 < x < 4\), then your score will be multiplied by \((1 - (x/4)^3)^{1/3}\). The value \(x\) can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation.</li>
+          <li>If you submit your solution to a problem $x$ days late, where $0 < x < 4$, then your score will be multiplied by $(1 - (x/4)^3)^{1/3}$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation.</li>
           <li>This late work policy is applied on a problem-by-problem basis. For example, if you submit your solution to problem 1 of problem set 1 on time and you submit your solution to problem 2 of that same problem late, then you will receive full credit for problem 1 and partial credit for problem 2. (However, if a problem is divided into parts, then you must submit your solutions to all parts simultaneously.)</li>
           <li>Eventually, I will post official solutions. If you look at the official solutions, then from that point onward, you are not permitted to submit your own solutions for that problem set. Submitting solutions after looking at the official solutions would be an academic honesty violation.</li>
           <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
@@ -325,6 +333,15 @@
       }
 
       generateTOC();
+    </script>
+
+    <script>
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ]
+      });
     </script>
   </body>
 </html>
