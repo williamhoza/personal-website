@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" href="/main.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+
+        <style>
+            #days-late, #hours-late, #minutes-late {
+                width:50px;
+            }
+
+            #deadline-input {
+                display:none;
+            }
+
+            #extension:has(> option[value="other"]:checked) + br + #deadline-input {
+                display:inline;
+            }
+
+            .num {
+                font-weight:bold;
+                color:#a00000;
+            }
+
+            #results {
+                display:none;
+            }
+
+            .form-field {
+                margin-top:5px;
+                width:300px;
+                box-sizing:border-box;
+            }
+
+            input[type="submit"] {
+                padding:10px;
+                background-color:#4487d3;
+                color:white;
+                border:none;
+                border-radius:10px;
+                cursor:pointer;
+                margin-top:10px;
+            }
+
+            input[type="submit"]:hover {
+                background-color:#3b74b4;
+            }
+        </style>
+
+        <title>
+            Partial Credit Calculator for Late Work 
+        </title>
+    </head>
+    <body>
+        <main>
+            <article>
+                <h3>
+                    Partial Credit Calculator for Late Work
+                </h3>
+                <p>
+                    Introduction to Complexity Theory, Spring 2024
+                </p>
+
+                <hr />
+                
+                <form action="" onsubmit="try { calculate(); } finally { event.preventDefault(); }" onchange="document.querySelector('#results').style.display = 'none';">
+                    <p>
+                        Problem set: <br />
+                        <select class="form-field" id="pset">
+                        </select>
+                    </p>
+
+                    <p>
+                        Score before lateness penalty: <br />
+                        <input type="number" id="on-time-score" class="form-field" required />
+                    </p>
+
+                    <p>
+                        Submission date/time: <br />
+                        <input type="datetime-local" id="submission-input" class="form-field" required />
+                    </p>
+
+                    <div>
+                        Extension: <br />
+                        <select class="form-field" id="extension">
+                            <option value="none">None</option>
+                            <option value="24hr">24 hours</option>
+                            <option value="other">Other (enter extended deadline below)</option>
+                        </select> <br />
+                        <input type="datetime-local" value="2024-03-26T17:00" id="deadline-input" class="form-field" />
+                    </div>
+
+                    <p>
+                        <input type="submit" value="Calculate lateness penalty">
+                    </p>
+                </form>
+
+                <hr />
+
+                <div id="results">
+                    <p>
+                        <strong>Result:</strong> The lateness penalty is <span id="late-penalty" class="num">???</span> points in this case, i.e., the student should receive <span id="score" class="num">???</span> points for this problem.
+                    </p>
+
+                    <p>
+                        Explanation: The problem set was due on a <span id="deadline-weekday" class="num">???</span>. The solution was submitted <span id="raw-lateness" class="num">???</span> days later, on a <span id="submission-weekday" class="num">???</span>. After excluding Saturdays and Sundays, we consider the submission to be <span id="x" class="num">???</span> days late. Plugging into the formula, the lateness multiplier is <span id="lateness-factor" class="num">???</span>.
+                    </p>
+                </div>
+            </article>
+        </main>
+
+
+        <script>
+            const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const PSET_DEADLINES = ["2024-03-26T17:00", "2024-04-02T17:00", "2024-04-09T17:00", "2024-04-23T17:00", "2024-04-30T17:00", "2024-05-07T17:00", "2024-05-14T17:00"];
+
+            init();
+
+            function init() {
+                populatePsetList();
+            }
+
+            function populatePsetList() {
+                for (let i = 0; i < PSET_DEADLINES.length; i++) {
+                    let opt = document.createElement("option");
+                    opt.value = i;
+                    let txt = "Problem set " + (i + 1) + " (due ";
+                    let deadline = new Date(PSET_DEADLINES[i]);
+                    txt = txt + (deadline.getMonth() + 1) + "/" + deadline.getDate() + " at " + deadline.toLocaleTimeString() + ")";
+                    opt.appendChild(document.createTextNode(txt));
+                    document.querySelector("#pset").appendChild(opt);
+                }
+            }
+
+            function calculate() {
+                let deadline = new Date(PSET_DEADLINES[parseInt(document.querySelector("#pset").value)]);
+
+                if (document.querySelector("#extension").value == "24hr") {
+                    deadline.setDate(deadline.getDate() + 1);
+                } else if (document.querySelector("#extension").value == "other") {
+                    deadline = new Date(document.querySelector("#deadline-input").value);
+                }
+
+                document.querySelector("#deadline-weekday").innerHTML = DAY_NAMES[deadline.getDay()];
+
+                let submission = new Date(document.querySelector("#submission-input").value);
+                document.querySelector("#submission-weekday").innerHTML = DAY_NAMES[submission.getDay()];
+
+                let rawLateness = (submission.getTime() - deadline.getTime()) / (24 * 60 * 60 * 1000);
+                document.querySelector("#raw-lateness").innerHTML = rawLateness.toFixed(5);
+
+                let x = lateness(deadline, submission);
+                document.querySelector("#x").innerHTML = x.toFixed(5);
+                
+                let latenessFactor;
+                if (x <= 0) {
+                    latenessFactor = 1;
+                } else if (x >= 4) {
+                    latenessFactor = 0;
+                } else {
+                    latenessFactor = Math.pow(1 - Math.pow(x/4, 3), 1/3);
+                }
+                document.querySelector("#lateness-factor").innerHTML = latenessFactor.toFixed(5);
+
+                let onTimeScore = parseFloat(document.querySelector("#on-time-score").value);
+                let finalScore = (onTimeScore * latenessFactor).toFixed(1);
+                document.querySelector("#score").innerHTML = finalScore;
+                document.querySelector("#late-penalty").innerHTML = (onTimeScore - finalScore).toFixed(1);
+
+                document.querySelector("#results").style.display = "block";
+            }
+
+            // TODO: This function does not properly account for daylight savings time
+            function lateness(deadline, submission) {
+                // The implementation of this function prioritizes being bug-free rather than being efficient
+
+                deadline.setMilliseconds(0);
+                submission.setMilliseconds(0);
+
+                if (isExcluded(deadline)) {
+                    // Act as if the deadline was at midnight the following night
+                    deadline.setDate(deadline.getDate() + 1);
+                    deadline.setHours(0);
+                    deadline.setMinutes(0);
+                    deadline.setSeconds(0);
+                }
+
+                if (isExcluded(submission)) {
+                    // Act as if the submission was at midnight the previous night
+                    submission.setHours(0);
+                    submission.setMinutes(0);
+                    submission.setSeconds(0);
+                }
+
+                let ret = (submission.getTime() - deadline.getTime()) / (1000 * 60 * 60 * 24);
+
+                while(deadline.getTime() < submission.getTime()) {
+                    if (isExcluded(deadline)) {
+                        ret = ret - 1;
+                    }
+                    deadline.setDate(deadline.getDate() + 1);
+                }
+
+                return ret;
+            }
+
+            // Given a date object, this function tells whether that day is excluded from lateness calculations
+            // TODO: This function does not properly account for university holidays
+            function isExcluded(d,) {
+                if (d.getDay() == 0) return true; // Sunday
+                if (d.getDay() == 6) return true; // Saturday
+                return false;
+            }
+
+            function parseFloatDef(s, def) {
+                let ret = parseFloat(s);
+                if (isNaN(ret)) return def;
+                return ret;
+            }
+        </script>
+    </body>
+</html>

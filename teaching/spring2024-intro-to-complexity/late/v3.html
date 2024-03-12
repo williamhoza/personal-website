@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="stylesheet" href="/main.css" />
@@ -25,7 +24,11 @@
                 color:#a00000;
             }
 
-            #upload-form, #results-form, #raw-score-th, #penalty-th, #final-score-th {
+            #results {
+                display:none;
+            }
+
+            #extensions-form {
                 display:none;
             }
 
@@ -35,7 +38,7 @@
                 box-sizing:border-box;
             }
 
-            input[type="submit"], button {
+            input[type="submit"] {
                 padding:10px;
                 background-color:#4487d3;
                 color:white;
@@ -45,7 +48,7 @@
                 margin-top:10px;
             }
 
-            input[type="submit"]:hover, button:hover {
+            input[type="submit"]:hover {
                 background-color:#3b74b4;
             }
 
@@ -55,27 +58,10 @@
 
             table {
                 border-collapse:collapse;
-                margin-bottom:10px;
             }
 
             td, th {
                 padding:5px;
-            }
-
-            button {
-                margin-right:10px;
-            }
-
-            #pset-button-container {
-                margin-bottom:10px;
-            }
-
-            .button-title {
-                margin-bottom:10px;
-            }
-
-            tr:nth-child(odd) {
-                background-color:#f0f0f0;
             }
         </style>
 
@@ -94,27 +80,18 @@
                 </p>
 
                 <hr />
-
-                <div id="pset-selection-div">
-                    <p>
-                        Which problem set are you working on grading?
-                    </p>
-
-                    <div id="pset-button-container">
-                    </div>
-                </div>
                 
                 <form action="" onsubmit="try { processCSV(); } finally { event.preventDefault(); }" id="upload-form">
                     <p>
-                        In Gradescope, navigate to the "LATE problem set <span class="pset-num">???</span> problem X submissions" assignment, where X is whichever problem you are working on grading. Navigate to the "Review grades" screen. Using the "Download Grades" button at the bottom of the page, download the "raw" late work scores (i.e., scores without a lateness penalty applied) in CSV form. Then select the downloaded file below.
+                        Problem set: <br />
+                        <select class="form-field" id="pset" required>
+                            <option value="">Select an option</option>
+                        </select>
                     </p>
 
                     <p>
+                        Scores for late work before lateness penalty (CSV): <br />
                         <input type="file" id="on-time-scores" class="form-field" accept=".csv" required>
-                    </p>
-
-                    <p>
-                        ⚠️ Remember, the grades you are downloading are confidential. Do not let unauthorized parties access them.
                     </p>
 
                     <p>
@@ -122,58 +99,47 @@
                     </p>
                 </form>
 
-                <form action="" onsubmit="try { showResults(); } finally { event.preventDefault(); }" id="results-form">
-                    <p id="extensions-message">
-                        Enter all extensions below. In Gradescope, extensions can be found by navigating to the <em>main</em> "Problem set <span class="pset-num">???</span>" assignment (not the "LATE" assignments).
+                <form action="" onsubmit="try { processExtensions(); } finally { event.preventDefault(); }" id="extensions-form">
+                    <p>
+                        In Gradescope, extensions can be found by navigating to the <em>main</em> assignment associated with the problem set (not the "LATE" assignments). Enter all extensions below.
                     </p>
 
-                    <p id="final-score-message" style="display:none;">
-                        Enter the adjusted scores below in the <em>main</em> "Problem set <span class="pset-num">???</span>" Gradescope assignment. Leave the raw scores in the "LATE" assignment unchanged. If the student did not submit anything for the main assignment, please submit a blank PDF on their behalf.
-                    </p>
-
-                    <table id="results-list">
+                    <table id="extensions-list">
                         <tr>
                             <th>Student</th>
                             <th>Extension</th>
                             <th>Deadline</th>
-                            <th id="raw-score-th">Raw Score</th>
-                            <th id="penalty-th">Penalty</th>
-                            <th id="final-score-th">Adjusted Score</th>
                         </tr>
                     </table>
 
-                    <p id="submit-button">
-                        <input type="submit" value="Show lateness penalties">
+                    <p>
+                        <input type="submit" value="Calculate Lateness Penalties">
                     </p>
                 </form>
+
+                <div id="results">
+                    Enter the adjusted scores below in the <em>main</em> Gradescope assignment associated with the problem set. Leave the raw scores in the "LATE" assignment unchanged. If the student did not submit anything for the main assignment, please submit a blank PDF on their behalf.
+
+                    <table id="results-list">
+                        <tr>
+                            <th>Student</th>
+                            <th>Raw Score</th>
+                            <th>Penalty</th>
+                            <th>Adjusted Score</th>
+                        </tr>
+                    </table>
+                </div>
             </article>
         </main>
 
 
         <script>
             const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const PSET_DEADLINES = ["2024-03-26T17:00", "2024-04-02T17:00", "2024-04-09T17:00", "2024-04-23T17:00", "2024-04-30T17:00", "2024-05-07T17:00", "2024-05-14T17:00"];
-            let psetIndex;
+            // const PSET_DEADLINES = ["2024-03-26T17:00", "2024-04-02T17:00", "2024-04-09T17:00", "2024-04-23T17:00", "2024-04-30T17:00", "2024-05-07T17:00", "2024-05-14T17:00"];
+            const PSET_DEADLINES = ["2024-03-26T17:00", "2024-04-02T17:00", "2024-01-25T17:00", "2024-04-23T17:00", "2024-04-30T17:00", "2024-05-07T17:00", "2024-05-14T17:00"];
             let standardDeadline;
 
             let submissions = [];
-
-            function showResults() {
-                document.querySelector("#raw-score-th").style.display = "table-cell";
-                document.querySelector("#penalty-th").style.display = "table-cell";
-                document.querySelector("#final-score-th").style.display = "table-cell";
-
-                for (let i = 0; i < submissions.length; i++) {
-                    submissions[i].rawScoreCell.style.display = "";
-                    submissions[i].latenessPenaltyCell.style.display = "";
-                    submissions[i].finalScoreCell.style.display = "";
-                }
-
-                document.querySelector("#extensions-message").style.display = "none";
-                document.querySelector("#final-score-message").style.display = "block";
-                document.body.scrollIntoView();
-                document.querySelector("#submit-button").style.display = "none";
-            }
 
             class Submission {
                 constructor(name, email, deadline, rawScore, submissionDateTime) {
@@ -188,7 +154,7 @@
                     return `${this.deadline.getMonth() + 1}/${this.deadline.getDate()} at ${this.deadline.toLocaleTimeString()}`;
                 }
 
-                calculatePenalty() {
+                updateDeadline() {
                     if (this.extensionSelect.value == "none") {
                         this.deadline = standardDeadline;
 
@@ -211,7 +177,9 @@
                     }
 
                     this.deadlineText.innerHTML = this.getDeadlineString();
-                
+                }
+
+                calculatePenalty() {
                     this.rawLateness = (this.submissionDateTime.getTime() - this.deadline.getTime()) / (24 * 60 * 60 * 1000);
                     this.adjustedLateness = lateness(this.deadline, this.submissionDateTime);
 
@@ -225,10 +193,6 @@
 
                     this.finalScore = Math.round(this.rawScore * this.latenessFactor * 10) / 10;
                     this.latenessPenalty = this.rawScore - this.finalScore;
-
-                    this.latenessPenaltyCell.innerHTML = this.latenessPenalty.toFixed(1);
-                    this.finalScoreCell.innerHTML = this.finalScore.toFixed(1);
-                    this.finalScoreCell.title = `Explanation: The problem set was due on a ${DAY_NAMES[this.deadline.getDay()]}. The solution was submitted ${this.rawLateness.toFixed(2)} days later, on a ${DAY_NAMES[this.submissionDateTime.getDay()]}. After excluding Saturdays and Sundays, we consider the submission to be ${this.adjustedLateness.toFixed(2)} days late. Plugging into the formula, the lateness multiplier is ${this.latenessFactor.toFixed(2)}.`
                 }
             }
 
@@ -240,39 +204,22 @@
 
             function populatePsetList() {
                 for (let i = 0; i < PSET_DEADLINES.length; i++) {
+                    let opt = document.createElement("option");
+                    opt.value = i;
+                    let txt = "Problem set " + (i + 1) + " (due ";
                     let deadline = new Date(PSET_DEADLINES[i]);
-                    let button = document.createElement("button");
-                    button.addEventListener("click", function() {
-                        selectPset(i);
-                    });
-                    let titleDiv = document.createElement("div");
-                    titleDiv.classList.add("button-title");
-                    let strong = document.createElement("strong");
-                    strong.appendChild(document.createTextNode(`Problem set ${i + 1}`));
-                    titleDiv.appendChild(strong);
-                    button.appendChild(titleDiv);
-                    button.appendChild(document.createTextNode(`(due ${deadline.getMonth() + 1}/${deadline.getDate()} at ${deadline.toLocaleTimeString()})`));
-                    document.querySelector("#pset-button-container").appendChild(button);
+                    txt = txt + (deadline.getMonth() + 1) + "/" + deadline.getDate() + " at " + deadline.toLocaleTimeString() + ")";
+                    opt.appendChild(document.createTextNode(txt));
+                    document.querySelector("#pset").appendChild(opt);
                 }
-            }
-
-            function selectPset(i) {
-                psetIndex = i;
-                standardDeadline = new Date(PSET_DEADLINES[psetIndex]);
-
-                const psetNumSpans = document.querySelectorAll(".pset-num");
-                psetNumSpans.forEach(sp => {
-                    sp.innerHTML = psetIndex + 1;
-                })
-
-                document.querySelector("#pset-selection-div").style.display = "none";
-                document.querySelector("#upload-form").style.display = "block";
             }
 
             async function processCSV() {
                 // TODO: Improve back button experience
                 document.querySelector("#upload-form").style.display = "none";
-                document.querySelector("#results-form").style.display = "block";
+                document.querySelector("#extensions-form").style.display = "block";
+
+                standardDeadline = new Date(PSET_DEADLINES[parseInt(document.querySelector("#pset").value)]);
 
                 const file = document.querySelector("#on-time-scores").files[0];
                 const reader = new FileReader();
@@ -293,18 +240,18 @@
                     const parts = lines[i].split(",");
 
                     if (parts.length > 0 && parts[5] != "" && parts[7] == "Graded") {
-                        let newSubmission = new Submission(`${parts[0]} ${parts[1]}`, parts[3], new Date(PSET_DEADLINES[psetIndex]), parts[5], new Date(parts[9]));
+                        let newSubmission = new Submission(`${parts[0]} ${parts[1]}`, parts[3], new Date(PSET_DEADLINES[parseInt(document.querySelector("#pset").value)]), parts[5], new Date(parts[9]));
                         submissions.push(newSubmission);
                     }
                 }
 
                 for (let i = 0; i < submissions.length; i++) {
-                    submissions[i].row = document.querySelector("#results-list").insertRow(-1);
-                    let nameCell = submissions[i].row.insertCell(-1);
+                    let row = document.querySelector("#extensions-list").insertRow(-1);
+                    let nameCell = row.insertCell(-1);
                     nameCell.appendChild(document.createTextNode(submissions[i].name));
                     nameCell.title = submissions[i].email;
 
-                    let extensionCell = submissions[i].row.insertCell(-1);
+                    let extensionCell = row.insertCell(-1);
                     submissions[i].extensionSelect = document.createElement("select");
 
                     let noneOpt = document.createElement("option");
@@ -325,10 +272,10 @@
                     extensionCell.appendChild(submissions[i].extensionSelect);
 
                     submissions[i].extensionSelect.addEventListener("change", function() {
-                        submissions[i].calculatePenalty();
+                        submissions[i].updateDeadline();
                     });
 
-                    let deadlineCell = submissions[i].row.insertCell(-1);
+                    let deadlineCell = row.insertCell(-1);
                     submissions[i].deadlineText = document.createElement("span");
                     deadlineCell.appendChild(submissions[i].deadlineText);
                     submissions[i].deadlineInput = document.createElement("input");
@@ -337,20 +284,35 @@
                     deadlineCell.appendChild(submissions[i].deadlineInput);
 
                     submissions[i].deadlineInput.addEventListener("change", function() {
-                        submissions[i].calculatePenalty();
+                        submissions[i].updateDeadline();
                     });
 
-                    submissions[i].rawScoreCell = submissions[i].row.insertCell(-1);
-                    submissions[i].rawScoreCell.appendChild(document.createTextNode(submissions[i].rawScore));
-                    submissions[i].rawScoreCell.style.display = "none";
+                    submissions[i].updateDeadline();
+                }
+            }
 
-                    submissions[i].latenessPenaltyCell = submissions[i].row.insertCell(-1);
-                    submissions[i].latenessPenaltyCell.style.display = "none";
-                    
-                    submissions[i].finalScoreCell = submissions[i].row.insertCell(-1);
-                    submissions[i].finalScoreCell.style.display = "none";
+            function processExtensions() {
+                // TODO: Improve back button experience
+                document.querySelector("#extensions-form").style.display = "none";
+                document.querySelector("#results").style.display = "block";
 
+                for (let i = 0; i < submissions.length; i++) {
                     submissions[i].calculatePenalty();
+                    let row = document.querySelector("#results-list").insertRow(-1);
+                    let nameCell = row.insertCell(-1);
+                    nameCell.appendChild(document.createTextNode(submissions[i].name));
+                    nameCell.title = submissions[i].email;
+
+                    let rawScoreCell = row.insertCell(-1);
+                    rawScoreCell.appendChild(document.createTextNode(submissions[i].rawScore));
+                    
+                    let latenessPenaltyCell = row.insertCell(-1);
+                    latenessPenaltyCell.appendChild(document.createTextNode(submissions[i].latenessPenalty.toFixed(1)));
+
+                    let finalScoreCell = row.insertCell(-1);
+                    finalScoreCell.appendChild(document.createTextNode(submissions[i].finalScore.toFixed(1)));
+
+                    finalScoreCell.title = `Explanation: The problem set was due on a ${DAY_NAMES[submissions[i].deadline.getDay()]}. The solution was submitted ${submissions[i].rawLateness.toFixed(2)} days later, on a ${DAY_NAMES[submissions[i].submissionDateTime.getDay()]}. After excluding Saturdays and Sundays, we consider the submission to be ${submissions[i].adjustedLateness.toFixed(2)} days late. Plugging into the formula, the lateness multiplier is ${submissions[i].latenessFactor.toFixed(2)}.`
                 }
             }
             

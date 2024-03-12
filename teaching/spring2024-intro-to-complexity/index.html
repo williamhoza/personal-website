@@ -101,7 +101,7 @@
         <hr />
         <p>
           <strong class="toc-item">Course Description</strong>
-          In this course, we will study the mathematical and philosophical foundations of computer science. Our central mission will be to understand <em>which problems can be solved through computation</em>, focusing especially on impossibility proofs. In the first part of the course, we will develop techniques for proving certain problems, such as the "halting problem," cannot be solved by any algorithm whatsoever. In the second part of the course, we will study computation in a world where resources, such as time and space (memory), are limited. We will prove that certain problems are "intractable," meaning that they cannot be solved by polynomial-time algorithms. We will develop the theory of "NP-completeness," which enables us to identify many important problems that are probably intractable, and we will discuss the challenge of rigorously proving that such problems are intractable.
+          In this course, we will study the mathematical and philosophical foundations of computer science. Our central mission will be to understand <em>which problems can be solved through computation</em>, focusing especially on impossibility proofs. In the first part of the course, we will develop techniques for proving that certain problems, such as the "halting problem," cannot be solved by any algorithm whatsoever. In the second part of the course, we will study computation in a world where resources, such as time and space (memory), are limited. We will prove that certain problems are "intractable," meaning that they cannot be solved by polynomial-time algorithms, and we will develop the theory of "NP-completeness," which enables us to identify many important problems that are likely to be intractable.
         </p>
         <hr />
         <p>
@@ -228,7 +228,7 @@
           </td></tr>
           <tr><td>
             Friday 5/17: Course summary and review.
-            <div class="reading"></div>
+            <div class="reading">None.</div>
           </td></tr>
           <tr><td>
             Date TBA: Final exam.
@@ -236,7 +236,7 @@
         </table>
         <hr />
         <p>
-          <strong class="toc-item">Problem Set Policies</strong>
+          <strong class="toc-item">Homework Policies</strong>
           There will be six or seven problem sets (exact number TBD). Submit your solutions through Gradescope.
         </p>
         <p>
@@ -251,22 +251,32 @@
         <p>
           <em>Permitted Resources.</em> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook and any slides or notes posted in the "Course Timeline" section of this webpage. You may not use any other resources. Some examples of prohibited resources are Wikipedia, ChatGPT, and Stack Exchange.
         </p>
+        <hr />
         <p>
-          <em>Late Submissions.</em> You are strongly encouraged to complete each problem set within the allotted time. If you don't master the subject matter of a particular problem set by the time the problem set is due, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+          <strong class="toc-item">Grading Policies</strong> Your overall grade in this course will be calculated using the formula \[G = 0.7 \cdot A + 0.3 \cdot B + 0.3 \cdot B^7 \cdot \max(B - A, 0).\] In this formula, \(B\) is your score on the final exam (normalized to be between 0 and 1), and \(A\) is the weighted sum of your scores on everything prior to the final exam (again, normalized to be between 0 and 1). The weights for calculating \(A\) are as follows.
         </p>
         <ul>
-          <li>If you submit your solution to a problem \(x\) days late, where \(0 < x < 4\), then your score will be multiplied by \(\sqrt{1 - (x/4)^2}\). The value \(x\) can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation.</li>
-          <li>This late work policy is applied on a problem-by-problem basis. For example, if you submit your solution to problem 1 of a particular problem set on time and you submit your solution to problem 2 of that same problem set one day late, then you will receive full credit for problem 1 and partial credit for problem 2. (However, if a problem is divided into parts, then you must submit the solutions to all parts simultaneously.) If you wish to submit solutions to two problems at two different times, please follow <a href="gradescope-instructions.txt">these instructions</a>.</li>
+          <li>5%: Problem set 1.</li>
+          <li>62%: The remaining problem sets.</li>
+          <li>33%: The midterm exam.</li>
+        </ul>
+        <p>
+          <em>Late Work.</em> You are strongly encouraged to complete each problem set within the allotted time. If you don't master the subject matter of a particular problem set by the time the problem set is due, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+        </p>
+        <ul>
+          <li>If you submit your solution to a problem \(x\) days late, where \(0 < x < 4\), then your score will be multiplied by \((1 - (x/4)^3)^{1/3}\). The value \(x\) can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation.</li>
+          <li>This late work policy is applied on a problem-by-problem basis. For example, if you submit your solution to problem 1 of problem set 1 on time and you submit your solution to problem 2 of that same problem late, then you will receive full credit for problem 1 and partial credit for problem 2. (However, if a problem is divided into parts, then you must submit your solutions to all parts simultaneously.)</li>
           <li>Eventually, I will post official solutions. If you look at the official solutions, then from that point onward, you are not permitted to submit your own solutions for that problem set. Submitting solutions after looking at the official solutions would be an academic honesty violation.</li>
           <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
         </ul>
         <p>
-          <em>Extensions.</em> Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, if a problem set deadline falls on a religious holiday and you give me sufficiently early notice that you will be observing that holiday, then I will give you a 24-hour extension on that problem set. If you get an extension, please write "I got an extension" at the top of each page of your submission.
+          If you are submitting work more than twelve hours late, you should submit your solutions to each problem individually, using the special "LATE" assignments in Gradescope. The score recorded in Gradescope for the "LATE" assignment represents your score <em>before</em> applying the late penalty, i.e., it is the score that you <em>would have</em> received if you had turned your solution in on time. Your actual score (incorporating the late penalty) will be recorded in the main Gradescope assignment associated with that problem set.
         </p>
-        <hr />
         <p>
-          <strong class="toc-item">Grading</strong>
-          50% problem sets, 16% midterm exam, 34% final exam.
+          <em>Extensions.</em> Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, I am happy to grant an extension for a religious holiday if you give me sufficiently early notice that you will be observing that holiday.
+        </p>
+        <p>
+          <em>Regrade requests.</em> If you think something was graded incorrectly, please submit a regrade request through Gradescope. For problem sets, these regrade requests will ordinarily be handled by a TA or grader; you may contact me if you wish to "appeal" their decision. For exams, all regrade requests will be handled by me.
         </p>
         <hr />
         <p>
