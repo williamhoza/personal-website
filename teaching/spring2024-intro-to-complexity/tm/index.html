@@ -1,117 +1,376 @@
 <!DOCTYPE html>
-<head>
-    <meta charset="UTF-8"> 
-
-    <style>
-        .cell {
-            stroke-width:3;
-            stroke:black;
-            fill:none;
-        }
-
-        #head {
-            stroke-width:3;
-            stroke:black;
-            fill:#00ffff;
-            transition:all 300ms;
-        }
-
-        .cell-symbol {
-            text-anchor:middle;
-            dominant-baseline:middle;
-            font-size:24px;
-        }
-
-        #state {
-            text-anchor:middle;
-            dominant-baseline:middle;
-            font-size:18px;
-            transition:all 300ms;
-        }
-    </style>
-</head>
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" href="/main.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+
+        <title>
+            Turing Machine Simulator
+        </title>
+
+        <style>
+            .cell {
+                stroke-width:3;
+                stroke:black;
+                fill:none;
+            }
+
+            #head {
+                stroke-width:3;
+                stroke:black;
+                fill:#00ffff;
+                transition:all 300ms;
+            }
+
+            .cell-symbol {
+                text-anchor:middle;
+                dominant-baseline:middle;
+                font-size:24px;
+            }
+
+            input {
+                width:70px;
+            }
+
+            input:invalid:not(:focus) {
+                border:2px solid red;
+            }
+
+            .symbol-entry {
+                text-align:center;
+                padding:10px 0;
+            }
+
+            .state-entry {
+                padding:0 10px;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            #tape {
+                transition:all 300ms;
+                transform:translateX(250px);
+            }
+
+            #tmContainer {
+                border:1px solid #a0a0a0;
+                margin:auto;
+                display:block;
+            }
+
+            #error-message {
+                color:red;
+            }
+
+            #state-header-div {
+                transform:rotate(-90deg);
+            }
+
+            #tm-input {
+                width:400px;
+            }
+        </style>
+    </head>
+
     <body>
-        <svg id="tmContainer" width="500" height="500">
-            <polygon id="head" points="50,65 70,100 30,100" />
-            <text id="state" x="50" y="90">R</text>
-        </svg>
+        <main>
+            <article>
+                <h3>
+                    Turing Machine Simulator
+                </h3>
+                <p>
+                    Introduction to Complexity Theory, Spring 2024
+                </p>
+
+                <hr />
+
+                <svg id="tmContainer" width="700" height="120">
+                    <g id="tape"></g>
+                    <polygon id="head" points="350,65 370,100 330,100" />
+                </svg>
+
+                <p>
+                    <input type="button" value="Step" id="step-button" onclick="machine.step();"> <input type="button" value="Play" id="play-pause-button" onclick="playPause();"> Current state: <span id="state"></span> <span id="error-message"></span>
+                </p>
+
+                <form action="" onsubmit = "try { initializeTM(); } finally { event.preventDefault(); }">
+                    Input: <input type="text" pattern="[01#$&%]*" id="tm-input"> <input type="submit" value="Initialize">
+                </form>
+
+                <hr />
+
+                <p>
+                    Edit the machine's transition function using the table below. Each entry should have the form (q, b, D), where q is a state, b is a symbol, and D is a direction. Changes are instantaneous. The start symbol is &gt;. The blank symbol is _. The start state is a. The accept state is y. The reject state is z.
+                </p>
+
+                <p>
+                    Tips: Use the up/down arrow keys and tab/shift-tab to navigate through the table. A red border around a cell means that the entry in that cell is invalid.
+                </p>
+
+                <p> 
+                    <button onclick="download();">
+                        Download Transition Function
+                    </button>
+
+                    (Only valid transitions are included in the download.)
+                </p>
+
+                <table id="transitionTable">
+                    <tr>
+                        <td></td><th id="symb-header">Symbols</th>
+                    </tr>
+                    <tr>
+                        <th id="state-header"><div id="state-header-div">States</div></th>
+                    </tr>
+                </table>
+            </article>
+        </main>
+
         <script>
-            const tmContainer = document.querySelector("#tmContainer");
-            const head = document.querySelector("#head");
-            const stateTxt = document.querySelector("#state");
-            let state = 0; // 0 means scan right; 1 means decrement; 2 means halt
-            let tapeContents = ["♢", "1", "1", "0", "1"];
-            let headLocation = 0;
-            let tapeTextElements = [];
+            // TODO: Allow variation in symbols and states
+            const SYMBOLS = [">", "_", "0", "1", "#", "$", "&", "%"]
+            const STATES = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            let machine;
+            let transitionInputs = {};
+            let intervalID = null;
 
-
-            function getSymbol() {
-                return headLocation < tapeContents.length ? tapeContents[headLocation] : "⊔";
+            function play() {
+                // Clear error message
+                document.querySelector("#error-message").innerHTML = "";
+                machine.step();
+                intervalID = setInterval(function() {
+                    machine.step();
+                }, 500);
+                document.querySelector("#step-button").disabled = "disabled";
+                document.querySelector("#play-pause-button").value = "Pause";
             }
-            
-            function setSymbol(s) {
-                tapeContents[headLocation] = s;
-                tapeTextElements[headLocation].textContent = s;
+
+            function pause() {  
+                if (intervalID != null) clearInterval(intervalID);
+                intervalID = null;
+                document.querySelector("#step-button").disabled = "";
+                document.querySelector("#play-pause-button").value = "Play";
             }
 
-            function update() {
-                let currentSymbol = getSymbol();
+            function playPause() {
+                if (intervalID == null) {
+                    // Paused
+                    play();
+                } else {
+                    // Playing
+                    pause();
+                }
+            }
 
-                // Transition function is hard-coded here for now
-                if (state == 0) {
-                    // Scan right
-                    if (currentSymbol == "⊔") {
-                        state = 1;
-                        headLocation = headLocation - 1;
-                    } else {
-                        headLocation = headLocation + 1;
+            class TuringMachine {
+                constructor() {
+                    this.transition = {};
+                    for (let i = 0; i < STATES.length; i++) {
+                        this.transition[STATES[i]] = {};
+                        for (let j = 0; j < SYMBOLS.length; j++) {
+                            this.transition[STATES[i]][SYMBOLS[j]] = [];
+                        }
                     }
-                } else if (state == 1) {
-                    // Decrement
-                    if (currentSymbol == "1") {
-                        setSymbol("0");
-                        state = 0;
-                        headLocation = headLocation - 1;
-                    } else if (currentSymbol == "0") {
-                        setSymbol("1");
-                        headLocation = headLocation - 1;
-                    } else if (currentSymbol == "♢") {
-                        state = 2;
+
+                    this.tape = [];
+                    for (let i = 0; i < 20; i++) {
+                        this.tape[i] = new TapeCell(i);
+                    }
+
+                    this.state = STATES[0];
+                    this.headPosition = 1;
+                }
+
+                setSymbol(pos, symb) {
+                    for (let i = this.tape.length; i <= pos; i++) {
+                        this.tape[i] = new TapeCell(i);
+                    }
+
+                    this.tape[pos].setSymbol(symb);
+                }
+
+                clearTape() {
+                    for (let i = 0; i < this.tape.length; i++) {
+                        this.tape[i].setSymbol(SYMBOLS[1]);
                     }
                 }
 
-                if (state == 0) stateTxt.textContent = "R";
-                if (state == 1) stateTxt.textContent = "D";
-                if (state == 2) stateTxt.textContent = "H";
-                head.style.transform = `translateX(${headLocation * 50}px)`;
-                stateTxt.style.transform = `translateX(${headLocation * 50}px)`;
+                setHeadPosition(pos) {
+                    for (let i = this.tape.length; i <= pos + 20; i++) {
+                        this.tape[i] = new TapeCell(i);
+                    }
+                    this.headPosition = pos;
+                    document.querySelector("#tape").style.transform = `translateX(${300 - 50 * pos}px)`;
+                }
+
+                setState(q) {
+                    this.state = q;
+                    document.querySelector("#state").innerHTML = q;
+                }
+
+                step() {
+                    let arr = this.transition[this.state][this.tape[this.headPosition].symbol];
+                    if (arr == null) {
+                        document.querySelector("#error-message").innerHTML = "Transition undefined";
+                        pause();
+                        return false;
+                    } else {
+                        this.setState(arr[0]);
+                        this.setSymbol(this.headPosition, arr[1]);
+                        this.setHeadPosition(arr[2] == "L" ? this.headPosition - 1 : this.headPosition + 1);
+                        return true;
+                    }
+                }
+            }
+
+            class TapeCell {
+                constructor(pos) {
+                    this.symbol = SYMBOLS[1];
+
+                    this.rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+                    this.rect.setAttribute("width", "50");
+                    this.rect.setAttribute("height", "50");
+                    this.rect.classList.add("cell")
+                    this.rect.setAttribute("x", 50 * pos + 25 + "");
+                    this.rect.setAttribute("y", "25");
+                    document.querySelector("#tape").append(this.rect);
+
+                    this.svgText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    this.svgText.setAttribute("x", 50 * (pos + 1) + "");
+                    this.svgText.setAttribute("y", "52");
+                    this.svgText.classList.add("cell-symbol");
+                    this.svgText.textContent = this.symbol;
+                    document.querySelector("#tape").append(this.svgText);
+                }
+
+                setSymbol(symb) {
+                    this.symbol = symb;
+                    this.svgText.textContent = this.symbol;
+                }
             }
 
             function init() {
+                machine = new TuringMachine();
+                populateTransitionTable();
+            }
 
-                for (let i = 0; i < 100; i++) {
-                    let sq = document.createElementNS("http://www.w3.org/2000/svg","rect");
-                    sq.setAttribute("width", "50");
-                    sq.setAttribute("height", "50");
-                    sq.classList.add("cell")
-                    sq.setAttribute("x", 50 * i + 25 + "");
-                    sq.setAttribute("y", "25");
-                    tmContainer.prepend(sq);
+            function populateTransitionTable() {
+                const tbl = document.querySelector("#transitionTable");
 
-                    let txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
-                    txt.setAttribute("x", 50 * (i + 1) + "");
-                    txt.setAttribute("y", "52");
-                    txt.classList.add("cell-symbol");
-                    txt.textContent = i < tapeContents.length ? tapeContents[i] : "⊔";
-                    tmContainer.prepend(txt);
-                    tapeTextElements.push(txt);
+                document.querySelector("#symb-header").setAttribute("colspan", SYMBOLS.length + 1);
+                document.querySelector("#state-header").setAttribute("rowspan", STATES.length + 1);
+
+                for (let i = 0; i < STATES.length + 1; i++) {
+                    if (tbl.rows.length <= i + 1) tbl.insertRow(i + 1);
+                    let row = tbl.rows[i + 1];
+                    for (let j = 0; j < SYMBOLS.length + 1; j++) {
+                        row.insertCell(-1);
+                    }
+                }
+
+                // Headers
+                for (let i = 0; i < SYMBOLS.length; i++) {
+                    let cell = tbl.rows[1].cells[i + 2];
+                    cell.classList.add("symbol-entry");
+                    cell.appendChild(document.createTextNode(SYMBOLS[i]));
+                }
+
+                for (let i = 0; i < STATES.length; i++) {
+                    let cell = tbl.rows[i + 2].cells[0];
+                    cell.classList.add("state-entry");
+                    cell.appendChild(document.createTextNode(STATES[i]));
+                }
+
+                // Main cells
+                for (let i = 0; i < STATES.length; i++) {
+                    transitionInputs[STATES[i]] = {};
+
+                    for (let j = 0; j < SYMBOLS.length; j++) {
+                        if ((tbl.rows[i + 2]).cells.length <= j + 1) tbl.rows[i + 2].insertCell(j + 1);
+                        let cell = tbl.rows[i + 2].cells[j + 1];
+
+                        let inp = document.createElement("input");
+                        if (j == 0) {
+                            // Start symbol
+                            inp.setAttribute("pattern", "\\([a-z],\\s*>,\\s*R\\)");
+                        } else {
+                            // Not the start symbol
+                            inp.setAttribute("pattern", "\\([a-z],\\s*[_01#$&%],\\s*[LR]\\)");
+                        }
+                        cell.appendChild(inp);
+                        inp.value = localStorage.getItem(`tm[${STATES[i]}][${SYMBOLS[j]}]`) || "";
+                        transitionInputs[STATES[i]][SYMBOLS[j]] = inp;
+
+                        inp.addEventListener("change", function() {
+                            updateTransition(STATES[i], SYMBOLS[j]);
+                        });
+
+                        inp.addEventListener("keydown", function(evt) {
+                            if (evt.keyCode == 38) {
+                                // up arrow
+                                if (i > 0) transitionInputs[STATES[i - 1]][SYMBOLS[j]].focus();
+                                evt.preventDefault();
+                            } else if(evt.keyCode == 40) {
+                                // down arrow
+                                if (i < STATES.length - 1) transitionInputs[STATES[i + 1]][SYMBOLS[j]].focus();
+                                evt.preventDefault();
+                            }
+                        });
+
+                        updateTransition(STATES[i], SYMBOLS[j]);
+                    }
+                }
+
+                initializeTM();
+            }
+
+            function updateTransition(state, symb) {
+                let inp = transitionInputs[state][symb];
+                if (inp.value != "" && inp.checkValidity()) {
+                    localStorage.setItem(`tm[${state}][${symb}]`, inp.value);
+                    let parts = inp.value.split(",");
+                    machine.transition[state][symb] = [parts[0].slice(1).trim(), parts[1].trim(), parts[2].slice(0, -1).trim()];
+                } else {
+                    machine.transition[state][symb] = null;
                 }
             }
 
-            init();
-            setInterval(update, 500);
+            function initializeTM() {
+                pause();
 
+                // Load input
+                let tmInput = document.querySelector("#tm-input").value;
+                machine.clearTape();
+                machine.setSymbol(0, SYMBOLS[0]);
+                for (let i = 0; i < tmInput.length; i++) {
+                    machine.setSymbol(i + 1, tmInput[i]);
+                }
+
+                // Reset head
+                machine.setState(STATES[0]);
+                machine.setHeadPosition(1);
+
+                // Clear error message
+                document.querySelector("#error-message").innerHTML = "";
+            }
+
+            function download() {
+                ob = {"id": (new Date()).getTime().toString() + Math.random().toString(), "transitions": machine.transition}
+
+                const link = document.createElement("a");
+                const file = new Blob([JSON.stringify(ob)], { type: "text/plain" });
+                link.href = URL.createObjectURL(file);
+                link.download = "turing-machine.json";
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+
+            init();
         </script>
     </body>
 </html>
