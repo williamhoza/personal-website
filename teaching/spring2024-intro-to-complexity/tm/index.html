@@ -63,7 +63,7 @@
                 display:block;
             }
 
-            #error-message {
+            #message {
                 color:red;
             }
 
@@ -95,7 +95,7 @@
                 </svg>
 
                 <p>
-                    <input type="button" value="Step" id="step-button" onclick="machine.step();"> <input type="button" value="Play" id="play-pause-button" onclick="playPause();"> Current state: <span id="state"></span> <span id="error-message"></span>
+                    <input type="button" value="Step" id="step-button" onclick="machine.step();"> <input type="button" value="Play" id="play-pause-button" onclick="playPause();"> Current state: <span id="state"></span> <span id="message"></span>
                 </p>
 
                 <form action="" onsubmit = "try { initializeTM(); } finally { event.preventDefault(); }">
@@ -109,7 +109,7 @@
                 </p>
 
                 <p>
-                    Tips: Use the up/down arrow keys and tab/shift-tab to navigate through the table. A red border around a cell means that the entry in that cell is invalid.
+                    Tips: Use the up/down arrow keys and tab/shift-tab to navigate through the table. A red border around a cell means that the entry in that cell is invalid. There is no way to load a saved transition function -- sorry!
                 </p>
 
                 <p> 
@@ -140,8 +140,6 @@
             let intervalID = null;
 
             function play() {
-                // Clear error message
-                document.querySelector("#error-message").innerHTML = "";
                 machine.step();
                 intervalID = setInterval(function() {
                     machine.step();
@@ -214,16 +212,24 @@
                 }
 
                 step() {
+                    // Clear message
+                    document.querySelector("#message").innerHTML = "";
+
                     let arr = this.transition[this.state][this.tape[this.headPosition].symbol];
                     if (arr == null) {
-                        document.querySelector("#error-message").innerHTML = "Transition undefined";
+                        document.querySelector("#message").innerHTML = "Transition undefined";
                         pause();
-                        return false;
                     } else {
                         this.setState(arr[0]);
                         this.setSymbol(this.headPosition, arr[1]);
                         this.setHeadPosition(arr[2] == "L" ? this.headPosition - 1 : this.headPosition + 1);
-                        return true;
+
+                        if (this.state == STATES[STATES.length - 2]) {
+                            document.querySelector("#message").innerHTML = "Accept";
+                            pause();
+                        } else if (this.state == STATES[STATES.length - 1]) {
+                            document.querySelector("#message").innerHTML = "Reject";
+                        }
                     }
                 }
             }
@@ -356,7 +362,7 @@
                 machine.setHeadPosition(1);
 
                 // Clear error message
-                document.querySelector("#error-message").innerHTML = "";
+                document.querySelector("#message").innerHTML = "";
             }
 
             function download() {
