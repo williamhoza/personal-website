@@ -74,6 +74,11 @@
             #tm-input {
                 width:400px;
             }
+
+            textarea {
+                width:100%;
+                height:200px;
+            }
         </style>
     </head>
 
@@ -112,14 +117,6 @@
                     Tips: Use the up/down arrow keys and tab/shift-tab to navigate through the table. A red border around a cell means that the entry in that cell is invalid. There is no way to load a saved transition function -- sorry!
                 </p>
 
-                <p> 
-                    <button onclick="download();">
-                        Download Transition Function
-                    </button>
-
-                    (Only valid transitions are included in the download.)
-                </p>
-
                 <table id="transitionTable">
                     <tr>
                         <td></td><th id="symb-header">Symbols</th>
@@ -128,6 +125,21 @@
                         <th id="state-header"><div id="state-header-div">States</div></th>
                     </tr>
                 </table>
+
+                <p>
+                    Notes:
+                </p>
+
+                <textarea id="notes"></textarea>
+
+                <p> 
+                    <button onclick="download();">
+                        Download TM
+                    </button>
+
+                    (Invalid transitions are not included in the download.)
+                </p>
+
             </article>
         </main>
 
@@ -333,6 +345,12 @@
                 }
 
                 initializeTM();
+
+                nta = document.querySelector("#notes");
+                nta.value = localStorage.getItem("tm-notes") || "";
+                nta.addEventListener("change", function() {
+                    localStorage.setItem("tm-notes", nta.value);
+                });
             }
 
             function updateTransition(state, symb) {
@@ -366,10 +384,26 @@
             }
 
             function download() {
-                ob = {"id": (new Date()).getTime().toString() + Math.random().toString(), "transitions": machine.transition}
+                ob = {};
+                ob["notes"] = document.querySelector("#notes").value;
+                ob["table-0"] = "     " + SYMBOLS.join("    ") + "  ";
+                ob["table-1"] = "  " + "-".repeat(SYMBOLS.length * 5 + 1);
+                for (let i = 0; i < STATES.length; i++) {
+                    let s = STATES[i] + " |";
+                    for (let j = 0; j < SYMBOLS.length; j++) {
+                        if (machine.transition[STATES[i]][SYMBOLS[j]] == null) {
+                            s += "     ";
+                        } else {
+                            s += " " + machine.transition[STATES[i]][SYMBOLS[j]].join("") + " ";
+                        }
+                    }
+                    ob["table-" + STATES[i]] = s;
+                }
+                ob["id"] = (new Date()).getTime().toString() + Math.random().toString();
+                ob["transitions"] = machine.transition;
 
                 const link = document.createElement("a");
-                const file = new Blob([JSON.stringify(ob)], { type: "text/plain" });
+                const file = new Blob([JSON.stringify(ob, null, 2)], { type: "text/plain" });
                 link.href = URL.createObjectURL(file);
                 link.download = "turing-machine.json";
                 link.click();
