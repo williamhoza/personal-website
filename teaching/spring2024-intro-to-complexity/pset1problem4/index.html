@@ -94,6 +94,9 @@
                 <p>
                     Introduction to Complexity Theory, Spring 2024
                 </p>
+                <small>
+                    [Edited on 3/20 to fix a couple of minor bugs]
+                </small>
 
                 <hr />
 
@@ -182,15 +185,15 @@
             let intervalID = null;
 
             function play() {
-                machine.step();
                 intervalID = setInterval(function() {
                     machine.step();
                 }, 500);
+                machine.step();
                 document.querySelector("#step-button").disabled = "disabled";
                 document.querySelector("#play-pause-button").value = "Pause";
             }
 
-            function pause() {  
+            function pause() { 
                 if (intervalID != null) clearInterval(intervalID);
                 intervalID = null;
                 document.querySelector("#step-button").disabled = "";
@@ -271,6 +274,7 @@
                             pause();
                         } else if (this.state == STATES[STATES.length - 1]) {
                             document.querySelector("#message").innerHTML = "Reject";
+                            pause();
                         }
                     }
                 }
@@ -387,8 +391,8 @@
 
             function updateTransition(state, symb) {
                 let inp = transitionInputs[state][symb];
+                localStorage.setItem(`tm[${state}][${symb}]`, inp.value);
                 if (inp.value != "" && inp.checkValidity()) {
-                    localStorage.setItem(`tm[${state}][${symb}]`, inp.value);
                     let parts = inp.value.split(",");
                     machine.transition[state][symb] = [parts[0].slice(1).trim(), parts[1].trim(), parts[2].slice(0, -1).trim()];
                 } else {
