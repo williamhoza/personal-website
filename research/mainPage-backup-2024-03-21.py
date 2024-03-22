@@ -2,8 +2,10 @@
 from pyxl import html
     
 def compile(papers):
+  mathjaxScript = <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
   goatScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
+  mathjaxScript.set_attr("async", "")
   
   expositoryList = <ol class="paper-list"></ol>
   paperList = <ol class="paper-list"></ol>
@@ -40,9 +42,8 @@ def compile(papers):
     <html lang="en">
       <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
-        <script src="/temml/temml.min.js"></script>
-        <script src="/temml/auto-render.min.js"></script>
+        <script src="/mathjax-config.js"></script>
+        {mathjaxScript}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
         <title>Research | William Hoza</title>
@@ -97,11 +98,10 @@ def compile(papers):
             {paperList}
             <hr />
             <p>
-              I'm grateful for all the mentorship I've received over the years, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor), <a href="https://www.avishaytal.org/">Avishay Tal</a> (my postdoc mentor), and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (my undergraduate research mentors).
+              I'm grateful for all the mentorship I've received over the years, especially from <a href="http://www.cs.utexas.edu/~diz/">David Zuckerman</a> (my graduate advisor), <a href="https://www.avishaytal.org/">Avishay Tal</a> (a postdoc mentor), and <a href="http://users.cms.caltech.edu/~schulman/">Leonard Schulman</a> and <a href="http://users.cms.caltech.edu/~umans/">Chris Umans</a> (undergraduate research mentors).
             </p>
           </article>
         </main>
-        <script src="/temml/call-auto-render.js"></script>
         {goatScript}
       </body>
     </html>

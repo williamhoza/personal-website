@@ -28,8 +28,18 @@ class Paper:
       self.expository = None
     
   def compile(self): 
+    mathjaxScript = <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    
     goatScript = <script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
-    goatScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
+    
+    mathjaxScript.set_attr("async", "") # async is a Python keyword, so we have to set this attribute manually
+    goatScript.set_attr("async", "")
+    
+    texMacros = r"""
+      \(\renewcommand{\epsilon}{\varepsilon}\)
+      \(\renewcommand{\hat}{\widehat}\)
+      \(\DeclareMathOperator*{\E}{\mathbb{E}}\)
+    """
     
     authorTextAuthors = self.metadata["authors"].copy()
     if len(authorTextAuthors) > 1:
@@ -120,9 +130,8 @@ class Paper:
       <html lang="en">
         <head>
           <meta charset="utf-8" />
-          <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
-          <script src="/temml/temml.min.js"></script>
-          <script src="/temml/auto-render.min.js"></script>
+          <script src="/mathjax-config.js"></script>
+          {mathjaxScript}
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           
           <title>{self.metadata["title"]}</title>
@@ -134,6 +143,7 @@ class Paper:
         </head>
         
         <body>
+          <span style="display:none;">{texMacros}</span>
           <main>
             <article>
               <p>
@@ -179,7 +189,6 @@ class Paper:
               {copyrightSection}
             </article>
           </main>
-          <script src="/temml/call-auto-render.js"></script>
           {goatScript}
         </body>
       </html>

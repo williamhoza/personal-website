@@ -1,5 +1,5 @@
 {
-  "title": "Depth-\\(d\\) Threshold Circuits vs. Depth-\\((d + 1)\\) AND-OR Trees",
+  "title": "Depth-$d$ Threshold Circuits vs. Depth-$(d + 1)$ AND-OR Trees",
   "authors": ["Pooya Hatami", "William M. Hoza", "Avishay Tal", "Roei Tell"],
   "abbreviation": "HHTT",
   "where-published-summary": ["STOC 2023"],

@@ -1,15 +1,15 @@
 <p>
-We construct improved hitting set generators (HSGs) for ordered (read-once) regular branching programs in two parameter regimes. First, we construct an explicit \(\epsilon\)-HSG for <em>unbounded-width</em> regular branching programs with a single accept state with seed length
-    \[
-      \widetilde{O}(\log n \cdot \log(1/\epsilon)),
-    \]
-where \(n\) is the length of the program. Second, we construct an explicit \(\epsilon\)-HSG for width-\(w\) length-\(n\) regular branching programs with seed length
-    \[
-      \widetilde{O}\left(\log n \cdot \left(\sqrt{\log(1/\epsilon)} + \log w \right) + \log(1/\epsilon)\right).
-    \]
-For context, the "baseline" in this area is the pseudorandom generator (PRG) by Nisan (Combinatorica 1992), which fools ordered (possibly non-regular) branching programs with seed length \(O(\log(wn/\epsilon) \cdot \log n)\). For regular programs, the state-of-the-art PRG, by Braverman, Rao, Raz, and Yehudayoff (FOCS 2010, SICOMP 2014), has seed length \(\widetilde{O}(\log(w/\epsilon) \cdot \log n)\), which beats Nisan's seed length when \(\log(w/\epsilon) = o(\log n)\). Taken together, our two new constructions beat Nisan's seed length in all parameter regimes except when \(\log w\) and \(\log(1/\epsilon)\) are <em>both</em> \(\Omega(\log n)\) (for the construction of HSGs for regular branching programs with a single accept vertex).
+We construct improved hitting set generators (HSGs) for ordered (read-once) regular branching programs in two parameter regimes. First, we construct an explicit $\varepsilon$-HSG for <em>unbounded-width</em> regular branching programs with a single accept state with seed length
+    $$
+      \widetilde{O}(\log n \cdot \log(1/\varepsilon)),
+    $$
+where $n$ is the length of the program. Second, we construct an explicit $\varepsilon$-HSG for width-$w$ length-$n$ regular branching programs with seed length
+    $$
+      \widetilde{O}\left(\log n \cdot \left(\sqrt{\log(1/\varepsilon)} + \log w \right) + \log(1/\varepsilon)\right).
+    $$
+For context, the "baseline" in this area is the pseudorandom generator (PRG) by Nisan (Combinatorica 1992), which fools ordered (possibly non-regular) branching programs with seed length $O(\log(wn/\varepsilon) \cdot \log n)$. For regular programs, the state-of-the-art PRG, by Braverman, Rao, Raz, and Yehudayoff (FOCS 2010, SICOMP 2014), has seed length $\widetilde{O}(\log(w/\varepsilon) \cdot \log n)$, which beats Nisan's seed length when $\log(w/\varepsilon) = o(\log n)$. Taken together, our two new constructions beat Nisan's seed length in all parameter regimes except when $\log w$ and $\log(1/\varepsilon)$ are <em>both</em> $\Omega(\log n)$ (for the construction of HSGs for regular branching programs with a single accept vertex).
 </p>
 
 <p>
-Extending work by Reingold, Trevisan, and Vadhan (STOC 2006), we furthermore show that an explicit HSG for regular branching programs with a single accept vertex with seed length \(o(\log^2 n)\) in the regime \(\log w = \Theta(\log(1/\epsilon)) = \Theta(\log n)\) would imply improved HSGs for <em>general</em> ordered branching programs, which would be a major breakthrough in derandomization.  Pyne and Vadhan (CCC 2021) recently obtained such parameters for the special case of permutation branching programs.
+Extending work by Reingold, Trevisan, and Vadhan (STOC 2006), we furthermore show that an explicit HSG for regular branching programs with a single accept vertex with seed length $o(\log^2 n)$ in the regime $\log w = \Theta(\log(1/\varepsilon)) = \Theta(\log n)$ would imply improved HSGs for <em>general</em> ordered branching programs, which would be a major breakthrough in derandomization.  Pyne and Vadhan (CCC 2021) recently obtained such parameters for the special case of permutation branching programs.
 </p>
