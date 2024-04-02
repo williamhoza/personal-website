@@ -50,9 +50,14 @@
         }
       }
 
-      .reading, .note {
+      .reading, .note, .slides {
         margin-top:10px;
         margin-left:30px;
+      }
+
+      .slides::before {
+        content: "Slides: ";
+        font-style: italic;
       }
 
       .reading::before {
@@ -127,119 +132,146 @@
         </p>
         <table>
           <tr><td>
-            Monday 3/18: <a href="c1-logistics-turing-machines-strings.pptx">[slides]</a> Logistics; Turing machines; alphabets; strings; halting; looping.
+            Monday 3/18: Logistics; Turing machines; alphabets; strings; halting; looping.
+            <div class="slides"><a href="c1-logistics-turing-machines-strings.pptx">[pptx]</a> <a href="c1-logistics-turing-machines-strings.pdf">[pdf]</a></div>
             <div class="reading">Chapter 0 and Sections 3.0-3.1.</div>
           </td></tr>
           <tr><td>
-            Wednesday 3/20: <a href="c2-configurations-time-space.pptx">[slides]</a> The rigorous definition of a Turing machine; configurations; computation histories; time; space.
+            Wednesday 3/20: The rigorous definition of a Turing machine; configurations; computation histories; time; space.
+            <div class="slides"><a href="c2-configurations-time-space.pptx">[pptx]</a> <a href="c2-configurations-time-space.pdf">[pdf]</a></div>
             <div class="reading">None.</div>
           </td></tr>
           <tr><td>
-            Friday 3/22: <a href="c3-languages-encodings-church-turing-thesis.pptx">[slides]</a> Deciding languages; encoding objects as strings; the Church-Turing thesis.
+            Friday 3/22: Deciding languages; encoding objects as strings; the Church-Turing thesis.
+            <div class="slides"><a href="c3-languages-encodings-church-turing-thesis.pptx">[pptx]</a> <a href="c3-languages-encodings-church-turing-thesis.pdf">[pdf]</a></div>
             <div class="reading">Sections 3.2 (you can skip the part about nondeterminism) and 3.3.</div>
           </td></tr>
           <tr><td>
-            Monday 3/25: <a href="c4-tm-variants.pptx">[slides]</a> Left-right-stationary Turing machines; multi-tape Turing machines.
+            Monday 3/25: Left-right-stationary Turing machines; multi-tape Turing machines.
+            <div class="slides"><a href="c4-tm-variants.pptx">[pptx]</a> <a href="c4-tm-variants.pdf">[pdf]</a></div>
             <div class="reading">None.</div>
             <div class="pset note">Problem set 1 is due on Tuesday 3/26</div>
           </td></tr>
           <tr><td>
-            Wednesday 3/27: <a href="c5-tm-variants-continued.pptx">[slides]</a> Multi-tape Turing machines (continued); comparing Turing machines to Python.
+            Wednesday 3/27: Multi-tape Turing machines (continued); comparing Turing machines to Python.
+            <div class="slides"><a href="c5-tm-variants-continued.pptx">[pptx]</a> <a href="c5-tm-variants-continued.pdf">[pdf]</a></div>
             <div class="reading">Sections 4.0 and 4.2.</div>
           </td></tr>
           <tr><td>
-            Friday 3/29: <a href="c6-universal-turing-machine.pptx">[slides]</a> Code as data; universal Turing machines.
+            Friday 3/29: Code as data; universal Turing machines.
+            <div class="slides"><a href="c6-universal-turing-machine.pptx">[pptx]</a> <a href="c6-universal-turing-machine.pdf">[pdf]</a></div>
             <div class="reading">None.</div>
           </td></tr>
           <tr><td>
-            Monday 4/1: <a href="c7-undecidability.pptx">[slides]</a> The self-rejection problem; the halting problem; the physical Church-Turing thesis; variants of the halting problem. Here's the example self-rejecting Python script: <a href="word-count.py">word-count.py</a>
+            Monday 4/1: The self-rejection problem; the halting problem; the physical Church-Turing thesis; variants of the halting problem.
+            <div class="slides"><a href="c7-undecidability.pptx">[pptx]</a> <a href="c7-undecidability.pdf">[pdf]</a>. Also, here's the example self-rejecting Python script: <a href="word-count.py">word-count.py</a></div>
             <div class="reading">Sections 5.0-5.1. (You can skip Theorems 5.3 and 5.13.)</div>
             <div class="pset note">Problem set 2 is due on Tuesday 4/2</div>
           </td></tr>
           <tr><td>
             Wednesday 4/3: <!-- The concept of a mapping reduction; examples based on variants of the halting problem; setting up Post's correspondence problem -->
+            <div class="slides"></div>
             <div class="reading">Sections 5.2-5.3.</div>
           </td></tr>
           <tr><td>
             Friday 4/5: <!-- Proof that PCP is undecidable; example showing that tractability matters. -->
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Monday 4/8: <!-- Time complexity; asymptotic notation; polynomial vs. exonential; the complexity class P. -->
+            <div class="slides"></div>
             <div class="reading"></div>
             <div class="pset note">Problem set 3 is due on Tuesday 4/9</div>
           </td></tr>
           <tr><td>
             Wednesday 4/10: <!-- The extended Church-Turing thesis; revisiting multi-tape Turing machines; BPP; RP; the amplification lemma -->
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Friday 4/12: <!-- Randomized and deterministic communication complexity of equality -->
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Monday 4/15: <!-- BPP is contained in PSPACE, which is contained in EXP -->
+            <div class="slides"></div>
             <div class="reading"></div>
             <div class="note">(No problem set is due this week)</div>
           </td></tr>
           <tr><td>
             Wednesday 4/17: Midterm exam.
+            <div class="slides">None.</div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Friday 4/19: <!-- Boolean circuits; conjunctive normal form; Shannon's counting argument -->
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Monday 4/22: <!-- PSIZE; the TM-to-circuits lemma; Adleman's theorem -->
+            <div class="slides"></div>
             <div class="reading"></div>
             <div class="pset note">Problem set 4 is due on Tuesday 4/23</div>
           </td></tr>
           <tr><td>
             Wednesday 4/24: <!-- The time hierarchy theorem; polynomial-time reductions; the bounded halting problem; EXP-completeness -->
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Friday 4/26: <!-- NP -->
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Monday 4/29:
+            <div class="slides"></div>
             <div class="reading"></div>
             <div class="pset note">Problem set 5 is due on Tuesday 4/30</div>
           </td></tr>
           <tr><td>
             Wednesday 5/1:
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Friday 5/3: (Class held remotely via Zoom)
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Monday 5/6:
+            <div class="slides"></div>
             <div class="reading"></div>
             <div class="pset note">Problem set 6 is due on Tuesday 5/7</div>
           </td></tr>
           <tr><td>
             Wednesday 5/8:
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Friday 5/10:
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Monday 5/13:
+            <div class="slides"></div>
             <div class="reading"></div>
             <div class="pset note">(Tentative) Problem set 7 is due on Tuesday 5/14</div>
           </td></tr>
           <tr><td>
             Wednesday 5/15:
+            <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
           <tr><td>
             Friday 5/17: Course summary and review.
+            <div class="slides"></div>
             <div class="reading">None.</div>
           </td></tr>
           <tr><td>
