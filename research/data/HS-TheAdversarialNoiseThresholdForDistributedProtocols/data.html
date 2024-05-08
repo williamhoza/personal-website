@@ -1,82 +1,63 @@
-<!DOCTYPE html>
+<data value="TITLE">
+    The Adversarial Noise Threshold for Distributed Protocols
+</data>
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
-<script src="/temml/temml.min.js"></script>
-<script src="/temml/auto-render.min.js"></script>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>
-The Adversarial Noise Threshold for Distributed Protocols
-</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
-<link href="/main.css" rel="stylesheet"/>
-</head>
-<body>
-<main>
-<article>
-<p>
-<a href="/research/">
-            Back to list of papers
-          </a>
-</p>
-<hr/>
-<h1>
-The Adversarial Noise Threshold for Distributed Protocols
-</h1>
-<p>
-By William M. Hoza and Leonard Schulman
-</p>
-<hr/>
-<p>
-          Read the paper: <a href="https://doi.org/10.1137/1.9781611974331.ch18">SODA proceedings</a> • <a href="https://arxiv.org/abs/1412.8097">arXiv</a>
-</p>
-<details>
-<summary>Abstract (for specialists)</summary>
-<div class="indent">
-<p>
+<data value="AUTHORS">
+    William M. Hoza and Leonard Schulman
+</data>
+
+<data value="ABBREV">
+    HS
+</data>
+
+<data value="PAPER-LINKS">
+    <a href="https://doi.org/10.1137/1.9781611974331.ch18">SODA proceedings</a>
+    <a href="https://arxiv.org/abs/1412.8097">arXiv</a>
+</data>
+
+<data value="VERSION-SUMMARY">
+    I recommend that you read the SODA proceedings version. The SODA reviewers' feedback never got incorporated into the arXiv version.
+</data>
+
+<data value="VENUE">
+  SODA 2016
+</data>
+
+<data value="FIRST-POSTED">
+    2014-12-28
+</data>
+
+<data value="ABSTRACT">
+    <p>
     We consider the problem of implementing distributed protocols, despite adversarial channel errors, on synchronous-messaging networks with arbitrary topology.
     </p>
-<p>
+    
+    <p>
     In our first result we show that any $n$-party $T$-round protocol on an undirected communication network $G$ can be compiled into a robust simulation protocol on a sparse ($\mathcal{O}(n)$ edges) subnetwork so that the simulation tolerates an adversarial error rate of $\Omega(\frac{1}{n})$; the simulation has a round complexity of $\mathcal{O}\left(\frac{m \log n}{n} T\right)$, where $m$ is the number of edges in $G$. (So the simulation is work-preserving up to a log factor.) The adversary's error rate is within a constant factor of optimal. Given the error rate, the round complexity blowup is within a factor of $\mathcal{O}(k \log n)$ of optimal, where $k$ is the edge connectivity of $G$. We also determine that the maximum tolerable error rate on directed communication networks is $\Theta(1/s)$ where $s$ is the number of edges in a minimum equivalent digraph.
     </p>
-<p>
+    
+    <p>
     Next we investigate adversarial per-edge error rates, where the adversary is given an error budget on each edge of the network. We determine the limit for tolerable per-edge error rates on an arbitrary directed graph to within a factor of 2. However, the construction that approaches this limit has exponential round complexity, so we give another compiler, which transforms $T$-round protocols into $\mathcal{O}(mT)$-round simulations, and prove that for polynomial-query black box compilers, the per-edge error rate tolerated by this last compiler is within a constant factor of optimal.
     </p>
-</div>
-</details>
-<details>
-<summary>Not-so-abstract (for curious outsiders)</summary>
-<p>⚠️ <em>This summary might gloss over some important details.</em></p>
-<div class="indent" value="NOT-SO-ABSTRACT">
-<p>
+</data>
+
+<data value="NOT-SO-ABSTRACT">
+    <p>
     Imagine that many people (or computers) are connected by a network of communication channels. They would like to have a conversation, but unfortunately, an adversary is altering their messages to confuse them. The parties may deal with this noise by encoding their conversation in whatever way they like. In this paper, we determine the maximum amount of noise that can be tolerated in a couple different models as a function of the particular communication network.
     </p>
-</div>
-</details>
-<p>
+</data>
 
-    I recommend that you read the SODA proceedings version. The SODA reviewers' feedback never got incorporated into the arXiv version.
-
-</p>
-<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
-<a href="SODA-slides.pdf"><img src="SODA-slides.png"/></a>
-<p>
-<a href="SODA-slides.pdf">Slides</a> from my presentation at SODA (January 2016).
+<data value="EXPOSITORY">
+  <a href="SODA-slides.pdf"><img src="SODA-slides.png"></a>
+  <p>
+    <a href="SODA-slides.pdf">Slides</a> from my presentation at SODA (January 2016).
   </p>
-<a href="CMS-poster.pdf"><img src="CMS-poster.png"/></a>
-<p>
-<a href="CMS-poster.pdf">Poster</a> from my presentation at Caltech's CMS "Celebration of Undergraduate Research" (May 2015).
+  <a href="CMS-poster.pdf"><img src="CMS-poster.png"></a>
+  <p>
+    <a href="CMS-poster.pdf">Poster</a> from my presentation at Caltech's CMS "Celebration of Undergraduate Research" (May 2015).
   </p>
-<a href="http://www.eng.biu.ac.il/~gellesr/survey.pdf"><div class="emoji-img">🔭</div></a></div>
-<hr/>
-
-
-
-</article>
-</main>
-<script src="/temml/call-auto-render.js"></script>
-<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
+  <a href="http://www.eng.biu.ac.il/~gellesr/survey.pdf"><div class="emoji-img">🔭</data></a>
+  <p>
+    Ran Gelles wrote a <a href="https://doi.org/10.1561/0400000079">survey</a> that includes a summary of this paper (Section 7.3).
+  </p>
+</data>

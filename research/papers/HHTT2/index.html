@@ -1,33 +1,88 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/temml/Temml-Latin-Modern.css"><script src="/temml/temml.min.js"></script><script src="/temml/auto-render.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Depth-$d$ Threshold Circuits vs. Depth-$(d + 1)$ AND-OR Trees</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Depth-$d$ Threshold Circuits vs. Depth-$(d + 1)$ AND-OR Trees"></head><body><main><article><p><a href="/research/">Back to list of papers</a></p><hr><h1>Depth-$d$ Threshold Circuits vs. Depth-$(d + 1)$ AND-OR Trees</h1><p>By Pooya Hatami, William M. Hoza, Avishay Tal, and Roei Tell</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2022/087/">ECCC</a><span> • </span><a href="https://doi.org/10.1145/3564246.3585216">STOC proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
-  For any $n \in \mathbb{N}$ and $d = o(\log \log n)$, we prove that there is a Boolean function $F$ on $n$ bits and a value $\gamma = 2^{-\Theta(d)}$ such that $F$ can be computed by a uniform depth-$(d + 1)$ $\mathsf{AC}^0$ circuit with $O(n)$ wires, but $F$ cannot be computed by any depth-$d$ $\mathsf{TC}^0$ circuit with $n^{1 + \gamma}$ wires. This bound matches the current state-of-the-art lower bounds for computing explicit functions by threshold circuits of depth $d > 2$, which were previously known only for functions outside $\mathsf{AC}^0$ such as the parity function. Furthermore, in our result, the $\mathsf{AC}^0$ circuit computing $F$ is a monotone <em>read-once formula</em> (i.e., an ${\mathsf{AND}\text{-}\mathsf{OR}}$ tree), and the lower bound holds even in the average-case setting with respect to advantage $n^{-\gamma}$.
-</p>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Depth-$d$ Threshold Circuits vs. Depth-$(d + 1)$ AND-OR Trees
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
 <p>
-  At a high level, our proof strategy combines two prominent approaches in circuit complexity from the last decade: The celebrated <em>random projections</em> method of Håstad, Rossman, Servedio, and Tan (J. ACM 2017), which was previously used to show a tight average-case depth hierarchy for $\mathsf{AC}^0$; and the line of works analyzing the effect of <em>random restrictions</em> on threshold circuits.  We show that under a modified version of Håstad, Rossman, Servedio, and Tan's projection procedure, any depth-$d$ threshold circuit with $n^{1 + \gamma}$ wires simplifies to a near-trivial function, whereas an appropriately parameterized ${\mathsf{AND}\text{-}\mathsf{OR}}$ tree of depth $d + 1$ maintains structure.
+<a href="/research/">
+            Back to list of papers
+          </a>
 </p>
-</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
-  A <a href="https://en.wikipedia.org/wiki/Boolean_circuit">"Boolean circuit"</a> is an idealized network of logic gates and input variables connected by wires. You can assign binary values to the input variables. The values feed into whatever gates are connected to the variables. The outputs of those gates feed into other gates, which feed into other gates, and so on, until eventually the circuit produces a binary output.
-</p>
-
+<hr/>
+<h1>
+Depth-$d$ Threshold Circuits vs. Depth-$(d + 1)$ AND-OR Trees
+</h1>
 <p>
-  In one basic circuit model, the only available logic gates are "AND" gates and "OR" gates. (An "AND" gate outputs 1 if its inputs are all 1. An "OR" gate outputs 1 if at least one of its inputs is 1.) There is also a more powerful circuit model in which we allow "threshold gates," which compute an arbitrary weighted sum of their input bits and output 1 if the weighted sum is above some threshold. This second type of circuit can be considered a simplified model of a brain.
+By Pooya Hatami, William M. Hoza, Avishay Tal, and Roei Tell
 </p>
-
+<hr/>
 <p>
-  What are threshold gates good for? How much additional power do they give you compared to AND/OR gates? It has been known for decades that using threshold gates, it is possible to <em>decrease the depth</em> of a given AND/OR circuit. (The "depth" of a circuit is the length of the longest path from input to output, which can be considered a measure of the amount of time that the computation takes.)
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2022/087/">ECCC</a> • <a href="https://doi.org/10.1145/3564246.3585216">STOC proceedings</a>
 </p>
-
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
 <p>
-  The caveat is that known depth-reduction methods substantially increase the <em>total number of wires</em> in the circuit, which is a measure of the total amount of work that goes into the computation. In our paper, we prove that increasing the number of wires is unavoidable in general. That is, we prove that decreasing the depth of certain AND/OR circuits using threshold gates <em>requires</em> increasing the number of wires by a non-negligible amount.
-</p>
-</div></details><p>We posted a manuscript online in June 2022; I presented the paper at STOC in June 2023. The STOC proceedings version is merely an "extended abstract" with no proofs.</p><hr><p>Expository material:</p><div class="expository">
-  <a href="dagstuhl-slides.pptx"><img src="dagstuhl-slides.png"></a>
-  <p>
-    <a href="dagstuhl-slides.pptx">Slides</a> from my presentation at Dagstuhl Seminar 22371 (September 2022). See also <a href="STOC-slides.pptx">these shorter slides</a> from my presentation at STOC (June 2023), or <a href="TOCA-SV-slides.pdf">these other short slides</a> from my presentation at TOCA-SV (May 2022), or <a href="TOCA-SV-poster.pdf">this poster</a> that I presented at TOCA-SV the same day.
+    For any $n \in \mathbb{N}$ and $d = o(\log \log n)$, we prove that there is a Boolean function $F$ on $n$ bits and a value $\gamma = 2^{-\Theta(d)}$ such that $F$ can be computed by a uniform depth-$(d + 1)$ $\mathsf{AC}^0$ circuit with $O(n)$ wires, but $F$ cannot be computed by any depth-$d$ $\mathsf{TC}^0$ circuit with $n^{1 + \gamma}$ wires. This bound matches the current state-of-the-art lower bounds for computing explicit functions by threshold circuits of depth $d &gt; 2$, which were previously known only for functions outside $\mathsf{AC}^0$ such as the parity function. Furthermore, in our result, the $\mathsf{AC}^0$ circuit computing $F$ is a monotone <em>read-once formula</em> (i.e., an ${\mathsf{AND}\text{-}\mathsf{OR}}$ tree), and the lower bound holds even in the average-case setting with respect to advantage $n^{-\gamma}$.
   </p>
-  <iframe src="https://www.youtube.com/embed/_cTUt4pTG2c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
+<p>
+    At a high level, our proof strategy combines two prominent approaches in circuit complexity from the last decade: The celebrated <em>random projections</em> method of Håstad, Rossman, Servedio, and Tan (J. ACM 2017), which was previously used to show a tight average-case depth hierarchy for $\mathsf{AC}^0$; and the line of works analyzing the effect of <em>random restrictions</em> on threshold circuits.  We show that under a modified version of Håstad, Rossman, Servedio, and Tan's projection procedure, any depth-$d$ threshold circuit with $n^{1 + \gamma}$ wires simplifies to a near-trivial function, whereas an appropriately parameterized ${\mathsf{AND}\text{-}\mathsf{OR}}$ tree of depth $d + 1$ maintains structure.
+  </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    A <a href="https://en.wikipedia.org/wiki/Boolean_circuit">"Boolean circuit"</a> is an idealized network of logic gates and input variables connected by wires. You can assign binary values to the input variables. The values feed into whatever gates are connected to the variables. The outputs of those gates feed into other gates, which feed into other gates, and so on, until eventually the circuit produces a binary output.
+  </p>
+<p>
+    In one basic circuit model, the only available logic gates are "AND" gates and "OR" gates. (An "AND" gate outputs 1 if its inputs are all 1. An "OR" gate outputs 1 if at least one of its inputs is 1.) There is also a more powerful circuit model in which we allow "threshold gates," which compute an arbitrary weighted sum of their input bits and output 1 if the weighted sum is above some threshold. This second type of circuit can be considered a simplified model of a brain.
+  </p>
+<p>
+    What are threshold gates good for? How much additional power do they give you compared to AND/OR gates? It has been known for decades that using threshold gates, it is possible to <em>decrease the depth</em> of a given AND/OR circuit. (The "depth" of a circuit is the length of the longest path from input to output, which can be considered a measure of the amount of time that the computation takes.)
+  </p>
+<p>
+    The caveat is that known depth-reduction methods substantially increase the <em>total number of wires</em> in the circuit, which is a measure of the total amount of work that goes into the computation. In our paper, we prove that increasing the number of wires is unavoidable in general. That is, we prove that decreasing the depth of certain AND/OR circuits using threshold gates <em>requires</em> increasing the number of wires by a non-negligible amount.
+  </p>
+</div>
+</details>
+<p>
+
+  We posted a manuscript online in June 2022; I presented the paper at STOC in June 2023. The STOC proceedings version is merely an "extended abstract" with no proofs.
+
+</p>
+<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
+<a href="dagstuhl-slides.pptx"><img src="dagstuhl-slides.png"/></a>
+<p>
+<a href="dagstuhl-slides.pptx">Slides</a> from my presentation at Dagstuhl Seminar 22371 (September 2022). See also <a href="STOC-slides.pptx">these shorter slides</a> from my presentation at STOC (June 2023), or <a href="TOCA-SV-slides.pdf">these other short slides</a> from my presentation at TOCA-SV (May 2022), or <a href="TOCA-SV-poster.pdf">this poster</a> that I presented at TOCA-SV the same day.
+  </p>
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/_cTUt4pTG2c"></iframe>
+<p>
     A prerecorded <a href="https://youtu.be/_cTUt4pTG2c">video</a> made by Roei for STOC (June 2023).
   </p>
 </div>
-<hr>  </article></main><script src="/temml/call-auto-render.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,29 +1,87 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/temml/Temml-Latin-Modern.css"><script src="/temml/temml.min.js"></script><script src="/temml/auto-render.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Hitting Sets for Regular Branching Programs</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Hitting Sets for Regular Branching Programs"></head><body><main><article><p><a href="/research/">Back to list of papers</a></p><hr><h1>Hitting Sets for Regular Branching Programs</h1><p>By Andrej Bogdanov, William M. Hoza, Gautam Prakriya, and Edward Pyne</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2021/143/">ECCC</a><span> • </span><a href="https://doi.org/10.4230/LIPIcs.CCC.2022.3">CCC proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
-We construct improved hitting set generators (HSGs) for ordered (read-once) regular branching programs in two parameter regimes. First, we construct an explicit $\varepsilon$-HSG for <em>unbounded-width</em> regular branching programs with a single accept state with seed length
-    $$
-      \widetilde{O}(\log n \cdot \log(1/\varepsilon)),
-    $$
-where $n$ is the length of the program. Second, we construct an explicit $\varepsilon$-HSG for width-$w$ length-$n$ regular branching programs with seed length
-    $$
-      \widetilde{O}\left(\log n \cdot \left(\sqrt{\log(1/\varepsilon)} + \log w \right) + \log(1/\varepsilon)\right).
-    $$
-For context, the "baseline" in this area is the pseudorandom generator (PRG) by Nisan (Combinatorica 1992), which fools ordered (possibly non-regular) branching programs with seed length $O(\log(wn/\varepsilon) \cdot \log n)$. For regular programs, the state-of-the-art PRG, by Braverman, Rao, Raz, and Yehudayoff (FOCS 2010, SICOMP 2014), has seed length $\widetilde{O}(\log(w/\varepsilon) \cdot \log n)$, which beats Nisan's seed length when $\log(w/\varepsilon) = o(\log n)$. Taken together, our two new constructions beat Nisan's seed length in all parameter regimes except when $\log w$ and $\log(1/\varepsilon)$ are <em>both</em> $\Omega(\log n)$ (for the construction of HSGs for regular branching programs with a single accept vertex).
-</p>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Hitting Sets for Regular Branching Programs
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
 <p>
-Extending work by Reingold, Trevisan, and Vadhan (STOC 2006), we furthermore show that an explicit HSG for regular branching programs with a single accept vertex with seed length $o(\log^2 n)$ in the regime $\log w = \Theta(\log(1/\varepsilon)) = \Theta(\log n)$ would imply improved HSGs for <em>general</em> ordered branching programs, which would be a major breakthrough in derandomization.  Pyne and Vadhan (CCC 2021) recently obtained such parameters for the special case of permutation branching programs.
+<a href="/research/">
+            Back to list of papers
+          </a>
 </p>
-</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
-  A "hitting set" is a set of binary strings $H$ with a guarantee along the following lines: Let $P$ be any property of binary strings such that (a) many strings have property $P$ and (b) it's easy to check whether a given string has property $P$. Then there is at least one string in $H$ with property $P$. (What exactly does "easy" mean? That varies depending on context. The meaning of "easy" in the context of our paper is somewhat technical, but it's related to computing with low memory.) In the paper, we present a couple of hitting sets that are smaller than all previously discovered hitting sets in some cases.
+<hr/>
+<h1>
+Hitting Sets for Regular Branching Programs
+</h1>
+<p>
+By Andrej Bogdanov, William M. Hoza, Gautam Prakriya, and Edward Pyne
 </p>
-</div></details><p>Ted posted a manuscript online (authored solely by himself) in October 2021; we posted an updated version online (with the current author list) in November 2021; I presented the paper at CCC in July 2022. Some of the material in the ECCC version is omitted from the CCC proceedings version.</p><hr><p>Expository material:</p><div class="expository">
-  <iframe src="https://www.youtube.com/embed/fdOgv-tmhtM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
-    <a href="https://www.youtube.com/watch?v=fdOgv-tmhtM">[Video]</a> My prerecorded presentation for CCC (July 2022). Here are the <a href="CCC-slides.pptx">slides</a> from that presentation. I used very similar slides for my live, in-person CCC presentation.
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2021/143/">ECCC</a> • <a href="https://doi.org/10.4230/LIPIcs.CCC.2022.3">CCC proceedings</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+    We construct improved hitting set generators (HSGs) for ordered (read-once) regular branching programs in two parameter regimes. First, we construct an explicit $\varepsilon$-HSG for <em>unbounded-width</em> regular branching programs with a single accept state with seed length
+        $$
+          \widetilde{O}(\log n \cdot \log(1/\varepsilon)),
+        $$
+    where $n$ is the length of the program. Second, we construct an explicit $\varepsilon$-HSG for width-$w$ length-$n$ regular branching programs with seed length
+        $$
+          \widetilde{O}\left(\log n \cdot \left(\sqrt{\log(1/\varepsilon)} + \log w \right) + \log(1/\varepsilon)\right).
+        $$
+    For context, the "baseline" in this area is the pseudorandom generator (PRG) by Nisan (Combinatorica 1992), which fools ordered (possibly non-regular) branching programs with seed length $O(\log(wn/\varepsilon) \cdot \log n)$. For regular programs, the state-of-the-art PRG, by Braverman, Rao, Raz, and Yehudayoff (FOCS 2010, SICOMP 2014), has seed length $\widetilde{O}(\log(w/\varepsilon) \cdot \log n)$, which beats Nisan's seed length when $\log(w/\varepsilon) = o(\log n)$. Taken together, our two new constructions beat Nisan's seed length in all parameter regimes except when $\log w$ and $\log(1/\varepsilon)$ are <em>both</em> $\Omega(\log n)$ (for the construction of HSGs for regular branching programs with a single accept vertex).
+    </p>
+<p>
+    Extending work by Reingold, Trevisan, and Vadhan (STOC 2006), we furthermore show that an explicit HSG for regular branching programs with a single accept vertex with seed length $o(\log^2 n)$ in the regime $\log w = \Theta(\log(1/\varepsilon)) = \Theta(\log n)$ would imply improved HSGs for <em>general</em> ordered branching programs, which would be a major breakthrough in derandomization.  Pyne and Vadhan (CCC 2021) recently obtained such parameters for the special case of permutation branching programs.
+    </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    A "hitting set" is a set of binary strings $H$ with a guarantee along the following lines: Let $P$ be any property of binary strings such that (a) many strings have property $P$ and (b) it's easy to check whether a given string has property $P$. Then there is at least one string in $H$ with property $P$. (What exactly does "easy" mean? That varies depending on context. The meaning of "easy" in the context of our paper is somewhat technical, but it's related to computing with low memory.) In the paper, we present a couple of hitting sets that are smaller than all previously discovered hitting sets in some cases.
   </p>
-  <iframe src="https://www.youtube.com/embed/gcW0JLA_m3s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
+</div>
+</details>
+<p>
+
+  Ted posted a manuscript online (authored solely by himself) in October 2021; then we joined forces; we posted an updated version online (with the current author list) in November 2021; I presented the paper at CCC in July 2022. Some of the material in the ECCC version is omitted from the CCC proceedings version.
+
+</p>
+<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/fdOgv-tmhtM"></iframe>
+<p>
+<a href="https://www.youtube.com/watch?v=fdOgv-tmhtM">[Video]</a> My prerecorded presentation for CCC (July 2022). Here are the <a href="CCC-slides.pptx">slides</a> from that presentation. I used very similar slides for my live, in-person CCC presentation.
+  </p>
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/gcW0JLA_m3s"></iframe>
+<p>
     Ted discusses the paper in <a href="https://www.youtube.com/watch?v=gcW0JLA_m3s">this remote presentation</a> for the ETH Zurich Algorithms and Complexity Seminar (December 2021).
   </p>
 </div>
-<hr>  </article></main><script src="/temml/call-auto-render.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

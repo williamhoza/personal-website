@@ -1,25 +1,84 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/temml/Temml-Latin-Modern.css"><script src="/temml/temml.min.js"></script><script src="/temml/auto-render.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace"></head><body><main><article><p><a href="/research/">Back to list of papers</a></p><hr><h1>Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace</h1><p>By William M. Hoza and Chris Umans</p><hr><p>Read the paper: <a href="SICOMP-version.pdf">SICOMP</a><span> • </span><a href="https://arxiv.org/abs/1610.01199">arXiv</a><span> • </span><a href="https://doi.org/10.1145/3055399.3055414">STOC proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
-  Assume that for every derandomization result for logspace algorithms, there is a pseudorandom generator strong enough to nearly recover the derandomization by iterating over all seeds and taking a majority vote. We prove under a precise version of this assumption that $\mathbf{BPL} \subseteq \bigcap_{\alpha > 0} \mathbf{DSPACE}(\log^{1 + \alpha} n)$.
-</p>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
 <p>
-  We strengthen the theorem to an equivalence by considering two generalizations of the concept of a pseudorandom generator against logspace. A <em>targeted pseudorandom generator</em> against logspace takes as input a short uniform random seed <em>and</em> a finite automaton; it outputs a long bitstring that looks random to that particular automaton. A <em>simulation advice generator</em> for logspace stretches a small uniform random seed into a long advice string; the requirement is that there is some logspace algorithm that, given a finite automaton and this advice string, simulates the automaton reading a long uniform random input. We prove that $$ \bigcap_{\alpha > 0} \mathbf{promise\text{-}BPSPACE}(\log^{1 + \alpha} n) = \bigcap_{\alpha > 0} \mathbf{promise\text{-}DSPACE}(\log^{1 + \alpha} n)$$ if and only if for every targeted pseudorandom generator against logspace, there is a simulation advice generator for logspace with similar parameters.
+<a href="/research/">
+            Back to list of papers
+          </a>
 </p>
-
+<hr/>
+<h1>
+Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace
+</h1>
 <p>
-  Finally, we observe that in a certain <em>uniform</em> setting (namely, if we only worry about sequences of automata that can be generated in logspace), targeted pseudorandom generators against logspace <em>can</em> be transformed into simulation advice generators with similar parameters.
+By William M. Hoza and Chris Umans
 </p>
-</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
-  There's a well-known conjecture in complexity theory ("$\mathbf{L} = \mathbf{BPL}$") that says that randomness isn't necessary for solving problems using a small amount of computer memory. The most promising approach to proving this conjecture is to design a suitable kind of "pseudorandom generator". But in principle, one could hope to prove $\mathbf{L} = \mathbf{BPL}$ using a totally different approach. In this paper, we prove a theorem that can be roughly stated as follows. If every true statement along the lines of $\mathbf{L} = \mathbf{BPL}$ can be proven using the pseudorandom generator approach, then in fact $\mathbf{L} = \mathbf{BPL}$ (actually the conclusion is slightly weaker).
+<hr/>
+<p>
+          Read the paper: <a href="SICOMP-version.pdf">SICOMP</a> • <a href="https://arxiv.org/abs/1610.01199">arXiv</a> • <a href="https://doi.org/10.1145/3055399.3055414">STOC proceedings</a>
 </p>
-</div></details><p>We posted a manuscript online in October 2016; I presented the preliminary version of the paper at STOC in June 2017; the journal version was published in the SICOMP special section for STOC 2017 in April 2022. The <a href="https://doi.org/10.1137/17M1145707">SICOMP version</a> (<a href="SICOMP-version.pdf">pdf</a>) has several minor improvements compared to the STOC proceedings version and the arXiv version, including fixing a minor error. The latter two versions are the same except for formatting.</p><hr><p>Expository material:</p><div class="expository">
-  <a href="STOC-slides.pdf"><img src="STOC-slides.png"></a>
-  <p>
-    <a href="STOC-slides.pdf">Slides</a> from my presentation at STOC (June 2017). See also <a href="dagstuhl-slides.pdf">these slides</a> from my longer presentation at Dagstuhl Seminar 16411 (October 2016).
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+    Assume that for every derandomization result for logspace algorithms, there is a pseudorandom generator strong enough to nearly recover the derandomization by iterating over all seeds and taking a majority vote. We prove under a precise version of this assumption that $\mathbf{BPL} \subseteq \bigcap_{\alpha &gt; 0} \mathbf{DSPACE}(\log^{1 + \alpha} n)$.
   </p>
-  <a href="STOC-poster.pdf"><img src="STOC-poster.png"></a>
-  <p>
-    <a href="STOC-poster.pdf">Poster</a> from my presentation at STOC (June 2017).
+<p>
+    We strengthen the theorem to an equivalence by considering two generalizations of the concept of a pseudorandom generator against logspace. A <em>targeted pseudorandom generator</em> against logspace takes as input a short uniform random seed <em>and</em> a finite automaton; it outputs a long bitstring that looks random to that particular automaton. A <em>simulation advice generator</em> for logspace stretches a small uniform random seed into a long advice string; the requirement is that there is some logspace algorithm that, given a finite automaton and this advice string, simulates the automaton reading a long uniform random input. We prove that $$ \bigcap_{\alpha &gt; 0} \mathbf{promise\text{-}BPSPACE}(\log^{1 + \alpha} n) = \bigcap_{\alpha &gt; 0} \mathbf{promise\text{-}DSPACE}(\log^{1 + \alpha} n)$$ if and only if for every targeted pseudorandom generator against logspace, there is a simulation advice generator for logspace with similar parameters.
+  </p>
+<p>
+    Finally, we observe that in a certain <em>uniform</em> setting (namely, if we only worry about sequences of automata that can be generated in logspace), targeted pseudorandom generators against logspace <em>can</em> be transformed into simulation advice generators with similar parameters.
   </p>
 </div>
-<hr> <p>What others think:</p><ul><li>Oded Goldreich mentions the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/225.html">this blog post</a>.</li></ul> <p style="font-size:12px;">Copyright info: (regarding the journal version) First Published in SIAM Journal of Computing 51(2), published by the Society for Industrial and Applied Mathematics (SIAM). Copyright © by SIAM. Unauthorized reproduction of this article is prohibited.</p></article></main><script src="/temml/call-auto-render.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    There's a well-known conjecture in complexity theory ("$\mathbf{L} = \mathbf{BPL}$") that says that randomness isn't necessary for solving problems using a small amount of computer memory. The most promising approach to proving this conjecture is to design a suitable kind of "pseudorandom generator". But in principle, one could hope to prove $\mathbf{L} = \mathbf{BPL}$ using a totally different approach. In this paper, we prove a theorem that can be roughly stated as follows. If every true statement along the lines of $\mathbf{L} = \mathbf{BPL}$ can be proven using the pseudorandom generator approach, then in fact $\mathbf{L} = \mathbf{BPL}$ (actually the conclusion is slightly weaker).
+  </p>
+</div>
+</details>
+<p>
+
+  We posted a manuscript online in October 2016; I presented the preliminary version of the paper at STOC in June 2017; the journal version was published in the SICOMP special section for STOC 2017 in April 2022. The <a href="https://doi.org/10.1137/17M1145707">SICOMP version</a> (<a href="SICOMP-version.pdf">pdf</a>) has several minor improvements compared to the STOC proceedings version and the arXiv version, including fixing a minor error. The latter two versions are the same except for formatting.
+
+</p>
+<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
+<a href="STOC-slides.pdf"><img src="STOC-slides.png"/></a>
+<p>
+<a href="STOC-slides.pdf">Slides</a> from my presentation at STOC (June 2017). See also <a href="dagstuhl-slides.pdf">these slides</a> from my longer presentation at Dagstuhl Seminar 16411 (October 2016).
+  </p>
+<a href="STOC-poster.pdf"><img src="STOC-poster.png"/></a>
+<p>
+<a href="STOC-poster.pdf">Poster</a> from my presentation at STOC (June 2017).
+  </p>
+</div>
+<hr/>
+
+<data value="RECOGNITION"><p>What others think:</p><ul><li>
+  Oded Goldreich mentions the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/225.html">this blog post</a>.
+</li></ul></data>
+<p style="font-size:12px;">Copyright info: (regarding the journal version) First Published in SIAM Journal of Computing 51(2), published by the Society for Industrial and Applied Mathematics (SIAM). Copyright © by SIAM. Unauthorized reproduction of this article is prohibited.</p>
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

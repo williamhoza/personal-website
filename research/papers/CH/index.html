@@ -1,37 +1,95 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/temml/Temml-Latin-Modern.css"><script src="/temml/temml.min.js"></script><script src="/temml/auto-render.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Hitting Sets Give Two-Sided Derandomization of Small Space</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Hitting Sets Give Two-Sided Derandomization of Small Space"></head><body><main><article><p><a href="/research/">Back to list of papers</a></p><hr><h1>Hitting Sets Give Two-Sided Derandomization of Small Space</h1><p>By Kuan Cheng and William M. Hoza</p><hr><p>Read the paper: <a href="https://doi.org/10.4086/toc.2022.v018a021">ToC</a><span> • </span><a href="https://eccc.weizmann.ac.il/report/2020/016/">ECCC</a><span> • </span><a href="https://doi.org/10.4230/LIPIcs.CCC.2020.10">CCC proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
-  A hitting set is a "one-sided" variant of a pseudorandom generator (PRG), naturally suited to derandomizing algorithms that have one-sided error. We study the problem of using a given hitting set to derandomize algorithms that have two-sided error, focusing on space-bounded algorithms. For our first result, we show that if there is a log-space hitting set for polynomial-width read-once branching programs (ROBPs), then not only does $\mathbf{L}=\mathbf{RL}$ hold, but $\mathbf{L}=\mathbf{BPL}$ as well. This answers a question raised by Hoza and Zuckerman (SICOMP 2020).
-</p>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Hitting Sets Give Two-Sided Derandomization of Small Space
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
 <p>
-  Next, we consider constant-width ROBPs. We show that if there are log-space hitting sets for constant-width ROBPs, then given black-box access to a constant-width ROBP $f$, it is possible to deterministically estimate $\mathbb{E}[f]$ to within $\pm \varepsilon$ in space $O(\log(n/\varepsilon))$. Unconditionally, we give a deterministic algorithm for this problem with space complexity $O(\log^2 n+ \log(1/\varepsilon))$, slightly improving over previous work.
+<a href="/research/">
+            Back to list of papers
+          </a>
 </p>
-
+<hr/>
+<h1>
+Hitting Sets Give Two-Sided Derandomization of Small Space
+</h1>
 <p>
-  Finally, we investigate the limits of this line of work. Perhaps the strongest reduction along these lines one could hope for would say that for every explicit hitting set, there is an explicit PRG with similar parameters. In the setting of constant-width ROBPs over a large alphabet, we prove that establishing such a strong reduction is at least as difficult as constructing a good PRG outright. Quantitatively, we prove that if the strong reduction holds, then for every constant $\alpha > 0$, there is an explicit PRG for constant-width ROBPs with seed length $O(\log^{1+ \alpha} n)$. Along the way, unconditionally, we construct an improved hitting set for ROBPs over a large alphabet.
+By Kuan Cheng and William M. Hoza
 </p>
-</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
-  A "decision problem" is a problem where the answer is always "yes" or "no," e.g., the problem of determining whether a given number is prime. Suppose there's a randomized algorithm $A$ that solves some decision problem with high probability using a small amount of memory. Does that automatically mean there's a deterministic algorithm that solves the same problem using a similar amount of memory? In other words, is it always possible to "derandomize" any low-memory decision algorithm? Computer scientists think so, but we're not sure how to prove it.
-</p>
-
+<hr/>
 <p>
-  If $A$ has the special feature that it never gives false positives, derandomization is potentially easier. Some of the most promising approaches treat $A$ as a "black box," meaning that the deterministic algorithm would just simulate $A$ in a few carefully crafted scenarios and then figure out the correct answer based on what $A$ outputs in those scenarios. In this paper, we prove that <em>if</em> it is possible to derandomize all low-memory decision algorithms that never give false positives in a black-box manner, then it is possible to derandomize all low-memory decision algorithms, whether they give false positives or not.
+          Read the paper: <a href="https://doi.org/10.4086/toc.2022.v018a021">ToC</a> • <a href="https://eccc.weizmann.ac.il/report/2020/016/">ECCC</a> • <a href="https://doi.org/10.4230/LIPIcs.CCC.2020.10">CCC proceedings</a>
 </p>
-</div></details><p>We posted a manuscript online in February 2020; I presented the paper at CCC in July 2020; the journal version was published in the ToC special issue for CCC 2020 in September 2022. The exposition in the ToC version is improved in several minor ways compared to the CCC proceedings version and the ECCC version. The latter two versions are the same except for formatting.</p><hr><p>Expository material:</p><div class="expository">
-  <iframe src="https://www.youtube.com/embed/5CX1qaF5q4A" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
-    <a href="https://www.youtube.com/watch?v=5CX1qaF5q4A">[Video]</a> My prerecorded presentation for CCC (July 2020). Here are the <a href="CCC-slides.pptx">slides</a> from that presentation. See also these <a href="UIUC-slides-fixed.pptx">other slides</a> that I used for a Zoom presentation at the UIUC CS Theory Seminar (November 2022).
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+    A hitting set is a "one-sided" variant of a pseudorandom generator (PRG), naturally suited to derandomizing algorithms that have one-sided error. We study the problem of using a given hitting set to derandomize algorithms that have two-sided error, focusing on space-bounded algorithms. For our first result, we show that if there is a log-space hitting set for polynomial-width read-once branching programs (ROBPs), then not only does $\mathbf{L}=\mathbf{RL}$ hold, but $\mathbf{L}=\mathbf{BPL}$ as well. This answers a question raised by Hoza and Zuckerman (SICOMP 2020).
   </p>
-  <a href="https://doi.org/10.26153/tsw/15500"><div class="emoji-img">🎓</div></a>
-  <p>
+<p>
+    Next, we consider constant-width ROBPs. We show that if there are log-space hitting sets for constant-width ROBPs, then given black-box access to a constant-width ROBP $f$, it is possible to deterministically estimate $\mathbb{E}[f]$ to within $\pm \varepsilon$ in space $O(\log(n/\varepsilon))$. Unconditionally, we give a deterministic algorithm for this problem with space complexity $O(\log^2 n+ \log(1/\varepsilon))$, slightly improving over previous work.
+  </p>
+<p>
+    Finally, we investigate the limits of this line of work. Perhaps the strongest reduction along these lines one could hope for would say that for every explicit hitting set, there is an explicit PRG with similar parameters. In the setting of constant-width ROBPs over a large alphabet, we prove that establishing such a strong reduction is at least as difficult as constructing a good PRG outright. Quantitatively, we prove that if the strong reduction holds, then for every constant $\alpha &gt; 0$, there is an explicit PRG for constant-width ROBPs with seed length $O(\log^{1+ \alpha} n)$. Along the way, unconditionally, we construct an improved hitting set for ROBPs over a large alphabet.
+  </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    A "decision problem" is a problem where the answer is always "yes" or "no," e.g., the problem of determining whether a given number is prime. Suppose there's a randomized algorithm $A$ that solves some decision problem with high probability using a small amount of memory. Does that automatically mean there's a deterministic algorithm that solves the same problem using a similar amount of memory? In other words, is it always possible to "derandomize" any low-memory decision algorithm? Computer scientists think so, but we're not sure how to prove it.
+  </p>
+<p>
+    If $A$ has the special feature that it never gives false positives, derandomization is potentially easier. Some of the most promising approaches treat $A$ as a "black box," meaning that the deterministic algorithm would just simulate $A$ in a few carefully crafted scenarios and then figure out the correct answer based on what $A$ outputs in those scenarios. In this paper, we prove that <em>if</em> it is possible to derandomize all low-memory decision algorithms that never give false positives in a black-box manner, then it is possible to derandomize all low-memory decision algorithms, whether they give false positives or not.
+  </p>
+</div>
+</details>
+<p>
+
+  We posted a manuscript online in February 2020; I presented the paper at CCC in July 2020; the journal version was published in the ToC special issue for CCC 2020 in September 2022. The exposition in the ToC version is improved in several minor ways compared to the CCC proceedings version and the ECCC version. The latter two versions are the same except for formatting.
+
+</p>
+<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/5CX1qaF5q4A"></iframe>
+<p>
+<a href="https://www.youtube.com/watch?v=5CX1qaF5q4A">[Video]</a> My prerecorded presentation for CCC (July 2020). Here are the <a href="CCC-slides.pptx">slides</a> from that presentation. See also these <a href="UIUC-slides-fixed.pptx">other slides</a> that I used for a Zoom presentation at the UIUC CS Theory Seminar (November 2022).
+  </p>
+<a href="https://doi.org/10.26153/tsw/15500"><div class="emoji-img">🎓</div></a>
+<p>
     The main result of the paper is explained in <a href="https://doi.org/10.26153/tsw/15500">my PhD dissertation</a> (Section 3.3).
   </p>
-  <a href="https://eccc.weizmann.ac.il/report/2022/121/"><div class="emoji-img">🔭</div></a>
-  <p>
+<a href="https://eccc.weizmann.ac.il/report/2022/121/"><div class="emoji-img">🔭</div></a>
+<p>
     I wrote a <a href="https://eccc.weizmann.ac.il/report/2022/121/">survey</a> that discusses the main result of the paper (Section 3).
   </p>
-  <a href="https://drive.google.com/file/d/13KFoyY6D57SkDWlo0GHgWe14kkL06Z5i/view"><div class="emoji-img">👨‍🏫</div></a>
-  <p>
+<a href="https://drive.google.com/file/d/13KFoyY6D57SkDWlo0GHgWe14kkL06Z5i/view"><div class="emoji-img">👨‍🏫</div></a>
+<p>
     The main result of the paper is covered in <a href="https://drive.google.com/file/d/13KFoyY6D57SkDWlo0GHgWe14kkL06Z5i/view">these lecture notes</a> for a course taught by Avishay Tal (Fall 2021).
   </p>
 </div>
-<hr> <p>What others think:</p><ul><li>Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/324.html">this blog post</a>.</li></ul> </article></main><script src="/temml/call-auto-render.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
+<hr/>
+
+<data value="RECOGNITION"><p>What others think:</p><ul><li>
+  Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/324.html">this blog post</a>.
+</li></ul></data>
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

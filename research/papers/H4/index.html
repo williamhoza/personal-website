@@ -1,28 +1,86 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/temml/Temml-Latin-Modern.css"><script src="/temml/temml.min.js"></script><script src="/temml/auto-render.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Recent Progress on Derandomizing Space-Bounded Computation</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Recent Progress on Derandomizing Space-Bounded Computation"></head><body><main><article><p><a href="/research/">Back to list of papers</a></p><hr><h1>Recent Progress on Derandomizing Space-Bounded Computation</h1><p>Survey paper by William M. Hoza</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2022/121/">ECCC</a><span> • </span><a href="http://bulletin.eatcs.org/index.php/beatcs/article/view/728">BEATCS</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
-  Is randomness ever necessary for space-efficient computation? It is commonly conjectured that $\mathsf{L} = \mathsf{BPL}$, meaning that halting decision algorithms can always be derandomized without increasing their space complexity by more than a constant factor. In the past few years (say, from 2017 to 2022), there has been some exciting progress toward proving this conjecture. Thanks to recent work, we have new pseudorandom generators (PRGs), new black-box derandomization algorithms (generalizations of PRGs), and new non-black-box derandomization algorithms. This article is a survey of these recent developments. We organize the underlying techniques into four overlapping themes:
-</p>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Recent Progress on Derandomizing Space-Bounded Computation
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
+<p>
+<a href="/research/">
+            Back to list of papers
+          </a>
+</p>
+<hr/>
+<h1>
+Recent Progress on Derandomizing Space-Bounded Computation
+</h1>
+<p>
+Survey paper by William M. Hoza
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2022/121/">ECCC</a> • <a href="http://bulletin.eatcs.org/index.php/beatcs/article/view/728">BEATCS</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+    Is randomness ever necessary for space-efficient computation? It is commonly conjectured that $\mathsf{L} = \mathsf{BPL}$, meaning that halting decision algorithms can always be derandomized without increasing their space complexity by more than a constant factor. In the past few years (say, from 2017 to 2022), there has been some exciting progress toward proving this conjecture. Thanks to recent work, we have new pseudorandom generators (PRGs), new black-box derandomization algorithms (generalizations of PRGs), and new non-black-box derandomization algorithms. This article is a survey of these recent developments. We organize the underlying techniques into four overlapping themes:
+  </p>
 <ol>
-  <li>The <em>iterated pseudorandom restrictions</em> framework for designing PRGs, especially PRGs for functions computable by arbitrary-order read-once branching programs.</li>
-  <li>The <em>inverse Laplacian</em> perspective on derandomizing $\mathsf{BPL}$ and the related concept of local consistency.</li>
-  <li><em>Error reduction</em> procedures, including methods of designing low-error weighted pseudorandom generators (WPRGs).</li>
-  <li>The continued use of <em>spectral expander graphs</em> in this domain via the derandomized square operation and the Impagliazzo-Nisan-Wigderson PRG (STOC 1994).</li>
+<li>The <em>iterated pseudorandom restrictions</em> framework for designing PRGs, especially PRGs for functions computable by arbitrary-order read-once branching programs.</li>
+<li>The <em>inverse Laplacian</em> perspective on derandomizing $\mathsf{BPL}$ and the related concept of local consistency.</li>
+<li><em>Error reduction</em> procedures, including methods of designing low-error weighted pseudorandom generators (WPRGs).</li>
+<li>The continued use of <em>spectral expander graphs</em> in this domain via the derandomized square operation and the Impagliazzo-Nisan-Wigderson PRG (STOC 1994).</li>
 </ol>
-
 <p>
-  We give an overview of these ideas and their applications, and we discuss the challenges ahead.
-</p>
-</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
-  A "randomized" algorithm tosses coins to make decisions, whereas a "deterministic" algorithm doesn't use any randomness. In practice, randomized algorithms are often more efficient than deterministic algorithms. However, all else being equal, deterministic algorithms are preferable, because we don't always have access to random bits. "Derandomization" is the art of converting randomized algorithms into deterministic algorithms without making them significantly worse in other respects.
-</p>
-
-<p>
-  For several decades now, theoretical computer scientists have been trying to prove that every algorithm can be derandomized without significantly increasing the amount of <em>memory</em> that the algorithm uses. This is an expository paper that summarizes the progress that researchers have made on this problem in the last few years.
-</p>
-</div></details><p>I posted a manuscript online in August 2022; the paper was published in the October 2022 issue of the Bulletin of the EATCS (in Michal Koucký's &quot;Computational Complexity&quot; column). The ECCC version and the BEATCS version are essentially the same except for formatting.</p><hr><p>Expository material:</p><div class="expository">
-  <iframe src="https://www.youtube.com/embed/M7VJN6HysoE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
-    <a href="https://youtu.be/M7VJN6HysoE">Video</a> from my presentation at the Institute for Advanced Study Computer Science and Discrete Mathematics Seminar (November 2023). Here are the <a href="ias-slides.pptx">slides</a> from that presentation. See also <a href="warwick-slides.pptx">these slides</a> from my earlier presentation for the University of Warwick Complexity Meetings (November 2022), which follow the article more closely. I used very similar slides for presentations at the University of Michigan Theory Seminar (November 2022), the Columbia Theory Seminar (March 2022), and Oberwolfach Meeting 2146 on Complexity Theory (November 2021). Note: The presentation predates the article.
+    We give an overview of these ideas and their applications, and we discuss the challenges ahead.
   </p>
 </div>
-<hr> <p>What others think:</p><ul><li>Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/331.html">this blog post</a>.</li></ul> </article></main><script src="/temml/call-auto-render.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    A "randomized" algorithm tosses coins to make decisions, whereas a "deterministic" algorithm doesn't use any randomness. In practice, randomized algorithms are often more efficient than deterministic algorithms. However, all else being equal, deterministic algorithms are preferable, because we don't always have access to random bits. "Derandomization" is the art of converting randomized algorithms into deterministic algorithms without making them significantly worse in other respects.
+  </p>
+<p>
+    For several decades now, theoretical computer scientists have been trying to prove that every algorithm can be derandomized without significantly increasing the amount of <em>memory</em> that the algorithm uses. This is an expository paper that summarizes the progress that researchers have made on this problem in the last few years.
+  </p>
+</div>
+</details>
+<p>
+
+  I posted a manuscript online in August 2022; the paper was published in the October 2022 issue of the Bulletin of the EATCS (in Michal Koucký's "Computational Complexity" column). The ECCC version and the BEATCS version are essentially the same except for formatting.
+
+</p>
+<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/M7VJN6HysoE"></iframe>
+<p>
+<a href="https://youtu.be/M7VJN6HysoE">Video</a> from my presentation at the Institute for Advanced Study Computer Science and Discrete Mathematics Seminar (November 2023). Here are the <a href="ias-slides.pptx">slides</a> from that presentation. See also <a href="warwick-slides.pptx">these slides</a> from my earlier presentation for the University of Warwick Complexity Meetings (November 2022), which follow the article more closely. I used very similar slides for presentations at the University of Michigan Theory Seminar (November 2022), the Columbia Theory Seminar (March 2022), and Oberwolfach Meeting 2146 on Complexity Theory (November 2021). Note: The presentation predates the article.
+  </p>
+</div>
+<hr/>
+
+<data value="RECOGNITION"><p>What others think:</p><ul><li>
+  Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/331.html">this blog post</a>.
+</li></ul></data>
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

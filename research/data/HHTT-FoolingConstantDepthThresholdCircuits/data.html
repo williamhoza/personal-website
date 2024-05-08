@@ -1,89 +1,65 @@
-<!DOCTYPE html>
+<data value="TITLE">
+  Fooling Constant-Depth Threshold Circuits
+</data>
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
-<script src="/temml/temml.min.js"></script>
-<script src="/temml/auto-render.min.js"></script>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>
-Fooling Constant-Depth Threshold Circuits
-</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
-<link href="/main.css" rel="stylesheet"/>
-</head>
-<body>
-<main>
-<article>
-<p>
-<a href="/research/">
-            Back to list of papers
-          </a>
-</p>
-<hr/>
-<h1>
-Fooling Constant-Depth Threshold Circuits
-</h1>
-<p>
-By Pooya Hatami, William M. Hoza, Avishay Tal, and Roei Tell
-</p>
-<hr/>
-<p>
-          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2021/002/">ECCC</a> • <a href="https://doi.org/10.1109/FOCS52979.2021.00019">FOCS proceedings</a>
-</p>
-<details>
-<summary>Abstract (for specialists)</summary>
-<div class="indent">
-<p>
+<data value="AUTHORS">
+  Pooya Hatami, William M. Hoza, Avishay Tal, and Roei Tell
+</data>
+
+<data value="ABBREV">
+  HHTT
+</data>
+
+<data value="VENUE">FOCS 2021</data>
+
+<data value="PAPER-LINKS">
+    <a href="https://eccc.weizmann.ac.il/report/2021/002/">ECCC</a>
+    <a href="https://doi.org/10.1109/FOCS52979.2021.00019">FOCS proceedings</a>
+</data>
+
+<data value="VERSION-SUMMARY">
+  We posted a manuscript online in January 2021; Roei presented the paper at FOCS 2021 in February 2022. The FOCS proceedings version is merely an "extended abstract" with no proofs.
+</data>
+
+<data value="FIRST-POSTED">
+  2021-01-08
+</data>
+
+<data value="ABSTRACT">
+  <p>
     We present new constructions of pseudorandom generators (PRGs) for two of the most widely-studied non-uniform circuit classes in complexity theory. Our main result is a construction of the <em>first non-trivial PRG for linear threshold ($\mathtt{LTF}$) circuits</em> of arbitrary constant depth and super-linear size. This PRG fools circuits with depth $d\in\mathbb{N}$ and $n^{1+\delta}$ wires, where $\delta = 2^{-O(d)}$, using seed length $O(n^{1-\delta})$ and with error $2^{-n^{\delta}}$. This tightly matches the best known lower bounds for this circuit class. As a consequence of our result, all the known hardness for $\mathtt{LTF}$ circuits has now effectively been translated into pseudorandomness. This brings the extensive effort in the last decade to construct PRGs and deterministic circuit-analysis algorithms for this class to the point where any subsequent improvement would yield breakthrough lower bounds.
     </p>
-<p>
+    
+    <p>
     Our second contribution is a PRG for De Morgan formulas of size $s$ whose seed length is $s^{1/3+o(1)} \cdot \mathrm{polylog}(1/\epsilon)$ for error $\epsilon$. In particular, our PRG can fool formulas of sub-cubic size $s=n^{3-\Omega(1)}$ with an exponentially small error $\epsilon=\exp({-n^{\Omega(1)}})$. This significantly improves the inverse-polynomial error of the previous state-of-the-art for such formulas by Impagliazzo, Meka, and Zuckerman (FOCS 2012, JACM 2019), and again tightly matches the best currently-known lower bounds for this class.
     </p>
-<p>
+    
+    <p>
     In both settings, a key ingredient in our constructions is a pseudorandom restriction procedure that has tiny failure probability, but simplifies the function to a non-natural "hybrid computational model" that combines several computational models. As part of our proofs we also construct "extremely low-error" PRGs for related circuit classes; for example, we construct a PRG for arbitrary functions of $s$ $\mathtt{LTF}$s that can handle even the extreme setting of parameters $s=n/\mathrm{polylog}(n)$ and $\epsilon=2^{-n/\mathrm{polylog}(n)}$.
     </p>
-</div>
-</details>
-<details>
-<summary>Not-so-abstract (for curious outsiders)</summary>
-<p>⚠️ <em>This summary might gloss over some important details.</em></p>
-<div class="indent" value="NOT-SO-ABSTRACT">
-<p>
+</data>
+
+<data value="NOT-SO-ABSTRACT">
+  <p>
     This paper is mainly about "threshold circuits", which can be thought of as a crude mathematical model of a brain. A threshold circuit is a network of "threshold gates" (analogous to neurons) connected by "wires" (analogous to axons). Each gate computes a weighted sum of its inputs; it outputs 0 or 1 depending on whether the weighted sum is above some threshold. (The reason we're interested in this model is that it comes up naturally in theoretical computer science, not because we're trying to understand actual brains, but still, it's nice to think of it as a brain.)
   </p>
-<p>
+  
+  <p>
     Our contribution is a "pseudorandom generator" for threshold circuits. In general, a pseudorandom generator is an algorithm that makes a few coin tosses and outputs a long sequence of bits that "appear random" in some sense. The output of our pseudorandom generator provably cannot be distinguished from a truly random sequence by any threshold circuit, assuming the circuit is "shallow" (i.e., paths from the input wires to the output wire are short) and assuming there aren't too many wires in total.
   </p>
-</div>
-</details>
-<p>
+</data>
 
-  We posted a manuscript online in January 2021; Roei presented the paper at FOCS 2021 in February 2022. The FOCS proceedings version is merely an "extended abstract" with no proofs.
-
-</p>
-<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/xZi1OIu3riQ"></iframe>
-<p>
-<a href="https://youtu.be/xZi1OIu3riQ">Video</a> of my live Zoom presentation for the TCS+ Seminar (February 2021). Here are the <a href="TCSplus-slides.pptx">slides</a> from that presentation. I used very similar slides for a Zoom presentation at the Michigan-Purdue theory seminar (February 2021). See also <a href="UT-seminar-slides.pptx">these slides</a> that I used for a Zoom presentation at the UT Austin theory seminar (April 2022).
+<data value="EXPOSITORY">
+  <iframe src="https://www.youtube.com/embed/xZi1OIu3riQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p>
+    <a href="https://youtu.be/xZi1OIu3riQ">Video</a> of my live Zoom presentation for the TCS+ Seminar (February 2021). Here are the <a href="TCSplus-slides.pptx">slides</a> from that presentation. I used very similar slides for a Zoom presentation at the Michigan-Purdue theory seminar (February 2021). See also <a href="UT-seminar-slides.pptx">these slides</a> that I used for a Zoom presentation at the UT Austin theory seminar (April 2022).
   </p>
-<a href="https://doi.org/10.26153/tsw/15500"><div class="emoji-img">🎓</div></a>
-<p>
+  <a href="https://doi.org/10.26153/tsw/15500"><div class="emoji-img">🎓</div></a>
+  <p>
     An exposition of the paper is included in <a href="https://doi.org/10.26153/tsw/15500">my PhD dissertation</a> (Section 5.3).
   </p>
-<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/pn-3nvZvtkk"></iframe>
-<p>
-<a href="https://www.youtube.com/watch?v=pn-3nvZvtkk">Video</a> of Roei's prerecorded presentation for FOCS (February 2022).
+  <iframe src="https://www.youtube.com/embed/pn-3nvZvtkk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <p>
+    <a href="https://www.youtube.com/watch?v=pn-3nvZvtkk">Video</a> of Roei's prerecorded presentation for FOCS (February 2022).
   </p>
-</div>
-<hr/>
-
-
-
-</article>
-</main>
-<script src="/temml/call-auto-render.js"></script>
-<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
+</data>

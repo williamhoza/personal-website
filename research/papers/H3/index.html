@@ -1,33 +1,92 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="/temml/Temml-Latin-Modern.css"><script src="/temml/temml.min.js"></script><script src="/temml/auto-render.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Better Pseudodistributions and Derandomization for Space-Bounded Computation</title><link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/main.css"><meta property="og:title" content="Better Pseudodistributions and Derandomization for Space-Bounded Computation"></head><body><main><article><p><a href="/research/">Back to list of papers</a></p><hr><h1>Better Pseudodistributions and Derandomization for Space-Bounded Computation</h1><p>By William M. Hoza</p><hr><p>Read the paper: <a href="https://eccc.weizmann.ac.il/report/2021/048/">ECCC</a><span> • </span><a href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2021.28">RANDOM proceedings</a></p><details><summary>Abstract (for specialists)</summary><div class="indent"><p>
-Three decades ago, Nisan constructed an explicit pseudorandom generator (PRG) that fools <span style="white-space:nowrap">width-$n$</span> <span style="white-space:nowrap">length-$n$</span> read-once branching programs (ROBPs) with error $\varepsilon$ and seed length $O(\log^2 n + \log n \cdot \log(1/\varepsilon))$ (Combinatorica 1992). Nisan's generator remains the best explicit PRG known for this important model of computation. However, a recent line of work starting with Braverman, Cohen, and Garg (Braverman, Cohen, and Garg SICOMP 2020; Chattopadhyay and Liao CCC 2020; Cohen, Doron, Renard, Sberlo, and Ta-Shma ECCC 2021; Pyne and Vadhan ECCC 2021) has shown how to construct <em>weighted</em> pseudorandom generators (WPRGs, aka pseudorandom pseudodistribution generators) with better seed lengths than Nisan's generator when the error parameter $\varepsilon$ is small.
-</p>
+<!DOCTYPE html>
 
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Better Pseudodistributions and Derandomization for Space-Bounded Computation
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
 <p>
-In this work, we present an explicit WPRG for <span style="white-space:nowrap">width-$n$</span> <span style="white-space:nowrap">length-$n$</span> ROBPs with seed length $O(\log^2 n + \log(1/\varepsilon))$. Our seed length eliminates $\log \log$ factors from prior constructions, and our generator completes this line of research in the sense that further improvements would require beating Nisan's generator in the standard constant-error regime. Our technique is a variation of a recently-discovered reduction that converts moderate-error PRGs into low-error WPRGs (Cohen et al. ECCC 2021; Pyne and Vadhan ECCC 2021). Our version of the reduction uses averaging samplers.
+<a href="/research/">
+            Back to list of papers
+          </a>
 </p>
+<hr/>
+<h1>
+Better Pseudodistributions and Derandomization for Space-Bounded Computation
+</h1>
+<p>
+By William M. Hoza
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2021/048/">ECCC</a> • <a href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2021.28">RANDOM proceedings</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+    Three decades ago, Nisan constructed an explicit pseudorandom generator (PRG) that fools <span style="white-space:nowrap">width-$n$</span> <span style="white-space:nowrap">length-$n$</span> read-once branching programs (ROBPs) with error $\varepsilon$ and seed length $O(\log^2 n + \log n \cdot \log(1/\varepsilon))$ (Combinatorica 1992). Nisan's generator remains the best explicit PRG known for this important model of computation. However, a recent line of work starting with Braverman, Cohen, and Garg (Braverman, Cohen, and Garg SICOMP 2020; Chattopadhyay and Liao CCC 2020; Cohen, Doron, Renard, Sberlo, and Ta-Shma ECCC 2021; Pyne and Vadhan ECCC 2021) has shown how to construct <em>weighted</em> pseudorandom generators (WPRGs, aka pseudorandom pseudodistribution generators) with better seed lengths than Nisan's generator when the error parameter $\varepsilon$ is small.
+    </p>
+<p>
+    In this work, we present an explicit WPRG for <span style="white-space:nowrap">width-$n$</span> <span style="white-space:nowrap">length-$n$</span> ROBPs with seed length $O(\log^2 n + \log(1/\varepsilon))$. Our seed length eliminates $\log \log$ factors from prior constructions, and our generator completes this line of research in the sense that further improvements would require beating Nisan's generator in the standard constant-error regime. Our technique is a variation of a recently-discovered reduction that converts moderate-error PRGs into low-error WPRGs (Cohen et al. ECCC 2021; Pyne and Vadhan ECCC 2021). Our version of the reduction uses averaging samplers.
+    </p>
+<p>
+    We also point out that as a consequence of the recent work on WPRGs, any randomized <span style="white-space:nowrap">space-$S$</span> decision algorithm can be simulated deterministically in space $O(S^{3/2} / \sqrt{\log S})$. This is a slight improvement over Saks and Zhou's celebrated $O(S^{3/2})$ bound (JCSS 1999). For this application, our improved WPRG is not necessary.
+    </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits that "appear random" in some sense. A "weighted pseudorandom generator" is similar, except instead of working with actual probabilities, we work with "pseudoprobabilities," which are allowed to be positive or negative. Pseudoprobability is a little strange, but it turns out that for some purposes, weighted pseudorandom generators are just as useful as ordinary pseudorandom generators — and sometimes they are easier to design. This paper presents a weighted pseudorandom generator whose output can be used in place of truly random bits for any low-memory randomized computation. The generator is a little better than prior work in some cases in terms of the number of coin tosses it makes.
+  </p>
+</div>
+</details>
+<p>
 
+  I posted a manuscript online in March 2021; I presented the paper at RANDOM in August 2021; the full version of the paper will appear in the Theory of Computing special issue for RANDOM 2021. The RANDOM proceedings version and the ECCC version are the same except for minor, superficial differences.
+
+</p>
+<hr/><p>Expository material:</p><div class="expository" value="EXPOSITORY">
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/EF6AVnAmcZY?start=1860"></iframe>
 <p>
-We also point out that as a consequence of the recent work on WPRGs, any randomized <span style="white-space:nowrap">space-$S$</span> decision algorithm can be simulated deterministically in space $O(S^{3/2} / \sqrt{\log S})$. This is a slight improvement over Saks and Zhou's celebrated $O(S^{3/2})$ bound (JCSS 1999). For this application, our improved WPRG is not necessary.
-</p>
-</div></details><details><summary>Not-so-abstract (for curious outsiders)</summary><p>                  ⚠️ <em>This summary might gloss over some important details.</em></p><div class="indent"><p>
-  A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits that "appear random" in some sense. A "weighted pseudorandom generator" is similar, except instead of working with actual probabilities, we work with "pseudoprobabilities," which are allowed to be positive or negative. Pseudoprobability is a little strange, but it turns out that for some purposes, weighted pseudorandom generators are just as useful as ordinary pseudorandom generators — and sometimes they are easier to design. This paper presents a weighted pseudorandom generator whose output can be used in place of truly random bits for any low-memory randomized computation. The generator is a little better than prior work in some cases in terms of the number of coin tosses it makes.
-</p>
-</div></details><p>I posted a manuscript online in March 2021; I presented the paper at RANDOM in August 2021; the full version of the paper will appear in the Theory of Computing special issue for RANDOM 2021. The RANDOM proceedings version and the ECCC version are the same except for minor, superficial differences.</p><hr><p>Expository material:</p><div class="expository">
-  <iframe src="https://www.youtube.com/embed/EF6AVnAmcZY?start=1860" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
-    <a href="https://youtu.be/EF6AVnAmcZY?t=1860">Video</a> of my live virtual presentation at RANDOM (August 2021). (Start at 31:00.) Here are the <a href="RANDOM-live-slides.pptx">slides</a> from that presentation, and here is the <a href="RANDOM-poster.pdf">poster</a> I presented at RANDOM.
+<a href="https://youtu.be/EF6AVnAmcZY?t=1860">Video</a> of my live virtual presentation at RANDOM (August 2021). (Start at 31:00.) Here are the <a href="RANDOM-live-slides.pptx">slides</a> from that presentation, and here is the <a href="RANDOM-poster.pdf">poster</a> I presented at RANDOM.
   </p>
-  <iframe src="https://www.youtube.com/embed/NGRTsD1IwZY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <p>
-    <a href="https://youtu.be/NGRTsD1IwZY">[Video]</a> My prerecorded presentation for RANDOM (August 2021). Here are the <a href="RANDOM-prerecorded-slides.pptx">slides</a> from that presentation. See also <a href="oxford-warwick-slides.pptx">these longer slides</a> from my Zoom presentation for the Oxford-Warwick Complexity Meetings (July 2021).
+<iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/NGRTsD1IwZY"></iframe>
+<p>
+<a href="https://youtu.be/NGRTsD1IwZY">[Video]</a> My prerecorded presentation for RANDOM (August 2021). Here are the <a href="RANDOM-prerecorded-slides.pptx">slides</a> from that presentation. See also <a href="oxford-warwick-slides.pptx">these longer slides</a> from my Zoom presentation for the Oxford-Warwick Complexity Meetings (July 2021).
   </p>
-  <a href="https://doi.org/10.26153/tsw/15500"><div class="emoji-img">🎓</div></a>
-  <p>
+<a href="https://doi.org/10.26153/tsw/15500"><div class="emoji-img">🎓</div></a>
+<p>
     An exposition of the paper is included in <a href="https://doi.org/10.26153/tsw/15500">my PhD dissertation</a> (Chapter 4).
   </p>
-  <a href="https://eccc.weizmann.ac.il/report/2022/121/"><div class="emoji-img">🔭</div></a>
-  <p>
+<a href="https://eccc.weizmann.ac.il/report/2022/121/"><div class="emoji-img">🔭</div></a>
+<p>
     I wrote a <a href="https://eccc.weizmann.ac.il/report/2022/121/">survey</a> that discusses the paper (Section 4).
   </p>
 </div>
-<hr> <p>What others think:</p><ul><li>Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/302.html">this blog post</a>.</li></ul> </article></main><script src="/temml/call-auto-render.js"></script><script data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js" async=""></script></body></html>
+<hr/>
+
+<data value="RECOGNITION"><p>What others think:</p><ul><li>
+  Oded Goldreich discusses the paper in <a href="http://www.wisdom.weizmann.ac.il/~oded/MC/302.html">this blog post</a>.
+</li></ul></data>
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

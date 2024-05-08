@@ -1,7 +1,0 @@
-<p>
-  A "randomized" algorithm tosses coins to make decisions, whereas a "deterministic" algorithm doesn't use any randomness. In practice, randomized algorithms are often more efficient than deterministic algorithms. However, all else being equal, deterministic algorithms are preferable, because we don't always have access to random bits. "Derandomization" is the art of converting randomized algorithms into deterministic algorithms without making them significantly worse in other respects.
-</p>
-
-<p>
-  For several decades now, theoretical computer scientists have been trying to prove that every algorithm can be derandomized without significantly increasing the amount of <em>memory</em> that the algorithm uses. That is, given an arbitrary randomized algorithm that uses $S$ bits of memory, we would like to convert it into a deterministic algorithm that uses $S'$ bits of memory, where $S'$ is only slightly larger than $S$. I worked on this problem for my PhD and made some progress on it (with collaborators). For example, my dissertation explains a method of derandomization where the value $S'$ is slightly smaller than what was known before (but still significantly larger than $S$, unfortunately).
-</p>

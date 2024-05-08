@@ -1,6 +1,5 @@
-import pyxl.codec.register
-from paper import Paper
-import mainPage
+from paper2 import Paper
+import mainPage2
 import os
 from collections import OrderedDict
 
@@ -16,10 +15,10 @@ def main():
   # Slug based on author names
   slugCounts = {}
   for paper in papers:
-    print(paper.metadata["title"])
+    print(paper.title)
     
-    if (not "dissertation" in paper.metadata) or (not paper.metadata["dissertation"]):
-      abbrev = paper.metadata["abbreviation"]
+    if not paper.isDissertation:
+      abbrev = paper.abbrev
       if abbrev in slugCounts:
         slugCounts[abbrev] = slugCounts[abbrev] + 1
         paper.slug = abbrev + str(slugCounts[abbrev])
@@ -29,7 +28,7 @@ def main():
     
     paper.compile()
     
-  mainPage.compile(papers)
+  mainPage2.compile(papers)
   
 if __name__ == "__main__":
   main()
