@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charset="UTF-8">
+        <title>
+            Happy Mother's Day!
+        </title>
+
+        <style>
+            html, body {
+                margin:0;
+                overscroll-behavior: none;
+            }
+            svg {
+                margin:0 auto;
+                width:100vw;
+                height:100vh;
+                padding:0;
+                display:block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <svg xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 30 30"
+            onload="makeDraggable(evt)">
+            
+            <style>
+            .static {
+                cursor: not-allowed;
+            }
+            .draggable {
+                cursor: move;
+            }
+            </style>
+            
+            <script type="text/javascript"><![CDATA[
+            // Script copied from https://www.petercollingridge.co.uk/tutorials/svg/interactive/dragging/
+            function makeDraggable(evt) {
+                var svg = evt.target;
+
+                svg.addEventListener('mousedown', startDrag);
+                svg.addEventListener('mousemove', drag);
+                svg.addEventListener('mouseup', endDrag);
+                svg.addEventListener('mouseleave', endDrag);
+                svg.addEventListener('touchstart', startDrag);
+                svg.addEventListener('touchmove', drag);
+                svg.addEventListener('touchend', endDrag);
+                svg.addEventListener('touchleave', endDrag);
+                svg.addEventListener('touchcancel', endDrag);
+
+                function getMousePosition(evt) {
+                var CTM = svg.getScreenCTM();
+                if (evt.touches) { evt = evt.touches[0]; }
+                return {
+                    x: (evt.clientX - CTM.e) / CTM.a,
+                    y: (evt.clientY - CTM.f) / CTM.d
+                };
+                }
+
+                var selectedElement, offset, transform;
+
+                function startDrag(evt) {
+                if (evt.target.classList.contains('draggable')) {
+                    selectedElement = evt.target;
+                    offset = getMousePosition(evt);
+
+                    // Make sure the first transform on the element is a translate transform
+                    var transforms = selectedElement.transform.baseVal;
+
+                    if (transforms.length === 0 || transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+                    // Create an transform that translates by (0, 0)
+                    var translate = svg.createSVGTransform();
+                    translate.setTranslate(0, 0);
+                    selectedElement.transform.baseVal.insertItemBefore(translate, 0);
+                    }
+
+                    // Get initial translation
+                    transform = transforms.getItem(0);
+                    offset.x -= transform.matrix.e;
+                    offset.y -= transform.matrix.f;
+                }
+                }
+
+                function drag(evt) {
+                if (selectedElement) {
+                    evt.preventDefault();
+                    var coord = getMousePosition(evt);
+                    transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
+                }
+                }
+
+                function endDrag(evt) {
+                selectedElement = false;
+                }
+            }
+            ]]> </script>
+            
+            <image class="static" href="gift.jpg" width="30" height="30" />
+            <path class="draggable" transform="translate(-1.42643, 0.825826) rotate(-3, 8, 3) translate(5, 5) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#f00" stroke="#000"></path>
+            <path class="draggable" transform="translate(-1.8018, 1.95195) rotate(15, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#f0f" stroke="#000"></path>
+            <path class="draggable" transform="translate(3.22822, 1.61411) rotate(-20, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#ff0" stroke="#000"></path>
+            <path class="draggable" transform="translate(5.25526, 9.42192) rotate(5, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#0ff" stroke="#000"></path>
+            <path class="draggable" transform="translate(8.48348, 12.1997) rotate(-10, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#f0c" stroke="#000"></path>
+            <path class="draggable" transform="translate(-0.750751, 7.13213) rotate(25, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#fa0" stroke="#000"></path>
+            <path class="draggable" transform="translate(13.0631, 8.18318) rotate(-11, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#f00" stroke="#000"></path>
+            <path class="draggable" transform="translate(2.77778, -2.21471) rotate(10, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#0f0" stroke="#000"></path>
+            <path class="draggable" transform="translate(15.8784, 14.6772) rotate(15, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#CCCCFF" stroke="#000"></path>
+            <path class="draggable" transform="translate(12.5375, 3.41592) rotate(30, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#8F99FB" stroke="#000"></path>
+            <path class="draggable" transform="translate(2.55255, 10.0601) rotate(-30, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#9593FC" stroke="#000"></path>
+            <path class="draggable" transform="translate(-4.69219, 8.55858) rotate(-18, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#f0c" stroke="#000"></path>
+            <path class="draggable" transform="translate(2.02703, 4.95498) rotate(7, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#ff0" stroke="#000"></path>
+            <path class="draggable" transform="translate(4.20421, 16.967) rotate(18, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#8ff" stroke="#000"></path>
+            <path class="draggable" transform="translate(11.2613, 18.431) rotate(-24, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#0ff" stroke="#000"></path>
+            <path class="draggable" transform="translate(3.04054, -4.91739) rotate(15, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#9593FC" stroke="#000"></path>
+            <path class="draggable" transform="translate(9.72222, -4.16664) rotate(-4, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#f0c" stroke="#000"></path>
+            <path class="draggable" transform="translate(-0.750749, 11.5616) rotate(17, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#9593FC" stroke="#000"></path>
+            <path class="draggable" transform="translate(10.548, 16.5541) rotate(11, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#ffc" stroke="#000"></path>
+            <path class="draggable" transform="translate(-1.68919, 16.8919) rotate(16, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#fcf" stroke="#000"></path>
+            <path class="draggable" transform="translate(11.7493, 4.20423) rotate(-22, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#cff" stroke="#000"></path>
+            <path class="draggable" transform="translate(-1.23874, -3.07805) rotate(12, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#ccf" stroke="#000"></path>
+            <path class="draggable" transform="translate(12.5, -2.027) rotate(-12, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#cfc" stroke="#000"></path>
+            <path class="draggable" transform="translate(4.20421, 16.7793) rotate(-15, 8, 3) translate(5, 5) scale(0.4)" d="M12 21.593m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181" fill="#fcc" stroke="#000"></path>
+            <!-- heart based on https://iconmonstr.com/heart-thin-svg/ -->
+            <text x="15" y="1.5" text-anchor="middle" font-size="1" style="font-weight:bold;" alignment-baseline="middle" fill="#000" stroke="#fff" paint-order="stroke" stroke-width="0.2">
+                <tspan x="15">Click and drag the hearts</tspan>
+                <tspan x="15" dy="1.2">to “unwrap” your gift!</tspan>
+            </text>
+        </svg>
+    </body>
+</html>
