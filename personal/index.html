@@ -45,10 +45,9 @@
         </p>
         <ul>
           <li>I go by William, not Will/Bill/etc. (Students: Please call me either William or Professor Hoza, whichever makes you more comfortable.)</li>
-          <li>I'm <span class="elapsed" data-start="1994-06-02">?</span> old.</li>
+          <li>I'm <span class="elapsed" data-start="1994-06-02">?</span> old. <span id="grade"></span></li>
           <li>I've been happily married to Alicia Torres Hoza for <span class="elapsed" data-start="2019-11-08">?</span>.</li>
           <li>We have one wonderful daughter 🙂 (We had two other kids, but tragically they died before birth.)</li>
-          <li>I have two sisters, two brothers, two brothers-in-law, and two sisters-in-law.</li>
           <li>I'm about 5' 5" tall, much like the <a href="https://en.wikipedia.org/wiki/Average_human_height_by_country">average man in North Korea or the average woman in Sweden.</a></li>
           <li>I have Celiac disease, so I cannot eat gluten. Also, I try to avoid eating meat on Fridays, and I try to avoid eating pork or beef on any day of the week, but sometimes I make exceptions to these rules.</li>
           <li>I like pineapple on pizza, and I like the Star Wars prequel trilogy, but I don't like chocolate.</li>
@@ -169,6 +168,22 @@
       document.querySelectorAll(".elapsed").forEach(function(s) {
         s.innerHTML = dateDifferenceString(new Date(s.dataset["start"] + "T00:00"), new Date());
       });
+
+      // update grade
+      let n = new Date();
+      let currentGrade = n.getFullYear() - 2000;
+      if (n.getMonth() >= 9) currentGrade++;
+      let ordinalIndicator = "th";
+      if (currentGrade % 10 == 1) ordinalIndicator = "st";
+      if (currentGrade % 10 == 2) ordinalIndicator = "nd";
+      if (currentGrade % 10 == 3) ordinalIndicator = "rd";
+      if (n.getMonth() >= 5 && n.getMonth() < 9) {
+        document.querySelector("#grade").innerHTML = "I recently completed " + currentGrade + ordinalIndicator + " grade 😉";
+      } else if (n.getMonth() == 4) {
+        document.querySelector("#grade").innerHTML = "I'm almost done with " + currentGrade + ordinalIndicator + " grade 😉";
+      } else {
+        document.querySelector("#grade").innerHTML = "I'm currently a " + currentGrade + ordinalIndicator + " grader 😉";
+      }
     </script>
     
     <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
