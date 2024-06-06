@@ -1,0 +1,31 @@
+Regular ROBPs. Joint with Zelin Lv
+
+Theorem [LPV 2023]: If f : {0, 1}^n -> {0, 1} can be computed by a non-regular ROBP of width w, then it can be computed by a regular ROBP of width O(wn)
+
+PRG seed length:  O~(log(w/eps) * log n) [BRRY 2014]						vs. O(log(wn/eps) * log n) for non-regular [Nisan 1992]
+WPRG seed length: O~(log n * sqrt(log(1/eps)) + log w * log n + log(1/eps)) [CHLTW 2023]	vs. O(log(wn) * log n + log(1/eps)) for non-regular [BCG 2020, ...]
+
+Def: The *weight* of an edge (u, v) is defined to be |p_u - p_v|, where p_u denotes the acceptance probability under a uniform random input if we start at u
+
+Lemma [BRRY 2014]: In a regular ROBP, the sum of all the edge weights is O(w^2).		(can be Omega(n) for non-regular)
+
+New Lemma: Let f be a regular program and let eps > 0. The number of edges with weight at least eps is at most (w log(1/eps))^{O(w)}.
+Example: If w = O(1) and eps = 1/poly(n), the bound is polylog(n). Notice: If we are trying to fool the program, it is okay to assign 0 to all the low-weight variables!
+
+Proof is based on BRRY "pebble game". Definition of pebble game: There are 2w pebbles, each located somewhere in the unit interval [0, 1]. A legal move consists of picking up two pebbles and placing them at their midpoint. The "weight" of a move is the total distance traveled by those two pebbles.
+
+Connection: A regular program induces a sequence of moves. Initially, for each vertex v in the final layer, we have two pebbles located at p_v. Then we go through the vertices of the program one by one, working our way backward through the program. For a vertex u with outgoing edges (u, v), (u, v'), we grab a pebble located at p_v and a pebble located at p_{v'}, and we move them to p_u (their midpoint). Move in the game <=> Pair of outgoing edges in the program. Weight = weight.
+
+Lemma: For any initial configuration and any sequence of moves in the pebble game, the number of moves of weight at least eps is at most (w log(1/eps))^{O(w)}, where w = # pebbles.
+
+Proof: By induction on w. Find the *biggest gap* between adjacent pebbles in the initial configuration. Now consider any sequence of moves. Let us say that "Phase 1" of this sequence lasts until the first move involving pebbles from opposite sides of the gap.
+
+Within Phase 1, we apply induction. The number of moves of weight at least eps is at most 2 * (C (w - 1)^4 log(1/eps))^{(w - 1)} + 1 < 3 * (C w^4 log(1/eps))^{(w - 1)}.
+
+After Phase 1, we identify the *new biggest gap*. We say that "Phase 2" lasts until the first move involving pebbles from opposite sides of the new gap. Then Phase 3, Phase 4, etc. Within each phase, the number of moves of weight at least eps is at most 3 * (C w^4 log(1/eps))^{(w - 1)}.
+
+Now we bound the number of phases. Def [BRRY]: At each moment of the game, we define the *potential* Phi = sum_{1 \leq i < j \leq w} dist(pebble i, pebble j). Fact [BRRY]: The potential never increases, and a move of weight W causes the potential to decrease by at least W.
+
+Initially, Phi < w^2. In each phase, Phi -> Phi' <= (1 - 1/w^3) * Phi because of the final move. Therefore, after O(w^3 * log w * log(1/eps)) phases, the total potential is less than eps, hence it becomes impossible to make moves of weight at least eps.
+
+Conclusion: Total number of moves at most eps is (C/3 * w^4 * log(1/eps)) * 3 * (C w^4 log(1/eps))^{w - 1} = (C w^4 log(1/eps))^w. QED
