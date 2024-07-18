@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
+    <script src="/temml/temml.min.js"></script>
+    <script src="/temml/auto-render.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Circuit Complexity | Autumn 2024 | William Hoza</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/main.css" />
+
+    <style>
+      summary {
+        font-weight:bold;
+      }
+
+      .toc-item::after {
+        content: ":";
+      }
+
+      html {
+        scroll-behavior:smooth;
+      }
+
+      .toc-item:target {
+        background-color:yellow;
+      }
+
+      td {
+        vertical-align:top;
+        padding:15px;
+      }
+
+      table {
+        width: 100%;
+        border:1px solid #c0c0c0;
+        border-collapse:collapse;
+      }
+
+      tr:nth-child(odd) {
+        background-color:#f0f0f0;
+      }
+
+      @media print {
+        #toc-container {
+          display:none;
+        }
+      }
+
+      .reading, .note, .slides {
+        margin-top:10px;
+        margin-left:30px;
+      }
+
+      .slides::before {
+        content: "Slides: ";
+        font-style: italic;
+      }
+
+      .reading::before {
+        content: "Reading: ";
+        font-style: italic;
+      }
+
+      .note {
+        font-style:italic;
+      }
+
+      .pset:before {
+        content: "⏰ ";
+        font-style: normal;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <p style="color:red;">
+          (DRAFT)
+        </p>
+        <hr />
+        <h1>
+          CMSC 39600: Circuit Complexity (Autumn 2024)
+        </h1>
+        <p>
+          <strong>Full Course Title: </strong> "Topics in Theoretical Computer Science: Circuit Complexity"
+        </p>
+        <p>
+          <strong>Term: </strong> Autumn 2024 at the University of Chicago
+        </p>
+        <p>
+          <strong>Instructor: </strong> <a href="/">William Hoza</a> (<a href="mailto:williamhoza@uchicago.edu">williamhoza@uchicago.edu</a>)
+        </p>
+        <p>
+          <strong>Meetings: </strong> Tuesdays and Thursdays | 9:30am - 10:50am | Location TBA
+        </p>
+        <p>
+          <strong>Office Hours: </strong> Tuesdays | 11am - 12:30pm | JCL 311
+        </p>
+        <div id="toc-container">
+          <hr />
+          <p>
+            Jump to: <span id="toc-loading">(loading...)</span>
+          </p>
+          <ul id="toc"></ul>
+        </div>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Description</strong>
+          One of the most mathematically appealing ways to model computation is using Boolean circuits: networks of logic gates applied to Boolean variables. One can use counting arguments to show that there exist Boolean functions with exponential "circuit complexity," i.e., all circuits computing these functions have exponentially many gates. However, nobody knows how to prove that specific functions of interest have high circuit complexity. In this course, we will primarily study bounded-depth circuits, which can be considered a model of super-fast parallel algorithms. We will see that such circuits are powerful enough to perform many interesting computations, but we will also prove that they have severe limitations.
+        </p>
+        <p>
+          We won't follow any particular textbook, but I'll try to post some kind of notes or reference for each class. If you're an undergraduate student and you want to take this course, you'll need to discuss it with me and get approval. If you're a graduate student, there are no firm prerequisites, but it would be helpful to have some familiarity with computational complexity theory and probability theory.
+        </p>
+        <p>
+          Some possible topics: Advice, uniformity, and the complexity class $\mathsf{P}/\text{poly}$. Adleman's theorem. Shannon's counting argument. Lupanov's circuit construction. The Karp-Lipton theorem. The containments $\mathsf{AC}^0 \subseteq \mathsf{TC}^0 \subseteq \mathsf{NC}^1 \subseteq \mathsf{L} \subseteq \mathsf{NL} \subseteq \mathsf{AC}^1$. Approximating $\mathsf{AC}^0$ circuits using low-degree polynomials. Circuit depth reduction. Lower bounds on the size of $\mathsf{AC}^0$ circuits computing the parity and majority functions. The promise majority problem. Correlation bounds. Impagliazzo's hard-core lemma. Yao's XOR lemma. The Nisan-Wigderson pseudorandom generator. Spira's theorem. Barrington's theorem. Gate elimination. Random restrictions and switching lemmas. Fourier analysis and learnability of $\mathsf{AC}^0$. Braverman's theorem. Shrinkage and formula lower bounds. Natural proofs.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Course Timeline</strong>
+          (The information below will be updated throughout the quarter.)
+        </p>
+        <table>
+          <tr><td>
+            Tuesday 10/1: <em>(Class summary will go here)</em>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 10/3:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 10/8:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 10/10:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 10/15:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 10/17:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 10/22:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 10/24:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 10/29:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 10/31:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 11/5:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 11/7:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 11/12:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 11/14:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 11/19:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 11/21:
+            <div class="reading"></div>
+            <div class="note">(No class on 11/26 or 11/28 because of Thanksgiving Break)</div>
+          </td></tr>
+          <tr><td>
+            Tuesday 12/3:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 12/5:
+            <div class="reading"></div>
+          </td></tr>
+        </table>
+        <hr />
+        <p>
+          <strong class="toc-item">Project</strong> Study some topic in circuit complexity that we won't have time to discuss in class. Then write and submit an exposition. Your exposition should be in the ballpark of 5-10 pages, but there are no strict page limits. Think of your classmates as your target audience. The exposition will be due near the end of the quarter (exact deadline TBA).
+        </p>
+        <p>
+          I will need to approve your topic. I encourage you to pick a specific theorem (or two) to focus on. Your exposition should explain what the theorem says and why the theorem is important. Your exposition should also explain the proof of the theorem, but this explanation need not be complete. For example, you might choose to only explain part of the proof, or you might choose to prove a special case of the theorem. I encourage you to try to develop and explain a <em>new</em> way of thinking about the proof. The best case would be if you manage to genuinely prove something new, but this is not required.
+        </p>
+        <p>
+          Here are some relatively recent papers you could look at. (I've linked to the most "official" versions of the papers below, but you might want to also look for other versions, such as ECCC preprints.)
+        </p>
+        <ul>
+          <li>Kuan Cheng and Yichuan Wang. <a href="https://doi.org/10.4230/LIPIcs.CCC.2024.32">$\mathsf{BPL} \subseteq \mathsf{L}\text{-}\mathsf{AC}^1$</a>. CCC 2024.</li>
+          <li>William M. Hoza. <a href="https://doi.org/10.4230/LIPIcs.CCC.2024.1">A Technique for Hardness Amplification Against $\mathsf{AC}^0$.</a> CCC 2024.</li>
+          <li>Prahladh Harsha, Tulasimohan Molli, and Ashutosh Shankar. <a href="https://doi.org/10.4230/LIPIcs.CCC.2023.19">Criticality of $\mathsf{AC}^0$-Formulae.</a> CCC 2023.</li>
+          <li>Srikanth Srinivasan and Utkarsh Tripathi. <a href="https://doi.org/10.1145/3564246.3585238">Optimal Explicit Small-Depth Formulas for the Coin Problem.</a> STOC 2023.</li>
+          <li>Lijie Chen. <a href="https://doi.org/10.4230/LIPIcs.ITCS.2023.34">New Lower Bounds and Derandomization for ACC, and a Derandomization-Centric View on the Algorithmic Method.</a> ITCS 2023.</li>
+          <li>Victor Lecomte, Prasanna Ramakrishnan, and Li-Yang Tan. <a href="https://doi.org/10.4230/LIPIcs.CCC.2022.19">The Composition Complexity of Majority.</a> CCC 2022.</li>
+          <li>Xin Lyu. <a href="https://doi.org/10.4230/LIPIcs.CCC.2022.34">Improved Pseudorandom Generators for $\mathsf{AC}^0$ Circuits.</a> CCC 2022.</li>
+          <li>Alexander A. Sherstov. <a href="https://doi.org/10.1145/3519935.3520000">The Approximate Degree of DNF and CNF Formulas.</a> STOC 2022.</li>
+          <li>Victor Lecomte and Li-Yang Tan. <a href="10.1109/FOCS52979.2021.00094">Sharper Bounds on the Fourier Concentration of DNFs.</a> FOCS 2021.</li>
+          <li>Zander Kelley. <a href="https://doi.org/10.1145/3406325.3451054">An Improved Derandomization of the Switching Lemma.</a> STOC 2021.</li>
+          <li>Nutan Limaye, Karteek Sreenivasaiah, Srikanth Srinivasan, Utkarsh Tripathi, and S. Venkitesh. <a href="https://doi.org/10.1137/19M1276467">A Fixed-Depth Size-Hierarchy Theorem for $\mathsf{AC}^0[\oplus]$ via the Coin Problem.</a> SICOMP 2021.</li>
+          <li>Shachar Lovett, Kewen Wu, and Jiapeng Zhang. <a href="https://doi.org/10.1145/3485007">Decision List Compression by Mild Random Restrictions.</a> JACM 2021.</li>
+          <li>Igor Carboni Oliveira, Rahul Santhanam, and Srikanth Srinivasan. <a href="https://doi.org/10.4230/LIPIcs.CCC.2019.23">Parity Helps to Compute Majority.</a> CCC 2019.</li>
+          <li>Ben Rossman and Srikanth Srinivasan. <a href="https://doi.org/10.4086/toc.2019.v015a017">Separation of $\mathsf{AC}^0[\oplus]$ Formulas and Circuits.</a> ToC 2019.</li>
+          <li>Ruiwen Chen, Rahul Santhanam, and Srikanth Srinivasan. <a href="https://doi.org/10.4086/toc.2018.v014a009">Average-Case Lower Bounds and Satisfiability Algorithms for Small Threshold Circuits.</a> ToC 2018.</li>
+          <li>Shiteng Chen and Periklis A. Papakonstantinou. <a href="https://doi.org/10.1137/17M1129672">Depth Reduction for Composites.</a> SICOMP 2019.</li>
+          <li>Avishay Tal. <a href="https://doi.org/10.1145/3055399.3055472">Formula lower bounds via the quantum method.</a> STOC 2017.</li>
+          <li>Johan Håstad, Benjamin Rossman, Rocco A. Servedio, and Li-Yang Tan. <a href="https://doi.org/10.1145/3095799">An Average-Case Depth Hierarchy Theorem for Boolean Circuits.</a> JACM 2017.</li>
+          <li>Prahladh Harsha and Srikanth Srinivasan. <a href="https://doi.org/10.4230/LIPIcs.APPROX-RANDOM.2016.32">On Polynomial Approximations to $\mathsf{AC}^0$.</a> RANDOM 2016.</li>
+        </ul>
+        <hr />
+        <p>
+          <strong class="toc-item">Homework Exercises</strong>
+          Exercises will be assigned throughout the quarter. Submit your solutions through Gradescope.
+        </p>
+        <p>
+          <em>Collaboration.</em> You are encouraged to collaborate with your classmates on homework, but you must adhere to the following rules.
+        </p>
+        <ul>
+          <li>Work on each exercise on your own for at least fifteen minutes before discussing it with classmates.</li>
+          <li>Explaining your ideas to your classmates <em>in person</em> is fine, but don't share <em>written</em> solutions or partial solutions with your classmates.</li>
+          <li>Write your solutions on your own. While you are writing your solutions, do not consult any notes that you might have taken during discussions with classmates.</li>
+          <li>In your write-up, list any classmates who helped you figure out the solution. The fact that student A contributed to student B's solution does not necessarily mean that student B contributed to student A's solution.</li>
+        </ul>
+        <p>
+          <em>Permitted Resources for Full Credit.</em> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use any slides or notes posted in the "Course Timeline" section of this webpage, and you may also use Wikipedia. If you wish to receive full credit on an exercise, you may not use any other resources.
+        </p>
+        <p>
+          <em>Outside Resources for Partial Credit.</em> If you wish, you may use outside resources (ChatGPT, Stack Exchange, etc.) to solve an exercise for partial credit. If you decide to go this route, you must make a note of which outside resources you used when you were working on each exercise. You must disclose using a resource even if it was ultimately unhelpful for solving the exercise. Furthermore, if you consult an outside resource while working on an exercise, then you must not discuss that problem with your classmates.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Grading Policies</strong> Your grade will be based on homework exercises (65%), the project (25%), and class participation (10%).
+        </p>
+        <p>
+          <em>Late work.</em> You are strongly encouraged to complete all the coursework within the allotted time. If you don't master the subject matter of a particular exercise by the time the exercise is due, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your work late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+        </p>
+        <ul>
+          <li>If you submit your solution to a homework exercise $x$ days late, where $0 < x < 9$, then your score will be multiplied by $\sqrt{(1 - (x/9)^2}$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in nine or more days late will ordinarily not receive any credit. Saturdays, Sundays, and university holidays are all excluded from the lateness calculation.</li>
+          <li>Eventually, I will post official solutions. If you look at the official solutions, then from that point onward, you are not permitted to submit your own solutions for those exercises. Submitting solutions after looking at the official solutions would be an academic honesty violation.</li>
+          <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
+        </ul>
+        <p>
+          <em>Extensions.</em> Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, I am happy to grant an extension for a religious holiday if you give me sufficiently early notice that you will be observing that holiday.
+        </p>
+        <p>
+          <em>Regrade requests.</em> If you think something was graded incorrectly, please submit a regrade request through Gradescope.
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Academic Honesty Catch-All Policy</strong>
+          Even if you have <em>no intention of being dishonest,</em> you might nevertheless find yourself in an "ethically problematic" situation at some point. For example, maybe you and a classmate work together to solve a homework exercise, and then <em>afterward</em> you remember that you were supposed to work on the problem on your own for at least fifteen minutes before collaborating. Or maybe you accidentally stumble upon the solution to a homework problem while reading the textbook for a different course.
+        </p>
+        <p>
+          In such circumstances, you should simply send me an email explaining what happened.
+        </p>
+        <p>
+          I encourage you to follow this simple protocol in every course you take. It is a surefire way to avoid getting in trouble for academic dishonesty. Depending on the circumstances, I might have to take some points off your score, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
+        </p>
+        <hr />
+        <p>
+          <strong class="toc-item">Inclusion and Accessibility</strong>
+          This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect. I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
+        </p>
+        <p>
+          To highlight a few facets of these topics:
+        </p>
+        <ul>
+          <li>You are encouraged to ask questions in class, and you should make your classmates feel comfortable asking questions in class. There is no shame in not knowing something or not understanding something. Questions make the course better for everyone.</li>
+          <li>I am happy to work with any students who are pregnant/parenting to figure out the best way to make the course work for you.</li>
+          <li>Computer scientists and mathematicians can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.</li>
+        </ul>
+      </article>
+    </main>
+    
+    <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+      function generateTOC() {
+        const sectionTitles = document.getElementsByClassName("toc-item");
+        for (i = 0; i < sectionTitles.length; i++) {
+          const title = sectionTitles[i].innerText;
+          const urlTitle = title.replaceAll(" ", "-").toLowerCase();
+          sectionTitles[i].id = urlTitle;
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.innerText = title;
+          link.href = "#" + urlTitle;
+          listItem.appendChild(link);
+          document.querySelector("#toc").appendChild(listItem);
+        }
+        document.querySelector("#toc-loading").style.display = "none";
+      }
+
+      generateTOC();
+    </script>
+
+    <script>
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ]
+      });
+    </script>
+  </body>
+</html>
