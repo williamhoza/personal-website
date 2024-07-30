@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Limitations of the Impagliazzo-Nisan-Wigderson Pseudorandom Generator Against Permutation Branching Programs
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
+<p>
+<a href="/research/">
+            Back to list of papers
+          </a>
+</p>
+<hr/>
+<h1>
+Limitations of the Impagliazzo-Nisan-Wigderson Pseudorandom Generator Against Permutation Branching Programs
+</h1>
+<p>
+By William M. Hoza, Edward Pyne, and Salil Vadhan
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://doi.org/10.1007/s00453-024-01251-2">Algorithmica</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+    The classic Impagliazzo-Nisan-Wigderson (INW) pseudorandom generator (PRG) (STOC '94) for space-bounded computation uses a seed of length $O(\log n \cdot \log(nw/\varepsilon) + \log d)$ to fool ordered branching programs of length $n$, width $w$, and alphabet size $d$ to within error $\varepsilon$. A series of works have shown that the analysis of the INW generator can be improved for the class of <em>permutation</em> branching programs or the more general <em>regular</em> branching programs, improving the $O(\log^2 n)$ dependence on the length $n$ to $O(\log n)$ or $\tilde{O}(\log n)$. However, when also considering the dependence on the other parameters, these analyses still fall short of the optimal PRG seed length $O(\log(nwd/\varepsilon))$. In this paper, we prove that any "spectral analysis" of the INW generator requires seed length
+    $$
+      \Omega(\log n \cdot \log \log(\min\{n, d\}) + \log n \cdot \log(w/\varepsilon) + \log d)
+    $$
+    to fool ordered permutation branching programs of length $n$, width $w$, and alphabet size $d$ to within error $\varepsilon$. By "spectral analysis" we mean an analysis of the INW generator that relies only on the spectral expansion of the graphs used to construct the generator; this encompasses all prior analyses of the INW generator. Our lower bound matches the upper bound of Braverman-Rao-Raz-Yehudayoff (FOCS 2010, SICOMP 2014) for regular branching programs of alphabet size $d = 2$ except for a gap between their $O(\log n \cdot \log \log n)$ term and our $\Omega(\log n \cdot \log \log \min\{n, d\})$ term. It also matches the upper bounds of Koucký-Nimbhorkar-Pudlák (STOC 2011), De (CCC 2011), and Steinke (ECCC 2012) for constant-width ($w = O(1)$) permutation branching programs of alphabet size $d = 2$ to within a constant factor. To fool permutation branching programs in the measure of <em>spectral norm</em>, we prove that any spectral analysis of the INW generator requires a seed of length $\Omega(\log n \cdot \log \log n + \log n \cdot \log(1/\varepsilon))$ when the width is at least polynomial in $n$ ($w = n^{\Omega(1)}$), matching the recent upper bound of Hoza-Pyne-Vadhan (ITCS 2021) to within a constant factor.
+  </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+    A "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits that "appear random" in some sense. In this paper, we study a famous pseudorandom generator called the "Impagliazzo-Nisan-Wigderson generator" (named after its inventors). We establish some <em>limitations</em> of this pseudorandom generator, i.e., we prove that its output bits do <em>not</em> appear random in certain respects.
+  </p>
+</div>
+</details>
+<p>
+
+  Ted and Salil wrote the preliminary version of this paper (I was not involved) and published it in COCOON 2021. You can read the COCOON proceedings version <a href="https://doi.org/10.1007/978-3-030-89543-3_1">here</a> or the ECCC version <a href="https://eccc.weizmann.ac.il/report/2021/108/">here</a>. I joined them for the journal version, which was published in July 2024. The journal version has various minor improvements compared to the conference version, but the essential message of the paper is unchanged.
+
+</p>
+
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
