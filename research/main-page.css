@@ -1,0 +1,16 @@
+.paper-list2 {
+    padding-left:25px;
+}
+
+.paper-list2 > li {
+    list-style-type:disc;
+    padding-left:10px;
+}
+
+.paper-list2 > li:not(:last-child) {
+    margin-bottom:25px;
+}
+
+.paper-list2 > li > p {
+    margin: 5px 0;
+}

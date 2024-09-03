@@ -5,10 +5,10 @@ def compile(papers):
     soup = BeautifulSoup(templateFile.read(), 'html.parser')
 
     paperListOL = soup.new_tag("ol")
-    paperListOL["class"] = "paper-list"
+    paperListOL["class"] = "paper-list2"
 
     surveyListOL = soup.new_tag("ol")
-    surveyListOL["class"] = "paper-list"
+    surveyListOL["class"] = "paper-list2"
 
     for paper in reversed(papers):
         if paper.isDissertation:
@@ -19,17 +19,27 @@ def compile(papers):
             soup.find("data", value="DISSERTATION").replace_with(a)
         else:
             li = soup.new_tag("li")
-            li["style"] = "font-style:italic;"
+            # li["style"] = "font-style:italic;"
 
             a = soup.new_tag("a")
             a["href"] = f"papers/{paper.slug}"
             a["style"] = "font-style:normal;"
             a.string = paper.title
             li.append(a)
-            li.append(soup.new_tag("br"))
-            li.append(paper.authors)
-            li.append(soup.new_tag("br"))
-            li.append(" • ".join(paper.venues))
+
+            authorp = soup.new_tag("p")
+            authorp.append(paper.authors)
+            li.append(authorp)
+
+            venuesp = soup.new_tag("p")
+            venuesp.append(" • ".join(paper.venues))
+            venuesp["style"] = "font-style:italic;"
+            li.append(venuesp)
+
+            # li.append(soup.new_tag("br"))
+            # li.append(paper.authors)
+            # li.append(soup.new_tag("br"))
+            # li.append(" • ".join(paper.venues))
 
             if paper.isSurvey:
                 surveyListOL.append(li)
