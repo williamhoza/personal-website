@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Implications of Better PRGs for Permutation Branching Programs
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
+<p>
+<a href="/research/">
+            Back to list of papers
+          </a>
+</p>
+<hr/>
+<h1>
+Implications of Better PRGs for Permutation Branching Programs
+</h1>
+<p>
+By Dean Doron and William M. Hoza
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2024/137/">ECCC</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+        We study the challenge of derandomizing constant-width standard-order read-once branching programs (ROBPs). Let $c \in [1, 2)$ be any constant. We prove that if there are explicit pseudorandom generators (PRGs) for width-$6$ length-$n$ permutation ROBPs with error $1/n$ and seed length $\widetilde{O}(\log^c n)$, then there are explicit hitting set generators (HSGs) for width-$4$ length-$n$ ROBPs with threshold $1/\mathrm{polylog}(n)$ and seed length $\widetilde{O}(\log^c n)$.
+    </p>
+<p>
+        For context, there are known explicit PRGs that fool constant-width permutation ROBPs with error $\varepsilon$ and seed length $O(\log n \cdot \log(1/\varepsilon))$ (Koucký, Nimbhorkar, and Pudlák STOC 2011; De CCC 2011; Steinke ECCC 2012). When $\varepsilon = 1/n$, there are known constructions of <em>weighted</em> pseudorandom generators (WPRGs) that fool polynomial-width permutation ROBPs with seed length $\widetilde{O}(\log^{3/2} n)$ (Pyne and Vadhan CCC 2021; Chen, Hoza, Lyu, Tal, and Wu FOCS 2023; Chattopadhyay and Liao ITCS 2024), but <em>unweighted</em> PRGs with seed length $o(\log^2 n)$ remain elusive. Meanwhile, for width-$4$ ROBPs, there are no known explicit PRGs, WPRGs, or HSGs with seed length $o(\log^2 n)$.
+    </p>
+<p>
+        Our reduction can be divided into two parts. First, we show that explicit low-error PRGs for width-$6$ permutation ROBPs with seed length $\widetilde{O}(\log^c n)$ would imply explicit low-error PRGs for width-$3$ ROBPs with seed length $\widetilde{O}(\log^c n)$. This would improve Meka, Reingold, and Tal's PRG (STOC 2019), which has seed length $o(\log^2 n)$ only when the error parameter is relatively large. Second, we show that for any $w$, $n$, $s$, and $\varepsilon$, an explicit PRG for width-$w$ ROBPs with error $0.01/n$ and seed length $s$ would imply an explicit $\varepsilon$-HSG for width-$(w + 1)$ ROBPs with seed length $O(s + \log n \cdot \log(1/\varepsilon))$.
+    </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+        This is a paper about pseudorandom generators. In general, a "pseudorandom generator" is an algorithm that makes a few coin tosses and outputs a long sequence of bits $x_1, x_2, x_3, \dots$ that "appear random" in some sense. In the context of this paper, the goal is that the output bits should appear random to any observer who has very little memory and who observes the bits one at a time (first $x_1$, then $x_2$, etc.) The observer can also use a "clock," i.e., the observer always knows how many bits they have seen so far.
+    </p>
+<p>
+        Our main theorem is a <em>conditional</em> theorem, i.e., we establish a new connection between two interesting unsolved problems, but unfortunately, we don't solve either of them. Suppose that someone (you?) figures out how to design a pseudorandom generator that works well provided that the observer only uses three bits of memory <em>and</em> the observer satisfies a severe "reversibility" condition. Under this assumption, we show how to design something called a "hitting set generator" (a variant of the pseudorandom generator concept) that works well even if the observer does <em>not</em> satisfy the "reversibility" condition, provided that the observer only uses two bits of memory.
+    </p>
+</div>
+</details>
+<p>
+
+    We posted a manuscript online in September 2024.
+
+</p>
+
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
