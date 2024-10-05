@@ -1,0 +1,17 @@
+{
+    "name": "Speech synthesis game",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "frog512.webp",
+            "sizes": "512x512",
+            "type": "image/webp"
+        }, {
+            "src": "frog192.webp",
+            "sizes": "192x192",
+            "type": "image/webp"
+        }
+    ],
+    "display": "standalone"
+}
+  
