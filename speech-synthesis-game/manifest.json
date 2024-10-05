@@ -1,6 +1,6 @@
 {
     "name": "Speech synthesis game",
-    "start_url": "/",
+    "start_url": "/speech-synthesis-game/",
     "icons": [
         {
             "src": "frog512.webp",
