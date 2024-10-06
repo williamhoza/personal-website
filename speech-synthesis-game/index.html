@@ -93,7 +93,7 @@
             <div id="letterButtonContainer"></div>
 
             <div id="textDisplay">
-                <button id="speakButton" onclick="updateTypedText(typedText);">🔊</button>
+                <button id="speakButton" onclick="repeat();">🔊</button>
                 <div id="typedTextContainer"></div>
                 <button id="backspaceButton" onclick="backspace();">⌫</button>
             </div>
@@ -111,6 +111,7 @@
             const synth = window.speechSynthesis;
             const letterButtons = [];
             let typedText = "";
+            let currentSentence = null;
 
             let knownWords = {};
             let emojiOnlyWords = {};
@@ -157,17 +158,24 @@
 
                 if (lowercaseTxt in knownWords) {
                     let r = Math.floor(Math.random() * knownWords[lowercaseTxt].length);
-                    let s = knownWords[lowercaseTxt][r];
-                    document.querySelector("#emojiArea").innerHTML = s["emojis"].join("");
-                    saySentence(s["sentence"], lowercaseTxt);
+                    currentSentence = knownWords[lowercaseTxt][r];
+                    document.querySelector("#emojiArea").innerHTML = currentSentence["emojis"].join("");
+                    saySentence(currentSentence["sentence"], lowercaseTxt);
                 } else {
                     document.querySelector("#emojiArea").innerHTML = emojiOnlyWords[lowercaseTxt] || "";
                     document.querySelector("#sentenceArea").innerHTML = "";
+                    currentSentence = null;
                 }
             }
 
             function typeLetter(i) {
                 updateTypedText(typedText + String.fromCharCode(65 + i));
+            }
+
+            function repeat() {
+                let lowercaseTxt = typedText.toLowerCase();
+                say(lowercaseTxt);
+                saySentence(currentSentence["sentence"], lowercaseTxt);
             }
 
             function backspace() {
