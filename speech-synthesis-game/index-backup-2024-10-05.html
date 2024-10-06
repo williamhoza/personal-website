@@ -37,11 +37,6 @@
                 margin-top:10px;
             }
 
-            .being-spoken {
-                background-color: #ff0;
-                text-decoration:underline;
-            }
-
             /* Shimmer effect from https://www.codeguage.com/blog/shimmer-effect-html-css */
             .shimmer {
                 border:3px solid #008000;
@@ -61,7 +56,7 @@
             #typedTextContainer {
                 font-size:22px;
                 word-wrap:break-word;
-                width:calc(100% - 90px);
+                width:calc(100% - 80px);
                 display:inline-block;
                 font-family: "Balsamiq Sans", sans-serif;
                 letter-spacing:2px;
@@ -76,15 +71,6 @@
                 height:200px;
                 margin-top:10px;
             }
-
-            #sentenceArea {
-                font-size:18px;
-                margin-top:15px;
-            }
-
-            #speakButton, #backspaceButton {
-                font-size:18px;
-            }
         </style>
     </head>
 
@@ -93,12 +79,10 @@
             <div id="letterButtonContainer"></div>
 
             <div id="textDisplay">
-                <button id="speakButton" onclick="updateTypedText(typedText);">🔊</button>
+                <button id="speakButton" onclick="say(typedText);">🔊</button>
                 <div id="typedTextContainer"></div>
                 <button id="backspaceButton" onclick="backspace();">⌫</button>
             </div>
-
-            <div id="sentenceArea"></div>
             
             <div id="emojiArea"></div>
 
@@ -112,25 +96,21 @@
             const letterButtons = [];
             let typedText = "";
 
-            let knownWords = {};
-            let emojiOnlyWords = {};
+            let emojis = {};
 
-            async function loadKnownWords() {
-                // from Claude
-                let res = await fetch("sentences.json");
-                let sentences = await res.json();
-                for (let i = 0; i < sentences.length; i++) {
-                    let parts = sentences[i]["sentence"].split(" ");
-                    for (let j = 0; j < parts.length; j++) {
-                        let word = parts[j].replace(/[^a-z]/gi, '').toLowerCase();
-                        if (!(word in knownWords)) knownWords[word] = [];
-                        knownWords[word].push(sentences[i]);
+            async function loadEmojis() {
+                // json file from https://github.com/muan/emojilib
+                let res = await fetch("emojis.json");
+                let emojiKeywords = await res.json();
+                for (emoji in emojiKeywords) {
+                    let keywords = emojiKeywords[emoji];
+                    for (let i = 0; i < keywords.length; i++) {
+                        if (!(keywords[i] in emojis)) emojis[keywords[i]] = "";
+                        emojis[keywords[i]] += emoji;
                     }
                 }
 
-                // from emojilib
-                let res2 = await fetch("emoji-only-words.json");
-                emojiOnlyWords = await res2.json();
+                emojis["lydia"] = "👧🏽"
             }
 
             function createLetterButtons() {
@@ -151,19 +131,9 @@
                     letterButtons[i].disabled = !test(extended);
                 }
                 document.querySelector("#typedTextContainer").innerHTML = typedText;
+                say(typedText);
 
-                let lowercaseTxt = typedText.toLowerCase();
-                say(lowercaseTxt);
-
-                if (lowercaseTxt in knownWords) {
-                    let r = Math.floor(Math.random() * knownWords[lowercaseTxt].length);
-                    let s = knownWords[lowercaseTxt][r];
-                    document.querySelector("#emojiArea").innerHTML = s["emojis"].join("");
-                    saySentence(s["sentence"], lowercaseTxt);
-                } else {
-                    document.querySelector("#emojiArea").innerHTML = emojiOnlyWords[lowercaseTxt] || "";
-                    document.querySelector("#sentenceArea").innerHTML = "";
-                }
+                document.querySelector("#emojiArea").innerHTML = emojis[typedText.toLowerCase()] || "";
             }
 
             function typeLetter(i) {
@@ -180,53 +150,11 @@
 
             function say(txt) {
                 synth.cancel();
-                synth.speak(new SpeechSynthesisUtterance(txt));
-            }
-
-            function saySentence(sentence, highlightedWord) {
-                // Generate spans
-                document.querySelector("#sentenceArea").innerHTML = "";
-                let parts = sentence.split(" ");
-                let partsWithData = [];
-                let lenSoFar = 0;
-                for (let i = 0; i < parts.length; i++) {
-                    partsWithData[i] = {};
-                    partsWithData[i]["txt"] = parts[i];
-                    partsWithData[i]["startPos"] = lenSoFar;
-                    lenSoFar += parts[i].length + 1;
-                    partsWithData[i]["span"] = document.createElement("span");
-                    partsWithData[i]["span"].appendChild(document.createTextNode(parts[i]));
-                    document.querySelector("#sentenceArea").appendChild(partsWithData[i]["span"]);
-                    document.querySelector("#sentenceArea").appendChild(document.createTextNode(" "));
-
-                    // Highlight the highlighted word
-                    if (parts[i].replace(/[^a-z]/gi, '').toLowerCase() == highlightedWord) {
-                        partsWithData[i]["span"].style.fontWeight = "bold";
-                    }
-                }
-
-                let utterance = new SpeechSynthesisUtterance(sentence);
-                utterance.rate = 0.5;
-                utterance.addEventListener("boundary", function(evt) {
-                    console.log(evt.charIndex);
-                    for (let i = 0; i < parts.length; i++) {
-                        if (partsWithData[i]["startPos"] == evt.charIndex) {
-                            partsWithData[i]["span"].classList.add("being-spoken");
-                        } else {
-                            partsWithData[i]["span"].classList.remove("being-spoken");
-                        }
-                    }
-                });
-                utterance.addEventListener("end", function() {
-                    for (let i = 0; i < parts.length; i++) {
-                        partsWithData[i]["span"].classList.remove("being-spoken");
-                    }
-                });
-                synth.speak(utterance);
+                synth.speak(new SpeechSynthesisUtterance(txt.toLowerCase()));
             }
 
             createLetterButtons();
-            loadKnownWords();
+            loadEmojis();
         </script>
     </body>
 </html>

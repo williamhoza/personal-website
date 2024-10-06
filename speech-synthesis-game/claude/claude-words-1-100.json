@@ -1,0 +1,282 @@
+{
+  "the": {
+    "sentence": "Can you point to the red ball?",
+    "emojis": ["👆", "🔴", "⚽"]
+  },
+  "of": {
+    "sentence": "Which of these toys is your favorite?",
+    "emojis": ["🤔", "🧸", "🎠"]
+  },
+  "and": {
+    "sentence": "Do you want cookies and milk?",
+    "emojis": ["🍪", "🥛"]
+  },
+  "to": {
+    "sentence": "Are you ready to go to the park?",
+    "emojis": ["🏞️", "🚶"]
+  },
+  "a": {
+    "sentence": "Can you draw a circle?",
+    "emojis": ["✏️", "⭕"]
+  },
+  "in": {
+    "sentence": "Let's put the toys in the box.",
+    "emojis": ["🧸", "📦"]
+  },
+  "for": {
+    "sentence": "What do you want for your birthday?",
+    "emojis": ["🎂", "🎁"]
+  },
+  "is": {
+    "sentence": "The sky is blue today.",
+    "emojis": ["☁️", "🔵"]
+  },
+  "on": {
+    "sentence": "Can you put your hat on?",
+    "emojis": ["🧢", "👒"]
+  },
+  "that": {
+    "sentence": "Do you like that book?",
+    "emojis": ["📚", "👍"]
+  },
+  "by": {
+    "sentence": "Let's sit by the window.",
+    "emojis": ["🪑", "🪟"]
+  },
+  "this": {
+    "sentence": "Is this your favorite color?",
+    "emojis": ["🌈", "❓"]
+  },
+  "with": {
+    "sentence": "Do you want to play with your friends?",
+    "emojis": ["👫", "🎮"]
+  },
+  "i": {
+    "sentence": "I love ice cream!",
+    "emojis": ["😍", "🍦"]
+  },
+  "you": {
+    "sentence": "Can you count to ten?",
+    "emojis": ["🔢", "🧮"]
+  },
+  "it": {
+    "sentence": "Where did you put it?",
+    "emojis": ["🤷", "🔍"]
+  },
+  "not": {
+    "sentence": "Are you not hungry?",
+    "emojis": ["🍽️", "❌"]
+  },
+  "or": {
+    "sentence": "Do you want an apple or a banana?",
+    "emojis": ["🍎", "🍌"]
+  },
+  "be": {
+    "sentence": "Will you be my friend?",
+    "emojis": ["🤝", "💖"]
+  },
+  "are": {
+    "sentence": "Are you happy today?",
+    "emojis": ["😊", "☀️"]
+  },
+  "from": {
+    "sentence": "Where are you from?",
+    "emojis": ["🌍", "🏠"]
+  },
+  "at": {
+    "sentence": "What time do you wake up at?",
+    "emojis": ["⏰", "🌅"]
+  },
+  "as": {
+    "sentence": "The cat is as soft as a pillow.",
+    "emojis": ["🐱", "🛏️"]
+  },
+  "your": {
+    "sentence": "What's your favorite animal?",
+    "emojis": ["🐘", "🦒", "🐶"]
+  },
+  "all": {
+    "sentence": "Did you eat all your vegetables?",
+    "emojis": ["🥕", "🥦", "🍅"]
+  },
+  "have": {
+    "sentence": "Do you have any pets?",
+    "emojis": ["🐕", "🐈", "🐠"]
+  },
+  "new": {
+    "sentence": "Do you like your new shoes?",
+    "emojis": ["👟", "✨"]
+  },
+  "more": {
+    "sentence": "Would you like more juice?",
+    "emojis": ["🧃", "➕"]
+  },
+  "an": {
+    "sentence": "Can you tell me an interesting story?",
+    "emojis": ["📖", "🧙"]
+  },
+  "was": {
+    "sentence": "How was your day at school?",
+    "emojis": ["🏫", "📚"]
+  },
+  "we": {
+    "sentence": "Shall we go for a walk?",
+    "emojis": ["🚶", "🌳"]
+  },
+  "will": {
+    "sentence": "Will you help me clean up?",
+    "emojis": ["🧹", "🧼"]
+  },
+  "home": {
+    "sentence": "When do you go home after school?",
+    "emojis": ["🏠", "🚶"]
+  },
+  "can": {
+    "sentence": "Can you touch your toes?",
+    "emojis": ["👇", "👣"]
+  },
+  "us": {
+    "sentence": "Can you sing with us?",
+    "emojis": ["🎤", "🎵"]
+  },
+  "about": {
+    "sentence": "What's your favorite thing about summer?",
+    "emojis": ["☀️", "🏖️"]
+  },
+  "if": {
+    "sentence": "If it rains, we'll stay inside.",
+    "emojis": ["🌧️", "🏠"]
+  },
+  "my": {
+    "sentence": "This is my favorite toy.",
+    "emojis": ["🧸", "❤️"]
+  },
+  "has": {
+    "sentence": "Who has seen my red crayon?",
+    "emojis": ["🖍️", "👀"]
+  },
+  "but": {
+    "sentence": "I like apples, but I love oranges.",
+    "emojis": ["🍎", "🍊"]
+  },
+  "our": {
+    "sentence": "Let's clean our room together.",
+    "emojis": ["🧼", "🧹"]
+  },
+  "one": {
+    "sentence": "Can you give me one more cookie?",
+    "emojis": ["1️⃣", "🍪"]
+  },
+  "other": {
+    "sentence": "What other games do you like to play?",
+    "emojis": ["🎲", "🏀"]
+  },
+  "do": {
+    "sentence": "What do you want to be when you grow up?",
+    "emojis": ["👩‍🚀", "👨‍🍳", "👩‍🏫"]
+  },
+  "no": {
+    "sentence": "Is there no more ice cream left?",
+    "emojis": ["🍦", "❌"]
+  },
+  "time": {
+    "sentence": "What time do you go to bed?",
+    "emojis": ["⏰", "🛏️"]
+  },
+  "they": {
+    "sentence": "They are my best friends.",
+    "emojis": ["👫", "❤️"]
+  },
+  "out": {
+    "sentence": "Let's go out and play in the sun!",
+    "emojis": ["🏃", "☀️"]
+  },
+  "use": {
+    "sentence": "Can you use a spoon to eat your soup?",
+    "emojis": ["🥄", "🍲"]
+  },
+  "any": {
+    "sentence": "Do you have any questions?",
+    "emojis": ["❓", "🤔"]
+  },
+  "there": {
+    "sentence": "Is there a dog in your house?",
+    "emojis": ["🏠", "🐕"]
+  },
+  "see": {
+    "sentence": "Can you see the rainbow?",
+    "emojis": ["👀", "🌈"]
+  },
+  "only": {
+    "sentence": "There's only one cookie left.",
+    "emojis": ["1️⃣", "🍪"]
+  },
+  "so": {
+    "sentence": "The kitten is so cute!",
+    "emojis": ["😍", "🐱"]
+  },
+  "his": {
+    "sentence": "The boy lost his toy car.",
+    "emojis": ["👦", "🚗"]
+  },
+  "when": {
+    "sentence": "When is your birthday?",
+    "emojis": ["🎂", "📅"]
+  },
+  "here": {
+    "sentence": "Come here and give me a hug!",
+    "emojis": ["🤗", "👉"]
+  },
+  "who": {
+    "sentence": "Who wants to play hide and seek?",
+    "emojis": ["🙋", "🏃"]
+  },
+  "now": {
+    "sentence": "It's time to brush your teeth now.",
+    "emojis": ["🪥", "⏰"]
+  },
+  "help": {
+    "sentence": "Can you help me water the plants?",
+    "emojis": ["🌱", "💧"]
+  },
+  "get": {
+    "sentence": "Let's get ready for bed.",
+    "emojis": ["🛏️", "😴"]
+  },
+  "how": {
+    "sentence": "How old are you?",
+    "emojis": ["🎂", "🔢"]
+  },
+  "were": {
+    "sentence": "Were you happy at the party?",
+    "emojis": ["🎉", "😊"]
+  },
+  "me": {
+    "sentence": "Can you draw a picture for me?",
+    "emojis": ["🎨", "🖼️"]
+  },
+  "some": {
+    "sentence": "Would you like some fruit?",
+    "emojis": ["🍎", "🍌", "🍓"]
+  },
+  "these": {
+    "sentence": "Do you like these stickers?",
+    "emojis": ["🌟", "📝"]
+  },
+  "its": {
+    "sentence": "The cat is licking its paw.",
+    "emojis": ["🐱", "🐾"]
+  },
+  "like": {
+    "sentence": "What foods do you like to eat?",
+    "emojis": ["🍕", "🍉", "🍗"]
+  },
+  "than": {
+    "sentence": "Is the elephant bigger than the mouse?",
+    "emojis": ["🐘", "🐁"]
+  },
+  "find": {
+    "sentence": "Can you find the hidden toy?",
+    "emojis": ["🔍", "🧸"]
+  }
+}

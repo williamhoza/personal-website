@@ -1,0 +1,186 @@
+{
+  "photo": {
+    "sentence": "Can we take a photo together?",
+    "emojis": ["📸", "👨‍👩‍👧‍👦"]
+  },
+  "game": {
+    "sentence": "What's your favorite board game?",
+    "emojis": ["🎲", "🧩"]
+  },
+  "power": {
+    "sentence": "The power went out during the storm.",
+    "emojis": ["⚡", "🌩️"]
+  },
+  "while": {
+    "sentence": "Can you sing while you dance?",
+    "emojis": ["🎤", "💃"]
+  },
+  "care": {
+    "sentence": "Please take good care of your pets.",
+    "emojis": ["🐶", "❤️"]
+  },
+  "down": {
+    "sentence": "The sun goes down in the evening.",
+    "emojis": ["🌅", "⬇️"]
+  },
+  "three": {
+    "sentence": "Can you count to three?",
+    "emojis": ["3️⃣", "🔢"]
+  },
+  "total": {
+    "sentence": "What's the total number of toys you have?",
+    "emojis": ["🧸", "🔢"]
+  },
+  "place": {
+    "sentence": "What's your favorite place to visit?",
+    "emojis": ["🏞️", "❓"]
+  },
+  "end": {
+    "sentence": "What happens at the end of the story?",
+    "emojis": ["📚", "🏁"]
+  },
+  "him": {
+    "sentence": "Can you give him the blue crayon?",
+    "emojis": ["👦", "🖍️"]
+  },
+  "without": {
+    "sentence": "Can you eat cereal without milk?",
+    "emojis": ["🥣", "❌🥛"]
+  },
+  "think": {
+    "sentence": "What do you think we should do today?",
+    "emojis": ["🤔", "📅"]
+  },
+  "big": {
+    "sentence": "Is an elephant big or small?",
+    "emojis": ["🐘", "📏"]
+  },
+  "water": {
+    "sentence": "Remember to drink plenty of water.",
+    "emojis": ["💧", "🥤"]
+  },
+  "history": {
+    "sentence": "Do you like learning about history?",
+    "emojis": ["📜", "🏛️"]
+  },
+  "pictures": {
+    "sentence": "Let's draw pictures of our family.",
+    "emojis": ["🎨", "👨‍👩‍👧‍👦"]
+  },
+  "size": {
+    "sentence": "What size shoes do you wear?",
+    "emojis": ["👟", "📏"]
+  },
+  "art": {
+    "sentence": "Do you enjoy making art?",
+    "emojis": ["🎨", "🖼️"]
+  },
+  "personal": {
+    "sentence": "This is my personal favorite book.",
+    "emojis": ["📚", "❤️"]
+  },
+  "since": {
+    "sentence": "How long has it been since breakfast?",
+    "emojis": ["🍳", "⏰"]
+  },
+  "including": {
+    "sentence": "Let's invite everyone, including your little brother.",
+    "emojis": ["🎉", "👶"]
+  },
+  "guide": {
+    "sentence": "Can you guide me to the playground?",
+    "emojis": ["🧭", "🛝"]
+  },
+  "shop": {
+    "sentence": "Let's shop for new school supplies.",
+    "emojis": ["🛒", "✏️"]
+  },
+  "change": {
+    "sentence": "Did you change into your pajamas?",
+    "emojis": ["👕", "🌙"]
+  },
+  "white": {
+    "sentence": "Is snow white or blue?",
+    "emojis": ["❄️", "⚪"]
+  },
+  "text": {
+    "sentence": "Can you read the text on this sign?",
+    "emojis": ["📝", "👀"]
+  },
+  "small": {
+    "sentence": "An ant is very small.",
+    "emojis": ["🐜", "🔍"]
+  },
+  "children": {
+    "sentence": "How many children are in your class?",
+    "emojis": ["👧👦", "🔢"]
+  },
+  "during": {
+    "sentence": "What do you like to do during recess?",
+    "emojis": ["⏱️", "🏃"]
+  },
+  "return": {
+    "sentence": "When will you return the library books?",
+    "emojis": ["📚", "🔙"]
+  },
+  "students": {
+    "sentence": "How many students are in your school?",
+    "emojis": ["🏫", "👥"]
+  },
+  "love": {
+    "sentence": "Do you love eating ice cream?",
+    "emojis": ["❤️", "🍦"]
+  },
+  "old": {
+    "sentence": "How old are you now?",
+    "emojis": ["🎂", "🔢"]
+  },
+  "main": {
+    "sentence": "What's the main color of your backpack?",
+    "emojis": ["🎒", "🌈"]
+  },
+  "call": {
+    "sentence": "Let's call grandma to say hello!",
+    "emojis": ["📞", "👵"]
+  },
+  "hours": {
+    "sentence": "How many hours did you sleep last night?",
+    "emojis": ["⏰", "😴"]
+  },
+  "image": {
+    "sentence": "Can you draw an image of your pet?",
+    "emojis": ["🎨", "🐶"]
+  },
+  "title": {
+    "sentence": "What's the title of your favorite book?",
+    "emojis": ["📚", "❓"]
+  },
+  "why": {
+    "sentence": "Why do you think the sky is blue?",
+    "emojis": ["🤔", "🌈"]
+  },
+  "still": {
+    "sentence": "Can you stand still like a statue?",
+    "emojis": ["🧍", "🗽"]
+  },
+  "money": {
+    "sentence": "Do you save your pocket money?",
+    "emojis": ["💰", "🐷"]
+  },
+  "every": {
+    "sentence": "Do you brush your teeth every day?",
+    "emojis": ["🪥", "📅"]
+  },
+  "little": {
+    "sentence": "Can you speak a little louder, please?",
+    "emojis": ["🗣️", "👂"]
+  },
+  "visit": {
+    "sentence": "When will you visit your grandparents?",
+    "emojis": ["👵👴", "🏠"]
+  },
+  "save": {
+    "sentence": "Don't forget to save your game progress!",
+    "emojis": ["💾", "🎮"]
+  }
+}

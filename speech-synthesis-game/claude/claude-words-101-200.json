@@ -1,0 +1,254 @@
+{
+  "price": {
+    "sentence": "What's the price of this toy?",
+    "emojis": ["💰", "🧸"]
+  },
+  "date": {
+    "sentence": "Do you know today's date?",
+    "emojis": ["📅", "❓"]
+  },
+  "back": {
+    "sentence": "When will you be back from school?",
+    "emojis": ["🏫", "🏠"]
+  },
+  "top": {
+    "sentence": "Can you reach the top shelf?",
+    "emojis": ["📚", "🙆"]
+  },
+  "people": {
+    "sentence": "How many people are in your family?",
+    "emojis": ["👨‍👩‍👧‍👦", "🔢"]
+  },
+  "had": {
+    "sentence": "Have you had your lunch yet?",
+    "emojis": ["🍽️", "🕐"]
+  },
+  "list": {
+    "sentence": "Can you make a list of your favorite foods?",
+    "emojis": ["📝", "🍕"]
+  },
+  "name": {
+    "sentence": "What's your pet's name?",
+    "emojis": ["🐶", "📛"]
+  },
+  "just": {
+    "sentence": "I just finished my homework.",
+    "emojis": ["✅", "📚"]
+  },
+  "over": {
+    "sentence": "Can you jump over this line?",
+    "emojis": ["🏃", "➖"]
+  },
+  "state": {
+    "sentence": "What state do you live in?",
+    "emojis": ["🏠", "🗺️"]
+  },
+  "year": {
+    "sentence": "What's your favorite time of the year?",
+    "emojis": ["🌞", "❄️"]
+  },
+  "day": {
+    "sentence": "Have a nice day!",
+    "emojis": ["☀️", "😊"]
+  },
+  "into": {
+    "sentence": "Let's go into the garden.",
+    "emojis": ["🚶", "🌻"]
+  },
+  "two": {
+    "sentence": "Can you count to two?",
+    "emojis": ["2️⃣", "🔢"]
+  },
+  "health": {
+    "sentence": "It's important to take care of your health.",
+    "emojis": ["🍎", "💪"]
+  },
+  "world": {
+    "sentence": "What's your favorite animal in the world?",
+    "emojis": ["🌍", "🐘"]
+  },
+  "next": {
+    "sentence": "What should we do next?",
+    "emojis": ["➡️", "🤔"]
+  },
+  "used": {
+    "sentence": "Have you used crayons before?",
+    "emojis": ["🖍️", "🎨"]
+  },
+  "go": {
+    "sentence": "Where do you want to go today?",
+    "emojis": ["🚶", "❓"]
+  },
+  "work": {
+    "sentence": "What kind of work do you want to do when you grow up?",
+    "emojis": ["👨‍🚀", "👩‍🍳"]
+  },
+  "last": {
+    "sentence": "What was the last book you read?",
+    "emojis": ["📚", "🤓"]
+  },
+  "most": {
+    "sentence": "Which fruit do you like the most?",
+    "emojis": ["🍎", "🍌", "🍓"]
+  },
+  "music": {
+    "sentence": "Do you like to dance to music?",
+    "emojis": ["🎵", "💃"]
+  },
+  "buy": {
+    "sentence": "What would you like to buy at the toy store?",
+    "emojis": ["🛒", "🧸"]
+  },
+  "make": {
+    "sentence": "Let's make a sandcastle!",
+    "emojis": ["🏖️", "🏰"]
+  },
+  "them": {
+    "sentence": "Do you want to give them a call?",
+    "emojis": ["📞", "👥"]
+  },
+  "should": {
+    "sentence": "Should we have pizza for dinner?",
+    "emojis": ["🍕", "🤔"]
+  },
+  "her": {
+    "sentence": "Can you give her the ball?",
+    "emojis": ["👧", "⚽"]
+  },
+  "city": {
+    "sentence": "What's your favorite place in the city?",
+    "emojis": ["🏙️", "❓"]
+  },
+  "add": {
+    "sentence": "Can you add two plus two?",
+    "emojis": ["➕", "🔢"]
+  },
+  "number": {
+    "sentence": "What's your favorite number?",
+    "emojis": ["🔢", "❤️"]
+  },
+  "such": {
+    "sentence": "You did such a good job!",
+    "emojis": ["👏", "🌟"]
+  },
+  "please": {
+    "sentence": "Please wash your hands before eating.",
+    "emojis": ["🧼", "🤲"]
+  },
+  "available": {
+    "sentence": "Is the swing available now?",
+    "emojis": ["�playground", "❓"]
+  },
+  "after": {
+    "sentence": "What do you do after school?",
+    "emojis": ["🏫", "⏰"]
+  },
+  "best": {
+    "sentence": "Who's your best friend?",
+    "emojis": ["👫", "❤️"]
+  },
+  "then": {
+    "sentence": "First, brush your teeth, then go to bed.",
+    "emojis": ["🪥", "🛏️"]
+  },
+  "good": {
+    "sentence": "Have a good night's sleep!",
+    "emojis": ["😴", "🌙"]
+  },
+  "video": {
+    "sentence": "Do you want to watch a funny video?",
+    "emojis": ["📺", "😂"]
+  },
+  "well": {
+    "sentence": "I hope you're feeling well today.",
+    "emojis": ["😊", "👍"]
+  },
+  "where": {
+    "sentence": "Where did you put your shoes?",
+    "emojis": ["👟", "🔍"]
+  },
+  "rights": {
+    "sentence": "Everyone has the right to be treated kindly.",
+    "emojis": ["🤝", "❤️"]
+  },
+  "high": {
+    "sentence": "Can you jump really high?",
+    "emojis": ["🦘", "⬆️"]
+  },
+  "school": {
+    "sentence": "What's your favorite subject in school?",
+    "emojis": ["🏫", "📚"]
+  },
+  "through": {
+    "sentence": "Can you see through the window?",
+    "emojis": ["👀", "🪟"]
+  },
+  "each": {
+    "sentence": "Let's give each person a cookie.",
+    "emojis": ["🍪", "👥"]
+  },
+  "she": {
+    "sentence": "She loves to play soccer.",
+    "emojis": ["👧", "⚽"]
+  },
+  "years": {
+    "sentence": "How many years old are you?",
+    "emojis": ["🎂", "🔢"]
+  },
+  "order": {
+    "sentence": "Can you put these numbers in order?",
+    "emojis": ["1️⃣", "2️⃣", "3️⃣"]
+  },
+  "very": {
+    "sentence": "The pizza is very yummy!",
+    "emojis": ["🍕", "😋"]
+  },
+  "book": {
+    "sentence": "What's your favorite book?",
+    "emojis": ["📚", "❤️"]
+  },
+  "items": {
+    "sentence": "How many items are in your backpack?",
+    "emojis": ["🎒", "🔢"]
+  },
+  "group": {
+    "sentence": "Let's sit in a group circle.",
+    "emojis": ["👥", "⭕"]
+  },
+  "need": {
+    "sentence": "Do you need help with your homework?",
+    "emojis": ["📚", "🆘"]
+  },
+  "many": {
+    "sentence": "How many fingers do you have?",
+    "emojis": ["🖐️", "🔢"]
+  },
+  "said": {
+    "sentence": "What did the teacher say?",
+    "emojis": ["👩‍🏫", "💬"]
+  },
+  "does": {
+    "sentence": "Does the sun shine at night?",
+    "emojis": ["☀️", "🌙"]
+  },
+  "set": {
+    "sentence": "Can you set the table for dinner?",
+    "emojis": ["🍽️", "🍴"]
+  },
+  "under": {
+    "sentence": "Is your toy under the bed?",
+    "emojis": ["🧸", "🛏️"]
+  },
+  "general": {
+    "sentence": "In general, what's your favorite color?",
+    "emojis": ["🌈", "❓"]
+  },
+  "life": {
+    "sentence": "What do you want to do in your life?",
+    "emojis": ["🌟", "🤔"]
+  },
+  "know": {
+    "sentence": "Do you know how to tie your shoes?",
+    "emojis": ["👟", "🤔"]
+  }
+}
