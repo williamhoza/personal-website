@@ -1,0 +1,1522 @@
+[
+  {
+    "sentence": "I love Lydia!",
+    "emojis": "🥰👧🏽"
+  },
+  {
+    "sentence": "Can you point to the red ball?",
+    "emojis": "👆🔴⚽"
+  },
+  {
+    "sentence": "Which of these toys is your favorite?",
+    "emojis": "🤔🧸🎠"
+  },
+  {
+    "sentence": "Do you want cookies and milk?",
+    "emojis": "🍪🥛"
+  },
+  {
+    "sentence": "Are you ready to go to the park?",
+    "emojis": "🏞️🚶"
+  },
+  {
+    "sentence": "Can you draw a circle?",
+    "emojis": "✏️⭕"
+  },
+  {
+    "sentence": "Let's put the toys in the box.",
+    "emojis": "🧸📦"
+  },
+  {
+    "sentence": "What do you want for your birthday?",
+    "emojis": "🎂🎁"
+  },
+  {
+    "sentence": "The sky is blue today.",
+    "emojis": "☁️🔵"
+  },
+  {
+    "sentence": "Can you put your hat on?",
+    "emojis": "🧢👒"
+  },
+  {
+    "sentence": "Do you like that book?",
+    "emojis": "📚👍"
+  },
+  {
+    "sentence": "Let's sit by the window.",
+    "emojis": "🪑🪟"
+  },
+  {
+    "sentence": "Is this your favorite color?",
+    "emojis": "🌈❓"
+  },
+  {
+    "sentence": "Do you want to play with your friends?",
+    "emojis": "👫🎮"
+  },
+  {
+    "sentence": "I love ice cream!",
+    "emojis": "😍🍦"
+  },
+  {
+    "sentence": "Can you count to ten?",
+    "emojis": "🔢🧮"
+  },
+  {
+    "sentence": "Where did you put it?",
+    "emojis": "🤷🔍"
+  },
+  {
+    "sentence": "Are you not hungry?",
+    "emojis": "🍽️❌"
+  },
+  {
+    "sentence": "Do you want an apple or a banana?",
+    "emojis": "🍎🍌"
+  },
+  {
+    "sentence": "Will you be my friend?",
+    "emojis": "🤝💖"
+  },
+  {
+    "sentence": "Are you happy today?",
+    "emojis": "😊☀️"
+  },
+  {
+    "sentence": "Where are you from?",
+    "emojis": "🌍🏠"
+  },
+  {
+    "sentence": "What time do you wake up at?",
+    "emojis": "⏰🌅"
+  },
+  {
+    "sentence": "The cat is as soft as a pillow.",
+    "emojis": "🐱🛏️"
+  },
+  {
+    "sentence": "What's your favorite animal?",
+    "emojis": "🐘🦒🐶"
+  },
+  {
+    "sentence": "Did you eat all your vegetables?",
+    "emojis": "🥕🥦🍅"
+  },
+  {
+    "sentence": "Do you have any pets?",
+    "emojis": "🐕🐈🐠"
+  },
+  {
+    "sentence": "Do you like your new shoes?",
+    "emojis": "👟✨"
+  },
+  {
+    "sentence": "Would you like more juice?",
+    "emojis": "🧃➕"
+  },
+  {
+    "sentence": "Can you tell me an interesting story?",
+    "emojis": "📖🧙"
+  },
+  {
+    "sentence": "How was your day at school?",
+    "emojis": "🏫📚"
+  },
+  {
+    "sentence": "Shall we go for a walk?",
+    "emojis": "🚶🌳"
+  },
+  {
+    "sentence": "Will you help me clean up?",
+    "emojis": "🧹🧼"
+  },
+  {
+    "sentence": "When do you go home after school?",
+    "emojis": "🏠🚶"
+  },
+  {
+    "sentence": "Can you touch your toes?",
+    "emojis": "👇👣"
+  },
+  {
+    "sentence": "Can you sing with us?",
+    "emojis": "🎤🎵"
+  },
+  {
+    "sentence": "What's your favorite thing about summer?",
+    "emojis": "☀️🏖️"
+  },
+  {
+    "sentence": "If it rains, we'll stay inside.",
+    "emojis": "🌧️🏠"
+  },
+  {
+    "sentence": "This is my favorite toy.",
+    "emojis": "🧸❤️"
+  },
+  {
+    "sentence": "Who has seen my red crayon?",
+    "emojis": "🖍️👀"
+  },
+  {
+    "sentence": "I like apples, but I love oranges.",
+    "emojis": "🍎🍊"
+  },
+  {
+    "sentence": "Let's clean our room together.",
+    "emojis": "🧼🧹"
+  },
+  {
+    "sentence": "Can you give me one more cookie?",
+    "emojis": "1️⃣🍪"
+  },
+  {
+    "sentence": "What other games do you like to play?",
+    "emojis": "🎲🏀"
+  },
+  {
+    "sentence": "What do you want to be when you grow up?",
+    "emojis": "👩‍🚀👨‍🍳👩‍🏫"
+  },
+  {
+    "sentence": "Is there no more ice cream left?",
+    "emojis": "🍦❌"
+  },
+  {
+    "sentence": "What time do you go to bed?",
+    "emojis": "⏰🛏️"
+  },
+  {
+    "sentence": "They are my best friends.",
+    "emojis": "👫❤️"
+  },
+  {
+    "sentence": "Let's go out and play in the sun!",
+    "emojis": "🏃☀️"
+  },
+  {
+    "sentence": "Can you use a spoon to eat your soup?",
+    "emojis": "🥄🍲"
+  },
+  {
+    "sentence": "Do you have any questions?",
+    "emojis": "❓🤔"
+  },
+  {
+    "sentence": "Is there a dog in your house?",
+    "emojis": "🏠🐕"
+  },
+  {
+    "sentence": "Can you see the rainbow?",
+    "emojis": "👀🌈"
+  },
+  {
+    "sentence": "There's only one cookie left.",
+    "emojis": "1️⃣🍪"
+  },
+  {
+    "sentence": "The kitten is so cute!",
+    "emojis": "😍🐱"
+  },
+  {
+    "sentence": "The boy lost his toy car.",
+    "emojis": "👦🚗"
+  },
+  {
+    "sentence": "When is your birthday?",
+    "emojis": "🎂📅"
+  },
+  {
+    "sentence": "Come here and give me a hug!",
+    "emojis": "🤗👉"
+  },
+  {
+    "sentence": "Who wants to play hide and seek?",
+    "emojis": "🙋🏃"
+  },
+  {
+    "sentence": "It's time to brush your teeth now.",
+    "emojis": "🪥⏰"
+  },
+  {
+    "sentence": "Can you help me water the plants?",
+    "emojis": "🌱💧"
+  },
+  {
+    "sentence": "Let's get ready for bed.",
+    "emojis": "🛏️😴"
+  },
+  {
+    "sentence": "How old are you?",
+    "emojis": "🎂🔢"
+  },
+  {
+    "sentence": "Were you happy at the party?",
+    "emojis": "🎉😊"
+  },
+  {
+    "sentence": "Can you draw a picture for me?",
+    "emojis": "🎨🖼️"
+  },
+  {
+    "sentence": "Would you like some fruit?",
+    "emojis": "🍎🍌🍓"
+  },
+  {
+    "sentence": "Do you like these stickers?",
+    "emojis": "🌟📝"
+  },
+  {
+    "sentence": "The cat is licking its paw.",
+    "emojis": "🐱🐾"
+  },
+  {
+    "sentence": "What foods do you like to eat?",
+    "emojis": "🍕🍉🍗"
+  },
+  {
+    "sentence": "Is the elephant bigger than the mouse?",
+    "emojis": "🐘🐁"
+  },
+  {
+    "sentence": "Can you find the hidden toy?",
+    "emojis": "🔍🧸"
+  },
+  {
+    "sentence": "What's the price of this toy?",
+    "emojis": "💰🧸"
+  },
+  {
+    "sentence": "Do you know today's date?",
+    "emojis": "📅❓"
+  },
+  {
+    "sentence": "When will you be back from school?",
+    "emojis": "🏫🏠"
+  },
+  {
+    "sentence": "Can you reach the top shelf?",
+    "emojis": "📚🙆"
+  },
+  {
+    "sentence": "How many people are in your family?",
+    "emojis": "👨‍👩‍👧‍👦🔢"
+  },
+  {
+    "sentence": "Have you had your lunch yet?",
+    "emojis": "🍽️🕐"
+  },
+  {
+    "sentence": "Can you make a list of your favorite foods?",
+    "emojis": "📝🍕"
+  },
+  {
+    "sentence": "What's your pet's name?",
+    "emojis": "🐶📛"
+  },
+  {
+    "sentence": "I just finished my homework.",
+    "emojis": "✅📚"
+  },
+  {
+    "sentence": "Can you jump over this line?",
+    "emojis": "🏃➖"
+  },
+  {
+    "sentence": "What state do you live in?",
+    "emojis": "🏠🗺️"
+  },
+  {
+    "sentence": "What's your favorite time of the year?",
+    "emojis": "🌞❄️"
+  },
+  {
+    "sentence": "Have a nice day!",
+    "emojis": "☀️😊"
+  },
+  {
+    "sentence": "Let's go into the garden.",
+    "emojis": "🚶🌻"
+  },
+  {
+    "sentence": "Can you count to two?",
+    "emojis": "2️⃣🔢"
+  },
+  {
+    "sentence": "It's important to take care of your health.",
+    "emojis": "🍎💪"
+  },
+  {
+    "sentence": "What's your favorite animal in the world?",
+    "emojis": "🌍🐘"
+  },
+  {
+    "sentence": "What should we do next?",
+    "emojis": "➡️🤔"
+  },
+  {
+    "sentence": "Have you used crayons before?",
+    "emojis": "🖍️🎨"
+  },
+  {
+    "sentence": "Where do you want to go today?",
+    "emojis": "🚶❓"
+  },
+  {
+    "sentence": "What kind of work do you want to do when you grow up?",
+    "emojis": "👨‍🚀👩‍🍳"
+  },
+  {
+    "sentence": "What was the last book you read?",
+    "emojis": "📚🤓"
+  },
+  {
+    "sentence": "Which fruit do you like the most?",
+    "emojis": "🍎🍌🍓"
+  },
+  {
+    "sentence": "Do you like to dance to music?",
+    "emojis": "🎵💃"
+  },
+  {
+    "sentence": "What would you like to buy at the toy store?",
+    "emojis": "🛒🧸"
+  },
+  {
+    "sentence": "Let's make a sandcastle!",
+    "emojis": "🏖️🏰"
+  },
+  {
+    "sentence": "Do you want to give them a call?",
+    "emojis": "📞👥"
+  },
+  {
+    "sentence": "Should we have pizza for dinner?",
+    "emojis": "🍕🤔"
+  },
+  {
+    "sentence": "Can you give her the ball?",
+    "emojis": "👧⚽"
+  },
+  {
+    "sentence": "What's your favorite place in the city?",
+    "emojis": "🏙️❓"
+  },
+  {
+    "sentence": "Can you add two plus two?",
+    "emojis": "➕🔢"
+  },
+  {
+    "sentence": "What's your favorite number?",
+    "emojis": "🔢❤️"
+  },
+  {
+    "sentence": "You did such a good job!",
+    "emojis": "👏🌟"
+  },
+  {
+    "sentence": "Please wash your hands before eating.",
+    "emojis": "🧼🤲"
+  },
+  {
+    "sentence": "Is the swing available now?",
+    "emojis": "�playground❓"
+  },
+  {
+    "sentence": "What do you do after school?",
+    "emojis": "🏫⏰"
+  },
+  {
+    "sentence": "Who's your best friend?",
+    "emojis": "👫❤️"
+  },
+  {
+    "sentence": "First, brush your teeth, then go to bed.",
+    "emojis": "🪥🛏️"
+  },
+  {
+    "sentence": "Have a good night's sleep!",
+    "emojis": "😴🌙"
+  },
+  {
+    "sentence": "Do you want to watch a funny video?",
+    "emojis": "📺😂"
+  },
+  {
+    "sentence": "I hope you're feeling well today.",
+    "emojis": "😊👍"
+  },
+  {
+    "sentence": "Where did you put your shoes?",
+    "emojis": "👟🔍"
+  },
+  {
+    "sentence": "Everyone has the right to be treated kindly.",
+    "emojis": "🤝❤️"
+  },
+  {
+    "sentence": "Can you jump really high?",
+    "emojis": "🦘⬆️"
+  },
+  {
+    "sentence": "What's your favorite subject in school?",
+    "emojis": "🏫📚"
+  },
+  {
+    "sentence": "Can you see through the window?",
+    "emojis": "👀🪟"
+  },
+  {
+    "sentence": "Let's give each person a cookie.",
+    "emojis": "🍪👥"
+  },
+  {
+    "sentence": "She loves to play soccer.",
+    "emojis": "👧⚽"
+  },
+  {
+    "sentence": "How many years old are you?",
+    "emojis": "🎂🔢"
+  },
+  {
+    "sentence": "Can you put these numbers in order?",
+    "emojis": "1️⃣2️⃣3️⃣"
+  },
+  {
+    "sentence": "The pizza is very yummy!",
+    "emojis": "🍕😋"
+  },
+  {
+    "sentence": "What's your favorite book?",
+    "emojis": "📚❤️"
+  },
+  {
+    "sentence": "How many items are in your backpack?",
+    "emojis": "🎒🔢"
+  },
+  {
+    "sentence": "Let's sit in a group circle.",
+    "emojis": "👥⭕"
+  },
+  {
+    "sentence": "Do you need help with your homework?",
+    "emojis": "📚🆘"
+  },
+  {
+    "sentence": "How many fingers do you have?",
+    "emojis": "🖐️🔢"
+  },
+  {
+    "sentence": "What did the teacher say?",
+    "emojis": "👩‍🏫💬"
+  },
+  {
+    "sentence": "Does the sun shine at night?",
+    "emojis": "☀️🌙"
+  },
+  {
+    "sentence": "Can you set the table for dinner?",
+    "emojis": "🍽️🍴"
+  },
+  {
+    "sentence": "Is your toy under the bed?",
+    "emojis": "🧸🛏️"
+  },
+  {
+    "sentence": "In general, what's your favorite color?",
+    "emojis": "🌈❓"
+  },
+  {
+    "sentence": "What do you want to do in your life?",
+    "emojis": "🌟🤔"
+  },
+  {
+    "sentence": "Do you know how to tie your shoes?",
+    "emojis": "👟🤔"
+  },
+  {
+    "sentence": "What games do you like to play?",
+    "emojis": "🎮🏀🎲"
+  },
+  {
+    "sentence": "Do you know the way to the park?",
+    "emojis": "🚶🏞️"
+  },
+  {
+    "sentence": "How many days are in a week?",
+    "emojis": "📅7️⃣"
+  },
+  {
+    "sentence": "Which part of the story did you like best?",
+    "emojis": "📚❤️"
+  },
+  {
+    "sentence": "Could you help me build this puzzle?",
+    "emojis": "🧩🤝"
+  },
+  {
+    "sentence": "You did a great job on your drawing!",
+    "emojis": "👍🎨"
+  },
+  {
+    "sentence": "Is that a real butterfly or a toy?",
+    "emojis": "🦋🧸"
+  },
+  {
+    "sentence": "You must brush your teeth before bed.",
+    "emojis": "🪥🛏️"
+  },
+  {
+    "sentence": "Let's go to the toy store!",
+    "emojis": "🏬🧸"
+  },
+  {
+    "sentence": "Do you like to travel to new places?",
+    "emojis": "✈️🌍"
+  },
+  {
+    "sentence": "Who made this delicious cake?",
+    "emojis": "🍰👨‍🍳"
+  },
+  {
+    "sentence": "Please turn off the lights before leaving.",
+    "emojis": "💡👋"
+  },
+  {
+    "sentence": "Can you draw a straight line?",
+    "emojis": "✏️📏"
+  },
+  {
+    "sentence": "What do you do before going to school?",
+    "emojis": "🏫⏰"
+  },
+  {
+    "sentence": "What did you eat for breakfast?",
+    "emojis": "🍳🥣"
+  },
+  {
+    "sentence": "Can you send this letter to grandma?",
+    "emojis": "✉️👵"
+  },
+  {
+    "sentence": "Is this the right way to hold a pencil?",
+    "emojis": "✏️🤔"
+  },
+  {
+    "sentence": "What type of ice cream do you want?",
+    "emojis": "🍦❓"
+  },
+  {
+    "sentence": "I love summer because it's warm and sunny.",
+    "emojis": "☀️😊"
+  },
+  {
+    "sentence": "Do you have a favorite local park?",
+    "emojis": "🏞️🏡"
+  },
+  {
+    "sentence": "Can you count those apples?",
+    "emojis": "🍎🔢"
+  },
+  {
+    "sentence": "Are you using the red crayon?",
+    "emojis": "🖍️🎨"
+  },
+  {
+    "sentence": "Let's see the results of our experiment!",
+    "emojis": "🧪🔬"
+  },
+  {
+    "sentence": "Can you take this book back to the library?",
+    "emojis": "📚🏫"
+  },
+  {
+    "sentence": "What do you want for your birthday?",
+    "emojis": "🎁🎂"
+  },
+  {
+    "sentence": "How many people are in your family?",
+    "emojis": "👨‍👩‍👧‍👦🔢"
+  },
+  {
+    "sentence": "How long can you hold your breath?",
+    "emojis": "⏱️😤"
+  },
+  {
+    "sentence": "Can you show me how to tie my shoes?",
+    "emojis": "👟🎀"
+  },
+  {
+    "sentence": "Is four an even number?",
+    "emojis": "4️⃣🧮"
+  },
+  {
+    "sentence": "Is your cat black or white?",
+    "emojis": "🐈‍⬛⚪"
+  },
+  {
+    "sentence": "Let's check if we have all our toys.",
+    "emojis": "🧸✅"
+  },
+  {
+    "sentence": "What's so special about your favorite toy?",
+    "emojis": "🎁🌟"
+  },
+  {
+    "sentence": "Can you sign your name on this card?",
+    "emojis": "✍️🎴"
+  },
+  {
+    "sentence": "Let's file your artwork in this folder.",
+    "emojis": "🗂️🎨"
+  },
+  {
+    "sentence": "Can you open the window, please?",
+    "emojis": "🪟👐"
+  },
+  {
+    "sentence": "In case it rains, bring an umbrella.",
+    "emojis": "🌧️☂️"
+  },
+  {
+    "sentence": "Are these two pictures the same?",
+    "emojis": "🖼️🤔"
+  },
+  {
+    "sentence": "Do you have your own room?",
+    "emojis": "🛏️🏠"
+  },
+  {
+    "sentence": "I found a shiny rock in the garden!",
+    "emojis": "💎🌺"
+  },
+  {
+    "sentence": "What color is your house?",
+    "emojis": "🏠🎨"
+  },
+  {
+    "sentence": "Do you like both apples and bananas?",
+    "emojis": "🍎🍌"
+  },
+  {
+    "sentence": "Can we take a photo together?",
+    "emojis": "📸👨‍👩‍👧‍👦"
+  },
+  {
+    "sentence": "What's your favorite board game?",
+    "emojis": "🎲🧩"
+  },
+  {
+    "sentence": "The power went out during the storm.",
+    "emojis": "⚡🌩️"
+  },
+  {
+    "sentence": "Can you sing while you dance?",
+    "emojis": "🎤💃"
+  },
+  {
+    "sentence": "Please take good care of your pets.",
+    "emojis": "🐶❤️"
+  },
+  {
+    "sentence": "The sun goes down in the evening.",
+    "emojis": "🌅⬇️"
+  },
+  {
+    "sentence": "Can you count to three?",
+    "emojis": "3️⃣🔢"
+  },
+  {
+    "sentence": "What's the total number of toys you have?",
+    "emojis": "🧸🔢"
+  },
+  {
+    "sentence": "What's your favorite place to visit?",
+    "emojis": "🏞️❓"
+  },
+  {
+    "sentence": "What happens at the end of the story?",
+    "emojis": "📚🏁"
+  },
+  {
+    "sentence": "Can you give him the blue crayon?",
+    "emojis": "👦🖍️"
+  },
+  {
+    "sentence": "Can you eat cereal without milk?",
+    "emojis": "🥣❌🥛"
+  },
+  {
+    "sentence": "What do you think we should do today?",
+    "emojis": "🤔📅"
+  },
+  {
+    "sentence": "Is an elephant big or small?",
+    "emojis": "🐘📏"
+  },
+  {
+    "sentence": "Remember to drink plenty of water.",
+    "emojis": "💧🥤"
+  },
+  {
+    "sentence": "Do you like learning about history?",
+    "emojis": "📜🏛️"
+  },
+  {
+    "sentence": "Let's draw pictures of our family.",
+    "emojis": "🎨👨‍👩‍👧‍👦"
+  },
+  {
+    "sentence": "What size shoes do you wear?",
+    "emojis": "👟📏"
+  },
+  {
+    "sentence": "Do you enjoy making art?",
+    "emojis": "🎨🖼️"
+  },
+  {
+    "sentence": "This is my personal favorite book.",
+    "emojis": "📚❤️"
+  },
+  {
+    "sentence": "How long has it been since breakfast?",
+    "emojis": "🍳⏰"
+  },
+  {
+    "sentence": "Let's invite everyone, including your little brother.",
+    "emojis": "🎉👶"
+  },
+  {
+    "sentence": "Can you guide me to the playground?",
+    "emojis": "🧭🛝"
+  },
+  {
+    "sentence": "Let's shop for new school supplies.",
+    "emojis": "🛒✏️"
+  },
+  {
+    "sentence": "Did you change into your pajamas?",
+    "emojis": "👕🌙"
+  },
+  {
+    "sentence": "Is snow white or blue?",
+    "emojis": "❄️⚪"
+  },
+  {
+    "sentence": "Can you read the text on this sign?",
+    "emojis": "📝👀"
+  },
+  {
+    "sentence": "An ant is very small.",
+    "emojis": "🐜🔍"
+  },
+  {
+    "sentence": "How many children are in your class?",
+    "emojis": "👧👦🔢"
+  },
+  {
+    "sentence": "What do you like to do during recess?",
+    "emojis": "⏱️🏃"
+  },
+  {
+    "sentence": "When will you return the library books?",
+    "emojis": "📚🔙"
+  },
+  {
+    "sentence": "How many students are in your school?",
+    "emojis": "🏫👥"
+  },
+  {
+    "sentence": "Do you love eating ice cream?",
+    "emojis": "❤️🍦"
+  },
+  {
+    "sentence": "How old are you now?",
+    "emojis": "🎂🔢"
+  },
+  {
+    "sentence": "What's the main color of your backpack?",
+    "emojis": "🎒🌈"
+  },
+  {
+    "sentence": "Let's call grandma to say hello!",
+    "emojis": "📞👵"
+  },
+  {
+    "sentence": "How many hours did you sleep last night?",
+    "emojis": "⏰😴"
+  },
+  {
+    "sentence": "Can you draw an image of your pet?",
+    "emojis": "🎨🐶"
+  },
+  {
+    "sentence": "What's the title of your favorite book?",
+    "emojis": "📚❓"
+  },
+  {
+    "sentence": "Why do you think the sky is blue?",
+    "emojis": "🤔🌈"
+  },
+  {
+    "sentence": "Can you stand still like a statue?",
+    "emojis": "🧍🗽"
+  },
+  {
+    "sentence": "Do you save your pocket money?",
+    "emojis": "💰🐷"
+  },
+  {
+    "sentence": "Do you brush your teeth every day?",
+    "emojis": "🪥📅"
+  },
+  {
+    "sentence": "Can you speak a little louder, please?",
+    "emojis": "🗣️👂"
+  },
+  {
+    "sentence": "When will you visit your grandparents?",
+    "emojis": "👵👴🏠"
+  },
+  {
+    "sentence": "Don't forget to save your game progress!",
+    "emojis": "💾🎮"
+  },
+  {
+    "sentence": "Can you speak in a low voice?",
+    "emojis": "🤫🔈"
+  },
+  {
+    "sentence": "Don't forget to reply to grandma's letter.",
+    "emojis": "✉️✍️"
+  },
+  {
+    "sentence": "Let's compare the sizes of these two toys.",
+    "emojis": "🧸📏"
+  },
+  {
+    "sentence": "What kind of movies do you like to watch?",
+    "emojis": "🎬🍿"
+  },
+  {
+    "sentence": "Let's include everyone in our game.",
+    "emojis": "🎮👥"
+  },
+  {
+    "sentence": "What do you value most in a friend?",
+    "emojis": "👫❤️"
+  },
+  {
+    "sentence": "The man helped the cat out of the tree.",
+    "emojis": "👨🐱"
+  },
+  {
+    "sentence": "What's your favorite food?",
+    "emojis": "🍕🍎"
+  },
+  {
+    "sentence": "How are cats and dogs different?",
+    "emojis": "🐱🐶"
+  },
+  {
+    "sentence": "What new thing did you learn today?",
+    "emojis": "📚💡"
+  },
+  {
+    "sentence": "Let's walk around the park.",
+    "emojis": "🚶🏞️"
+  },
+  {
+    "sentence": "Can you print your name neatly?",
+    "emojis": "✍️📝"
+  },
+  {
+    "sentence": "Of course you can have a cookie!",
+    "emojis": "😊🍪"
+  },
+  {
+    "sentence": "Is your room clean?",
+    "emojis": "🛏️🧹"
+  },
+  {
+    "sentence": "I like ice cream too!",
+    "emojis": "🍦😋"
+  },
+  {
+    "sentence": "Can you point to your nose?",
+    "emojis": "👆👃"
+  },
+  {
+    "sentence": "Would you like to join us for dinner?",
+    "emojis": "🍽️👨‍👩‍👧‍👦"
+  },
+  {
+    "sentence": "Do you enjoy learning about science?",
+    "emojis": "🔬🧪"
+  },
+  {
+    "sentence": "The men are playing basketball.",
+    "emojis": "👨👨🏀"
+  },
+  {
+    "sentence": "Look at that beautiful rainbow!",
+    "emojis": "👀🌈"
+  },
+  {
+    "sentence": "Is the park on the left or right?",
+    "emojis": "👈👉"
+  },
+  {
+    "sentence": "Which team are you cheering for?",
+    "emojis": "📣⚽"
+  },
+  {
+    "sentence": "Can you put your toys in the box?",
+    "emojis": "📦🧸"
+  },
+  {
+    "sentence": "Select your favorite color crayon.",
+    "emojis": "🖍️🌈"
+  },
+  {
+    "sentence": "How many days are in a week?",
+    "emojis": "📅7️⃣"
+  },
+  {
+    "sentence": "Let's write a thank you note to grandma.",
+    "emojis": "✏️📝"
+  },
+  {
+    "sentence": "Where do you live?",
+    "emojis": "🏠🌍"
+  },
+  {
+    "sentence": "An elephant is very large.",
+    "emojis": "🐘📏"
+  },
+  {
+    "sentence": "Please set the table for dinner.",
+    "emojis": "🍽️🍴"
+  },
+  {
+    "sentence": "I want to play outside; however, it's raining.",
+    "emojis": "🌧️☂️"
+  },
+  {
+    "sentence": "Do you really like broccoli?",
+    "emojis": "🥦🤔"
+  },
+  {
+    "sentence": "What action should we take to help the environment?",
+    "emojis": "🌍♻️"
+  },
+  {
+    "sentence": "When does school start?",
+    "emojis": "🏫🕐"
+  },
+  {
+    "sentence": "What features do you like about your new toy?",
+    "emojis": "🧸🌟"
+  },
+  {
+    "sentence": "Take a deep breath of fresh air.",
+    "emojis": "💨🌳"
+  },
+  {
+    "sentence": "What's your plan for the weekend?",
+    "emojis": "📅🤔"
+  },
+  {
+    "sentence": "Are you a human or a robot?",
+    "emojis": "🧑🤖"
+  },
+  {
+    "sentence": "Helmets are required when riding a bike.",
+    "emojis": "⛑️🚲"
+  },
+  {
+    "sentence": "Who came in second place in the race?",
+    "emojis": "🥈🏃"
+  },
+  {
+    "sentence": "Be careful, the soup is hot!",
+    "emojis": "🥣🔥"
+  },
+  {
+    "sentence": "How much does an ice cream cone cost?",
+    "emojis": "🍦💰"
+  },
+  {
+    "sentence": "Do you feel better after your nap?",
+    "emojis": "😴👍"
+  },
+  {
+    "sentence": "What do you say when someone gives you a gift?",
+    "emojis": "🎁🗨️"
+  },
+  {
+    "sentence": "Do you have any questions about the story?",
+    "emojis": "📚❓"
+  },
+  {
+    "sentence": "Where are you going for your vacation?",
+    "emojis": "✈️🏖️"
+  },
+  {
+    "sentence": "Did you study for your spelling test?",
+    "emojis": "📝🔤"
+  },
+  {
+    "sentence": "Who's your best friend at school?",
+    "emojis": "👫🏫"
+  },
+  {
+    "sentence": "Come and see what I found!",
+    "emojis": "👀🏃"
+  },
+  {
+    "sentence": "Let's study together for the quiz.",
+    "emojis": "📚🤓"
+  },
+  {
+    "sentence": "Do you want to play hide and seek?",
+    "emojis": "🙈🏃"
+  },
+  {
+    "sentence": "What are you looking for under the bed?",
+    "emojis": "🔍🛏️"
+  },
+  {
+    "sentence": "Are you having any issues with your homework?",
+    "emojis": "📚🤔"
+  },
+  {
+    "sentence": "I've never tried sushi before.",
+    "emojis": "🍣🚫"
+  },
+  {
+    "sentence": "Did you complete your chores?",
+    "emojis": "✅🧹"
+  },
+  {
+    "sentence": "Look both ways before crossing the street.",
+    "emojis": "👀🚸"
+  },
+  {
+    "sentence": "What's your favorite topic to learn about?",
+    "emojis": "📚❓"
+  },
+  {
+    "sentence": "Do you have any comment on the story?",
+    "emojis": "💬📖"
+  },
+  {
+    "sentence": "What things do you need for school?",
+    "emojis": "🎒✏️"
+  },
+  {
+    "sentence": "Is your toy car still working?",
+    "emojis": "🚗🔧"
+  },
+  {
+    "sentence": "Lean against the wall if you're tired.",
+    "emojis": "🧍🧱"
+  },
+  {
+    "sentence": "Who's the kindest person you know?",
+    "emojis": "😊❤️"
+  },
+  {
+    "sentence": "Look below the couch for your lost toy.",
+    "emojis": "👀🛋️"
+  },
+  {
+    "sentence": "Can you eat a little less candy?",
+    "emojis": "🍬⬇️"
+  },
+  {
+    "sentence": "Have you got all your school supplies?",
+    "emojis": "✏️📚"
+  },
+  {
+    "sentence": "Are you excited for the birthday party?",
+    "emojis": "🎉🎂"
+  },
+  {
+    "sentence": "Let's go to the playground!",
+    "emojis": "🏃🛝"
+  },
+  {
+    "sentence": "Can you see the stars above?",
+    "emojis": "🌟👆"
+  },
+  {
+    "sentence": "What's the most recent book you've read?",
+    "emojis": "📚🕰️"
+  },
+  {
+    "sentence": "Shall we have a picnic in the park?",
+    "emojis": "🧺🏞️"
+  },
+  {
+    "sentence": "Which side of the bed do you sleep on?",
+    "emojis": "🛏️➡️"
+  },
+  {
+    "sentence": "Can you act like your favorite animal?",
+    "emojis": "🎭🐘"
+  },
+  {
+    "sentence": "What's the problem with your toy?",
+    "emojis": "🧸❓"
+  },
+  {
+    "sentence": "Is your favorite color red?",
+    "emojis": "🔴❤️"
+  },
+  {
+    "sentence": "Let's give grandma a call.",
+    "emojis": "📞👵"
+  },
+  {
+    "sentence": "What's your favorite bedtime story?",
+    "emojis": "📖🛏️"
+  },
+  {
+    "sentence": "You're too young to watch that movie.",
+    "emojis": "👶🎬"
+  },
+  {
+    "sentence": "It's important to brush your teeth every day.",
+    "emojis": "🦷🪥"
+  },
+  {
+    "sentence": "Let's play in the grassy field.",
+    "emojis": "🏃🌿"
+  },
+  {
+    "sentence": "I have a few questions about the homework.",
+    "emojis": "❓📚"
+  },
+  {
+    "sentence": "Can you draw a picture on this paper?",
+    "emojis": "✏️📄"
+  },
+  {
+    "sentence": "Is there a single cookie left?",
+    "emojis": "🍪1️⃣"
+  },
+  {
+    "sentence": "What age did you learn to ride a bike?",
+    "emojis": "🚲🔢"
+  },
+  {
+    "sentence": "Which after-school club do you want to join?",
+    "emojis": "🏫⚽"
+  },
+  {
+    "sentence": "Can you give me an example of a fruit?",
+    "emojis": "🍎❓"
+  },
+  {
+    "sentence": "Do you need any additional help?",
+    "emojis": "🆘➕"
+  },
+  {
+    "sentence": "Did you hear something in the attic?",
+    "emojis": "👂🏠"
+  },
+  {
+    "sentence": "Which road leads to the school?",
+    "emojis": "🛣️🏫"
+  },
+  {
+    "sentence": "What gift do you want for your birthday?",
+    "emojis": "🎁🎂"
+  },
+  {
+    "sentence": "Do you have a question about the story?",
+    "emojis": "❓📚"
+  },
+  {
+    "sentence": "Do you prefer day or night?",
+    "emojis": "☀️🌙"
+  },
+  {
+    "sentence": "Math can be hard, but practice helps.",
+    "emojis": "🧮💪"
+  },
+  {
+    "sentence": "Did you pay attention in class?",
+    "emojis": "👀🏫"
+  },
+  {
+    "sentence": "Can you count to four?",
+    "emojis": "4️⃣🔢"
+  },
+  {
+    "sentence": "Are you building a tower with blocks?",
+    "emojis": "🏗️🧱"
+  },
+  {
+    "sentence": "Do you want to play on the basketball court?",
+    "emojis": "🏀🏟️"
+  },
+  {
+    "sentence": "Remember to always brush your teeth before bed.",
+    "emojis": "🦷🌙"
+  },
+  {
+    "sentence": "Is the night light too bright for you?",
+    "emojis": "💡🌙"
+  },
+  {
+    "sentence": "Can you write your name on this paper?",
+    "emojis": "✍️📝"
+  },
+  {
+    "sentence": "Would you like to offer your friend a cookie?",
+    "emojis": "🍪🤝"
+  },
+  {
+    "sentence": "Is the sky blue today?",
+    "emojis": "🦋🌊"
+  },
+  {
+    "sentence": "Can you sort these toys into groups?",
+    "emojis": "🧸🚗"
+  },
+  {
+    "sentence": "This puzzle is easy to solve!",
+    "emojis": "🧩😊"
+  },
+  {
+    "sentence": "Have you given your dog a treat today?",
+    "emojis": "🦴🐕"
+  },
+  {
+    "sentence": "Are you making a sandcastle at the beach?",
+    "emojis": "🏰🏖️"
+  },
+  {
+    "sentence": "Can I take a picture of your drawing?",
+    "emojis": "📸🖼️"
+  },
+  {
+    "sentence": "What does your pet need to be happy?",
+    "emojis": "🐱🦴"
+  },
+  {
+    "sentence": "Is it possible to touch your toes?",
+    "emojis": "🦶💪"
+  },
+  {
+    "sentence": "We might go to the park later.",
+    "emojis": "🤔🌳"
+  },
+  {
+    "sentence": "Have you finished your homework yet?",
+    "emojis": "📚⏳"
+  },
+  {
+    "sentence": "What's your favorite month of the year?",
+    "emojis": "📅🌞"
+  },
+  {
+    "sentence": "Can you see the bright star in the sky?",
+    "emojis": "⭐🌠"
+  },
+  {
+    "sentence": "Which areas of the playground do you like best?",
+    "emojis": "🏞️🎢"
+  },
+  {
+    "sentence": "What do you want to be in the future?",
+    "emojis": "🔮👩‍🚀"
+  },
+  {
+    "sentence": "Let's learn about planets in space!",
+    "emojis": "🚀🪐"
+  },
+  {
+    "sentence": "Can you raise your hand if you know the answer?",
+    "emojis": "✋🙋"
+  },
+  {
+    "sentence": "Is the sun shining brightly today?",
+    "emojis": "☀️😎"
+  },
+  {
+    "sentence": "Do you want to play a game of cards?",
+    "emojis": "🃏♠️"
+  },
+  {
+    "sentence": "Can I help you with any math problems?",
+    "emojis": "🧮❓"
+  },
+  {
+    "sentence": "Are you meeting your friend at the playground?",
+    "emojis": "🤝🏞️"
+  },
+  {
+    "sentence": "What do you want to become when you grow up?",
+    "emojis": "👩‍🚒🧑‍🍳"
+  },
+  {
+    "sentence": "What interests you the most in school?",
+    "emojis": "🏫🤔"
+  },
+  {
+    "sentence": "Every child is special and unique.",
+    "emojis": "👶🌟"
+  },
+  {
+    "sentence": "Can you keep your room tidy?",
+    "emojis": "🧹🏠"
+  },
+  {
+    "sentence": "It's nice to share your toys with friends.",
+    "emojis": "🧸🤝"
+  },
+  {
+    "sentence": "Can you find two similar shapes in this picture?",
+    "emojis": "🔴🔺"
+  },
+  {
+    "sentence": "Shall we plant flowers in the garden?",
+    "emojis": "🌻🌱"
+  },
+  {
+    "sentence": "Different schools have different mascots.",
+    "emojis": "🏫🐯"
+  },
+  {
+    "sentence": "There are millions of stars in the sky!",
+    "emojis": "🌠🔢"
+  },
+  {
+    "sentence": "Have you added sprinkles to your ice cream?",
+    "emojis": "🍦➕"
+  },
+  {
+    "sentence": "What new thing are you learning today?",
+    "emojis": "📚🧠"
+  },
+  {
+    "sentence": "Eating healthy food gives you lots of energy!",
+    "emojis": "🥗⚡"
+  },
+  {
+    "sentence": "Do you like to run in the park?",
+    "emojis": "🏃‍♀️🌳"
+  },
+  {
+    "sentence": "The pizza delivery just arrived!",
+    "emojis": "🍕🚚"
+  },
+  {
+    "sentence": "What's the most popular game at recess?",
+    "emojis": "🏀👍"
+  },
+  {
+    "sentence": "I love to read bedtime stories!",
+    "emojis": "📚🌙"
+  },
+  {
+    "sentence": "Can you put your toys back in the box?",
+    "emojis": "🧸📦"
+  },
+  {
+    "sentence": "Will you try this new fruit?",
+    "emojis": "🍎🥝"
+  },
+  {
+    "sentence": "Let's welcome the new student to our class!",
+    "emojis": "👋😊"
+  },
+  {
+    "sentence": "Can you describe the images in this book?",
+    "emojis": "🖼️📚"
+  },
+  {
+    "sentence": "Did you notice the butterfly on the flower?",
+    "emojis": "🦋🌺"
+  },
+  {
+    "sentence": "Your drawing is very original!",
+    "emojis": "🎨👏"
+  },
+  {
+    "sentence": "Can you pat your head and rub your tummy?",
+    "emojis": "🤯👋"
+  },
+  {
+    "sentence": "What's your favorite song on the radio?",
+    "emojis": "📻🎵"
+  },
+  {
+    "sentence": "Plants are made up of tiny cells.",
+    "emojis": "🌱🔬"
+  },
+  {
+    "sentence": "What's your favorite color to paint with?",
+    "emojis": "🎨🖌️"
+  },
+  {
+    "sentence": "It's important to believe in yourself!",
+    "emojis": "🌟💪"
+  },
+  {
+    "sentence": "How far away is the moon?",
+    "emojis": "🌙🚀"
+  },
+  {
+    "sentence": "Let's have a discussion about your favorite book.",
+    "emojis": "💬📚"
+  },
+  {
+    "sentence": "The pig rolled in the mud.",
+    "emojis": "🐷💦"
+  },
+  {
+    "sentence": "Can you imitate the sound a cow makes?",
+    "emojis": "🐮🔊"
+  },
+  {
+    "sentence": "Is the moon full or crescent tonight?",
+    "emojis": "🌕🌙"
+  },
+  {
+    "sentence": "The elephant's skin is gray.",
+    "emojis": "🐘🎨"
+  },
+  {
+    "sentence": "The sun is a bright yellow color.",
+    "emojis": "☀️🟡"
+  },
+  {
+    "sentence": "Can you give mommy a big hug?",
+    "emojis": "🤗👩"
+  },
+  {
+    "sentence": "My dad reads me a story every night.",
+    "emojis": "👨📚"
+  },
+  {
+    "sentence": "I love helping my mom in the kitchen.",
+    "emojis": "👩‍🍳❤️"
+  },
+  {
+    "sentence": "Can daddy push me on the swing?",
+    "emojis": "👨🏋️"
+  },
+  {
+    "sentence": "The grass is green in the springtime.",
+    "emojis": "🌿🍀"
+  },
+  {
+    "sentence": "Do you wish you could fly like a bird?",
+    "emojis": "🕊️💨"
+  }
+]

@@ -1,0 +1,194 @@
+{
+  "test": {
+    "sentence": "Did you study for your spelling test?",
+    "emojis": ["📝", "🔤"]
+  },
+  "friend": {
+    "sentence": "Who's your best friend at school?",
+    "emojis": ["👫", "🏫"]
+  },
+  "come": {
+    "sentence": "Come and see what I found!",
+    "emojis": ["👀", "🏃"]
+  },
+  "study": {
+    "sentence": "Let's study together for the quiz.",
+    "emojis": ["📚", "🤓"]
+  },
+  "play": {
+    "sentence": "Do you want to play hide and seek?",
+    "emojis": ["🙈", "🏃"]
+  },
+  "looking": {
+    "sentence": "What are you looking for under the bed?",
+    "emojis": ["🔍", "🛏️"]
+  },
+  "issues": {
+    "sentence": "Are you having any issues with your homework?",
+    "emojis": ["📚", "🤔"]
+  },
+  "never": {
+    "sentence": "I've never tried sushi before.",
+    "emojis": ["🍣", "🚫"]
+  },
+  "complete": {
+    "sentence": "Did you complete your chores?",
+    "emojis": ["✅", "🧹"]
+  },
+  "street": {
+    "sentence": "Look both ways before crossing the street.",
+    "emojis": ["👀", "🚸"]
+  },
+  "topic": {
+    "sentence": "What's your favorite topic to learn about?",
+    "emojis": ["📚", "❓"]
+  },
+  "comment": {
+    "sentence": "Do you have any comment on the story?",
+    "emojis": ["💬", "📖"]
+  },
+  "things": {
+    "sentence": "What things do you need for school?",
+    "emojis": ["🎒", "✏️"]
+  },
+  "working": {
+    "sentence": "Is your toy car still working?",
+    "emojis": ["🚗", "🔧"]
+  },
+  "against": {
+    "sentence": "Lean against the wall if you're tired.",
+    "emojis": ["🧍", "🧱"]
+  },
+  "person": {
+    "sentence": "Who's the kindest person you know?",
+    "emojis": ["😊", "❤️"]
+  },
+  "below": {
+    "sentence": "Look below the couch for your lost toy.",
+    "emojis": ["👀", "🛋️"]
+  },
+  "less": {
+    "sentence": "Can you eat a little less candy?",
+    "emojis": ["🍬", "⬇️"]
+  },
+  "got": {
+    "sentence": "Have you got all your school supplies?",
+    "emojis": ["✏️", "📚"]
+  },
+  "party": {
+    "sentence": "Are you excited for the birthday party?",
+    "emojis": ["🎉", "🎂"]
+  },
+  "let": {
+    "sentence": "Let's go to the playground!",
+    "emojis": ["🏃", "🛝"]
+  },
+  "above": {
+    "sentence": "Can you see the stars above?",
+    "emojis": ["🌟", "👆"]
+  },
+  "recent": {
+    "sentence": "What's the most recent book you've read?",
+    "emojis": ["📚", "🕰️"]
+  },
+  "park": {
+    "sentence": "Shall we have a picnic in the park?",
+    "emojis": ["🧺", "🏞️"]
+  },
+  "side": {
+    "sentence": "Which side of the bed do you sleep on?",
+    "emojis": ["🛏️", "➡️"]
+  },
+  "act": {
+    "sentence": "Can you act like your favorite animal?",
+    "emojis": ["🎭", "🐘"]
+  },
+  "problem": {
+    "sentence": "What's the problem with your toy?",
+    "emojis": ["🧸", "❓"]
+  },
+  "red": {
+    "sentence": "Is your favorite color red?",
+    "emojis": ["🔴", "❤️"]
+  },
+  "give": {
+    "sentence": "Let's give grandma a call.",
+    "emojis": ["📞", "👵"]
+  },
+  "story": {
+    "sentence": "What's your favorite bedtime story?",
+    "emojis": ["📖", "🛏️"]
+  },
+  "young": {
+    "sentence": "You're too young to watch that movie.",
+    "emojis": ["👶", "🎬"]
+  },
+  "important": {
+    "sentence": "It's important to brush your teeth every day.",
+    "emojis": ["🦷", "🪥"]
+  },
+  "field": {
+    "sentence": "Let's play in the grassy field.",
+    "emojis": ["🏃", "🌿"]
+  },
+  "few": {
+    "sentence": "I have a few questions about the homework.",
+    "emojis": ["❓", "📚"]
+  },
+  "paper": {
+    "sentence": "Can you draw a picture on this paper?",
+    "emojis": ["✏️", "📄"]
+  },
+  "single": {
+    "sentence": "Is there a single cookie left?",
+    "emojis": ["🍪", "1️⃣"]
+  },
+  "age": {
+    "sentence": "What age did you learn to ride a bike?",
+    "emojis": ["🚲", "🔢"]
+  },
+  "club": {
+    "sentence": "Which after-school club do you want to join?",
+    "emojis": ["🏫", "⚽"]
+  },
+  "example": {
+    "sentence": "Can you give me an example of a fruit?",
+    "emojis": ["🍎", "❓"]
+  },
+  "additional": {
+    "sentence": "Do you need any additional help?",
+    "emojis": ["🆘", "➕"]
+  },
+  "something": {
+    "sentence": "Did you hear something in the attic?",
+    "emojis": ["👂", "🏠"]
+  },
+  "road": {
+    "sentence": "Which road leads to the school?",
+    "emojis": ["🛣️", "🏫"]
+  },
+  "gift": {
+    "sentence": "What gift do you want for your birthday?",
+    "emojis": ["🎁", "🎂"]
+  },
+  "question": {
+    "sentence": "Do you have a question about the story?",
+    "emojis": ["❓", "📚"]
+  },
+  "night": {
+    "sentence": "Do you prefer day or night?",
+    "emojis": ["☀️", "🌙"]
+  },
+  "hard": {
+    "sentence": "Math can be hard, but practice helps.",
+    "emojis": ["🧮", "💪"]
+  },
+  "pay": {
+    "sentence": "Did you pay attention in class?",
+    "emojis": ["👀", "🏫"]
+  },
+  "four": {
+    "sentence": "Can you count to four?",
+    "emojis": ["4️⃣", "🔢"]
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "games": {
+    "sentence": "What games do you like to play?",
+    "emojis": ["🎮", "🏀", "🎲"]
+  },
+  "way": {
+    "sentence": "Do you know the way to the park?",
+    "emojis": ["🚶", "🏞️"]
+  },
+  "days": {
+    "sentence": "How many days are in a week?",
+    "emojis": ["📅", "7️⃣"]
+  },
+  "part": {
+    "sentence": "Which part of the story did you like best?",
+    "emojis": ["📚", "❤️"]
+  },
+  "could": {
+    "sentence": "Could you help me build this puzzle?",
+    "emojis": ["🧩", "🤝"]
+  },
+  "great": {
+    "sentence": "You did a great job on your drawing!",
+    "emojis": ["👍", "🎨"]
+  },
+  "real": {
+    "sentence": "Is that a real butterfly or a toy?",
+    "emojis": ["🦋", "🧸"]
+  },
+  "must": {
+    "sentence": "You must brush your teeth before bed.",
+    "emojis": ["🪥", "🛏️"]
+  },
+  "store": {
+    "sentence": "Let's go to the toy store!",
+    "emojis": ["🏬", "🧸"]
+  },
+  "travel": {
+    "sentence": "Do you like to travel to new places?",
+    "emojis": ["✈️", "🌍"]
+  },
+  "made": {
+    "sentence": "Who made this delicious cake?",
+    "emojis": ["🍰", "👨‍🍳"]
+  },
+  "off": {
+    "sentence": "Please turn off the lights before leaving.",
+    "emojis": ["💡", "👋"]
+  },
+  "line": {
+    "sentence": "Can you draw a straight line?",
+    "emojis": ["✏️", "📏"]
+  },
+  "before": {
+    "sentence": "What do you do before going to school?",
+    "emojis": ["🏫", "⏰"]
+  },
+  "did": {
+    "sentence": "What did you eat for breakfast?",
+    "emojis": ["🍳", "🥣"]
+  },
+  "send": {
+    "sentence": "Can you send this letter to grandma?",
+    "emojis": ["✉️", "👵"]
+  },
+  "right": {
+    "sentence": "Is this the right way to hold a pencil?",
+    "emojis": ["✏️", "🤔"]
+  },
+  "type": {
+    "sentence": "What type of ice cream do you want?",
+    "emojis": ["🍦", "❓"]
+  },
+  "because": {
+    "sentence": "I love summer because it's warm and sunny.",
+    "emojis": ["☀️", "😊"]
+  },
+  "local": {
+    "sentence": "Do you have a favorite local park?",
+    "emojis": ["🏞️", "🏡"]
+  },
+  "those": {
+    "sentence": "Can you count those apples?",
+    "emojis": ["🍎", "🔢"]
+  },
+  "using": {
+    "sentence": "Are you using the red crayon?",
+    "emojis": ["🖍️", "🎨"]
+  },
+  "results": {
+    "sentence": "Let's see the results of our experiment!",
+    "emojis": ["🧪", "🔬"]
+  },
+  "take": {
+    "sentence": "Can you take this book back to the library?",
+    "emojis": ["📚", "🏫"]
+  },
+  "want": {
+    "sentence": "What do you want for your birthday?",
+    "emojis": ["🎁", "🎂"]
+  },
+  "family": {
+    "sentence": "How many people are in your family?",
+    "emojis": ["👨‍👩‍👧‍👦", "🔢"]
+  },
+  "long": {
+    "sentence": "How long can you hold your breath?",
+    "emojis": ["⏱️", "😤"]
+  },
+  "show": {
+    "sentence": "Can you show me how to tie my shoes?",
+    "emojis": ["👟", "🎀"]
+  },
+  "even": {
+    "sentence": "Is four an even number?",
+    "emojis": ["4️⃣", "🧮"]
+  },
+  "black": {
+    "sentence": "Is your cat black or white?",
+    "emojis": ["🐈‍⬛", "⚪"]
+  },
+  "check": {
+    "sentence": "Let's check if we have all our toys.",
+    "emojis": ["🧸", "✅"]
+  },
+  "special": {
+    "sentence": "What's so special about your favorite toy?",
+    "emojis": ["🎁", "🌟"]
+  },
+  "sign": {
+    "sentence": "Can you sign your name on this card?",
+    "emojis": ["✍️", "🎴"]
+  },
+  "file": {
+    "sentence": "Let's file your artwork in this folder.",
+    "emojis": ["🗂️", "🎨"]
+  },
+  "open": {
+    "sentence": "Can you open the window, please?",
+    "emojis": ["🪟", "👐"]
+  },
+  "case": {
+    "sentence": "In case it rains, bring an umbrella.",
+    "emojis": ["🌧️", "☂️"]
+  },
+  "same": {
+    "sentence": "Are these two pictures the same?",
+    "emojis": ["🖼️", "🤔"]
+  },
+  "own": {
+    "sentence": "Do you have your own room?",
+    "emojis": ["🛏️", "🏠"]
+  },
+  "found": {
+    "sentence": "I found a shiny rock in the garden!",
+    "emojis": ["💎", "🌺"]
+  },
+  "house": {
+    "sentence": "What color is your house?",
+    "emojis": ["🏠", "🎨"]
+  },
+  "both": {
+    "sentence": "Do you like both apples and bananas?",
+    "emojis": ["🍎", "🍌"]
+  }
+}

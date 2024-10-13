@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="manifest" href="manifest.json?v=2" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+        <style>
+            main {
+                margin:auto;
+                max-width:800px;
+                text-align:center;
+            }
+
+            #letterButtonContainer button {
+                font-size:22px;
+                margin:5px;
+                width:45px;
+                height:45px;
+                background-color:#c0a0ff;
+                font-family: "Balsamiq Sans", sans-serif;
+            }
+
+            #letterButtonContainer button[disabled] {
+                background-color:#f0f0f0;
+                color:#d0d0d0;
+            }
+
+            #textDisplay {
+                border:1px solid gray;
+                padding:3px;
+                margin-top:10px;
+            }
+
+            /* Shimmer effect from https://www.codeguage.com/blog/shimmer-effect-html-css */
+            .shimmer {
+                border:3px solid #008000;
+                bacxkground: linear-gradient(-45deg, #cfc 40%, #efe 50%, #cfc 60%);
+                background: linear-gradient(-45deg, #cfc 20%, #cff 50%, #cfc 80%);
+                background-size: 300%;
+                background-position-x: 100%;
+                animation: shimmer 1s infinite linear;
+            }
+
+            @keyframes shimmer {
+                to {
+                    background-position-x: 0%;
+                }
+            }
+
+            #typedTextContainer {
+                font-size:22px;
+                word-wrap:break-word;
+                width:calc(100% - 80px);
+                display:inline-block;
+                font-family: "Balsamiq Sans", sans-serif;
+                letter-spacing:2px;
+            }
+
+            #textDisplay button {
+                vertical-align:top;
+            }
+
+            #emojiArea {
+                font-size:50px;
+                height:200px;
+                margin-top:10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <div id="letterButtonContainer"></div>
+
+            <div id="textDisplay">
+                <button id="speakButton" onclick="say(typedText);">🔊</button>
+                <div id="typedTextContainer"></div>
+                <button id="backspaceButton" onclick="backspace();">⌫</button>
+            </div>
+            
+            <div id="emojiArea"></div>
+
+            <!--input type="text" id="testText"> <button onclick="say(document.querySelector('#testText').value);">say</button-->
+        </main>
+
+        <script src="pronounceable.js"></script>
+
+        <script>
+            const synth = window.speechSynthesis;
+            const letterButtons = [];
+            let typedText = "";
+
+            let emojis = {};
+
+            async function loadEmojis() {
+                // json file from https://github.com/muan/emojilib
+                let res = await fetch("emojis.json");
+                let emojiKeywords = await res.json();
+                for (emoji in emojiKeywords) {
+                    let keywords = emojiKeywords[emoji];
+                    for (let i = 0; i < keywords.length; i++) {
+                        if (!(keywords[i] in emojis)) emojis[keywords[i]] = "";
+                        emojis[keywords[i]] += emoji;
+                    }
+                }
+
+                emojis["lydia"] = "👧🏽"
+            }
+
+            function createLetterButtons() {
+                for (let i = 0; i < 26; i++) {
+                    letterButtons[i] = document.createElement("button");
+                    letterButtons[i].appendChild(document.createTextNode(String.fromCharCode(65 + i)));
+                    document.querySelector("#letterButtonContainer").appendChild(letterButtons[i]);
+                    letterButtons[i].addEventListener("click", function() {
+                        typeLetter(i);
+                    })
+                }
+            }
+
+            function updateTypedText(newVal) {
+                typedText = newVal;
+                for (let i = 0; i < 26; i++) {
+                    extended = newVal + String.fromCharCode(65 + i);
+                    letterButtons[i].disabled = !test(extended);
+                }
+                document.querySelector("#typedTextContainer").innerHTML = typedText;
+                say(typedText);
+
+                document.querySelector("#emojiArea").innerHTML = emojis[typedText.toLowerCase()] || "";
+            }
+
+            function typeLetter(i) {
+                updateTypedText(typedText + String.fromCharCode(65 + i));
+            }
+
+            function backspace() {
+                updateTypedText(typedText.substr(0, typedText.length - 1));
+            }
+
+            function clear() {
+                updateTypedText("");
+            }
+
+            function say(txt) {
+                synth.cancel();
+                synth.speak(new SpeechSynthesisUtterance(txt.toLowerCase()));
+            }
+
+            createLetterButtons();
+            loadEmojis();
+        </script>
+    </body>
+</html>

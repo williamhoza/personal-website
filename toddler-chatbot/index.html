@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="manifest" href="manifest.json?v=2" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+        <style>
+            html, body {
+                height:100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            main {
+                margin:auto;
+                max-width:800px;
+                text-align:center;
+                display:grid;
+                grid-template-rows: 1fr min-content min-content;
+                height:100%;
+            }
+
+            #keyboardContainer button {
+                font-size:22px;
+                margin:5px;
+                width:45px;
+                height:45px;
+                background-color:#c0a0ff;
+                font-family: "Balsamiq Sans", sans-serif;
+                vertical-align:middle;
+            }
+
+            #keyboardContainer button[disabled] {
+                background-color:#f0f0f0;
+                color:#d0d0d0;
+            }
+
+            .being-spoken {
+                background-color: #ff0;
+                text-decoration:underline;
+            }
+
+            #userInputFieldContainer {
+                margin-top:5px;
+                margin-bottom:5px;
+            }
+
+            #userInputField {
+                font-size:22px;
+                word-wrap:break-word;
+                width:calc(100% - 90px);
+                display:inline-block;
+                font-family: "Balsamiq Sans", sans-serif;
+                letter-spacing:2px;
+                border:2px solid gray;
+                min-height:27px;
+                padding:4px 0;
+            }
+
+            #userInputField.recognized-word {
+                border:2px solid black;
+                background-color: #ff8;
+            }
+
+            #userInputFieldContainer button {
+                vertical-align:top;
+                width:34px;
+                height:34px;
+            }
+
+            #userInputFieldContainer button img {
+                width:100%;
+                height:100%;
+            }
+
+            #sentenceArea {
+                font-size:18px;
+                margin-top:15px;
+            }
+
+            #speakButton, #backspaceButton {
+                font-size:18px;
+            }
+
+            #transcriptContainer {
+                font-size:22px;
+                overflow:hidden;
+                display:flex;
+                flex-direction:column;
+                justify-content:end;
+            }
+
+            #transcript {
+                overflow:scroll;
+            }
+
+            .user-message, .bot-message {
+                border-radius:5px;
+                width:max-content;
+                max-width:80%;
+                padding:5px;
+                margin:5px;
+                text-align:left;
+            }
+
+            .user-message {
+                background-color:#c0a0ff;
+                margin-left:auto;
+            }
+
+            .bot-message {
+                background-color:#e0e0e0;
+            }
+
+            .emoji-message {
+                font-size: 50px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <div id="transcriptContainer">
+                <div id="transcript"></div>
+            </div>
+            <div id="userInputFieldContainer">
+                <div id="userInputField"></div>
+                <button onclick="send();"><img src="send-icon.svg" /></button>
+            </div>
+            <div id="keyboardContainer"></div>
+        </main>
+
+        <script src="pronounceable.js"></script>
+
+        <script>
+            const synth = window.speechSynthesis;
+            const letterButtons = [];
+            let backspaceButton;
+            let userInput = "";
+            let messages = [];
+
+            let knownWords = {};
+            let emojiOnlyWords = {};
+
+            async function loadKnownWords() {
+                // from Claude
+                let res = await fetch("sentences.json?v=2");
+                let sentences = await res.json();
+                for (let i = 0; i < sentences.length; i++) {
+                    let parts = sentences[i]["sentence"].split(" ");
+                    for (let j = 0; j < parts.length; j++) {
+                        let word = parts[j].replace(/[^a-z]/gi, '').toLowerCase();
+                        if (!(word in knownWords)) knownWords[word] = sentences[i];
+                    }
+                }
+
+                // from emojilib
+                let res2 = await fetch("emoji-only-words.json?v2");
+                emojiOnlyWords = await res2.json();
+            }
+
+            function createKeyboard() {
+                for (let i = 0; i < 26; i++) {
+                    letterButtons[i] = document.createElement("button");
+                    letterButtons[i].appendChild(document.createTextNode(String.fromCharCode(65 + i)));
+                    document.querySelector("#keyboardContainer").appendChild(letterButtons[i]);
+                    letterButtons[i].addEventListener("click", function() {
+                        typeLetter(i);
+                    })
+                }
+
+                backspaceButton = document.createElement("button");
+                backspaceButton.appendChild(document.createTextNode("⌫"));
+                backspaceButton.disabled = true;
+                document.querySelector("#keyboardContainer").appendChild(backspaceButton);
+                backspaceButton.addEventListener("click", backspace);
+            }
+
+            function setUserInput(s) {
+                userInput = s;
+                document.querySelector("#userInputField").innerHTML = userInput;
+                say(userInput.toLowerCase());
+
+                for (let i = 0; i < 26; i++) {
+                    extended = s + String.fromCharCode(65 + i);
+                    letterButtons[i].disabled = !test(extended);
+                }
+
+                backspaceButton.disabled = (s == "");
+
+                if (s.toLowerCase() in knownWords || s.toLowerCase() in emojiOnlyWords) {
+                    document.querySelector("#userInputField").classList.add("recognized-word");
+                } else {
+                    document.querySelector("#userInputField").classList.remove("recognized-word");
+                }
+            }
+
+            function typeLetter(i) {
+                setUserInput(userInput + String.fromCharCode(65 + i));
+            }
+
+            function backspace() {
+                setUserInput(userInput.substr(0, userInput.length - 1));
+            }
+
+            function say(txt) {
+                synth.cancel();
+                synth.speak(new SpeechSynthesisUtterance(txt));
+            }
+
+            function send() {
+                let oldUserInput = userInput;
+                setUserInput("");
+
+                messages.push(new Message(true, oldUserInput, null, false));
+
+                let lcUserInput = oldUserInput.toLowerCase();
+
+                if (lcUserInput in knownWords) {
+                    messages.push(new Message(false, knownWords[lcUserInput]["sentence"], lcUserInput, false));
+                    messages.push(new Message(false, knownWords[lcUserInput]["emojis"], null, true));
+                } else if(lcUserInput in emojiOnlyWords) {
+                    messages.push(new Message(false, emojiOnlyWords[lcUserInput], null, true));
+                }
+            }
+
+            class Message {
+                constructor(fromUser, content, highlightedWord, emojiMessage) {
+                    this.fromUser = fromUser;
+                    this.content = content;
+                    this.emojiMessage = emojiMessage;
+                    this.highlightedWord = highlightedWord;
+                    
+                    this.containerDiv = document.createElement("div");
+                    if (fromUser) {
+                        this.containerDiv.classList.add("user-message");
+                    } else {
+                        this.containerDiv.classList.add("bot-message");
+                    }
+
+                    if (emojiMessage) {
+                        this.containerDiv.classList.add("emoji-message");
+                    }
+
+                    this.generateParts();
+                    if (!this.emojiMessage) {
+                        this.generateUtterance();
+                        synth.speak(this.utterance);
+                    }
+                    document.querySelector("#transcript").appendChild(this.containerDiv);
+                    document.querySelector("#transcript").scrollTop = document.querySelector("#transcript").scrollHeight;
+
+                    let m = this;
+                    this.containerDiv.addEventListener("click", function() {
+                        synth.cancel();
+                        synth.speak(m.utterance);
+                    })
+                }
+
+                generateParts() {
+                    let contentParts = this.content.split(" ");
+                    this.partData = [];
+                    let lenSoFar = 0;
+                    for (let i = 0; i < contentParts.length; i++) {
+                        this.partData[i] = {};
+                        this.partData[i]["txt"] = contentParts[i];
+                        this.partData[i]["startPos"] = lenSoFar;
+                        lenSoFar += contentParts[i].length + 1;
+                        this.partData[i]["span"] = document.createElement("span");
+                        this.partData[i]["span"].appendChild(document.createTextNode(contentParts[i]));
+                        this.containerDiv.appendChild(this.partData[i]["span"]);
+                        this.containerDiv.appendChild(document.createTextNode(" "));
+
+                        // Highlight the highlighted word
+                        if (contentParts[i].replace(/[^a-z]/gi, '').toLowerCase() == this.highlightedWord) {
+                            this.partData[i]["span"].style.fontWeight = "bold";
+                        }
+                    }
+                }
+
+                generateUtterance() {
+                    this.utterance = new SpeechSynthesisUtterance(this.content.toLowerCase());
+                    this.utterance.rate = this.fromUser ? 1 : 0.5;
+                    let m = this;
+                    this.utterance.addEventListener("boundary", function(evt) {
+                        for (let i = 0; i < m.partData.length; i++) {
+                            if (m.partData[i]["startPos"] == evt.charIndex) {
+                                m.partData[i]["span"].classList.add("being-spoken");
+                            } else {
+                                m.partData[i]["span"].classList.remove("being-spoken");
+                            }
+                        }
+                    });
+                    this.utterance.addEventListener("end", function() {
+                        for (let i = 0; i < m.partData.length; i++) {
+                            m.partData[i]["span"].classList.remove("being-spoken");
+                        }
+                    });
+                }
+            }
+
+            createKeyboard();
+            loadKnownWords();
+        </script>
+    </body>
+</html>
