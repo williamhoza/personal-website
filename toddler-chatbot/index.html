@@ -115,7 +115,7 @@
             }
 
             .bot-message {
-                background-color:#e0e0e0;
+                background-color:#cef;
             }
 
             .emoji-message {
@@ -148,21 +148,33 @@
             let knownWords = {};
             let emojiOnlyWords = {};
 
+            let knownPrefixes = {};
+
             async function loadKnownWords() {
                 // from Claude
                 let res = await fetch("sentences.json?v=2");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
+                    let used = false
                     let parts = sentences[i]["sentence"].split(" ");
                     for (let j = 0; j < parts.length; j++) {
                         let word = parts[j].replace(/[^a-z]/gi, '').toLowerCase();
-                        if (!(word in knownWords)) knownWords[word] = sentences[i];
+                        if (!(word in knownWords)) {
+                            knownWords[word] = sentences[i];
+                            used = true;
+                            for (let i = 1; i <= word.length; i++) {
+                                knownPrefixes[word.substr(0, i)] = true;
+                            }
+                        }
                     }
+                    if (!used) console.log("Warning: Unused sentence: " + sentences[i]["sentence"]);
                 }
 
+                /*
                 // from emojilib
                 let res2 = await fetch("emoji-only-words.json?v2");
                 emojiOnlyWords = await res2.json();
+                */
             }
 
             function createKeyboard() {
@@ -189,12 +201,12 @@
 
                 for (let i = 0; i < 26; i++) {
                     extended = s + String.fromCharCode(65 + i);
-                    letterButtons[i].disabled = !test(extended);
+                    letterButtons[i].disabled = !(extended.toLowerCase() in knownPrefixes); // !test(extended);
                 }
 
                 backspaceButton.disabled = (s == "");
 
-                if (s.toLowerCase() in knownWords || s.toLowerCase() in emojiOnlyWords) {
+                if (s.toLowerCase() in knownWords) { // || s.toLowerCase() in emojiOnlyWords) {
                     document.querySelector("#userInputField").classList.add("recognized-word");
                 } else {
                     document.querySelector("#userInputField").classList.remove("recognized-word");
@@ -216,8 +228,9 @@
 
             function send() {
                 let oldUserInput = userInput;
-                setUserInput("");
 
+                // Lydia likes to send blank messages, so we have to keep that functionality. https://xkcd.com/1172/
+                if (userInput != "") setUserInput("");
                 messages.push(new Message(true, oldUserInput, null, false));
 
                 let lcUserInput = oldUserInput.toLowerCase();
@@ -225,9 +238,9 @@
                 if (lcUserInput in knownWords) {
                     messages.push(new Message(false, knownWords[lcUserInput]["sentence"], lcUserInput, false));
                     messages.push(new Message(false, knownWords[lcUserInput]["emojis"], null, true));
-                } else if(lcUserInput in emojiOnlyWords) {
+                } /* else if(lcUserInput in emojiOnlyWords) {
                     messages.push(new Message(false, emojiOnlyWords[lcUserInput], null, true));
-                }
+                } */
             }
 
             class Message {
