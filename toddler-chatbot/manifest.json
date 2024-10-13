@@ -1,6 +1,6 @@
 {
-    "name": "Speech synthesis game",
-    "start_url": "/speech-synthesis-game/",
+    "name": "Toddler Chatbot",
+    "start_url": "/toddler-chatbot/",
     "icons": [
         {
             "src": "frog512.webp",
