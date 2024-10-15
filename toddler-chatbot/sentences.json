@@ -2060,8 +2060,8 @@
     "emojis": "🌱❓"
   },
   {
-    "sentence": "It's a fact that water freezes at 0°C.",
-    "emojis": "💧❄️"
+    "sentence": "When water gets very cold, it freezes and becomes ice.",
+    "emojis": "💧❄️🧊"
   },
   {
     "sentence": "How many students are in your class unit?",
@@ -2374,5 +2374,269 @@
   {
     "sentence": "Can you make a list of your favorite foods?",
     "emojis": "📝🍕"
+  },
+  {
+    "sentence": "The sheep's wool is soft and fluffy.",
+    "emojis": "🐑🧶"
+  },
+  {
+    "sentence": "How many fish can you see in the aquarium?",
+    "emojis": "🐠🔢"
+  },
+  {
+    "sentence": "A camel can survive in the hot desert.",
+    "emojis": "🐫🏜️"
+  },
+  {
+    "sentence": "The llama has a long, woolly neck.",
+    "emojis": "🦙🧣"
+  },
+  {
+    "sentence": "There's a tiny bug crawling on the leaf.",
+    "emojis": "🐛🍃"
+  },
+  {
+    "sentence": "The busy bee is collecting nectar from flowers.",
+    "emojis": "🐝🌼"
+  },
+  {
+    "sentence": "The bumblebee is bigger and fuzzier than a honey bee.",
+    "emojis": "🐝🧸"
+  },
+  {
+    "sentence": "The rooster crows early in the morning.",
+    "emojis": "🐓🌅"
+  },
+  {
+    "sentence": "The hen laid eggs in her nest.",
+    "emojis": "🐔🥚"
+  },
+  {
+    "sentence": "The whale is the largest animal in the ocean.",
+    "emojis": "🐳🌊"
+  },
+  {
+    "sentence": "Dolphins are known for their playful nature.",
+    "emojis": "🐬🏄"
+  },
+  {
+    "sentence": "The gorilla has strong arms for climbing trees.",
+    "emojis": "🦍🌳"
+  },
+  {
+    "sentence": "The monkey swings from branch to branch.",
+    "emojis": "🐒🌿"
+  },
+  {
+    "sentence": "Chimpanzees are our closest animal relatives.",
+    "emojis": "🐵👨‍👩‍👧‍👦"
+  },
+  {
+    "sentence": "Penguins waddle on land but swim gracefully in water.",
+    "emojis": "🐧🏊"
+  },
+  {
+    "sentence": "The puffin's colorful beak is very eye-catching.",
+    "emojis": "🐦🌈"
+  },
+  {
+    "sentence": "The rat has a long tail to help it balance.",
+    "emojis": "🐀⚖️"
+  },
+  {
+    "sentence": "Would you like to ride a pony?",
+    "emojis": "🐎🏇"
+  },
+  {
+    "sentence": "The wolf howls at the full moon.",
+    "emojis": "🐺🌕"
+  },
+  {
+    "sentence": "The duck swims gracefully on the pond.",
+    "emojis": "🦆💦"
+  },
+  {
+    "sentence": "A flock of geese flies in a V formation.",
+    "emojis": "🦢✈️"
+  },
+  {
+    "sentence": "The raccoon has a mask-like pattern around its eyes.",
+    "emojis": "🦝🎭"
+  },
+  {
+    "sentence": "The squirrel gathers nuts for the winter.",
+    "emojis": "🐿️🌰"
+  },
+  {
+    "sentence": "The chipmunk has puffy cheeks for storing food.",
+    "emojis": "🐿️🍞"
+  },
+  {
+    "sentence": "The eagle soars high in the sky.",
+    "emojis": "🦅☁️"
+  },
+  {
+    "sentence": "The clever crow can use tools to get food.",
+    "emojis": "🐦🔧"
+  },
+  {
+    "sentence": "The lamb frolics in the green meadow.",
+    "emojis": "🐑🌿"
+  },
+  {
+    "sentence": "The fluffy yellow chick just hatched from its egg.",
+    "emojis": "🐥🥚"
+  },
+  {
+    "sentence": "We watched the baby chicks hatch in the incubator.",
+    "emojis": "🐣👀"
+  },
+  {
+    "sentence": "The snake slithers through the grass.",
+    "emojis": "🐍🌱"
+  },
+  {
+    "sentence": "In fairy tales, the dragon often breathes fire.",
+    "emojis": "🐉🔥"
+  },
+  {
+    "sentence": "The turtle carries its home on its back.",
+    "emojis": "🐢🏠"
+  },
+  {
+    "sentence": "The donkey has long ears and can carry heavy loads.",
+    "emojis": "🫏🎒"
+  },
+  {
+    "sentence": "The badger digs deep burrows underground.",
+    "emojis": "🦡🕳️"
+  },
+  {
+    "sentence": "Do you like to build models of airplanes?",
+    "emojis": "✈️🏗️"
+  },
+  {
+    "sentence": "In some cases, it's better to ask for help.",
+    "emojis": "🆘🤝"
+  },
+  {
+    "sentence": "What's the first step in tying your shoelaces?",
+    "emojis": "👟1️⃣"
+  },
+  {
+    "sentence": "Engineering helps us build amazing structures.",
+    "emojis": "👷‍♂️🏗️"
+  },
+  {
+    "sentence": "Can you solve this simple math problem?",
+    "emojis": "🧮❓"
+  },
+  {
+    "sentence": "Let's play a quick game before dinner.",
+    "emojis": "⚡🎲"
+  },
+  {
+    "sentence": "There are none left; we ate all the cookies!",
+    "emojis": "🍪0️⃣"
+  },
+  {
+    "sentence": "My new toy car has a wireless remote control.",
+    "emojis": "🚗📡"
+  },
+  {
+    "sentence": "Do you have a library card to borrow books?",
+    "emojis": "📚🎫"
+  },
+  {
+    "sentence": "Friday is the last day of the school week.",
+    "emojis": "5️⃣📅"
+  },
+  {
+    "sentence": "The lake is a great place for a picnic.",
+    "emojis": "🏞️🧺"
+  },
+  {
+    "sentence": "Did you eat your whole sandwich?",
+    "emojis": "🥪❓"
+  },
+  {
+    "sentence": "The annual school fair is next month.",
+    "emojis": "🎡📅"
+  },
+  {
+    "sentence": "The class published a book of their own stories.",
+    "emojis": "📖✍️"
+  },
+  {
+    "sentence": "We'll go to the park later this afternoon.",
+    "emojis": "🏞️⏰"
+  },
+  {
+    "sentence": "Let's review the basic rules of the game.",
+    "emojis": "📜🎲"
+  },
+  {
+    "sentence": "The talent show had many different acts.",
+    "emojis": "🎭🌟"
+  },
+  {
+    "sentence": "Our church has a beautiful stained glass window.",
+    "emojis": "⛪🎨"
+  },
+  {
+    "sentence": "What's your favorite method for solving puzzles?",
+    "emojis": "🧩❓"
+  },
+  {
+    "sentence": "Can we purchase tickets for the school play?",
+    "emojis": "🎫💰"
+  },
+  {
+    "sentence": "The grocery store has many loyal customers.",
+    "emojis": "🏪👥"
+  },
+  {
+    "sentence": "Stay active by playing sports or dancing.",
+    "emojis": "⚽💃"
+  },
+  {
+    "sentence": "What's your response to the teacher's question?",
+    "emojis": "🙋‍♂️❓"
+  },
+  {
+    "sentence": "Practice makes perfect when learning a new skill.",
+    "emojis": "🔁👍"
+  },
+  {
+    "sentence": "The computer is an example of hardware.",
+    "emojis": "💻🔧"
+  },
+  {
+    "sentence": "Can you figure out this riddle?",
+    "emojis": "🧩🤔"
+  },
+  {
+    "sentence": "We need different materials for our art project.",
+    "emojis": "🎨🧵"
+  },
+  {
+    "sentence": "Remember to stop, drop, and roll if there's a fire.",
+    "emojis": "🔥🛑"
+  },
+  {
+    "sentence": "What are your plans for the holiday break?",
+    "emojis": "🏖️❓"
+  },
+  {
+    "sentence": "Let's chat about your favorite book.",
+    "emojis": "💬📚"
+  },
+  {
+    "sentence": "Do you have enough crayons to color your picture?",
+    "emojis": "🖍️❓"
+  },
+  {
+    "sentence": "The playground was designed for kids of all ages.",
+    "emojis": "🏞️👨‍👩‍👧‍👦"
   }
 ]

@@ -152,18 +152,23 @@
 
             async function loadKnownWords() {
                 // from Claude
-                let res = await fetch("sentences.json?v=2");
+                let res = await fetch("sentences.json?v=3");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
                     let used = false
                     let parts = sentences[i]["sentence"].split(" ");
                     for (let j = 0; j < parts.length; j++) {
-                        let word = parts[j].replace(/[^a-z]/gi, '').toLowerCase();
-                        if (!(word in knownWords)) {
-                            knownWords[word] = sentences[i];
-                            used = true;
-                            for (let i = 1; i <= word.length; i++) {
-                                knownPrefixes[word.substr(0, i)] = true;
+                        if (parts[j].search("'") == -1) {
+                            let word = parts[j].replace(/[^a-z]/gi, '').toLowerCase();
+                            if (!(word in knownWords)) {
+                                knownWords[word] = sentences[i];
+                                used = true;
+                                for (let i = 1; i <= word.length; i++) {
+                                    let pref = word.substr(0, i);
+                                    if (!(pref in knownPrefixes)) {
+                                        knownPrefixes[word.substr(0, i)] = word;
+                                    }
+                                }
                             }
                         }
                     }
@@ -238,9 +243,10 @@
                 if (lcUserInput in knownWords) {
                     messages.push(new Message(false, knownWords[lcUserInput]["sentence"], lcUserInput, false));
                     messages.push(new Message(false, knownWords[lcUserInput]["emojis"], null, true));
-                } /* else if(lcUserInput in emojiOnlyWords) {
-                    messages.push(new Message(false, emojiOnlyWords[lcUserInput], null, true));
-                } */
+                } else if(lcUserInput in knownPrefixes) {
+                    messages.push(new Message(false, "That's the beginning of the word " + knownPrefixes[lcUserInput].toUpperCase() + ".", null, false));
+                    messages.push(new Message(false, "🙂🩷", null, true));
+                }
             }
 
             class Message {
