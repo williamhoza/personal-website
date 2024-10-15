@@ -152,7 +152,7 @@
 
             async function loadKnownWords() {
                 // Claude has been a big help generating sentences
-                let res = await fetch("sentences.json?v=7");
+                let res = await fetch("sentences.json?v=8");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
                     let used = false
