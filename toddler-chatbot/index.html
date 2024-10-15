@@ -151,8 +151,8 @@
             let knownPrefixes = {};
 
             async function loadKnownWords() {
-                // from Claude
-                let res = await fetch("sentences.json?v=4");
+                // Claude has been a big help generating sentences
+                let res = await fetch("sentences.json?v=7");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
                     let used = false
@@ -309,7 +309,7 @@
                     let m = this;
                     this.utterance.addEventListener("boundary", function(evt) {
                         for (let i = 0; i < m.partData.length; i++) {
-                            if (m.partData[i]["startPos"] == evt.charIndex) {
+                            if (evt.charIndex >= m.partData[i]["startPos"] && (i == m.partData.length - 1 || evt.charIndex < m.partData[i + 1]["startPos"])) {
                                 m.partData[i]["span"].classList.add("being-spoken");
                             } else {
                                 m.partData[i]["span"].classList.remove("being-spoken");
