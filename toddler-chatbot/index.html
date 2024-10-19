@@ -26,6 +26,18 @@
                 height:100%;
             }
 
+            #send-button {
+                width:45px;
+                height:45px;
+                vertical-align:top;
+                margin-left:10px;
+            }
+
+            #send-button img {
+                width:100%;
+                height:100%;
+            }
+
             #keyboardContainer button {
                 font-size:22px;
                 margin:5px;
@@ -41,6 +53,42 @@
                 color:#d0d0d0;
             }
 
+            /* Shimmer animation based on https://www.codeguage.com/blog/shimmer-effect-html-css
+            button.suggested {
+                background: linear-gradient(-45deg, #ff8 40%, #fafafa 50%, #ff8 60%);
+                background-size:300%;
+                background-position-x: 100%;
+                animation: shimmer 1s infinite linear;
+            }
+
+            @keyframes shimmer {
+                to {
+                    background-position-x: 0%
+                }
+            }
+            */
+
+            @property --angle {
+                syntax: '<angle>';
+                initial-value: -45deg;
+                inherits: true;
+            }
+
+            button.suggested {
+                background-color:#ff8 !important;
+                border-image-source: conic-gradient(from var(--angle), gray, white, gray, white, gray);
+                border-image-slice:1;
+                border-width:3px;
+	            animation: borderRotate 1.5s linear infinite forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes borderRotate {
+                100% {
+                    --angle: 135deg;
+                }
+            }
+
             .being-spoken {
                 background-color: #ff0;
                 text-decoration:underline;
@@ -49,34 +97,25 @@
             #userInputFieldContainer {
                 margin-top:5px;
                 margin-bottom:5px;
+                padding:0 5px;
             }
 
             #userInputField {
                 font-size:22px;
-                word-wrap:break-word;
-                width:calc(100% - 90px);
+                width:calc(100% - 55px);
                 display:inline-block;
                 font-family: "Balsamiq Sans", sans-serif;
                 letter-spacing:2px;
                 border:2px solid gray;
-                min-height:27px;
+                height:45px;
+                box-sizing:border-box;
                 padding:4px 0;
+                line-height:35px;
             }
 
             #userInputField.recognized-word {
                 border:2px solid black;
                 background-color: #ff8;
-            }
-
-            #userInputFieldContainer button {
-                vertical-align:top;
-                width:34px;
-                height:34px;
-            }
-
-            #userInputFieldContainer button img {
-                width:100%;
-                height:100%;
             }
 
             #sentenceArea {
@@ -130,8 +169,7 @@
                 <div id="transcript"></div>
             </div>
             <div id="userInputFieldContainer">
-                <div id="userInputField"></div>
-                <button onclick="send();"><img src="send-icon.svg" /></button>
+                <div id="userInputField">&nbsp;</div><button onclick="send();" id="send-button"><img src="send-icon.svg" /></button>
             </div>
             <div id="keyboardContainer"></div>
         </main>
@@ -152,7 +190,7 @@
 
             async function loadKnownWords() {
                 // Claude has been a big help generating sentences
-                let res = await fetch("sentences.json?v=8");
+                let res = await fetch("sentences.json?v=9");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
                     let used = false
@@ -163,10 +201,15 @@
                             if (!(word in knownWords)) {
                                 knownWords[word] = sentences[i];
                                 used = true;
-                                for (let i = 1; i <= word.length; i++) {
+                                for (let i = 0; i <= word.length; i++) {
                                     let pref = word.substr(0, i);
                                     if (!(pref in knownPrefixes)) {
-                                        knownPrefixes[word.substr(0, i)] = word;
+                                        knownPrefixes[pref] = {
+                                            "count": 1,
+                                            "word": word
+                                        };
+                                    } else {
+                                        knownPrefixes[pref]["count"]++;
                                     }
                                 }
                             }
@@ -174,6 +217,7 @@
                     }
                     if (!used) console.log("Warning: Unused sentence: " + sentences[i]["sentence"]);
                 }
+                updateKeyboard();
 
                 /*
                 // from emojilib
@@ -201,21 +245,46 @@
 
             function setUserInput(s) {
                 userInput = s;
-                document.querySelector("#userInputField").innerHTML = userInput;
+                document.querySelector("#userInputField").innerHTML = userInput == "" ? "&nbsp;" : userInput;
                 say(userInput.toLowerCase());
 
-                for (let i = 0; i < 26; i++) {
-                    extended = s + String.fromCharCode(65 + i);
-                    letterButtons[i].disabled = !(extended.toLowerCase() in knownPrefixes); // !test(extended);
-                }
-
-                backspaceButton.disabled = (s == "");
+                updateKeyboard();
 
                 if (s.toLowerCase() in knownWords) { // || s.toLowerCase() in emojiOnlyWords) {
                     document.querySelector("#userInputField").classList.add("recognized-word");
                 } else {
                     document.querySelector("#userInputField").classList.remove("recognized-word");
                 }
+            }
+
+            function updateKeyboard() {
+                let totalCount = 0;
+                let suggestionMade = false;
+                let r = Math.random() * knownPrefixes[userInput.toLowerCase()]["count"];
+
+                document.querySelector("#send-button").classList.remove("suggested");
+
+                for (let i = 0; i < 26; i++) {
+                    extended = (userInput + String.fromCharCode(65 + i)).toLowerCase();
+                    letterButtons[i].disabled = !(extended in knownPrefixes);
+                    letterButtons[i].classList.remove("suggested");
+
+                    if (!suggestionMade) {
+                        if (extended in knownPrefixes) {
+                            totalCount += knownPrefixes[extended]["count"];
+                        }
+                        if (totalCount > r) {
+                            letterButtons[i].classList.add("suggested");
+                            suggestionMade = true;
+                        }
+                    }
+                }
+
+                if (!suggestionMade) {
+                    document.querySelector("#send-button").classList.add("suggested");
+                }
+
+                backspaceButton.disabled = (userInput == "");
             }
 
             function typeLetter(i) {
@@ -243,8 +312,9 @@
                 if (lcUserInput in knownWords) {
                     messages.push(new Message(false, knownWords[lcUserInput]["sentence"], lcUserInput, false));
                     messages.push(new Message(false, knownWords[lcUserInput]["emojis"], null, true));
-                } else if(lcUserInput in knownPrefixes) {
-                    messages.push(new Message(false, "That's the beginning of the word " + knownPrefixes[lcUserInput].toUpperCase() + ".", null, false));
+                } else if(lcUserInput != "") {
+                    console.assert(lcUserInput in knownPrefixes);
+                    messages.push(new Message(false, "That's the beginning of the word " + knownPrefixes[lcUserInput]["word"].toUpperCase() + ".", null, false));
                     messages.push(new Message(false, "🙂🩷", null, true));
                 }
             }
