@@ -8,9 +8,13 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
 
         <style>
+            #keyboardContainer button, #userInputField, #transcript {
+                font-family: "Lexend", sans-serif;
+            }
+
             html, body {
                 height:100%;
                 margin: 0;
@@ -44,7 +48,6 @@
                 width:45px;
                 height:45px;
                 background-color:#c0a0ff;
-                font-family: "Balsamiq Sans", sans-serif;
                 vertical-align:middle;
             }
 
@@ -104,13 +107,11 @@
                 font-size:22px;
                 width:calc(100% - 55px);
                 display:inline-block;
-                font-family: "Balsamiq Sans", sans-serif;
-                letter-spacing:2px;
                 border:2px solid gray;
                 height:45px;
                 box-sizing:border-box;
                 padding:4px 0;
-                line-height:35px;
+                line-height:32px;
             }
 
             #userInputField.recognized-word {
@@ -166,6 +167,7 @@
     <body>
         <main>
             <div id="transcriptContainer">
+                <!--input type="text" oninput="synth.cancel(); synth.speak(new SpeechSynthesisUtterance(this.value));"-->
                 <div id="transcript"></div>
             </div>
             <div id="userInputFieldContainer">
@@ -190,7 +192,7 @@
 
             async function loadKnownWords() {
                 // Claude has been a big help generating sentences
-                let res = await fetch("sentences.json?v=9");
+                let res = await fetch("sentences.json?v=10");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
                     let used = false
