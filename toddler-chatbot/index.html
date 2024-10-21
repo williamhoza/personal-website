@@ -194,7 +194,7 @@
 
             async function loadKnownWords() {
                 // Hand-crafted list of animal words
-                let animalRes = await fetch("animals.json");
+                let animalRes = await fetch("animals.json?v=2");
                 animalWords = await animalRes.json();
 
                 // The sentences are mostly written by LLMs (Claude and ChatGPT)
