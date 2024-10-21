@@ -5218,5 +5218,749 @@
   {
       "sentence": "Can you see the clock?",
       "emojis": "⏰👀"
+  },
+  {
+      "sentence": "Do you know that an aardvark eats ants?",
+      "emojis": "🐜🐾"
+  },
+  {
+      "sentence": "The albatross flies over the ocean for miles.",
+      "emojis": "🕊️🌊"
+  },
+  {
+      "sentence": "The allosaurus was a fierce dinosaur.",
+      "emojis": "🦖😮"
+  },
+  {
+      "sentence": "The alpaca has soft, fluffy wool.",
+      "emojis": "🦙🧶"
+  },
+  {
+      "sentence": "The ape swings from tree to tree.",
+      "emojis": "🦍🌳"
+  },
+  {
+      "sentence": "The baboon makes loud noises in the jungle.",
+      "emojis": "🐒🌴"
+  },
+  {
+      "sentence": "A barnacle sticks to the bottom of boats.",
+      "emojis": "⛴️🦠"
+  },
+  {
+      "sentence": "The beaver builds its home with sticks.",
+      "emojis": "🦫🌲"
+  },
+  {
+      "sentence": "A beetle crawls on leaves and logs.",
+      "emojis": "🐞🍂"
+  },
+  {
+      "sentence": "Bison roam the grasslands in big herds.",
+      "emojis": "🐂🌾"
+  },
+  {
+      "sentence": "A blackbird sings a beautiful song.",
+      "emojis": "🐦🎶"
+  },
+  {
+      "sentence": "A canary is known for its yellow feathers.",
+      "emojis": "🐥🌻"
+  },
+  {
+      "sentence": "A caribou migrates across snowy landscapes.",
+      "emojis": "🦌❄️"
+  },
+  {
+      "sentence": "A catfish swims in rivers and lakes.",
+      "emojis": "🐟🌊"
+  },
+  {
+      "sentence": "The capybara loves to relax in the water.",
+      "emojis": "🐹💧"
+  },
+  {
+      "sentence": "A cardinal has bright red feathers.",
+      "emojis": "🐦🔴"
+  },
+  {
+      "sentence": "A cassowary is a large bird with sharp claws.",
+      "emojis": "🦤🦶"
+  },
+  {
+      "sentence": "A chameleon changes its colors to hide.",
+      "emojis": "🦎🌈"
+  },
+  {
+      "sentence": "A cheetah is the fastest animal on land.",
+      "emojis": "🐆💨"
+  },
+  {
+      "sentence": "A chimpanzee is very smart and uses tools.",
+      "emojis": "🐒🧠"
+  },
+  {
+      "sentence": "A chinchilla has very soft fur.",
+      "emojis": "🐹🧸"
+  },
+  {
+      "sentence": "A clownfish lives in the coral reef.",
+      "emojis": "🐠🏝️"
+  },
+  {
+      "sentence": "A cobra can rise up and spread its hood.",
+      "emojis": "🐍😯"
+  },
+  {
+      "sentence": "A cockroach can survive almost anywhere.",
+      "emojis": "🪳🏠"
+  },
+  {
+      "sentence": "A condor flies high in the sky.",
+      "emojis": "🦅🌤️"
+  },
+  {
+      "sentence": "A crab scuttles across the sand.",
+      "emojis": "🦀🏖️"
+  },
+  {
+      "sentence": "A dachshund has a long body and short legs.",
+      "emojis": "🐕‍🦺👟"
+  },
+  {
+      "sentence": "A dalmatian has black spots all over its fur.",
+      "emojis": "🐕⚫⚪"
+  },
+  {
+      "sentence": "A dingo howls in the wild Australian outback.",
+      "emojis": "🐕🌏"
+  },
+  {
+      "sentence": "A doberman is a strong, fast dog.",
+      "emojis": "🐕🏃‍♂️"
+  },
+  {
+      "sentence": "The dodo is an extinct bird.",
+      "emojis": "🦤⏳"
+  },
+  {
+      "sentence": "A dolphin leaps through the water with joy.",
+      "emojis": "🐬💧"
+  },
+  {
+      "sentence": "A dragonfly hovers over the pond.",
+      "emojis": "🦟💦"
+  },
+  {
+      "sentence": "A dugong grazes on underwater plants.",
+      "emojis": "🐋🌿"
+  },
+  {
+      "sentence": "An earthworm wriggles through the soil.",
+      "emojis": "🪱🌍"
+  },
+  {
+      "sentence": "An earwig has pincers on its tail.",
+      "emojis": "🦗🦷"
+  },
+  {
+      "sentence": "An echidna is covered in spikes.",
+      "emojis": "🦔😯"
+  },
+  {
+      "sentence": "An eel slithers through the ocean.",
+      "emojis": "🐍🌊"
+  },
+  {
+      "sentence": "An egret stands in the water waiting for fish.",
+      "emojis": "🐦🐟"
+  },
+  {
+      "sentence": "An elk has large antlers.",
+      "emojis": "🦌🦚"
+  },
+  {
+      "sentence": "An emu runs fast across the plains.",
+      "emojis": "🦤🏃‍♂️"
+  },
+  {
+      "sentence": "An ermine has a white coat in winter.",
+      "emojis": "🦦❄️"
+  },
+  {
+      "sentence": "A falcon dives through the sky to catch prey.",
+      "emojis": "🦅🎯"
+  },
+  {
+      "sentence": "A ferret scurries through the tunnels.",
+      "emojis": "🐾🏞️"
+  },
+  {
+      "sentence": "A finch hops from branch to branch.",
+      "emojis": "🐦🌳"
+  },
+  {
+      "sentence": "A firefly lights up the night with a glow.",
+      "emojis": "🐞💡"
+  },
+  {
+      "sentence": "A flamingo stands on one leg in the water.",
+      "emojis": "🦩💧"
+  },
+  {
+      "sentence": "A flea can jump very high.",
+      "emojis": "🪳🏃‍♂️"
+  },
+  {
+      "sentence": "A flounder swims flat on the ocean floor.",
+      "emojis": "🐟🌊"
+  },
+  {
+      "sentence": "A gazelle runs quickly across the savannah.",
+      "emojis": "🦌🏞️"
+  },
+  {
+      "sentence": "A gecko can stick to walls and ceilings.",
+      "emojis": "🦎🏠"
+  },
+  {
+      "sentence": "A gerbil digs tunnels underground.",
+      "emojis": "🐹🕳️"
+  },
+  {
+      "sentence": "A gibbon swings through the trees.",
+      "emojis": "🦍🌲"
+  },
+  {
+      "sentence": "A giraffe has a very long neck.",
+      "emojis": "🦒🌿"
+  },
+  {
+      "sentence": "A goldfish swims in a small pond.",
+      "emojis": "🐟💧"
+  },
+  {
+      "sentence": "A gopher digs holes in the ground.",
+      "emojis": "🐹⛏️"
+  },
+  {
+      "sentence": "A grasshopper hops through the fields.",
+      "emojis": "🦗🌾"
+  },
+  {
+      "sentence": "A haddock swims in the ocean.",
+      "emojis": "🐟🌊"
+  },
+  {
+      "sentence": "A hagfish releases slime when scared.",
+      "emojis": "🧪😲"
+  },
+  {
+      "sentence": "A hamster loves running on a wheel.",
+      "emojis": "🐹🏃‍♂️"
+  },
+  {
+      "sentence": "A hare runs faster than a rabbit.",
+      "emojis": "🐇💨"
+  },
+  {
+      "sentence": "A hedgehog curls up into a ball when scared.",
+      "emojis": "🦔⚽"
+  },
+  {
+      "sentence": "A heron stands still to catch fish in the water.",
+      "emojis": "🐦🐟"
+  },
+  {
+      "sentence": "A herring swims in large schools in the ocean.",
+      "emojis": "🐟🐟🐟"
+  },
+  {
+      "sentence": "A hippo loves to spend time in the water.",
+      "emojis": "🦛💧"
+  },
+  {
+      "sentence": "A hummingbird flaps its wings really fast.",
+      "emojis": "🐦💨"
+  },
+  {
+      "sentence": "A hyena makes loud laughing sounds.",
+      "emojis": "🐆😂"
+  },
+  {
+      "sentence": "An ibex has large, curved horns.",
+      "emojis": "🐐🔄"
+  },
+  {
+      "sentence": "An ibis wades through shallow water for food.",
+      "emojis": "🐦💧"
+  },
+  {
+      "sentence": "An iguanodon was a plant-eating dinosaur.",
+      "emojis": "🦕🌿"
+  },
+  {
+      "sentence": "An impala can leap very high.",
+      "emojis": "🦌↕️"
+  },
+  {
+      "sentence": "An inchworm crawls slowly on leaves.",
+      "emojis": "🐛🍃"
+  },
+  {
+      "sentence": "A jackal hunts for food at night.",
+      "emojis": "🦊🌙"
+  },
+  {
+      "sentence": "A jay flies quickly through the trees.",
+      "emojis": "🐦🌳"
+  },
+  {
+      "sentence": "A jellyfish floats gently in the ocean.",
+      "emojis": "🌊🐙"
+  },
+  {
+      "sentence": "A katydid hides in the grass to stay safe.",
+      "emojis": "🦗🌿"
+  },
+  {
+      "sentence": "A kestrel is a small, fast bird of prey.",
+      "emojis": "🦅💨"
+  },
+  {
+      "sentence": "A killdeer runs quickly across the sand.",
+      "emojis": "🐦🏖️"
+  },
+  {
+      "sentence": "A kingfisher dives into the water to catch fish.",
+      "emojis": "🐦💦"
+  },
+  {
+      "sentence": "A kinkajou is a small mammal that lives in trees.",
+      "emojis": "🐾🌲"
+  },
+  {
+      "sentence": "A kiwi bird can't fly but runs fast.",
+      "emojis": "🦤🏃‍♂️"
+  },
+  {
+      "sentence": "A koala sleeps for most of the day in trees.",
+      "emojis": "🐨🌳"
+  },
+  {
+      "sentence": "A koi swims in ponds and gardens.",
+      "emojis": "🐟🏞️"
+  },
+  {
+      "sentence": "A kookaburra is known for its loud call.",
+      "emojis": "🦅🔊"
+  },
+  {
+      "sentence": "A kudu is a type of antelope with long, twisted horns.",
+      "emojis": "🦌🌀"
+  },
+  {
+      "sentence": "A labradoodle is a friendly, fluffy dog.",
+      "emojis": "🐕💖"
+  },
+  {
+      "sentence": "A labrador is known for being a loyal pet.",
+      "emojis": "🐕❤️"
+  },
+  {
+      "sentence": "A leech sucks blood from other animals.",
+      "emojis": "🪱💉"
+  },
+  {
+      "sentence": "A lemming lives in large groups in the wild.",
+      "emojis": "🐁👨‍👩‍👧‍👦"
+  },
+  {
+      "sentence": "A lemur swings from tree to tree.",
+      "emojis": "🐒🌴"
+  },
+  {
+      "sentence": "A leopard can climb trees and run fast.",
+      "emojis": "🐆🌳"
+  },
+  {
+      "sentence": "A limpet sticks to rocks in the ocean.",
+      "emojis": "🐚🪨"
+  },
+  {
+      "sentence": "A lionfish has long, spiky fins.",
+      "emojis": "🐠🦷"
+  },
+  {
+      "sentence": "A lobster has large claws for catching prey.",
+      "emojis": "🦞🦐"
+  },
+  {
+      "sentence": "A locust can eat large amounts of crops.",
+      "emojis": "🦗🌾"
+  },
+  {
+      "sentence": "A lungfish can breathe both in water and on land.",
+      "emojis": "🐟🌬️"
+  },
+  {
+      "sentence": "A lynx is a wild cat with pointy ears.",
+      "emojis": "🐱👂"
+  },
+  {
+      "sentence": "A macaque is a clever monkey that lives in trees.",
+      "emojis": "🐒🌳"
+  },
+  {
+      "sentence": "A macaw has brightly colored feathers.",
+      "emojis": "🦜🌈"
+  },
+  {
+      "sentence": "A magpie is known for collecting shiny objects.",
+      "emojis": "🐦✨"
+  },
+  {
+      "sentence": "A mallard is a type of duck with a green head.",
+      "emojis": "🦆💚"
+  },
+  {
+      "sentence": "A mamba is a very fast and dangerous snake.",
+      "emojis": "🐍⚡"
+  },
+  {
+      "sentence": "A manatee is a large sea animal that swims slowly.",
+      "emojis": "🐋💧"
+  },
+  {
+      "sentence": "A mandrill has a colorful face and is very strong.",
+      "emojis": "🐒🎨"
+  },
+  {
+      "sentence": "A marmot hibernates in its burrow during winter.",
+      "emojis": "🐹❄️"
+  },
+  {
+      "sentence": "A mayfly only lives for a short time.",
+      "emojis": "🦟⏳"
+  },
+  {
+      "sentence": "A meerkat stands on its hind legs to watch for danger.",
+      "emojis": "🦊👀"
+  },
+  {
+      "sentence": "A millipede has many legs for crawling quickly.",
+      "emojis": "🐛👣"
+  },
+  {
+      "sentence": "A mole digs tunnels underground to find food.",
+      "emojis": "🐹⛏️"
+  },
+  {
+      "sentence": "A narwhal has a long, spiral tusk.",
+      "emojis": "🐋🦷"
+  },
+  {
+      "sentence": "A needlefish swims quickly through the water.",
+      "emojis": "🐟💨"
+  },
+  {
+      "sentence": "A nematode is a tiny worm that lives in the soil.",
+      "emojis": "🪱🌍"
+  },
+  {
+      "sentence": "A newt can live both on land and in water.",
+      "emojis": "🦎💧"
+  },
+  {
+      "sentence": "A nightcrawler wriggles through the earth at night.",
+      "emojis": "🪱🌙"
+  },
+  {
+      "sentence": "A nighthawk hunts for insects in the night sky.",
+      "emojis": "🐦🌙"
+  },
+  {
+      "sentence": "A nightingale sings beautiful songs at dusk.",
+      "emojis": "🐦🎶"
+  },
+  {
+      "sentence": "A nuthatch climbs down trees headfirst.",
+      "emojis": "🐦🌳"
+  },
+  {
+      "sentence": "A nutria swims in rivers and marshes.",
+      "emojis": "🐹💧"
+  },
+  {
+      "sentence": "An ocelot is a wild cat with spotted fur.",
+      "emojis": "🐱⚫"
+  },
+  {
+      "sentence": "An okapi has stripes like a zebra but is related to a giraffe.",
+      "emojis": "🦒⚪⚫"
+  },
+  {
+      "sentence": "An opossum plays dead to avoid predators.",
+      "emojis": "🐀😴"
+  },
+  {
+      "sentence": "An orangutan swings from tree to tree in the rainforest.",
+      "emojis": "🦧🌳"
+  },
+  {
+      "sentence": "An orca is a powerful predator in the ocean.",
+      "emojis": "🐋💧"
+  },
+  {
+      "sentence": "An oriole has bright orange and black feathers.",
+      "emojis": "🐦🟧⚫"
+  },
+  {
+      "sentence": "An osprey catches fish by diving into the water.",
+      "emojis": "🦅🐟"
+  },
+  {
+      "sentence": "An otter loves to play and slide on riverbanks.",
+      "emojis": "🦦💦"
+  },
+  {
+      "sentence": "An oyster makes pearls inside its shell.",
+      "emojis": "🦪💎"
+  },
+  {
+      "sentence": "A pangolin is covered in hard scales for protection.",
+      "emojis": "🦔🛡️"
+  },
+  {
+      "sentence": "A panther prowls silently through the jungle.",
+      "emojis": "🐆🌴"
+  },
+  {
+      "sentence": "A parakeet is a colorful bird that can learn to talk.",
+      "emojis": "🦜🗣️"
+  },
+  {
+      "sentence": "A parrot has a strong beak and loves to mimic sounds.",
+      "emojis": "🦜🎤"
+  },
+  {
+      "sentence": "A parrotfish nibbles on coral in the ocean.",
+      "emojis": "🐟🐚"
+  },
+  {
+      "sentence": "A partridge nests on the ground in the forest.",
+      "emojis": "🐦🌲"
+  },
+  {
+      "sentence": "A peafowl shows off its colorful feathers in a display.",
+      "emojis": "🦚🌈"
+  },
+  {
+      "sentence": "A pelican catches fish with its large beak.",
+      "emojis": "🦤🐟"
+  },
+  {
+      "sentence": "A pheasant has long tail feathers and lives in open fields.",
+      "emojis": "🦃🏞️"
+  },
+  {
+      "sentence": "A piranha has sharp teeth and lives in rivers.",
+      "emojis": "🐟🦷"
+  },
+  {
+      "sentence": "A platypus has a duck-like bill and lays eggs.",
+      "emojis": "🦆🥚"
+  },
+  {
+      "sentence": "A porcupine has sharp quills for protection.",
+      "emojis": "🦔🦷"
+  },
+  {
+      "sentence": "A quetzal has bright green and red feathers.",
+      "emojis": "🐦🟥🟩"
+  },
+  {
+      "sentence": "A quokka is a small marsupial known for its cute smile.",
+      "emojis": "🐾😊"
+  },
+  {
+      "sentence": "A ram has large, curved horns.",
+      "emojis": "🐏🦌"
+  },
+  {
+      "sentence": "A rattlesnake makes a rattling sound with its tail.",
+      "emojis": "🐍🔔"
+  },
+  {
+      "sentence": "A raven is known for its black feathers and intelligence.",
+      "emojis": "🦅⚫"
+  },
+  {
+      "sentence": "A ray glides smoothly through the water.",
+      "emojis": "🐟🌊"
+  },
+  {
+      "sentence": "A rhea is a large bird that cannot fly.",
+      "emojis": "🦤🚶‍♂️"
+  },
+  {
+      "sentence": "A rhino has a thick horn on its nose.",
+      "emojis": "🦏🦴"
+  },
+  {
+      "sentence": "A roadrunner can run very fast across the desert.",
+      "emojis": "🐦🏜️"
+  },
+  {
+      "sentence": "A robin sings beautiful songs in the spring.",
+      "emojis": "🐦🎶"
+  },
+  {
+      "sentence": "A rottweiler is a large, protective dog.",
+      "emojis": "🐕👮‍♂️"
+  },
+  {
+      "sentence": "A salamander lives both on land and in water.",
+      "emojis": "🦎💧"
+  },
+  {
+      "sentence": "A salmon swims upstream to lay eggs.",
+      "emojis": "🐟🏞️"
+  },
+  {
+      "sentence": "A sawfish has a long snout with sharp teeth.",
+      "emojis": "🐟🪓"
+  },
+  {
+      "sentence": "A scorpion has a venomous sting in its tail.",
+      "emojis": "🦂😨"
+  },
+  {
+      "sentence": "A seahorse swims upright in the ocean.",
+      "emojis": "🐠🌊"
+  },
+  {
+      "sentence": "A shrimp is a small sea creature with a hard shell.",
+      "emojis": "🦐🌊"
+  },
+  {
+      "sentence": "A skunk sprays a strong smell to scare away danger.",
+      "emojis": "🦨💨"
+  },
+  {
+      "sentence": "A sloth moves very slowly in the trees.",
+      "emojis": "🦥🌳"
+  },
+  {
+      "sentence": "A tamarin is a small monkey with a bushy tail.",
+      "emojis": "🐒🦴"
+  },
+  {
+      "sentence": "A tanager is a colorful bird that lives in the forest.",
+      "emojis": "🐦🌈"
+  },
+  {
+      "sentence": "A tang is a brightly colored fish that lives in coral reefs.",
+      "emojis": "🐠🏝️"
+  },
+  {
+      "sentence": "A tapir is a large animal with a long snout.",
+      "emojis": "🐗👃"
+  },
+  {
+      "sentence": "A tarantula is a large, hairy spider.",
+      "emojis": "🕷️😲"
+  },
+  {
+      "sentence": "A termite can eat through wood very quickly.",
+      "emojis": "🐜🏚️"
+  },
+  {
+      "sentence": "A tern flies over the ocean to find fish.",
+      "emojis": "🦅🐟"
+  },
+  {
+      "sentence": "A toad hops slowly on the ground.",
+      "emojis": "🐸🏞️"
+  },
+  {
+      "sentence": "A tortoise has a hard shell for protection.",
+      "emojis": "🐢🛡️"
+  },
+  {
+      "sentence": "A toucan has a large, colorful beak.",
+      "emojis": "🦜🟠"
+  },
+  {
+      "sentence": "An umbrellabird has a long crest that looks like an umbrella.",
+      "emojis": "🐦☂️"
+  },
+  {
+      "sentence": "An urchin has sharp spines to protect itself.",
+      "emojis": "🦔🛡️"
+  },
+  {
+      "sentence": "A viper is a venomous snake.",
+      "emojis": "🐍💉"
+  },
+  {
+      "sentence": "A vole is a small rodent that lives underground.",
+      "emojis": "🐁🌍"
+  },
+  {
+      "sentence": "A vulture circles in the sky to find food.",
+      "emojis": "🦅🌪️"
+  },
+  {
+      "sentence": "A walrus has long tusks and lives in icy waters.",
+      "emojis": "🐋🧊"
+  },
+  {
+      "sentence": "A warthog has large tusks and runs fast.",
+      "emojis": "🐗🏃‍♂️"
+  },
+  {
+      "sentence": "A wasp can sting to protect its nest.",
+      "emojis": "🐝💥"
+  },
+  {
+      "sentence": "A weasel is a small, quick animal that hunts for food.",
+      "emojis": "🦊⚡"
+  },
+  {
+      "sentence": "A wildebeest migrates across the savannah.",
+      "emojis": "🦌🏞️"
+  },
+  {
+      "sentence": "A wolverine is strong and fierce.",
+      "emojis": "🦊💪"
+  },
+  {
+      "sentence": "A wombat digs burrows underground.",
+      "emojis": "🐻⛏️"
+  },
+  {
+      "sentence": "A woodpecker taps on trees to find insects.",
+      "emojis": "🐦🌲"
+  },
+  {
+      "sentence": "A worm wriggles through the soil.",
+      "emojis": "🪱🌍"
+  },
+  {
+      "sentence": "A xenops is a small bird that climbs trees.",
+      "emojis": "🐦🌳"
+  },
+  {
+      "sentence": "A yak lives in cold mountain regions.",
+      "emojis": "🐂🏔️"
+  },
+  {
+      "sentence": "A yellowjacket can sting to protect its hive.",
+      "emojis": "🐝🏠"
+  },
+  {
+      "sentence": "A zebrafish has stripes like a zebra.",
+      "emojis": "🐠⚪⚫"
   }
 ]

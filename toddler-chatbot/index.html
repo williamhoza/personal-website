@@ -176,12 +176,11 @@
             <div id="keyboardContainer"></div>
         </main>
 
-        <script src="pronounceable.js"></script>
-
         <script>
             const synth = window.speechSynthesis;
             const letterButtons = [];
             let backspaceButton;
+            let animalButton;
             let userInput = "";
             let messages = [];
 
@@ -190,9 +189,16 @@
 
             let knownPrefixes = {};
 
+            let animalWords;
+            let knownAnimalPrefixes = {};
+
             async function loadKnownWords() {
+                // Hand-crafted list of animal words
+                let animalRes = await fetch("animals.json");
+                animalWords = await animalRes.json();
+
                 // The sentences are mostly written by LLMs (Claude and ChatGPT)
-                let res = await fetch("sentences.json?v=11");
+                let res = await fetch("sentences.json?v=13");
                 let sentences = await res.json();
                 for (let i = 0; i < sentences.length; i++) {
                     let used = false
@@ -203,6 +209,7 @@
                             if (!(word in knownWords)) {
                                 knownWords[word] = sentences[i];
                                 used = true;
+                                let isAnimalWord = animalWords.includes(word);
                                 for (let i = 0; i <= word.length; i++) {
                                     let pref = word.substr(0, i);
                                     if (!(pref in knownPrefixes)) {
@@ -213,6 +220,10 @@
                                     } else {
                                         knownPrefixes[pref]["count"]++;
                                     }
+                                    
+                                    if (isAnimalWord && !(pref in knownAnimalPrefixes)) {
+                                        knownAnimalPrefixes[pref] = word;
+                                    }
                                 }
                             }
                         }
@@ -221,11 +232,11 @@
                 }
                 updateKeyboard();
 
-                /*
-                // from emojilib
-                let res2 = await fetch("emoji-only-words.json?v2");
-                emojiOnlyWords = await res2.json();
-                */
+                for (let i = 0; i < animalWords.length; i++) {
+                    if (!(animalWords[i] in knownWords)) {
+                        console.log("Warning: Unknown animal: " + animalWords[i]);
+                    }
+                }
             }
 
             function createKeyboard() {
@@ -237,6 +248,11 @@
                         typeLetter(i);
                     })
                 }
+
+                animalButton = document.createElement("button");
+                animalButton.appendChild(document.createTextNode("🐾"));
+                document.querySelector("#keyboardContainer").appendChild(animalButton);
+                animalButton.addEventListener("click", animalInput);
 
                 backspaceButton = document.createElement("button");
                 backspaceButton.appendChild(document.createTextNode("⌫"));
@@ -252,7 +268,7 @@
 
                 updateKeyboard();
 
-                if (s.toLowerCase() in knownWords) { // || s.toLowerCase() in emojiOnlyWords) {
+                if (s.toLowerCase() in knownWords) {
                     document.querySelector("#userInputField").classList.add("recognized-word");
                 } else {
                     document.querySelector("#userInputField").classList.remove("recognized-word");
@@ -287,10 +303,22 @@
                 }
 
                 backspaceButton.disabled = (userInput == "");
+                animalButton.disabled = (userInput != "") && (animalWords.includes(userInput.toLowerCase()) || !(userInput.toLowerCase() in knownAnimalPrefixes));
             }
 
             function typeLetter(i) {
                 setUserInput(userInput + String.fromCharCode(65 + i));
+            }
+
+            function animalInput() {
+                let lcUserInput = userInput.toLowerCase();
+
+                if (lcUserInput != "") {
+                    console.assert(lcUserInput in knownAnimalPrefixes);
+                    setUserInput(knownAnimalPrefixes[lcUserInput].toUpperCase());
+                } else {
+                    setUserInput(animalWords[Math.floor(Math.random() * animalWords.length)].toUpperCase());
+                }
             }
 
             function backspace() {
