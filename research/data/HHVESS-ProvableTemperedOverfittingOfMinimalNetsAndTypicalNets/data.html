@@ -1,0 +1,47 @@
+<data value="TITLE">
+    Provable Tempered Overfitting of Minimal Nets and Typical Nets
+</data>
+
+<data value="AUTHORS">
+    Itamar Harel, William M. Hoza, Gal Vardi, Itay Evron, Nathan Srebro, and Daniel Soudry [non-alphabetical]
+</data>
+
+<data value="ABBREV">
+    HHVESS
+</data>
+
+<data value="PAPER-LINKS">
+    <a href="https://arxiv.org/abs/2410.19092">arXiv</a>
+</data>
+
+<data value="VENUE">
+    NeurIPS 2024 (to appear)
+</data>
+
+<data value="FIRST-POSTED">
+    2024-10-24
+</data>
+
+<data value="ABSTRACT">
+    <p>
+        We study the overfitting behavior of fully connected deep Neural Networks (NNs) with binary weights fitted to perfectly classify a noisy training set. We consider interpolation using both the smallest NN (having the minimal number of weights) and a random interpolating NN. For both learning rules, we prove overfitting is tempered. Our analysis rests on a new bound on the size of a threshold circuit consistent with a partial function. To the best of our knowledge, ours are the first theoretical results on benign or tempered overfitting that: (1) apply to deep NNs, and (2) do not require a very high or very low input dimension. 
+    </p>
+</data>
+
+<data value="NOT-SO-ABSTRACT">
+    <p>
+        According to traditional wisdom in machine learning, it's a bad sign if your hypothesis <em>perfectly</em> fits your training data. It suggests that you're using too many parameters, you're fitting the noise instead of the signal, and your hypothesis won't perform well when it is tested on new data. This phenomenon is called <a href="https://en.wikipedia.org/wiki/Overfitting">"overfitting."</a>
+    </p>
+
+    <p>
+        However, this is not what is observed empirically in modern machine learning. Machine learning practitioners have found that deep neural networks perform well when they are tested on new data, even if they are trained to perfectly fit their training data.
+    </p>
+
+    <p>
+        Our paper develops theoretical explanations for this empirical phenomenon. Consider any binary classification problem (e.g., given a photo, determine whether it depicts a cat). Assume that there does in fact exist a neural network $h^{\star}$ that solves this problem; our hypothesis will consist of a neural network $h$ that is considerably larger than $h^{\star}$. Specifically, given a bunch of noisy labeled examples, suppose we pick the parameters of $h$ <em>uniformly at random</em>, and then we repeat until we find an $h$ that perfectly fits the given training data. (We work with a simplified model of "neural network" in which the weights are binary and the activation functions are simple thresholding.) Under these idealized assumptions, we prove that  overfitting is "tempered," meaning that when the hypothesis $h$ is tested on new data, its performance will be better than a completely trivial hypothesis.
+    </p>
+</data>
+
+<data value="VERSION-SUMMARY">
+    We posted a manuscript to arXiv in October 2024. The paper will appear at NeurIPS in December 2024.
+</data>
