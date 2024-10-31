@@ -35,6 +35,12 @@ class Paper:
       self.expository["class"] = "expository"
       del self.expository["id"]
 
+    self.toc = self.dataSoup.find("data", value="TOC")
+    if (self.toc != None):
+      self.toc.name = "div"
+      self.toc["class"] = "indent toc"
+      del self.toc["id"]
+
     self.abbrev = self.dataSoup.find("data", value="ABBREV").text.strip()
 
     self.recognition = self.dataSoup.find_all("data", value="RECOGNITION")
@@ -82,6 +88,18 @@ class Paper:
     for t in self.pageSoup.find_all("data", value="VERSION-SUMMARY"):
       t.extend(self.versionSummary)
       t.unwrap()
+
+    for t in self.pageSoup.find_all("data", value="TOC"):
+      if (self.toc == None):
+        t.decompose()
+      else:
+        h = self.pageSoup.new_tag("details")
+        s = self.pageSoup.new_tag("summary")
+        s.string = "Table of contents"
+        h.append(s)
+        h.append(self.toc)
+        t.append(h)
+        t.unwrap()
 
     for t in self.pageSoup.find_all("data", value="EXPOSITORY"):
       if self.expository == None:
