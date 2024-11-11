@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <style>
+            #questionArea {
+                text-align:center;
+            }
+
+            button {
+                font-size:40px;
+                margin:5px;
+                padding:10px;
+            }
+
+            #teacher {
+                border:none;
+                background:none;
+                font-size:80px;
+            }
+
+            .bubble {
+                width:50px;
+                height:50px;
+            }
+
+            .bubbleContainer {
+                display:inline-block;
+                width:50px;
+                height:50px;
+            }
+
+            #bubbleArea {
+                text-align:center;
+                margin-top:20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="questionArea">
+            <button id="teacher" onclick="teacherAction();">😺</button>
+            <div id="answerButtons"></div>
+        </div>
+
+        <div id="bubbleArea">
+        </div>
+
+        <script>
+            const STANDARD_WORDS = ["my", "no", "lydia", "dad", "mommy", "and", "cat"];
+            const CHALLENGE_WORDS = ["has", "was", "dog", "god", "pig", "the"];
+            const BUBBLE_IMAGES = ["trex.svg", "fire.svg"];
+            const NUM_BUBBLES = 3;
+            let bubbles = [];
+            let started = false;
+
+            function teacherAction() {
+                if (!started) {
+                    started = true;
+                    let introAudio = new Audio()
+                }
+            }
+
+            function makeTeacherHappy() {
+                document.querySelector("#teacher").innerHTML = "😻";
+            }
+
+            class Question {
+                // difficulty level can be 1, 2, or 3
+                constructor(difficultyLevel) {
+                    if (difficultyLevel == 3) {
+                        this.answerWord = CHALLENGE_WORDS[Math.floor(Math.random() * CHALLENGE_WORDS.length)];
+                        this.otherWord = STANDARD_WORDS[Math.floor(Math.random() * STANDARD_WORDS.length)];
+                    } else if (difficultyLevel == 2) {
+                        this.answerWord = STANDARD_WORDS[Math.floor(Math.random() * STANDARD_WORDS.length)];
+                        this.otherWord = CHALLENGE_WORDS[Math.floor(Math.random() * CHALLENGE_WORDS.length)];
+                    } else if (difficultyLevel == 1) {
+                        let indices = Array.from(Array(STANDARD_WORDS.length).keys());
+                        this.answerWord = STANDARD_WORDS[indices.splice(Math.floor(Math.random() * indices.length), 1)[0]];
+                        this.otherWord = STANDARD_WORDS[indices.splice(Math.floor(Math.random() * indices.length), 1)[0]];
+                    }
+                }
+
+                createDOM() {
+                    this.buttons = [];
+                    let correctButton = Math.floor(Math.random() * 2);
+                    for (let i = 0; i < 2; i++) {
+                        this.buttons[i] = document.createElement("button");
+                        document.querySelector("#answerButtons").appendChild(this.buttons[i]);
+                        let q = this;
+                        if (i == correctButton) {
+                            this.buttons[i].appendChild(document.createTextNode(this.answerWord.toUpperCase()));
+                            this.buttons[i].addEventListener("click", function() { q.answered(true); });
+                        } else {
+                            this.buttons[i].appendChild(document.createTextNode(this.otherWord.toUpperCase()));
+                            this.buttons[i].addEventListener("click", function() { q.answered(false); });
+                        }
+                    }
+                }
+
+                answered(correct) {
+                    console.log(correct);
+                    console.log(this.answerWord);
+                    if(correct) {
+                        makeTeacherHappy();
+                        resetBubbles();
+                    }
+                }
+            }
+
+            class Bubble {
+                constructor() {
+                    this.container = document.createElement("div");
+                    this.container.classList.add("bubbleContainer");
+                    document.querySelector("#bubbleArea").appendChild(this.container);
+                    this.bubble = document.createElement("img");
+                    this.bubble.src = "bubble.svg";
+                    this.bubble.style.visibility = "hidden";
+                    let b = this;
+                    this.bubble.addEventListener("click", function() { b.pop(); });
+                    this.bubble.classList.add("bubble");
+                    this.container.appendChild(this.bubble);
+                }
+
+                reset() {
+                    this.bubble.style.visibility = "visible";
+                    this.container.style.backgroundImage = "url('" + BUBBLE_IMAGES[Math.floor(Math.random() * BUBBLE_IMAGES.length)] + "')";
+                }
+
+                pop() {
+                    this.bubble.style.visibility = "hidden";
+                }
+            }
+
+            function initializeBubbles() {
+                for (let i = 0; i < NUM_BUBBLES; i++) {
+                    bubbles[i] = new Bubble();
+                }
+            }
+
+            function resetBubbles() {
+                for (let i = 0; i < bubbles.length; i++) {
+                    bubbles[i].reset();
+                }
+            }
+
+            initializeBubbles();
+        </script>
+    </body>
+</html>

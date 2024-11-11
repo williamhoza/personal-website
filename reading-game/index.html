@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+        <style>
+            html, body {
+                width:100%;
+                height:100%;
+                max-width:100%;
+                max-height:100%;
+                margin: 0;
+                padding: 0;
+                overflow:hidden;
+            }
+
+            .bag-div {
+                display:inline-block;
+                background-image: url("bag.svg");
+                position:absolute;
+                top:400px;
+                width:130px;
+                height:134.03px;
+                box-sizing:border-box;
+                padding-top:100px;
+                text-align:center;
+                transition: top,left 1s ease-in-out;
+                color:white;
+            }
+
+            .bag-front {
+                width:130px;
+                height:134.03px;
+                position:absolute;
+                left:0px;
+                top:0px;
+            }
+
+            .bag-label {
+                display:inline-block;
+                position:absolute;
+                width:130px;
+                text-align:center;
+                left:0px;
+                top:100px;
+                font-family: "Lexend", sans-serif;
+            }
+
+            .emoji-div {
+                display:none;
+                position:absolute;
+                font-size:80px;
+            }
+
+            main {
+                margin:auto;
+                max-width:500px;
+                display:grid;
+                grid-template-rows: 25px 1fr;
+                height:100%;
+            }
+
+            #top-bar {
+                margin-right:25px;
+                border-right:1px solid black;
+                background-color:white;
+            }
+
+            #main-area {
+                margin:0 25px 25px 25px;
+                background-color:white;
+                border:1px solid black;
+                border-top:none;
+            }
+
+            .customer-div {
+                display:inline-block;
+                position:absolute;
+                font-size:120px;
+                transition:all 1s ease-in-out;
+            }
+
+            .merchandise-div {
+                display:none;
+                position:absolute;
+                font-size:50px;
+                transition: all 1s ease-in-out;
+            }
+
+            #thought-bubble {
+                background-image: url("thought-bubble.png");
+                background-size:130px 82.7px;
+                width:130px;
+                height:82.7px;
+                display:inline-block;
+                position:absolute;
+                right:180px;
+                top:45px;
+                box-sizing:border-box;
+                padding-left:25px;
+                padding-top:10px;
+                font-size:40px;
+                opacity:0;
+                transition:opacity 1s;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <div id="top-bar"></div>
+            <div id="main-area">
+                <div id="thought-bubble"></div>
+            </div>
+        </main>
+
+        <script>
+            const synth = window.speechSynthesis;
+            let merchandiseTypes;
+            let totalEasyMerchandiseTypes = 0;
+            let easyMerchandiseTypesByLetter = [];
+            let customerTypes;
+            let difficultMode = false;
+
+            let bags = [];
+            let customers = [];
+            let merchandiseItems = [];
+
+            const BAG_WIDTH = 130;
+            const BAG_HEIGHT = BAG_WIDTH * 113.41 / 110;
+
+            class Customer {
+                constructor(customerType, requestedMerchandiseType) {
+                    this.customerType = customerType;
+                    this.requestedMerchandiseType = requestedMerchandiseType;
+                    this.container = document.createElement("div");
+                    this.container.classList.add("customer-div");
+                    this.container.style.right = "25px";
+                    this.container.style.top = "-200px";
+                    this.container.appendChild(document.createTextNode(this.customerType));
+                    document.body.appendChild(this.container);
+                }
+
+                arrive() {
+                    this.container.style.top = "25px";
+                }
+
+                order() {
+                    document.querySelector("#thought-bubble").innerHTML = this.requestedMerchandiseType["emoji"];
+                    document.querySelector("#thought-bubble").style.opacity = 1;
+                    say("Hello! Could you please get me " + this.requestedMerchandiseType["phrase"] + "?");
+                }
+            }
+
+            function say(txt) {
+                synth.cancel();
+                synth.speak(new SpeechSynthesisUtterance(txt));
+            }
+
+            class Bag {
+                constructor(leftSide) {
+                    this.leftSide = leftSide;
+                    this.merchandiseItem = null;
+
+                    this.bagDiv = document.createElement("div");
+                    this.bagDiv.classList.add("bag-div");
+                    this.bagDiv.style.width = BAG_WIDTH + "px";
+                    this.bagDiv.style.height = BAG_HEIGHT + "px";
+                    this.dismiss();
+
+                    this.bagFront = document.createElement("img");
+                    this.bagFront.classList.add("bag-front");
+                    this.bagFront.src = "bag-front.svg";
+                    this.bagDiv.appendChild(this.bagFront);
+
+                    this.bagLabel = document.createElement("div");
+                    this.bagLabel.classList.add("bag-label");
+                    this.bagDiv.appendChild(this.bagLabel);
+
+                    document.body.appendChild(this.bagDiv);
+                }
+
+                fill(merchandiseItem) {
+                    this.merchandiseItem = merchandiseItem;
+                    
+                    let s = this.merchandiseItem.type["word"].toUpperCase();
+                    this.bagLabel.innerHTML = s;
+                    if (s.length <= 6) {
+                        this.bagLabel.style.fontSize = "20px";
+                    } else if (s.length <= 8) {
+                        this.bagLabel.style.fontSize = "18px";
+                    } else if (s.length <= 11) {
+                        this.bagLabel.style.fontSize = "16px";
+                    } else {
+                        this.bagLabel.style.fontSize = "14px";
+                    }
+
+                    this.merchandiseItem.container.style.left = document.body.clientWidth / 2 + (this.leftSide ? -BAG_WIDTH + 10 : 30) + "px";
+                }
+
+                present() {
+                    this.bagDiv.style.left = document.body.clientWidth / 2 + (this.leftSide ? -BAG_WIDTH - 10 : 10) + "px";
+                }
+
+                dismiss() {
+                    this.bagDiv.style.left = this.leftSide ? -BAG_WIDTH + "px" : document.body.clientWidth + "px";
+                }
+            }
+
+            class MerchandiseItem {
+                constructor(type) {
+                    this.type = type;
+                    this.container = document.createElement("div");
+                    this.container.classList.add("merchandise-div");
+                    this.container.style.top = "420px";
+                    this.container.appendChild(document.createTextNode(this.type["emoji"]));
+                    document.body.appendChild(this.container);
+                }
+            }
+
+            async function init() {
+                let res = await fetch("data.json?v=2");
+                let data = await res.json();
+                merchandiseTypes = data["merchandise"];
+                customerTypes = data["customers"];
+
+                for (let i = 0; i < 26; i++) {
+                    easyMerchandiseTypesByLetter[i] = [];
+                }
+
+                for (let i = 0; i < merchandiseTypes.length; i++) {
+                    if (!merchandiseTypes[i]["difficult"]) {
+                        let firstLetter = merchandiseTypes[i]["word"].charCodeAt(0) - 97; // 0 for a, 25 for z
+                        easyMerchandiseTypesByLetter[firstLetter].push(merchandiseTypes[i]);
+                        totalEasyMerchandiseTypes++;
+                    }
+                }
+
+                bags[0] = new Bag(true);
+                bags[1] = new Bag(false);
+
+                pickContents(0);
+                pickContents(1);
+
+                let customerType = customerTypes[Math.floor(Math.random() * customerTypes.length)];
+                let merchandiseType = bags[Math.floor(Math.random() * 2)].merchandiseItem.type;
+                customers.push(new Customer(customerType, merchandiseType));
+
+                await sleep(100);
+                customers[0].arrive();
+                bags[0].present();
+                bags[1].present();
+
+                await sleep(1000);
+                customers[0].order();
+            }
+
+            async function sleep(ms) {
+                await new Promise(r => setTimeout(r, ms));
+            }
+
+            function pickContents(i) {
+                let newMerchandiseType;
+
+                if (!difficultMode) {
+                    // The two bags' items must begin with different letters
+                    // For now, we assume there are exactly two bags
+                    
+                    let forbiddenLetter = null;
+                    let r;
+                    if (bags[1 - i].merchandiseItem == null) {
+                        r = Math.floor(Math.random() * totalEasyMerchandiseTypes);
+                    } else {
+                        forbiddenLetter = bags[1 - i].merchandiseItem.type["word"].charCodeAt(0) - 97;
+                        r = Math.floor(Math.random() * (totalEasyMerchandiseTypes - easyMerchandiseTypesByLetter[forbiddenLetter].length));
+                    }
+                    for (let i = 0; i < 25; i++) {
+                        if (i == forbiddenLetter) continue;
+                        if (r < easyMerchandiseTypesByLetter[i].length) {
+                            newMerchandiseType = easyMerchandiseTypesByLetter[i][r];
+                            break;
+                        }
+                        r -= easyMerchandiseTypesByLetter[i].length;
+                    }
+                } else {
+                    // TODO. The two bags' items just need to be distinct. We also need to warn the user if we think it might be a difficult pairing.
+                }
+
+                let newMerchandiseItem = new MerchandiseItem(newMerchandiseType);
+                merchandiseItems.push(newMerchandiseItem);
+                bags[i].fill(newMerchandiseItem);
+            }
+
+            init();
+        </script>
+    </body>
+</html>

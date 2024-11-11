@@ -1,0 +1,92 @@
+{
+    "merchandise": [
+        {
+            "word": "grapes",
+            "phrase": "some grapes",
+            "emoji": "🍇",
+            "difficult": false
+        }, {
+            "word": "watermelon",
+            "phrase": "some watermelon",
+            "emoji": "🍉",
+            "difficult": false
+        }, {
+            "word": "tangerine",
+            "phrase": "a tangerine",
+            "emoji": "🍊",
+            "difficult": false
+        }, {
+            "word": "lemon",
+            "phrase": "a lemon",
+            "emoji": "🍋",
+            "difficult": false
+        }, {
+            "word": "lime",
+            "phrase": "a lime slice",
+            "emoji": "🍋‍🟩",
+            "difficult": false
+        }, {
+            "word": "banana",
+            "phrase": "a banana",
+            "emoji": "🍌",
+            "difficult": false
+        }, {
+            "word": "pineapple",
+            "phrase": "a pineapple",
+            "emoji": "🍍",
+            "difficult": false
+        }, {
+            "word": "mango",
+            "phrase": "a mango",
+            "emoji": "🥭",
+            "difficult": false
+        }, {
+            "word": "apple",
+            "phrase": "an apple",
+            "emoji": "🍎",
+            "difficult": false
+        }, {
+            "word": "pear",
+            "phrase": "a pear",
+            "emoji": "🍐",
+            "difficult": false
+        }, {
+            "word": "peach",
+            "phrase": "a peach",
+            "emoji": "🍑",
+            "difficult": false
+        }, {
+            "word": "cherries",
+            "phrase": "some cherries",
+            "emoji": "🍒",
+            "difficult": true
+        }, {
+            "word": "strawberry",
+            "phrase": "a strawberry",
+            "emoji": "🍓",
+            "difficult": false
+        }, {
+            "word": "blueberries",
+            "phrase": "some blueberries",
+            "emoji": "🫐",
+            "difficult": false
+        }, {
+            "word": "kiwi",
+            "phrase": "a kiwi slice",
+            "emoji": "🥝",
+            "difficult": false
+        }, {
+            "word": "tomato",
+            "phrase": "a tomato",
+            "emoji": "🍅",
+            "difficult": false
+        }, {
+            "word": "coconut",
+            "phrase": "a coconut",
+            "emoji": "🥥",
+            "difficult": false
+        }
+    ], "customers": [
+        "🐒", "🦍", "🦧", "🐕", "🐩", "🐈", "🐈‍⬛", "🐅", "🐆", "🫏", "🐎", "🦌", "🦬", "🐂", "🐃", "🐄", "🐖", "🐏", "🐑", "🐐", "🐪", "🐫", "🦙", "🦒", "🐘", "🦣", "🦏", "🦛", "🐁", "🐀", "🐇", "🐿️", "🦫", "🦔", "🦇", "🦥", "🦦", "🦨", "🦘", "🦡" 
+    ]
+}
