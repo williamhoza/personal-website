@@ -39,6 +39,7 @@
                 position:absolute;
                 left:0px;
                 top:0px;
+                z-index:1000;
             }
 
             .bag-label {
@@ -49,6 +50,7 @@
                 left:0px;
                 top:100px;
                 font-family: "Lexend", sans-serif;
+                z-index:2000;
             }
 
             .emoji-div {
@@ -88,7 +90,7 @@
             .merchandise-div {
                 display:none;
                 position:absolute;
-                font-size:50px;
+                font-size:70px;
                 transition: all 1s ease-in-out;
             }
 
@@ -122,8 +124,7 @@
         <script>
             const synth = window.speechSynthesis;
             let merchandiseTypes;
-            let totalEasyMerchandiseTypes = 0;
-            let easyMerchandiseTypesByLetter = [];
+            let easyMerchandiseTypesByLetter = {};
             let customerTypes;
             let difficultMode = false;
 
@@ -182,6 +183,8 @@
                     this.bagLabel.classList.add("bag-label");
                     this.bagDiv.appendChild(this.bagLabel);
 
+                    this.clickEventTimeout = null;
+
                     document.body.appendChild(this.bagDiv);
                 }
 
@@ -205,6 +208,15 @@
 
                 present() {
                     this.bagDiv.style.left = document.body.clientWidth / 2 + (this.leftSide ? -BAG_WIDTH - 10 : 10) + "px";
+                    this.clickEventTimeout = setTimeout(function() {
+                        this.merchandiseItem.container.style.display = "inline-block";
+                        this.bagDiv.addEventListener("click", this.clickHandler.bind(this));
+                    }.bind(this), 1000);
+                }
+
+                clickHandler() {
+                    console.log(this);
+                    this.merchandiseItem.container.style.top = "300px";
                 }
 
                 dismiss() {
@@ -230,14 +242,13 @@
                 customerTypes = data["customers"];
 
                 for (let i = 0; i < 26; i++) {
-                    easyMerchandiseTypesByLetter[i] = [];
+                    easyMerchandiseTypesByLetter[String.fromCharCode(97 + i)] = [];
                 }
 
                 for (let i = 0; i < merchandiseTypes.length; i++) {
                     if (!merchandiseTypes[i]["difficult"]) {
-                        let firstLetter = merchandiseTypes[i]["word"].charCodeAt(0) - 97; // 0 for a, 25 for z
+                        let firstLetter = merchandiseTypes[i]["word"][0];
                         easyMerchandiseTypesByLetter[firstLetter].push(merchandiseTypes[i]);
-                        totalEasyMerchandiseTypes++;
                     }
                 }
 
@@ -252,9 +263,11 @@
                 customers.push(new Customer(customerType, merchandiseType));
 
                 await sleep(100);
-                customers[0].arrive();
                 bags[0].present();
                 bags[1].present();
+
+                await sleep(1000);
+                customers[0].arrive();
 
                 await sleep(1000);
                 customers[0].order();
@@ -269,23 +282,42 @@
 
                 if (!difficultMode) {
                     // The two bags' items must begin with different letters
+                    // We consider some starting letters to be equivalent:
+                    // c, k, q
+                    // x, z
                     // For now, we assume there are exactly two bags
                     
-                    let forbiddenLetter = null;
-                    let r;
-                    if (bags[1 - i].merchandiseItem == null) {
-                        r = Math.floor(Math.random() * totalEasyMerchandiseTypes);
-                    } else {
-                        forbiddenLetter = bags[1 - i].merchandiseItem.type["word"].charCodeAt(0) - 97;
-                        r = Math.floor(Math.random() * (totalEasyMerchandiseTypes - easyMerchandiseTypesByLetter[forbiddenLetter].length));
+                    let forbidden = {};
+                    for (let i = 0; i < 26; i++) {
+                        forbidden[String.fromCharCode(97 + i)] = false;
                     }
+                    if (bags[1 - i].merchandiseItem != null) {
+                        let firstLetter = bags[1 - i].merchandiseItem.type["word"][0];
+                        forbidden[firstLetter] = true;
+                        if (["c", "k", "q"].includes(firstLetter)) {
+                            forbidden["c"] = true;
+                            forbidden["k"] = true;
+                            forbidden["q"] = true;
+                        } else if (["x", "z"].includes(firstLetter)) {
+                            forbidden["x"] = true;
+                            forbidden["z"] = true;
+                        }
+                    }
+                    let total = 0;
                     for (let i = 0; i < 25; i++) {
-                        if (i == forbiddenLetter) continue;
-                        if (r < easyMerchandiseTypesByLetter[i].length) {
-                            newMerchandiseType = easyMerchandiseTypesByLetter[i][r];
+                        let letter = String.fromCharCode(97 + i);
+                        if (forbidden[letter]) continue;
+                        total += easyMerchandiseTypesByLetter[letter].length;
+                    }
+                    let r = Math.floor(Math.random() * total);
+                    for (let i = 0; i < 25; i++) {
+                        let letter = String.fromCharCode(97 + i);
+                        if (forbidden[letter]) continue;
+                        if (r < easyMerchandiseTypesByLetter[letter].length) {
+                            newMerchandiseType = easyMerchandiseTypesByLetter[letter][r];
                             break;
                         }
-                        r -= easyMerchandiseTypesByLetter[i].length;
+                        r -= easyMerchandiseTypesByLetter[letter].length;
                     }
                 } else {
                     // TODO. The two bags' items just need to be distinct. We also need to warn the user if we think it might be a difficult pairing.
