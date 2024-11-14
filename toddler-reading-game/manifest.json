@@ -1,0 +1,17 @@
+{
+    "name": "Toddler Reading Game",
+    "start_url": "/toddler-reading-game/",
+    "icons": [
+        {
+            "src": "strawberry512.webp",
+            "sizes": "512x512",
+            "type": "image/webp"
+        }, {
+            "src": "strawberry192.webp",
+            "sizes": "192x192",
+            "type": "image/webp"
+        }
+    ],
+    "display": "standalone"
+}
+  

@@ -1,0 +1,572 @@
+{
+    "merchandise": [
+        {
+            "word": "grapes",
+            "phrase": "some grapes",
+            "emoji": "🍇",
+            "difficult": false
+        }, {
+            "word": "watermelon",
+            "phrase": "some watermelon",
+            "emoji": "🍉",
+            "difficult": false
+        }, {
+            "word": "orange",
+            "phrase": "an orange",
+            "emoji": "🍊",
+            "difficult": false
+        }, {
+            "word": "lemon",
+            "phrase": "a lemon",
+            "emoji": "🍋",
+            "difficult": false
+        }, {
+            "word": "lime",
+            "phrase": "a lime",
+            "emoji": "🍋‍🟩",
+            "difficult": false
+        }, {
+            "word": "banana",
+            "phrase": "a banana",
+            "emoji": "🍌",
+            "difficult": false
+        }, {
+            "word": "pineapple",
+            "phrase": "a pineapple",
+            "emoji": "🍍",
+            "difficult": false
+        }, {
+            "word": "mango",
+            "phrase": "a mango",
+            "emoji": "🥭",
+            "difficult": false
+        }, {
+            "word": "apple",
+            "phrase": "an apple",
+            "emoji": "🍎",
+            "difficult": false
+        }, {
+            "word": "pear",
+            "phrase": "a pear",
+            "emoji": "🍐",
+            "difficult": false
+        }, {
+            "word": "peach",
+            "phrase": "a peach",
+            "emoji": "🍑",
+            "difficult": false
+        }, {
+            "word": "cherries",
+            "phrase": "some cherries",
+            "emoji": "🍒",
+            "difficult": true
+        }, {
+            "word": "strawberry",
+            "phrase": "a strawberry",
+            "emoji": "🍓",
+            "difficult": false
+        }, {
+            "word": "blueberries",
+            "phrase": "some blueberries",
+            "emoji": "🫐",
+            "difficult": false
+        }, {
+            "word": "kiwi",
+            "phrase": "a kiwi",
+            "emoji": "🥝",
+            "difficult": false
+        }, {
+            "word": "tomato",
+            "phrase": "a tomato",
+            "emoji": "🍅",
+            "difficult": false
+        }, {
+            "word": "coconut",
+            "phrase": "a coconut",
+            "emoji": "🥥",
+            "difficult": false
+        }, {
+            "word": "avocado",
+            "phrase": "an avocado",
+            "emoji": "🥑",
+            "difficult": true
+        }, {
+            "word": "eggplant",
+            "phrase": "an eggplant",
+            "emoji": "🍆",
+            "difficult": false
+        }, {
+            "word": "potato",
+            "phrase": "a potato",
+            "emoji": "🥔",
+            "difficult": false
+        }, {
+            "word": "carrot",
+            "phrase": "a carrot",
+            "emoji": "🥕",
+            "difficult": false
+        }, {
+            "word": "corn",
+            "phrase": "some corn",
+            "emoji": "🌽",
+            "difficult": false
+        }, {
+            "word": "cucumber",
+            "phrase": "a cucumber",
+            "emoji": "🥒",
+            "difficult": false
+        }, {
+            "word": "lettuce",
+            "phrase": "some lettuce",
+            "emoji": "🥬",
+            "difficult": false
+        }, {
+            "word": "broccoli",
+            "phrase": "some broccoli",
+            "emoji": "🥦",
+            "difficult": false
+        }, {
+            "word": "garlic",
+            "phrase": "some garlic",
+            "emoji": "🧄",
+            "difficult": false
+        }, {
+            "word": "onion",
+            "phrase": "an onion",
+            "emoji": "🧅",
+            "difficult": true
+        }, {
+            "word": "peanut",
+            "phrase": "a peanut",
+            "emoji": "🥜",
+            "difficult": false
+        }, {
+            "word": "beans",
+            "phrase": "some beans",
+            "emoji": "🫘",
+            "difficult": false
+        }, {
+            "word": "chestnut",
+            "phrase": "a chestnut",
+            "emoji": "🌰",
+            "difficult": true
+        }, {
+            "word": "ginger",
+            "phrase": "some ginger",
+            "emoji": "🫚",
+            "difficult": true
+        }, {
+            "word": "peas",
+            "phrase": "some peas",
+            "emoji": "🫛",
+            "difficult": false
+        }, {
+            "word": "mushroom",
+            "phrase": "a mushroom",
+            "emoji": "🍄",
+            "difficult": false
+        }, {
+            "word": "bread",
+            "phrase": "some bread",
+            "emoji": "🍞",
+            "difficult": false
+        }, {
+            "word": "pretzel",
+            "phrase": "a pretzel",
+            "emoji": "🥨",
+            "difficult": false
+        }, {
+            "word": "bagel",
+            "phrase": "a bagel",
+            "emoji": "🥯",
+            "difficult": false
+        }, {
+            "word": "pancakes",
+            "phrase": "some pancakes",
+            "emoji": "🥞",
+            "difficult": false
+        }, {
+            "word": "waffle",
+            "phrase": "a waffle",
+            "emoji": "🧇",
+            "difficult": false
+        }, {
+            "word": "cheese",
+            "phrase": "some cheese",
+            "emoji": "🧀",
+            "difficult": true
+        }, {
+            "word": "chicken",
+            "phrase": "some chicken",
+            "emoji": "🍗",
+            "difficult": true
+        }, {
+            "word": "bacon",
+            "phrase": "some bacon",
+            "emoji": "🥓",
+            "difficult": false
+        }, {
+            "word": "burger",
+            "phrase": "a burger",
+            "emoji": "🍔",
+            "difficult": false
+        }, {
+            "word": "pizza",
+            "phrase": "some pizza",
+            "emoji": "🍕",
+            "difficult": false
+        }, {
+            "word": "hot dog",
+            "phrase": "a hot dog",
+            "emoji": "🌭",
+            "difficult": false
+        }, {
+            "word": "sandwich",
+            "phrase": "a sandwich",
+            "emoji": "🥪",
+            "difficult": false
+        }, {
+            "word": "taco",
+            "phrase": "a taco",
+            "emoji": "🌮",
+            "difficult": false
+        }, {
+            "word": "burrito",
+            "phrase": "a burrito",
+            "emoji": "🌯",
+            "difficult": false
+        }, {
+            "word": "tamale",
+            "phrase": "a tamale",
+            "emoji": "🫔",
+            "difficult": false
+        }, {
+            "word": "falafel",
+            "phrase": "some falafel",
+            "emoji": "🧆",
+            "difficult": false
+        }, {
+            "word": "egg",
+            "phrase": "an egg",
+            "emoji": "🥚",
+            "difficult": false
+        }, {
+            "word": "salad",
+            "phrase": "a salad",
+            "emoji": "🥗",
+            "difficult": false
+        }, {
+            "word": "popcorn",
+            "phrase": "some popcorn",
+            "emoji": "🍿",
+            "difficult": false
+        }, {
+            "word": "butter",
+            "phrase": "some butter",
+            "emoji": "🧈",
+            "difficult": false
+        }, {
+            "word": "salt",
+            "phrase": "some salt",
+            "emoji": "🧂",
+            "difficult": false
+        }, {
+            "word": "pasta",
+            "phrase": "some pasta",
+            "emoji": "🍝",
+            "difficult": false
+        }, {
+            "word": "rice",
+            "phrase": "some rice",
+            "emoji": "🍚",
+            "difficult": false
+        }, {
+            "word": "curry",
+            "phrase": "some curry",
+            "emoji": "🍛",
+            "difficult": false
+        }, {
+            "word": "sushi",
+            "phrase": "some sushi",
+            "emoji": "🍣",
+            "difficult": false
+        }, {
+            "word": "shrimp",
+            "phrase": "some shrimp",
+            "emoji": "🍤",
+            "difficult": true
+        }, {
+            "word": "ice cream",
+            "phrase": "some ice cream",
+            "emoji": "🍨",
+            "difficult": false
+        }, {
+            "word": "donut",
+            "phrase": "a donut",
+            "emoji": "🍩",
+            "difficult": false
+        }, {
+            "word": "cookie",
+            "phrase": "a cookie",
+            "emoji": "🍪",
+            "difficult": false
+        }, {
+            "word": "cake",
+            "phrase": "some cake",
+            "emoji": "🍰",
+            "difficult": false
+        }, {
+            "word": "cupcake",
+            "phrase": "a cupcake",
+            "emoji": "🧁",
+            "difficult": false
+        }, {
+            "word": "pie",
+            "phrase": "a pie",
+            "emoji": "🥧",
+            "difficult": false
+        }, {
+            "word": "chocolate",
+            "phrase": "some chocolate",
+            "emoji": "🍫",
+            "difficult": true
+        }, {
+            "word": "candy",
+            "phrase": "some candy",
+            "emoji": "🍬",
+            "difficult": false
+        }, {
+            "word": "lollipop",
+            "phrase": "a lollipop",
+            "emoji": "🍭",
+            "difficult": false
+        }, {
+            "word": "honey",
+            "phrase": "some honey",
+            "emoji": "🍯",
+            "difficult": false
+        }, {
+            "word": "jewel",
+            "phrase": "a jewel",
+            "emoji": "💎",
+            "difficult": false
+        }, {
+            "word": "vest",
+            "phrase": "a vest",
+            "emoji": "🦺",
+            "difficult": false
+        }, {
+            "word": "notebook",
+            "phrase": "a notebook",
+            "emoji": "📒",
+            "difficult": false
+        }, {
+            "word": "newspaper",
+            "phrase": "a newspaper",
+            "emoji": "🗞️",
+            "difficult": false
+        }, {
+            "word": "underwear",
+            "phrase": "some underwear",
+            "emoji": "🩲",
+            "difficult": false
+        }, {
+            "word": "umbrella",
+            "phrase": "an umbrella",
+            "emoji": "☂️",
+            "difficult": false
+        }, {
+            "word": "ice",
+            "phrase": "some ice",
+            "emoji": "🧊",
+            "difficult": false
+        }, {
+            "word": "yarn",
+            "phrase": "some yarn",
+            "emoji": "🧶",
+            "difficult": false
+        }, {
+            "word": "ball",
+            "phrase": "a ball",
+            "emoji": "⚽",
+            "difficult": false
+        }, {
+            "word": "candle",
+            "phrase": "a candle",
+            "emoji": "🕯️",
+            "difficult": false
+        }, {
+            "word": "sponge",
+            "phrase": "a sponge",
+            "emoji": "🧽",
+            "difficult": false
+        }, {
+            "word": "soap",
+            "phrase": "some soap",
+            "emoji": "🧼",
+            "difficult": false
+        }, {
+            "word": "flashlight",
+            "phrase": "a flashlight",
+            "emoji": "🔦",
+            "difficult": false
+        }, {
+            "word": "phone",
+            "phrase": "a phone",
+            "emoji": "📱",
+            "difficult": true
+        }, {
+            "word": "clock",
+            "phrase": "a clock",
+            "emoji": "⏰",
+            "difficult": false
+        }, {
+            "word": "key",
+            "phrase": "a key",
+            "emoji": "🔑",
+            "difficult": false
+        }, {
+            "word": "bow",
+            "phrase": "a bow",
+            "emoji": "🎀",
+            "difficult": false
+        }, {
+            "word": "book",
+            "phrase": "a book",
+            "emoji": "📘",
+            "difficult": false
+        }, {
+            "word": "crayon",
+            "phrase": "a crayon",
+            "emoji": "🖍️",
+            "difficult": false
+        }, {
+            "word": "paintbrush",
+            "phrase": "a paintbrush",
+            "emoji": "🖌️",
+            "difficult": false
+        }, {
+            "word": "pencil",
+            "phrase": "a pencil",
+            "emoji": "✏️",
+            "difficult": false
+        }, {
+            "word": "pen",
+            "phrase": "a pen",
+            "emoji": "🖊️",
+            "difficult": false
+        }, {
+            "word": "scissors",
+            "phrase": "a pair of scissors",
+            "emoji": "✂️",
+            "difficult": false
+        }, {
+            "word": "die",
+            "phrase": "a die",
+            "emoji": "🎲",
+            "difficult": false
+        }, {
+            "word": "paints",
+            "phrase": "some paints",
+            "emoji": "🎨",
+            "difficult": false
+        }, {
+            "word": "spoon",
+            "phrase": "a spoon",
+            "emoji": "🥄",
+            "difficult": false
+        }, {
+            "word": "coffee",
+            "phrase": "some coffee",
+            "emoji": "☕",
+            "difficult": false
+        }, {
+            "word": "milk",
+            "phrase": "some milk",
+            "emoji": "🥛",
+            "difficult": false
+        }, {
+            "word": "bottle",
+            "phrase": "a bottle",
+            "emoji": "🍼",
+            "difficult": false
+        }, {
+            "word": "flowers",
+            "phrase": "some flowers",
+            "emoji": "💐",
+            "difficult": false
+        }, {
+            "word": "clover",
+            "phrase": "a clover",
+            "emoji": "🍀",
+            "difficult": false
+        }, {
+            "word": "leaf",
+            "phrase": "a leaf",
+            "emoji": "🍁",
+            "difficult": false
+        }, {
+            "word": "lipstick",
+            "phrase": "some lipstick",
+            "emoji": "💄",
+            "difficult": false
+        }, {
+            "word": "thread",
+            "phrase": "some thread",
+            "emoji": "🧵",
+            "difficult": true
+        }, {
+            "word": "gloves",
+            "phrase": "some gloves",
+            "emoji": "🧤",
+            "difficult": false
+        }, {
+            "word": "scarf",
+            "phrase": "a scarf",
+            "emoji": "🧣",
+            "difficult": false
+        }, {
+            "word": "boot",
+            "phrase": "a boot",
+            "emoji": "👢",
+            "difficult": false
+        }, {
+            "word": "hat",
+            "phrase": "a hat",
+            "emoji": "👒",
+            "difficult": false
+        }, {
+            "word": "dress",
+            "phrase": "a dress",
+            "emoji": "👗",
+            "difficult": false
+        }, {
+            "word": "crown",
+            "phrase": "a crown",
+            "emoji": "👑",
+            "difficult": false
+        }, {
+            "word": "ring",
+            "phrase": "a ring",
+            "emoji": "💍",
+            "difficult": false
+        }, {
+            "word": "bell",
+            "phrase": "a bell",
+            "emoji": "🔔",
+            "difficult": false
+        }, {
+            "word": "backpack",
+            "phrase": "a backpack",
+            "emoji": "🎒",
+            "difficult": false
+        }, {
+            "word": "sunglasses",
+            "phrase": "some sunglasses",
+            "emoji": "🕶️",
+            "difficult": false
+        }
+    ], "customers": [
+        "🐒", "🦍", "🦧", "🐕", "🐩", "🐈", "🐈‍⬛", "🐅", "🐆", "🫏", "🐎", "🦌", "🦬", "🐃", "🐄", "🐖", "🐑", "🐐", "🐪", "🐫", "🦙", "🦒", "🐘", "🦣", "🦏", "🦛", "🐁", "🐀", "🐇", "🐿️", "🦫", "🦔", "🦇", "🦥", "🦦", "🦨", "🦘", "🦡", "🦃", "🐓", "🐤", "🐦", "🐧", "🕊️", "🦅", "🦢", "🦤", "🦩", "🦚", "🦜", "🐦‍⬛", "🪿", "🐦‍🔥", "🦉", "🐊", "🐢", "🦎", "🐍", "🐉", "🦕", "🦖", "🐋", "🐬", "🦭", "🐟", "🐠", "🐡", "🦈", "🐙", "🪼", "🦀", "🦞", "🦐", "🦑", "🐌", "🦋", "🐛", "🐜", "🐝", "🪲", "🐞", "🦗", "🪳", "🕷️", "🦂", "🦟", "🪰", "🪱"
+    ]
+}
