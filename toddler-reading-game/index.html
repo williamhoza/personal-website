@@ -97,7 +97,7 @@
                 height:82.7px;
                 display:inline-block;
                 position:absolute;
-                left:70px;
+                left:calc(50% - 140px);
                 top:150px;
                 box-sizing:border-box;
                 padding-left:25px;
@@ -119,12 +119,21 @@
                 padding:10px;
                 font-size:20px;
             }
+
+            #start-over {
+                display:none;
+                margin:auto;
+                margin-top:600px;
+                padding:10px;
+                font-size:20px;
+            }
         </style>
     </head>
 
     <body>
         <button id="start" onclick="start();" disabled>Loading...</button>
         <div id="thought-bubble"></div>
+        <button id="start-over" onclick="startOver();">👋</button>
 
         <script>
             const synth = window.speechSynthesis;
@@ -153,23 +162,39 @@
             
             let streak = 0;
 
+            const LEFT_SIDE_CAPACITY = Math.floor(document.body.clientHeight / ARCHIVE_BOX_SIZE - 1); // number on the left side EXCLUDING top left
+            const LEFT_SIDE_INCREMENT = (document.body.clientHeight - ARCHIVE_BOX_SIZE) / LEFT_SIDE_CAPACITY;
+
+            const BOTTOM_SIDE_CAPACITY = Math.floor(document.body.clientWidth / ARCHIVE_BOX_SIZE - 1); // number on the bottom EXCLUDING bottom left
+            const BOTTOM_SIDE_INCREMENT = (document.body.clientWidth - ARCHIVE_BOX_SIZE) / BOTTOM_SIDE_CAPACITY;
+
+            const RIGHT_SIDE_CAPACITY = LEFT_SIDE_CAPACITY; // number on right side EXCLUDING bottom right
+            const RIGHT_SIDE_INCREMENT = LEFT_SIDE_INCREMENT;
+
+            const TOP_SIDE_CAPACITY = Math.floor(document.body.clientWidth / ARCHIVE_BOX_SIZE - 1); // number on top EXCLUDING top right
+            const TOP_SIDE_INCREMENT = (document.body.clientWidth - ARCHIVE_BOX_SIZE) / TOP_SIDE_CAPACITY;
+
+            function startOver() {
+                for (let i = 0; i < archive.length; i = i + 1) {
+                    let pos = archive.length <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY + RIGHT_SIDE_CAPACITY + TOP_SIDE_CAPACITY ? i : i + 1;
+                    if (pos <= LEFT_SIDE_CAPACITY) {
+                        archive[i].container.style.top = archive[i].container.offsetTop + document.body.clientHeight + "px";
+                    } else if (pos <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY) {
+                        archive[i].container.style.left = archive[i].container.offsetLeft + document.body.clientWidth + "px";
+                    } else if (pos <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY + RIGHT_SIDE_CAPACITY) {
+                        archive[i].container.style.top = archive[i].container.offsetTop - document.body.clientHeight + "px";
+                    } else {
+                        archive[i].container.style.left = archive[i].container.offsetLeft - document.body.clientWidth + "px";
+                    }
+                }
+                archive = [];
+            }
+
             function updateArchivePositions() {
                 let d = 0;
-                
-                const LEFT_SIDE_CAPACITY = Math.floor(document.body.clientHeight / ARCHIVE_BOX_SIZE - 1); // number on the left side EXCLUDING top left
-                const LEFT_SIDE_INCREMENT = (document.body.clientHeight - ARCHIVE_BOX_SIZE) / LEFT_SIDE_CAPACITY;
-
-                const BOTTOM_SIDE_CAPACITY = Math.floor(document.body.clientWidth / ARCHIVE_BOX_SIZE - 1); // number on the bottom EXCLUDING bottom left
-                const BOTTOM_SIDE_INCREMENT = (document.body.clientWidth - ARCHIVE_BOX_SIZE) / BOTTOM_SIDE_CAPACITY;
-
-                const RIGHT_SIDE_CAPACITY = LEFT_SIDE_CAPACITY; // number on right side EXCLUDING bottom right
-                const RIGHT_SIDE_INCREMENT = LEFT_SIDE_INCREMENT;
-
-                const TOP_SIDE_CAPACITY = Math.floor(document.body.clientWidth / ARCHIVE_BOX_SIZE - 1); // number on top EXCLUDING top right
-                const TOP_SIDE_INCREMENT = (document.body.clientWidth - ARCHIVE_BOX_SIZE) / TOP_SIDE_CAPACITY;
 
                 for (let i = 0; i < archive.length; i++) {
-                    archiveItem = archive[archive.length - i - 1];
+                    let archiveItem = archive[archive.length - i - 1];
 
                     let pos = archive.length <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY + RIGHT_SIDE_CAPACITY + TOP_SIDE_CAPACITY ? i : i + 1;
 
@@ -226,7 +251,7 @@
 
                     this.container = document.createElement("div");
                     this.container.classList.add("customer-div");
-                    this.container.style.left = "210px";
+                    this.container.style.left = document.body.clientWidth / 2 + "px";
                     this.container.style.top = "-200px";
                     this.container.appendChild(document.createTextNode(this.customerType));
                     this.archived = false;
@@ -465,6 +490,7 @@
 
             async function start() {
                 document.querySelector("#start").style.display = "none";
+                document.querySelector("#start-over").style.display = "block";
                 bags[0].present();
                 bags[1].present();
 
