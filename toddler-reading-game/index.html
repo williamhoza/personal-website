@@ -176,15 +176,16 @@
 
             function startOver() {
                 for (let i = 0; i < archive.length; i = i + 1) {
+                    let archiveItem = archive[archive.length - i - 1];
                     let pos = archive.length <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY + RIGHT_SIDE_CAPACITY + TOP_SIDE_CAPACITY ? i : i + 1;
                     if (pos <= LEFT_SIDE_CAPACITY) {
-                        archive[i].container.style.top = archive[i].container.offsetTop + document.body.clientHeight + "px";
+                        archiveItem.container.style.top = archiveItem.container.offsetTop + document.body.clientHeight + "px";
                     } else if (pos <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY) {
-                        archive[i].container.style.left = archive[i].container.offsetLeft + document.body.clientWidth + "px";
+                        archiveItem.container.style.left = archiveItem.container.offsetLeft + document.body.clientWidth + "px";
                     } else if (pos <= LEFT_SIDE_CAPACITY + BOTTOM_SIDE_CAPACITY + RIGHT_SIDE_CAPACITY) {
-                        archive[i].container.style.top = archive[i].container.offsetTop - document.body.clientHeight + "px";
+                        archiveItem.container.style.top = archiveItem.container.offsetTop - document.body.clientHeight + "px";
                     } else {
-                        archive[i].container.style.left = archive[i].container.offsetLeft - document.body.clientWidth + "px";
+                        archiveItem.container.style.left = archiveItem.container.offsetLeft - document.body.clientWidth + "px";
                     }
                 }
                 archive = [];
@@ -285,7 +286,8 @@
                         streak++;
                         if (streak >= DIFFICULT_MODE_STREAK_THRESHOLD) difficultMode = true;
                         document.querySelector("#thought-bubble").style.opacity = 0;
-                        const POSSIBLE_RESPONSES = ["Oh yes, that's exactly what I wanted. Thank you!", "That's perfect. Thanks!", "Oh thank you, that's just what I was hoping for.", "Wonderful, thank you for getting that for me."];
+                        // const POSSIBLE_RESPONSES = ["Oh yes, that's exactly what I wanted. Thank you!", "That's perfect. Thanks!", "Oh thank you, that's just what I was hoping for.", "Wonderful, thank you for getting that for me."];
+                        const POSSIBLE_RESPONSES = ["debugging"];
                         let utterance = say(POSSIBLE_RESPONSES[Math.floor(Math.random() * POSSIBLE_RESPONSES.length)]);
                         utterance.addEventListener("end", function() {
                             bag.dismiss();

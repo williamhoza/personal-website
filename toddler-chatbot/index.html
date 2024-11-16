@@ -161,6 +161,15 @@
             .emoji-message {
                 font-size: 50px;
             }
+
+            .animal-button-text {
+                color:transparent;
+                text-shadow: 0 0 0 #000;
+            }
+
+            button[disabled] .animal-button-text {
+                text-shadow: 0 0 0 #d0d0d0;
+            }
         </style>
     </head>
 
@@ -189,13 +198,13 @@
 
             let knownPrefixes = {};
 
-            let animalWords;
+            let animalWords = [];
             let knownAnimalPrefixes = {};
 
             async function loadKnownWords() {
                 // Hand-crafted list of animal words
                 let animalRes = await fetch("animals.json?v=2");
-                animalWords = await animalRes.json();
+                let potentialAnimalWords = await animalRes.json();
 
                 // The sentences are mostly written by LLMs (Claude and ChatGPT)
                 let res = await fetch("sentences.json?v=13");
@@ -209,7 +218,7 @@
                             if (!(word in knownWords)) {
                                 knownWords[word] = sentences[i];
                                 used = true;
-                                let isAnimalWord = animalWords.includes(word);
+                                let isAnimalWord = potentialAnimalWords.includes(word);
                                 for (let i = 0; i <= word.length; i++) {
                                     let pref = word.substr(0, i);
                                     if (!(pref in knownPrefixes)) {
@@ -225,6 +234,7 @@
                                         knownAnimalPrefixes[pref] = word;
                                     }
                                 }
+                                if (isAnimalWord) animalWords.push(word);
                             }
                         }
                     }
@@ -232,9 +242,9 @@
                 }
                 updateKeyboard();
 
-                for (let i = 0; i < animalWords.length; i++) {
-                    if (!(animalWords[i] in knownWords)) {
-                        console.log("Warning: Unknown animal: " + animalWords[i]);
+                for (let i = 0; i < potentialAnimalWords.length; i++) {
+                    if (!(potentialAnimalWords[i] in knownWords)) {
+                        console.log("Warning: Unknown animal: " + potentialAnimalWords[i]);
                     }
                 }
             }
@@ -250,7 +260,10 @@
                 }
 
                 animalButton = document.createElement("button");
-                animalButton.appendChild(document.createTextNode("🐾"));
+                let animalButtonText = document.createElement("span");
+                animalButtonText.appendChild(document.createTextNode("🐾"));
+                animalButtonText.classList.add("animal-button-text");
+                animalButton.appendChild(animalButtonText);
                 document.querySelector("#keyboardContainer").appendChild(animalButton);
                 animalButton.addEventListener("click", animalInput);
 
