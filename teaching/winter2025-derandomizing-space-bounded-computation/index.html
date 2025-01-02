@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
+    <script src="/temml/temml.min.js"></script>
+    <script src="/temml/auto-render.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Derandomizing Space-Bounded Computation | Winter 2025 | William Hoza</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/main.css" />
+
+    <style>
+      summary {
+        font-weight:bold;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size:20px;
+      }
+
+      html {
+        scroll-behavior:smooth;
+      }
+
+      .toc-item:target {
+        background-color:yellow;
+      }
+
+      td {
+        vertical-align:top;
+        padding:15px;
+      }
+
+      table {
+        width: 100%;
+        border:1px solid #c0c0c0;
+        border-collapse:collapse;
+      }
+
+      tr:nth-child(odd) {
+        background-color:#f0f0f0;
+      }
+
+      @media print {
+        #toc-container {
+          display:none;
+        }
+      }
+
+      .reading, .note, .slides {
+        margin-top:10px;
+        margin-left:30px;
+      }
+
+      .slides::before {
+        content: "Slides: ";
+        font-style: italic;
+      }
+
+      .reading::before {
+        content: "Reading: ";
+        font-style: italic;
+      }
+
+      .reading.optional::before {
+        content: "Optional additional reading: ";
+      }
+
+      .note {
+        font-style:italic;
+      }
+
+      .pset:before {
+        content: "⏰ ";
+        font-style: normal;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <!--p style="color:red;">
+          (DRAFT)
+        </p>
+        <hr-->
+        <h1>
+          CMSC 39600: Derandomizing Space-Bounded Computation (Winter 2025)
+        </h1>
+        <p>
+          <strong>Full Course Title: </strong> "Topics in Theoretical Computer Science: Derandomizing Space-Bounded Computation"
+        </p>
+        <p>
+          <strong>Term: </strong> Winter 2025 at the University of Chicago
+        </p>
+        <p>
+          <strong>Instructor: </strong> <a href="/">William Hoza</a> (<a href="mailto:williamhoza@uchicago.edu">williamhoza@uchicago.edu</a>)
+        </p>
+        <p>
+          <strong>Meetings: </strong> Tuesdays and Thursdays | 2:00pm - 3:20pm | Location TBD
+        </p>
+        <p>
+          <strong>Office Hours: </strong> Tuesdays | 3:30pm - 4:45pm | JCL 311
+        </p>
+        <div id="toc-container">
+          <hr />
+          <p>
+            Jump to: <span id="toc-loading">(loading...)</span>
+          </p>
+          <ul id="toc"></ul>
+        </div>
+        <hr />
+        <h2 class="toc-item">Course Description</h2>
+        <p>
+          What is the relationship between space complexity and randomness? Both space and random bits can be considered "expensive" computational resources, so it is desirable to use as little of each as possible. One of the major goals of computational complexity theory is to prove that every randomized decision algorithm can be "derandomized" (i.e., converted into a deterministic algorithm) without increasing its space complexity by more than a constant factor. Complexity theorists have made a great deal of progress toward proving this conjecture over the past several decades, and it is an active and exciting area of research today. In this seminar course, we will study both classic and cutting-edge work on this problem and closely related problems. This will involve topics such as pseudorandom generators, expander graphs, Laplacian solvers, and the Fourier analysis of Boolean functions.
+        </p>
+        <p>
+          This is a graduate-level, research-oriented course. My intention is that this course will prepare you to conduct original research on the derandomization of space-bounded computation. If you're an undergraduate student and you want to take this course, you'll need to discuss it with me and get approval. If you're a graduate student, there are no firm prerequisites, but it would be helpful to have some familiarity with computational complexity theory and probability theory. The course does not have a textbook per se, but the following surveys might be helpful:
+        </p>
+        <ul>
+          <li>Pooya Hatami and William M. Hoza. <a href="https://williamhoza.com/research/papers/HH/">Paradigms for Unconditional Pseudorandom Generators.</a> FnT TCS 2024.</li>
+          <li>William M. Hoza. <a href="http://bulletin.eatcs.org/index.php/beatcs/article/view/728">Recent Progress on Derandomizing Space-Bounded Computation.</a> BEATCS 2022.</li>
+          <li>Salil Vadhan. <a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">Pseudorandomness.</a> FnT TCS 2012.</li>
+          <li>Michael Saks. <a href="https://doi.org/10.1109/CCC.1996.507676">Randomization and Derandomization in Space-Bounded Computation.</a> CCC 1996.</li>
+        </ul>
+        <hr />
+        <h2 class="toc-item">Course Timeline</h2>
+        <p>
+          (The information below will be updated throughout the quarter.)
+        </p>
+        <table>
+          <tr><td>
+            Tuesday 1/7: <em>(Class summary will go here)</em>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 1/9:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 1/14:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 1/16:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 1/21:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 1/23:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 1/28:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 1/30:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 2/4:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 2/6:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 2/11:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 2/13:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 2/18:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 2/20:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 2/25:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 2/27:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Tuesday 3/4:
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Thursday 3/6:
+            <div class="reading"></div>
+          </td></tr>
+        </table>
+        <hr />
+        <h2 class="toc-item">Student Presentations</h2>
+        <p>
+          As part of this course, you will study two research papers on your own and present them to the class. The first presentation will be near the middle of the quarter, and the second presentation will be near the end of the quarter. You should think of your classmates as your target audience. Further details will be determined later, based in part on the number of students who enroll in the course.
+        </p>
+        <p>
+          You get to choose your papers from the two lists below, with the caveat that if two students choose the same paper, then one of them will need to do a different paper instead. (I will coordinate the paper selection process.) With approval, you can select papers that are not on the lists.
+        </p>
+        <p>
+          You can use the <a href="https://guides.lib.uchicago.edu/off-campus">UChicago library proxy server</a> to access papers that are behind paywalls. I've linked to the most "official" versions available of the papers below, but you might want to also look for other versions, such as ECCC preprints.
+        </p>
+        <p><strong>Round 1 (mid-quarter) presentation papers:</strong></p>
+        <ul>
+          <li>Harm Derksen, Peter Ivanov, Chin Ho Lee, and Emanuele Viola. <a href="https://doi.org/10.4230/LIPIcs.CCC.2024.18">Pseudorandomness, Symmetry, Smoothing: I.</a> CCC 2024.</li>
+          <li>Lijie Chen, Xin Lyu, Avishay Tal, and Hongxun Wu. <a href="https://doi.org/10.4230/LIPIcs.ICALP.2023.39">New PRGs for Unbounded-Width/Adaptive-Order Read-Once Branching Programs.</a> ICALP 2023.</li>
+          <li>Chin Ho Lee, Edward Pyne, and Salil Vadhan. <a href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2022.2">Fourier Growth of Regular Branching Programs.</a> RANDOM 2022.</li>
+          <li>William M. Hoza, Edward Pyne, and Salil Vadhan. <a href="https://doi.org/10.1007/s00453-024-01251-2">Limitations of the Impagliazzo-Nisan-Wigderson Pseudorandom Generator Against Permutation Branching Programs.</a> COCOON 2021 [Pyne-Vadhan], Algorithmica 2024.</li>
+          <li>Dean Doron, Raghu Meka, Omer Reingold, Avishay Tal, and Salil Vadhan. <a href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2021.58">Pseudorandom Generators for Read-Once Monotone Branching Programs.</a> RANDOM 2021.</li>
+          <li>William M. Hoza, Edward Pyne, and Salil Vadhan. <a href="https://doi.org/10.4230/LIPIcs.ITCS.2021.7">Pseudorandom Generators for Unbounded-Width Permutation Branching Programs.</a> ITCS 2021.</li>
+          <li>Dean Doron, Pooya Hatami, and William M. Hoza. <a href="https://doi.org/10.4230/LIPIcs.CCC.2020.6">Log-Seed Pseudorandom Generators via Iterated Restrictions.</a> CCC 2020.</li>
+          <li>Chin Ho Lee. <a href="https://doi.org/10.4230/LIPIcs.CCC.2019.7">Fourier Bounds and Pseudorandom Generators for Product Tests.</a> CCC 2019.</li>
+          <li>Raghu Meka, Omer Reingold, and Avishay Tal. <a href="https://doi.org/10.1145/3313276.3316319">Pseudorandom Generators for Width-3 Branching Programs.</a> STOC 2019.</li>
+          <li>Eshan Chattopadhyay, Pooya Hatami, Kaave Hosseini, and Shachar Lovett. <a href="https://doi.org/10.4086/toc.2019.v015a010">Pseudorandom Generators from Polarizing Random Walks.</a> CCC 2018, ToC 2019.</li>
+          <li>Eshan Chattopadhyay, Pooya Hatami, Omer Reingold, and Avishay Tal. <a href="https://doi.org/10.1145/3188745.3188800">Improved Pseudorandom Generators for Unordered Branching Programs through Local Monotonicity.</a> STOC 2018.</li>
+          <li>Parikshit Gopalan, Daniel M. Kane, and Raghu Meka. <a href="https://doi.org/10.1137/16M1062132">Pseudorandomness via the Discrete Fourier Transform.</a> FOCS 2015, SICOMP 2018.</li>
+          <li>Thomas Steinke. <a href="https://eccc.weizmann.ac.il/report/2012/083/">Pseudorandomness for Permutation Branching Programs Without the Group Theory.</a> ECCC 2012.</li>
+          <li>Noam Nisan and David Zuckerman. <a href="https://doi.org/10.1006/jcss.1996.0004">Randomness is Linear in Space.</a> STOC 1993, JCSS 1996.</li>
+        </ul>
+        <p><strong>Round 2 (end-of-quarter) presentation papers:</strong></p>
+        <ul>
+          <li>Dean Doron and William M. Hoza. <a href="https://eccc.weizmann.ac.il/report/2024/137/">Implications of Better PRGs for Permutation Branching Programs.</a> ECCC 2024.</li>
+          <li>Gil Cohen, Dean Doron, Tomer Manket, Edward Pyne, Yichuan Wang, and Tal Yankovitz. <a href="https://eccc.weizmann.ac.il/report/2024/090/">A Study of Error Reduction Polynomials.</a> ECCC 2024.</li>
+          <li>Kuan Cheng and Yichuan Wang. <a href="https://doi.org/10.4230/LIPIcs.CCC.2024.32">$\mathsf{BPL} \subseteq \mathsf{L}\text{-}\mathsf{AC}^1$.</a> CCC 2024.</li>
+          <li>Edward Pyne. <a href="https://doi.org/10.4230/LIPIcs.CCC.2024.4">Derandomizing Logspace with a Small Shared Hard Drive.</a> CCC 2024.</li>
+          <li>Eshan Chattopadhyay and Jyun-Jie Liao. <a href="https://doi.org/10.4230/LIPIcs.ITCS.2024.29">Recursive Error Reduction for Regular Branching Programs.</a> ITCS 2024.</li>
+          <li>Lijie Chen, William M. Hoza, Xin Lyu, Avishay Tal, and Hongxun Wu. <a href="https://doi.org/10.1109/FOCS57990.2023.00072">Weighted Pseudorandom Generators via Inverse Analysis of Random Walks and Shortcutting.</a> FOCS 2023.</li>
+          <li>Edward Pyne, Ran Raz, and Wei Zhan. <a href="https://doi.org/10.1109/FOCS57990.2023.00061">Certified Hardness vs. Randomness for Log-Space.</a> FOCS 2023.</li>
+          <li>Aaron (Louie) Putterman and Edward Pyne. <a href="https://doi.org/10.1145/3564246.3585108">Near-Optimal Derandomization of Medium-Width Branching Programs.</a> STOC 2023.</li>
+          <li>Uma Girish, Ran Raz, and Wei Zhan. <a href="https://doi.org/10.4230/LIPIcs.ITCS.2023.56">Is Untrusted Randomness Helpful?</a> ITCS 2023.</li>
+          <li>Andrej Bogdanov, William M. Hoza, Gautam Prakriya, and Edward Pyne. <a href="https://doi.org/10.4230/LIPIcs.CCC.2022.3">Hitting Sets for Regular Branching Programs.</a> CCC 2022.</li>
+          <li>William M. Hoza. <a href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2021.28">Better Pseudodistributions and Derandomization for Space-Bounded Computation.</a> RANDOM 2021.</li>
+          <li>AmirMahdi Ahmadinejad, Jonathan Kelner, Jack Murtagh, John Peebles, Aaron Sidford, and Salil Vadhan. <a href="https://doi.org/10.1109/FOCS46700.2020.00123">High-precision Estimation of Random Walks in Small Space.</a> FOCS 2020.</li>
+          <li>Ofer Grossman and Yang P. Liu. <a href="https://doi.org/10.1137/1.9781611975482.38">Reproducibility and Pseudo-Determinism in Log-Space.</a> SODA 2019.</li>
+          <li>Nathan Linial, Michael Luby, Michael Saks, and David Zuckerman. <a href="https://doi.org/10.1007/BF01200907">Efficient Construction of a Small Hitting Set for Combinatorial Rectangles in High Dimension.</a> STOC 1993, Combinatorica 1997.</li>
+        </ul>
+        <hr />
+        <h2 class="toc-item">Grading Policies</h2>
+        <p>
+          Your grade will be based on class participation (34%) and your two presentations (33% each).
+        </p>
+        <hr />
+        <h2 class="toc-item">Inclusion and Accessibility</h2>
+        <p>
+          This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect. I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
+        </p>
+        <p>
+          To highlight a few facets of these topics:
+        </p>
+        <ul>
+          <li>You are encouraged to ask questions in class, and you should make your classmates feel comfortable asking questions in class. There is no shame in not knowing something or not understanding something. Questions make the course better for everyone.</li>
+          <li>I am happy to work with any students who are pregnant/parenting to figure out the best way to make the course work for you.</li>
+          <li>Computer scientists and mathematicians can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.</li>
+        </ul>
+      </article>
+    </main>
+    
+    <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+      function generateTOC() {
+        const sectionTitles = document.getElementsByClassName("toc-item");
+        for (i = 0; i < sectionTitles.length; i++) {
+          const title = sectionTitles[i].innerText;
+          const urlTitle = title.replaceAll(" ", "-").toLowerCase();
+          sectionTitles[i].id = urlTitle;
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.innerText = title;
+          link.href = "#" + urlTitle;
+          listItem.appendChild(link);
+          document.querySelector("#toc").appendChild(listItem);
+        }
+        document.querySelector("#toc-loading").style.display = "none";
+      }
+
+      generateTOC();
+    </script>
+
+    <script>
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ]
+      });
+    </script>
+  </body>
+</html>
