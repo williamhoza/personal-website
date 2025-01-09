@@ -54,32 +54,16 @@
         }
       }
 
-      .reading, .note, .slides {
+      .reading {
         margin-top:10px;
-        margin-left:30px;
-      }
-
-      .slides::before {
-        content: "Slides: ";
-        font-style: italic;
       }
 
       .reading::before {
         content: "Reading: ";
+      }
+
+      .ref {
         font-style: italic;
-      }
-
-      .reading.optional::before {
-        content: "More reading: ";
-      }
-
-      .note {
-        font-style:italic;
-      }
-
-      .pset:before {
-        content: "⏰ ";
-        font-style: normal;
       }
     </style>
   </head>
@@ -137,81 +121,66 @@
         </p>
         <table>
           <tr><td>
-            Tuesday 1/7: Random walks in undirected graphs; the expansion parameter $\lambda(G)$. 
-            <div class="reading">
-              [My lecture notes] <a href="random-walks-in-undirected-graphs.pdf">random-walks-in-undirected-graphs.pdf</a>
-            </div>
-            <div class="reading optional">
-              [The original paper] Aleliunas, Karp, Lipton, Lovász, and Rackoff. <a href="https://doi.org/10.1109/SFCS.1979.34">Random walks, universal traversal sequences, and the complexity of maze problems.</a> FOCS 1979.
-            </div>
+            Tuesday 1/7: Random walks in undirected graphs; the expansion parameter $\lambda(G)$. Reading:
+            <ul>
+              <li>My lecture notes: <a href="random-walks-in-undirected-graphs.pdf">random-walks-in-undirected-graphs.pdf</a></li>
+              <li>The original paper: <span class="ref">Aleliunas, Karp, Lipton, Lovász, and Rackoff. <a href="https://doi.org/10.1109/SFCS.1979.34">Random walks, universal traversal sequences, and the complexity of maze problems.</a> FOCS 1979.</span></li>
+            </ul>
           </td></tr>
           <tr><td>
-            Thursday 1/9:
-            <div class="reading"></div>
+            Thursday 1/9: The complexity class $\mathsf{BPL}$; variants of the model; $\mathsf{BPL}$ algorithms run in polynomial time; expander graphs. Reading:
+            <ul>
+              <li>Regarding the basics of the $\mathsf{BPL}$ model, see Sections 2.2 and 2.4 of my PhD dissertation: <span class="ref">William M. Hoza. <a href="https://doi.org/10.26153/tsw/15500">Derandomizing Space-Bounded Computation via Pseudorandom Generators and their Generalizations.</a> 2021.</span></li>
+              <li>For an introduction to expanders, see Chapter 4 of <a href="http://people.seas.harvard.edu/~salil/pseudorandomness/">Vadhan's pseudorandomness survey</a>.</li>
+            </ul>
           </td></tr>
           <tr><td>
             Tuesday 1/14:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 1/16:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 1/21:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 1/23:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 1/28:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 1/30:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 2/4:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 2/6:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 2/11:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 2/13:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 2/18:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 2/20:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 2/25:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 2/27:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Tuesday 3/4:
-            <div class="reading"></div>
           </td></tr>
           <tr><td>
             Thursday 3/6:
-            <div class="reading"></div>
           </td></tr>
         </table>
         <hr />
