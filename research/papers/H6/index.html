@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Fooling Near-Maximal Decision Trees
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+<link href="/research/papers.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
+<p>
+<a href="/research/">
+            Back to list of papers
+          </a>
+</p>
+<hr/>
+<h1>
+Fooling Near-Maximal Decision Trees
+</h1>
+<p>
+By William M. Hoza
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2025/003/">ECCC</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+        For any constant $\alpha &gt; 0$, we construct an explicit pseudorandom generator (PRG) that fools $n$-variate decision trees of size $m$ with error $\varepsilon$ and seed length $(1 + \alpha) \cdot \log_2 m + O(\log(1/\varepsilon) + \log \log n)$. For context, one can achieve seed length $(2 + o(1)) \cdot \log_2 m + O(\log(1/\varepsilon) + \log \log n)$ using well-known constructions and analyses of small-bias distributions, but such a seed length is trivial when $m \geq 2^{n/2}$. By combining our new PRG with work by Chen and Kabanets (TCS 2016), we get an explicit PRG that fools circuits of size $2.99\cdot n$ over the $U_2$ basis with error $2^{-\Omega(n)}$ and seed length $(1 - \Omega(1)) \cdot n$.
+    </p>
+<p>
+        Our approach for fooling decision trees is to develop a new variant of the classic concept of almost $k$-wise independence, which might be of independent interest. We say that a distribution $X$ over $\{0, 1\}^n$ is <em>$k$-wise $\varepsilon$-probably uniform</em> if every Boolean function $f$ that depends on only $k$ variables satisfies $\mathbb{E}[f(X)] \geq (1 - \varepsilon) \cdot \mathbb{E}[f]$. We show how to sample a $k$-wise $\varepsilon$-probably uniform distribution using a seed of length $(1 + \alpha) \cdot k + O(\log(1/\varepsilon) + \log \log n)$.
+    </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+        A "pseudorandom generator" is an algorithm that flips a coin a few times and outputs a long sequence of bits that "appear random" in some sense. In this paper, we design a pseudorandom generator that outputs a sequence of bits that appear random from the perspective of any observer who only looks at $k$ of the bits. The challenge is that we have to generate all the bits without knowing which $k$ bits the observer will choose to look at. In fact, even the observer doesn't necessarily know in advance which $k$ bits they will look at, because they are allowed to take into account the bits they've seen so far when they are deciding which bit to look at next. Before our work, there were known pseudorandom generators that use approximately $2k$ coin flips to output such a sequence. Our new pseudorandom generator only uses approximately $1.01k$ coin flips.
+    </p>
+</div>
+</details>
+
+<p>
+
+    I posted a manuscript online in January 2025.
+
+</p>
+
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
