@@ -1,4 +1,4 @@
-from paper2 import Paper
+from paper3 import Paper
 import mainPage2
 import os
 from collections import OrderedDict
