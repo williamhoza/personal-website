@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
+    <script src="/temml/temml.min.js"></script>
+    <script src="/temml/auto-render.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Introduction to Complexity Theory | Spring 2025 | William Hoza</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/main.css" />
+
+    <style>
+      summary {
+        font-weight:bold;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size:20px;
+      }
+
+      html {
+        scroll-behavior:smooth;
+      }
+
+      .toc-item:target {
+        background-color:yellow;
+      }
+
+      td {
+        vertical-align:top;
+        padding:15px;
+      }
+
+      table {
+        width: 100%;
+        border:1px solid #c0c0c0;
+        border-collapse:collapse;
+      }
+
+      tr:nth-child(odd) {
+        background-color:#f0f0f0;
+      }
+
+      @media print {
+        #toc-container {
+          display:none;
+        }
+      }
+
+      .reading, .slides, .note {
+        margin-top:10px;
+        margin-left:30px;
+      }
+
+      .slides::before {
+        content: "Slides: ";
+        font-style: italic;
+      }
+
+      .reading::before {
+        content: "Reading: ";
+        font-style: italic;
+      }
+
+      .ref {
+        font-style: italic;
+      }
+
+      .note {
+        font-style:italic;
+      }
+
+      .deadline:before {
+        content: "⏰ ";
+        font-style: normal;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <main>
+      <article>
+        <p style="color:red;">
+          (DRAFT)
+        </p>
+        <hr>
+        <h1>
+          CMSC 28100: Introduction to Complexity Theory (Spring 2025)
+        </h1>
+        <p>
+          <strong>Term: </strong> Spring 2025 at the University of Chicago
+        </p>
+        <p>
+          <strong>Instructor: </strong> <a href="/">William Hoza</a> (<a href="mailto:williamhoza@uchicago.edu">williamhoza@uchicago.edu</a>)
+        </p>
+        <p>
+          <strong>TAs: </strong> TBA
+        </p>
+        <p>
+          <strong>Graders: </strong> TBA
+        </p>
+        <p>
+          <strong>Meetings: </strong> Mondays, Wednesdays, and Fridays | 2:30pm - 3:20pm | Location TBA
+        </p>
+        <p>
+          <strong>Textbook: </strong> <em>Introduction to the Theory of Computing, 3rd Edition</em> by Michael Sipser. ISBN-13: 9780357670583.
+        </p>
+        <div id="toc-container">
+          <hr />
+          <p>
+            Jump to: <span id="toc-loading">(loading...)</span>
+          </p>
+          <ul id="toc"></ul>
+        </div>
+        <hr />
+        <h2 class="toc-item">Course Description</h2>
+        <p>
+          In this course, we will study the mathematical and philosophical foundations of computer science. Our central mission will be to understand <em>which problems can be solved through computation</em>, focusing especially on impossibility proofs. In the first part of the course, we will develop techniques for proving that certain problems, such as the "halting problem," cannot be solved by any algorithm whatsoever. In the second part of the course, we will study computation in a world where resources, such as time and space (memory), are limited. We will prove that certain problems are "intractable," meaning that they cannot be solved by polynomial-time algorithms, and we will develop the theory of "NP-completeness," which enables us to identify many important problems that are likely to be intractable.
+        </p>
+        <p>
+          If all goes well, at the end of the course, you will be able to:
+        </p>
+        <ul>
+          <li>Reason clearly about mathematical models of computation such as the Turing machine model.</li>
+          <li>Identify undecidable and intractable problems.</li>
+          <li>Correctly interpret undecidability and intractability theorems.</li>
+        </ul>
+        <hr />
+        <h2 class="toc-item">Office Hours</h2>
+        <p>
+          Some weeks will have modified hours, which will be posted on Slack. By default, the office hours are as follows.
+        </p>
+        <ul>
+          <li>TBA</li>
+        </ul>
+        <h2 class="toc-item">Course Timeline</h2>
+        <p>
+          (The information below will be updated throughout the quarter.)
+        </p>
+        <table>
+          <tr><td>
+            Monday 3/24:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 3/26:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 3/28:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 3/31:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 1-4 are due on Tuesday 4/1</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/2:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/4:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/7:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 5-8 are due on Tuesday 4/8</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/9:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/11:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/14:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 9-12 are due on Tuesday 4/15</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/16:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/18:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/21:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/23: Midterm exam.
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 4/25:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 4/28:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 13-16 are due on Tuesday 4/29</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 4/30:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/2:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 5/5:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 17-20 are due on Tuesday 5/6</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 5/7:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/9:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 5/12:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 21-24 are due on Tuesday 5/13</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 5/14:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/16:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Monday 5/19:
+            <div class="slides"></div>
+            <div class="reading"></div>
+            <div class="deadline note">Exercises 25-28 are due on Tuesday 5/20</div>
+          </td></tr>
+          <tr><td>
+            Wednesday 5/21:
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            Friday 5/23: Course summary and review.
+            <div class="slides"></div>
+            <div class="reading"></div>
+          </td></tr>
+          <tr><td>
+            There will be an in-person final exam.
+          </td></tr>
+        </table>
+        <hr />
+        <h2 class="toc-item">Homework Policies</h2>
+        <p>
+          I will assign 28 exercises throughout the quarter. Four exercises will be due each Tuesday, with the exceptions of Week 1 and the week of the midterm exam. Submit your solutions through Gradescope.
+        </p>
+        <p>
+          <em>Collaboration.</em> You are encouraged to collaborate with your classmates on exercises, but you must adhere to the following rules.
+        </p>
+        <ul>
+          <li>Work on each exercise on your own for at least five minutes before discussing it with classmates.</li>
+          <li>Feel free to explain your ideas to your classmates in person, and feel free to use whiteboards/chalkboards/etc. However, do not share any written/typeset solutions with your classmates for them to study on their own time. This includes partial solutions. For example, do not post partial solutions on Slack. (You are welcome to use Slack to ask clarification questions and to discuss general concepts.)</li>
+          <li>Write your solutions on your own. While you are writing your solutions, do not consult any notes that you might have taken during discussions with classmates.</li>
+          <li>In your write-up, list any classmates who helped you figure out the solution. The fact that student A contributed to student B's solution does not necessarily mean that student B contributed to student A's solution.</li>
+        </ul>
+        <p>
+          <em>Permitted Resources.</em> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook and any slides or notes posted in the "Course Timeline" section of this webpage, and you may also use Wikipedia. You may not use any other resources. Some examples of prohibited resources are ChatGPT and Stack Exchange.
+        </p>
+        <hr />
+        <h2 class="toc-item">Grading Policies</h2>
+        <p>
+          <strong>Numeric grades.</strong> Your overall numeric grade in this course will be calculated using the formula
+          $$
+            G = 0.65 \cdot A + 0.35 \cdot B + 0.3 \cdot B^6 \cdot \max(B - A, 0).
+          $$
+          In this formula, $B$ is your score on the final exam, and $A$ is the weighted average of exercises 1-4 (5%), exercises 5-28 (60%), and the midterm exam (35%). The values $A$ and $B$ are both normalized to be between 0 and 1. Here are a few hypothetical examples:
+        </p>
+        <ul>
+          <li>Student 1 earns scores of 85% on the exercises, 50% on the midterm exam, and 50% on the final exam, leading to an overall numeric grade of 65%.</li>
+          <li>Student 2 earns scores of 85% on the exercises, 90% on the midterm exam, and 50% on the final exam, leading to an overall numeric grade of 74%.</li>
+          <li>Student 3 earns scores of 85% on the exercises, 50% on the midterm exam, and 95% on the final exam, leading to an overall numeric grade of 86%.</li>
+        </ul>
+        <p>
+          To a significant extent, <strong>a good performance on the midterm exam safeguards your grade</strong> against any challenges you might face later in the quarter. Doing well on the midterm exam means that even if the final exam goes poorly, you will still come out okay. (Compare Students 1 and 2.) I hope that this motivates you to study for the midterm exam, and I hope it also helps you to relax and not feel too nervous going into the final exam.
+        </p>
+        <p>
+          At the same time, <strong>even if you do poorly on the midterm exam, you can still succeed in this course.</strong> (Consider Student 3.) I hope that this helps you to relax and not feel too nervous going into the midterm exam, and I also hope it also motivates you to redouble your efforts if the midterm exam goes poorly.
+        </p>
+        <p>
+          <strong>Letter grades.</strong> The letter grade thresholds will be determined at the end of the quarter. To get a rough sense, you can click <a href="previous-year-letter-grade-thresholds.txt">here</a> to see the thresholds from previous iterations of this course.
+        </p>
+        <p>
+          <strong>Late work.</strong> You are strongly encouraged to complete each exercise within the allotted time. If you don't master the subject matter of a particular exercise by the deadline, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+        </p>
+        <ul>
+          <li>If you submit your solution to an exercise $x$ days late, where $0 < x < 4$, then your score will be multiplied by $(1 - (x/4)^3)^{1/3}$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and <a href="https://humanresources.uchicago.edu/benefits/timeoff/vacationholidays/universityholidays.shtml">university holidays</a> are all excluded from the lateness calculation.</li>
+          <li>Even if two exercises have the same deadline, you do not have to submit your solutions simultaneously. You can submit one solution on time for full credit and submit the other solution late for partial credit. On the other hand, if an exercise is divided into parts, then you must submit your solutions to all parts simultaneously.</li>
+          <li>Eventually, I will post official solutions. If you look at the official solutions, then from that point onward, you are not permitted to submit your own solution for that exercise. Submitting solutions after looking at the official solution would be an academic honesty violation.</li>
+          <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
+        </ul>
+        <p>
+          The score you see in Gradescope represents your score <strong>before</strong> applying the lateness penalty, i.e., it is the score that you <strong>would have</strong> received if you had submitted your solution on time. Lateness penalties will only be recorded in Canvas, possibly after a significant delay.
+        </p>
+        <p>
+          <strong>Extensions.</strong> Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, I am happy to grant an extension for a religious holiday if you give me sufficiently early notice that you will be observing that holiday.
+        </p>
+        <p>
+          <strong>Regrade requests.</strong> If you think something was graded incorrectly, please submit a regrade request through Gradescope. For problem sets, these regrade requests will ordinarily be handled by a TA or grader; you may contact me if you wish to "appeal" their decision. For exams, all regrade requests will be handled by me.
+        </p>
+        <hr />
+        <h2 class="toc-item">If You Aren't Officially Enrolled</h2>
+        <p>
+          This course might be full at the beginning of the quarter. If you are hoping to <strong>join</strong> the course:
+        </p>
+        <ul>
+          <li>If the <a href="https://waitlist.cs.uchicago.edu">waitlist</a> is open, you should add yourself.</li>
+          <li>If the waitlist is closed, we will need to discuss your circumstances. Talk to me after class, or send me an email to set up a meeting.</li>
+          <li>While you wait for a spot to open up, you should attend class and do the homework as if you were already enrolled, if possible.</li>
+        </ul>
+        <p>
+          You are also welcome to <strong>audit</strong> the course, assuming there is enough space in the classroom. We won't necessarily have time to give auditors feedback on their homework solutions.
+        </p>
+        <hr />
+        <h2 class="toc-item">Academic Honesty Catch-All Policy</h2>
+        <p>
+          If you ever find yourself in any kind of irregular / problematic / questionable situation related to academic honesty in this course, you should send me an email and explain what happened.
+        </p>
+        <p>
+          For example, you should send me an email if you realize that you unintentionally violated a course policy, such as the policy regarding permitted resources for homework assignments. Another example would be if you cheated on an exam and now you regret it.
+        </p>
+        <p>
+          I encourage you to follow this simple protocol in every course you take. Depending on the circumstances, you might possibly face some consequences such as a lowered score, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
+        </p>
+        <h2 class="toc-item">Inclusion and Accessibility</h2>
+        <p>
+          This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect. I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
+        </p>
+        <p>
+          To highlight a few facets of these topics:
+        </p>
+        <ul>
+          <li>You are encouraged to ask questions in class, and you should make your classmates feel comfortable asking questions in class. There is no shame in not knowing something or not understanding something. Questions make the course better for everyone.</li>
+          <li>I am happy to work with any students who are pregnant/parenting to figure out the best way to make the course work for you.</li>
+          <li>Computer scientists and mathematicians can come from many diverse backgrounds, and nobody should experience prejudice or discrimination in this course.</li>
+        </ul>
+      </article>
+    </main>
+    
+    <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script>
+      function generateTOC() {
+        const sectionTitles = document.getElementsByClassName("toc-item");
+        for (i = 0; i < sectionTitles.length; i++) {
+          const title = sectionTitles[i].innerText;
+          const urlTitle = title.replaceAll(" ", "-").toLowerCase();
+          sectionTitles[i].id = urlTitle;
+          const listItem = document.createElement("li");
+          const link = document.createElement("a");
+          link.innerText = title;
+          link.href = "#" + urlTitle;
+          listItem.appendChild(link);
+          document.querySelector("#toc").appendChild(listItem);
+        }
+        document.querySelector("#toc-loading").style.display = "none";
+      }
+
+      generateTOC();
+    </script>
+
+    <script>
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ]
+      });
+    </script>
+  </body>
+</html>

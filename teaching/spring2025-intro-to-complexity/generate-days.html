@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            function generate(start, end) {
+                let ret = "";
+                let d = start;
+                while (d.getTime() < end.getTime()) {
+                    let s = "";
+                    if (d.getDay() == 1) s = "Monday";
+                    if (d.getDay() == 3) s = "Wednesday";
+                    if (d.getDay() == 5) s = "Friday";
+                    if (s != "") {
+                        s = s + " " + (d.getMonth() + 1) + "/" + d.getDate();
+                        ret = ret + "<tr><td>\n  " + s + ":\n  <div class=\"slides\"></div>\n  <div class=\"reading\"></div>\n</td></tr>\n"
+                    }
+                    d.setDate(d.getDate() + 1);
+                }
+                return ret;
+            }
+        </script>
+    </body>
+</html>
