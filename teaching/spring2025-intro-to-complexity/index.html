@@ -122,15 +122,12 @@
         <hr />
         <h2 class="toc-item">Course Description</h2>
         <p>
-          In this course, we will study the mathematical and philosophical foundations of computer science. Our central mission will be to understand <em>which problems can be solved through computation</em>, focusing especially on impossibility proofs. In the first part of the course, we will develop techniques for proving that certain problems, such as the "halting problem," cannot be solved by any algorithm whatsoever. In the second part of the course, we will study computation in a world where resources, such as time and space (memory), are limited. We will prove that certain problems are "intractable," meaning that they cannot be solved by polynomial-time algorithms, and we will develop the theory of "NP-completeness," which enables us to identify many important problems that are likely to be intractable.
-        </p>
-        <p>
-          If all goes well, at the end of the course, you will be able to:
+          In this course, we will study the mathematical and philosophical foundations of computer science. Our central mission will be to understand <em>which problems can be solved through computation</em>, focusing especially on impossibility proofs. In the first part of the course, we will develop techniques for proving that certain problems, such as the "halting problem," cannot be solved by any algorithm whatsoever. In the second part of the course, we will study computation in a world where resources, such as time and space (memory), are limited. We will prove that certain problems are "intractable," meaning that they cannot be solved by polynomial-time algorithms, and we will develop the theory of "NP-completeness," which enables us to identify many important problems that are likely to be intractable. If all goes well, at the end of the course, you will be able to:
         </p>
         <ul>
-          <li>Reason clearly about mathematical models of computation such as the Turing machine model.</li>
-          <li>Identify undecidable and intractable problems.</li>
-          <li>Correctly interpret undecidability and intractability theorems.</li>
+          <li>Reason about computation using mathematical models such as the Turing machine model.</li>
+          <li>Use reductions to identify undecidable and intractable problems.</li>
+          <li>Correctly interpret theorems and questions regarding the ultimate limits of computation.</li>
         </ul>
         <hr />
         <h2 class="toc-item">Office Hours</h2>
@@ -294,10 +291,10 @@
         <hr />
         <h2 class="toc-item">Homework Policies</h2>
         <p>
-          I will assign 28 exercises throughout the quarter. Four exercises will be due each Tuesday, with the exceptions of Week 1 and the week of the midterm exam. Submit your solutions through Gradescope.
+          I will assign 28 exercises throughout the quarter. Submit your solutions through Gradescope.
         </p>
         <p>
-          <em>Collaboration.</em> You are encouraged to collaborate with your classmates on exercises, but you must adhere to the following rules.
+          <strong>Collaboration.</strong> You are encouraged to collaborate with your classmates on exercises, but you must adhere to the following rules.
         </p>
         <ul>
           <li>Work on each exercise on your own for at least five minutes before discussing it with classmates.</li>
@@ -306,7 +303,7 @@
           <li>In your write-up, list any classmates who helped you figure out the solution. The fact that student A contributed to student B's solution does not necessarily mean that student B contributed to student A's solution.</li>
         </ul>
         <p>
-          <em>Permitted Resources.</em> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook and any slides or notes posted in the "Course Timeline" section of this webpage, and you may also use Wikipedia. You may not use any other resources. Some examples of prohibited resources are ChatGPT and Stack Exchange.
+          <strong>Permitted Resources.</strong> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook, any slides or notes posted in the "Course Timeline" section of this webpage, and Wikipedia. You may not use any other resources. Some examples of prohibited resources are ChatGPT and Stack Exchange.
         </p>
         <hr />
         <h2 class="toc-item">Grading Policies</h2>
@@ -323,10 +320,10 @@
           <li>Student 3 earns scores of 85% on the exercises, 50% on the midterm exam, and 95% on the final exam, leading to an overall numeric grade of 86%.</li>
         </ul>
         <p>
-          To a significant extent, <strong>a good performance on the midterm exam safeguards your grade</strong> against any challenges you might face later in the quarter. Doing well on the midterm exam means that even if the final exam goes poorly, you will still come out okay. (Compare Students 1 and 2.) I hope that this motivates you to study for the midterm exam, and I hope it also helps you to relax and not feel too nervous going into the final exam.
+          To a significant extent, <strong>a good performance on the midterm exam safeguards your grade</strong> against any challenges you might face later in the quarter. Doing well on the midterm exam means that even if the final exam goes poorly, you will still come out okay. (Compare Students 1 and 2.) I hope that this motivates you to study for the midterm exam. I also hope it helps you to relax and not feel too nervous going into the final exam.
         </p>
         <p>
-          At the same time, <strong>even if you do poorly on the midterm exam, you can still succeed in this course.</strong> (Consider Student 3.) I hope that this helps you to relax and not feel too nervous going into the midterm exam, and I also hope it also motivates you to redouble your efforts if the midterm exam goes poorly.
+          At the same time, <strong>even if you do poorly on the midterm exam, you can still succeed in this course.</strong> (Consider Student 3.) I hope that this helps you to relax and not feel too nervous going into the midterm exam. I also hope it motivates you to redouble your efforts if the midterm exam goes poorly.
         </p>
         <p>
           <strong>Letter grades.</strong> The letter grade thresholds will be determined at the end of the quarter. To get a rough sense, you can click <a href="previous-year-letter-grade-thresholds.txt">here</a> to see the thresholds from previous iterations of this course.
@@ -335,9 +332,9 @@
           <strong>Late work.</strong> You are strongly encouraged to complete each exercise within the allotted time. If you don't master the subject matter of a particular exercise by the deadline, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
         </p>
         <ul>
-          <li>If you submit your solution to an exercise $x$ days late, where $0 < x < 4$, then your score will be multiplied by $(1 - (x/4)^3)^{1/3}$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and <a href="https://humanresources.uchicago.edu/benefits/timeoff/vacationholidays/universityholidays.shtml">university holidays</a> are all excluded from the lateness calculation.</li>
+          <li>If you submit your solution to an exercise $x$ days late, where $0 < x < 4$, then your score will be multiplied by $1.0063 - 0.0311x - (0.3523x - 0.43)^6$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and <a href="https://humanresources.uchicago.edu/benefits/timeoff/vacationholidays/universityholidays.shtml">university holidays</a> are all excluded from the lateness calculation.</li>
           <li>Even if two exercises have the same deadline, you do not have to submit your solutions simultaneously. You can submit one solution on time for full credit and submit the other solution late for partial credit. On the other hand, if an exercise is divided into parts, then you must submit your solutions to all parts simultaneously.</li>
-          <li>Eventually, I will post official solutions. If you look at the official solutions, then from that point onward, you are not permitted to submit your own solution for that exercise. Submitting solutions after looking at the official solution would be an academic honesty violation.</li>
+          <li>Eventually, I will post official solutions. If you look at the official solution for an exercise, then from that point onward, you are not permitted to submit your own solution for that exercise. Submitting a solution after looking at the official solution would be an academic honesty violation.</li>
           <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
         </ul>
         <p>
@@ -356,8 +353,8 @@
         </p>
         <ul>
           <li>If the <a href="https://waitlist.cs.uchicago.edu">waitlist</a> is open, you should add yourself.</li>
-          <li>If the waitlist is closed, we will need to discuss your circumstances. Talk to me after class, or send me an email to set up a meeting.</li>
-          <li>While you wait for a spot to open up, you should attend class and do the homework as if you were already enrolled, if possible.</li>
+          <li>If the waitlist is closed, you will need to discuss your circumstances with me. Talk to me after class, or send me an email to set up a meeting.</li>
+          <li>While you wait for a spot to potentially open, you should attend class and do the homework as if you were already enrolled, if possible.</li>
         </ul>
         <p>
           You are also welcome to <strong>audit</strong> the course, assuming there is enough space in the classroom. We won't necessarily have time to give auditors feedback on their homework solutions.
@@ -373,6 +370,7 @@
         <p>
           I encourage you to follow this simple protocol in every course you take. Depending on the circumstances, you might possibly face some consequences such as a lowered score, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
         </p>
+        <hr />
         <h2 class="toc-item">Inclusion and Accessibility</h2>
         <p>
           This course, like every course you take, ought to be an enjoyable and enriching experience. You have a right to be treated with respect and a responsibility to treat others with respect. I want all students to be able to fully participate in this course. Let me know if you need an accommodation for any reason, so we can explore possible solutions together. If applicable, please follow the protocols established by UChicago Student Disability Services.
