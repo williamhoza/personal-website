@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script src="https://www.googletagmanager.com/gtag/js?id=UA-123337994-1"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-123337994-1');</script>
+    <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
+    <script src="/temml/temml.min.js"></script>
+    <script src="/temml/auto-render.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <title>William Hoza's Personal Info</title>
@@ -36,7 +38,7 @@
           <a href="/">Back to my homepage</a>
         </p>
         <hr />
-        <img src="family.jpg" style="width:180px;float:right;margin-left:20px;">
+        <img src="family-2.jpg" style="width:180px;float:right;margin-left:20px;">
         <h1>
           Personal info
         </h1>
@@ -47,12 +49,28 @@
           <li>I go by William, not Will/Bill/etc. (Students: Please call me either William or Professor Hoza, whichever makes you more comfortable.)</li>
           <li>I'm <span class="elapsed" data-start="1994-06-02">?</span> old. <span id="grade"></span></li>
           <li>I've been happily married to Alicia Torres Hoza for <span class="elapsed" data-start="2019-11-08">?</span>.</li>
-          <li>We have one wonderful daughter 🙂 (We had two other kids, but tragically they died before birth.)</li>
+          <li>We have a wonderful daughter 🙂 We also had two other children who, tragically, died before birth.</li>
           <li>I'm about 5' 5" tall, much like the <a href="https://en.wikipedia.org/wiki/Average_human_height_by_country">average man in North Korea or the average woman in Sweden.</a></li>
           <li>I have Celiac disease, so I cannot eat gluten. Also, I try to avoid eating meat on Fridays, and I try to avoid eating pork or beef on any day of the week, but sometimes I make exceptions to these rules.</li>
           <li>I like pineapple on pizza, and I like the Star Wars prequel trilogy, but I don't like chocolate.</li>
           <li>I enjoy computer programming as a casual hobby.</li>
         </ul>
+        <details>
+          <summary>Some of my favorite things</summary>
+          <div class="indent">
+            <ul style="margin-top:0;margin-bottom:0;padding-left:15px;">
+              <li><strong>Colors:</strong> Green; orange; pink</li>
+              <li><strong>Foods:</strong> Chicken; mandarin oranges; pizza</li>
+              <li><strong>Complexity classes:</strong> $\mathsf{BPL}$; $\mathsf{AC}^0$</li>
+              <li><strong>Movies:</strong> 12 Angry Men (1957)</li>
+              <li><strong>Inequalities:</strong> Markov's inequality; Jensen's inequality; the Chernoff bound</li>
+              <li><strong>TV shows:</strong> Avatar: The Last Airbender</li>
+              <li><strong>Paradoxes:</strong> Curry's paradox; Galileo's paradox; Moore's paradox</li>
+              <li><strong>Board games:</strong> Boggle; Pictionary; Blokus</li>
+              <li><strong>Polyhedra:</strong> Tetrahedron; icosahedron; cuboctahedron</li>
+            </ul>
+          </div>
+        </details>
         <p>
           I have an amateur interest in philosophy. I wish I knew more about it. Some of my philosophical opinions are listed below.
         </p>
@@ -84,7 +102,7 @@
         <details>
           <summary>Political views</summary>
           <p>
-            ⚠️<em>Whether you lean "left", "right", or some other direction, you are probably going to disagree with me about some of this stuff. I hope we can still be friends! Please trust that I want us all to thrive. I'm sure there are some things I'm wrong about.</em>
+            ⚠️<em>Whether you lean "left", "right", or some other direction, you are probably going to disagree with me about some of this stuff. I hope we can still be friends! Please trust that I want us all to thrive. I'm sure there are many things I'm wrong about.</em>
           </p>
           <div class="indent">
             I'm a member of the <a href="https://solidarity-party.org/">American Solidarity Party</a>. Here are some of my views on various U.S. issues:
@@ -136,7 +154,7 @@
               </li>
               <li class="c">
                 <span>
-                  I support an expansive right to freedom of speech. I think that in most cases, the best response to objectionable speech is respectful dialogue and persuasive <a href="https://en.wikipedia.org/wiki/Counterspeech">counterspeech</a> rather than punishment, censorship, or ostracization.
+                  I support <a href="https://en.wikipedia.org/wiki/Originalism">constitutional originalism.</a> I think the Constitution has room for improvement. I favor clearly distinguishing between improvements that <em>could potentially</em> be made and improvements that <em>actually have</em> been made. I think the legitimate way to change the Constitution is to use the amendment process described in Article V of the Constitution itself.
                 </span>
               </li>
               <li class="l">
@@ -144,15 +162,13 @@
                   I oppose torture. More generally, I oppose almost all violent actions performed by the U.S. military. I am grateful for the service of those members of the military who honorably and ethically defend the country.
                 </span>
               </li>
-              <li class="c">
-                <span>
-                  I support <a href="https://en.wikipedia.org/wiki/Originalism">constitutional originalism.</a> I think the Constitution has room for improvement. I favor clearly distinguishing between improvements that <em>could potentially</em> be made and improvements that <em>actually have</em> been made. I think the legitimate way to change the Constitution is to use the amendment process described in Article V of the Constitution itself.
-                </span>
-              </li>
               <li class="l">
                 <span>
                   I favor repealing the second amendment.
                 </span>
+              </li>
+              <li>
+                I support an expansive right to freedom of speech. I think that in most cases, the best response to objectionable speech is respectful dialogue and persuasive <a href="https://en.wikipedia.org/wiki/Counterspeech">counterspeech</a> rather than punishment, censorship, or ostracization.
               </li>
               <li>
                 I oppose efforts by the NSA to weaken widely-used cryptographic software.
@@ -186,6 +202,15 @@
       }
     </script>
     
+    <script>
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ]
+      });
+    </script>
+
     <script data-goatcounter="https://williamhoza.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
