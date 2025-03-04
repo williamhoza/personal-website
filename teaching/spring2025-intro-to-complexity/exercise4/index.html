@@ -98,14 +98,14 @@
                 <hr />
 
                 <p>
-                    Recall that if $K$ is a nonnegative integer, then $\langle K \rangle$ denotes the standard base-2 representation of $K$. We use the notation $1^K$ to denote the symbol $1$ repeated $K$ times. For example, $1^3 = 111$.
+                    For each positive integer $K$, let $\langle K \rangle$ denote the standard base-2 representation of $K$, and let $0^K$ denote the symbol $0$ repeated $K$ times. For example, $\langle 9 \rangle = 1001$ and $0^3 = 000$.
                 </p>
 
                 <p>
-                    <strong>Part (a): </strong> Let $Y = \{1^K 0 \langle K \rangle : K \text{ is a positive integer}\}$. Design a Turing machine $M$ that decides $Y$.
+                    <strong>Part (a): </strong> Let $Y = \{0^K \langle K \rangle : K \text{ is a positive integer}\}$. Design a Turing machine $M$ that decides $Y$.
                 </p>
                 <p>
-                    Record your machine's transition function in the table below. Each entry should have the form $(q, b, D)$, where $q$ is a state, $b$ is a symbol, and $D$ is a direction. The blank symbol is _, the start state is a,the accept state is y, and the reject state is z. There is a simulator below the table that you can use to test your Turing machine.
+                    Record your machine's transition function in the table below. Each entry should have the form $(q, b, D)$, where $q$ is a state, $b$ is a symbol, and $D$ is a direction. The blank symbol is _, the start state is a, the accept state is y, and the reject state is z. There is a simulator below the table that you can use to test your Turing machine.
                 </p>
                 
                 <details>
@@ -145,7 +145,7 @@
                 </p>
 
                 <form action="" onsubmit = "try { initializeTM(); } finally { event.preventDefault(); }">
-                    Input: <input type="text" pattern="[01#]*" id="tm-input"> <input type="submit" value="Initialize">
+                    Input: <input type="text" pattern="[01]*" id="tm-input"> <input type="submit" value="Initialize">
                 </form>
 
                 <hr />
@@ -167,12 +167,17 @@
                 </p>
 
                 <p>
-                    When you upload the file to Gradescope, you will get feedback from the autograder. If the autograder identifies a bug in your Turing machine, you should fix it and resubmit. Note: The autograder will only simulate your machine for so many steps. If your Turing machine is absurdly slow, then you won't get full credit, even if your machine technically does correctly decide the language $Y$.
+                    When you upload the file to Gradescope, you will get feedback from the autograder. If the autograder identifies a bug in your Turing machine, you should fix it and resubmit.
                 </p>
 
                 <p>
-                    (Note: Invalid transitions are not included in the download.)
+                    Note:
                 </p>
+
+                <ul>
+                    <li>Invalid transitions are not included in the download.</li>
+                    <li>The autograder will only simulate your machine for so many steps. If your Turing machine is absurdly slow, then you won't get full credit, even if your machine technically does correctly decide the language $Y$.</li>
+                </ul>
 
             </article>
         </main>
