@@ -19,10 +19,26 @@
 
       h1 {
         font-size: 24px;
+        counter-reset: section;
       }
 
       h2 {
         font-size:20px;
+        counter-reset: subsection;
+      }
+
+      h2:before {
+        counter-increment: section;
+        content:counter(section) ". ";
+      }
+
+      h3 {
+        font-size:17px;
+      }
+
+      h3:before {
+        counter-increment: subsection;
+        content:counter(section) "." counter(subsection) ". ";
       }
 
       html {
@@ -101,13 +117,10 @@
           <strong>Instructor: </strong> <a href="/">William Hoza</a> (<a href="mailto:williamhoza@uchicago.edu">williamhoza@uchicago.edu</a>)
         </p>
         <p>
-          <strong>TAs: </strong> TBA
+          <strong>TAs: </strong> Zelin Lv and Yakov Shalunov
         </p>
         <p>
-          <strong>Graders: </strong> TBA
-        </p>
-        <p>
-          <strong>Meetings: </strong> Mondays, Wednesdays, and Fridays | 2:30pm - 3:20pm | Location TBA
+          <strong>Meetings: </strong> Mondays, Wednesdays, and Fridays | 2:30pm - 3:20pm | STU 105
         </p>
         <p>
           <strong>Textbook: </strong> <em>Introduction to the Theory of Computing, 3rd Edition</em> by Michael Sipser. ISBN-13: 9780357670583.
@@ -117,7 +130,7 @@
           <p>
             Jump to: <span id="toc-loading">(loading...)</span>
           </p>
-          <ul id="toc"></ul>
+          <ol id="toc"></ol>
         </div>
         <hr />
         <h2 class="toc-item">Course Description</h2>
@@ -132,12 +145,17 @@
         <hr />
         <h2 class="toc-item">Office Hours</h2>
         <p>
-          Some weeks will have modified hours, which will be posted on Ed. By default, the office hours are as follows.
+          By default, the office hours are as follows.
         </p>
         <ul>
           <li>William: Mondays from 9am to 11am in JCL 205, starting on 3/31.</li>
-          <li>TA office hours TBA</li>
+          <li>Zelin: Fridays from 2pm to 3pm in JCL 205.</li>
+          <li>Yakov: Thursdays from 5pm to 6pm in JCL 205.</li>
         </ul>
+        <p>
+          Some weeks will have modified hours, which will be posted on Ed. 
+        </p>
+        <hr />
         <h2 class="toc-item">Course Timeline</h2>
         <p>
           (The information below will be updated throughout the quarter.)
@@ -249,7 +267,7 @@
             <div class="reading"></div>
           </td></tr>
           <tr><td>
-            Friday 5/9:
+            Friday 5/9 <span style="color:red;">[Zoom meeting]</span>:
             <div class="slides"></div>
             <div class="reading"></div>
           </td></tr>
@@ -286,7 +304,7 @@
             <div class="reading"></div>
           </td></tr>
           <tr><td>
-            There will be an in-person final exam.
+            <a href="https://registrar.uchicago.edu/calendars/final-exams/">Date/time TBA</a>: Final exam.
           </td></tr>
         </table>
         <hr />
@@ -294,26 +312,32 @@
         <p>
           I will assign 28 exercises throughout the quarter. Submit your solutions through Gradescope.
         </p>
+        <h3>Collaboration</h3>
         <p>
-          <strong>Collaboration.</strong> You are encouraged to collaborate with your classmates on exercises, but you must adhere to the following rules.
+          You are encouraged to collaborate with your classmates on exercises, but you must adhere to the following rules.
         </p>
         <ul>
           <li>Work on each exercise on your own for at least five minutes before discussing it with classmates.</li>
-          <li>Feel free to explain your ideas to your classmates in person, and feel free to use whiteboards/chalkboards/etc. However, do not share any written/typeset solutions with your classmates for them to study on their own time. For example, if you include a solution to a homework exercise in an Ed post, <em>or even a partial solution,</em> then you should make the thread private. (You are encouraged to use public Ed threads to ask clarification questions and to discuss general concepts.)</li>
+          <li>Feel free to explain your ideas to your classmates in person, and feel free to use whiteboards/chalkboards/etc. However, do not share any written/typeset solutions with your classmates for them to study on their own time. For example, if you include a solution to a homework exercise in an Ed post, <em>or even a partial solution,</em> then you should make the thread private, so it is only visible to the course staff. (You are encouraged to use public Ed threads to ask clarification questions and to discuss general concepts.)</li>
           <li>Write your solutions on your own. While you are writing your solutions, do not consult any notes that you might have taken during discussions with classmates.</li>
           <li>In your write-up, list any classmates who helped you figure out the solution. The fact that student A contributed to student B's solution does not necessarily mean that student B contributed to student A's solution.</li>
         </ul>
+        <h3>Permitted Resources</h3>
         <p>
-          <strong>Permitted Resources.</strong> In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook, any slides or notes posted in the "Course Timeline" section of this webpage, and Wikipedia. You may not use any other resources. Some examples of prohibited resources are ChatGPT and Stack Exchange.
+          In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook, any slides or notes posted in the "Course Timeline" section of this webpage, and Wikipedia. You may not use any other resources. Some examples of prohibited resources are ChatGPT and Stack Exchange.
         </p>
         <hr />
         <h2 class="toc-item">Grading Policies</h2>
+        <h3>Numeric Grades</h3>
         <p>
-          <strong>Numeric grades.</strong> Your overall numeric grade in this course will be calculated using the formula
+          Your overall numeric grade in this course will be calculated using the formula
           $$
             G = 0.65 \cdot A + 0.35 \cdot B + 0.3 \cdot B^6 \cdot \max(B - A, 0).
           $$
-          In this formula, $B$ is your score on the final exam, and $A$ is the weighted average of exercises 1-4 (5%), exercises 5-28 (60%), and the midterm exam (35%). The values $A$ and $B$ are both normalized to be between 0 and 1. Here are a few hypothetical examples:
+          In this formula, $B$ is your score on the final exam, and $A$ is the weighted average of the midterm exam (35%), exercises 1-4 (5%), and exercises 5-28 (60%). The values $A$ and $B$ are both normalized so be between 0 and 1.
+        </p>
+        <p>
+          Here are a few hypothetical examples.
         </p>
         <ul>
           <li>Student 1 earns scores of 85% on the exercises, 50% on the midterm exam, and 50% on the final exam, leading to an overall numeric grade of 65%.</li>
@@ -326,11 +350,13 @@
         <p>
           At the same time, <strong>even if you do poorly on the midterm exam, you can still succeed in this course.</strong> (Consider Student 3.) I hope that this helps you to relax and not feel too nervous going into the midterm exam. I also hope it motivates you to redouble your efforts if the midterm exam goes poorly.
         </p>
+        <h3>Letter Grades</h3>
         <p>
-          <strong>Letter grades.</strong> The letter grade thresholds will be determined at the end of the quarter. To get a rough sense, you can click <a href="previous-year-letter-grade-thresholds.txt">here</a> to see the thresholds from previous iterations of this course.
+          The letter grade thresholds will be determined at the end of the quarter. To get a rough sense, you can click <a href="previous-year-letter-grade-thresholds.txt">here</a> to see the thresholds from previous iterations of this course.
         </p>
+        <h3>Late Work</h3>
         <p>
-          <strong>Late work.</strong> You are strongly encouraged to complete each exercise within the allotted time. If you don't master the subject matter of a particular exercise by the deadline, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+          You are strongly encouraged to complete each exercise within the allotted time. If you don't master the subject matter of a particular exercise by the deadline, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
         </p>
         <ul>
           <li>If you submit your solution to an exercise $x$ days late, where $0 < x < 4$, then your score will be multiplied by $1.0063 - 0.0311x - (0.3523x - 0.43)^6$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and <a href="https://humanresources.uchicago.edu/benefits/timeoff/vacationholidays/universityholidays.shtml">university holidays</a> are all excluded from the lateness calculation.</li>
@@ -341,14 +367,16 @@
         <p>
           The score you see in Gradescope represents your score <strong>before</strong> applying the lateness penalty, i.e., it is the score that you <strong>would have</strong> received if you had submitted your solution on time. Lateness penalties will only be recorded in Canvas, possibly after a significant delay.
         </p>
+        <h3>Extensions</h3>
         <p>
-          <strong>Extensions.</strong> Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, I am happy to grant an extension for a religious holiday if you give me sufficiently early notice that you will be observing that holiday.
+          Please get in touch with me if you are having trouble keeping up with the course schedule for any reason. I may be willing to give you an extension, or I may be willing to give you partial credit for late work in excess of what the principles above stipulate. To highlight one example, I am happy to grant an extension for a religious holiday if you give me sufficiently early notice that you will be observing that holiday.
         </p>
+        <h3>Regrade Requests</h3>
         <p>
-          <strong>Regrade requests.</strong> If you think something was graded incorrectly, please submit a regrade request through Gradescope. For problem sets, these regrade requests will ordinarily be handled by a TA or grader; you may contact me if you wish to "appeal" their decision. For exams, all regrade requests will be handled by me.
+          If you think something was graded incorrectly, please submit a regrade request through Gradescope. Regrade requests for homework exercises will ordinarily be handled by a TA; you may contact me if you wish to "appeal" their decision. All regrade requests for exams will be handled by me.
         </p>
         <hr />
-        <h2 class="toc-item">If You Aren't Officially Enrolled</h2>
+        <!--h2 class="toc-item">If You Aren't Officially Enrolled</h2>
         <p>
           This course might be full at the beginning of the quarter. If you are hoping to <strong>join</strong> the course:
         </p>
@@ -360,13 +388,13 @@
         <p>
           You are also welcome to <strong>audit</strong> the course, assuming there is enough space in the classroom. If you are auditing, you are welcome to complete the homework exercises and submit your solutions, but we won't necessarily be able to give you feedback.
         </p>
-        <hr />
-        <h2 class="toc-item">Academic Honesty Catch-All Policy</h2>
+        <hr /-->
+        <h2 class="toc-item">Academic Honesty</h2>
         <p>
           If you ever find yourself in any kind of irregular / problematic / questionable situation related to academic honesty in this course, you should send me an email and explain what happened.
         </p>
         <p>
-          For example, you should send me an email if you realize that you accidentally used a prohibited resource while you were working on the homework. Another example: You should send me an email if you cheated on an exam and now you regret it.
+          For example, you should send me an email if you realize that you accidentally used a prohibited resource while you were working on the homework. As another example, you should send me an email if you cheated on an exam and now you regret it.
         </p>
         <p>
           I encourage you to follow this simple protocol in every course you take. Depending on the circumstances, you might possibly face some consequences such as a lowered score, but don't let this deter you. <em>A clean conscience is worth more than any grade.</em>
