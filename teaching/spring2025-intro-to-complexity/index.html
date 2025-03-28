@@ -70,13 +70,18 @@
         }
       }
 
-      .reading, .slides, .note {
+      .reading, .slides, .note, .materials {
         margin-top:10px;
         margin-left:30px;
       }
 
       .slides::before {
         content: "Slides: ";
+        font-style: italic;
+      }
+
+      .materials::before {
+        content: "Additional materials: ";
         font-style: italic;
       }
 
@@ -172,9 +177,10 @@
             <div class="reading">None.</div>
           </td></tr>
           <tr><td>
-            Friday 3/28:
-            <div class="slides"></div>
-            <div class="reading"></div>
+            Friday 3/28: Promise problems; code as data; SELF-REJECTORS is undecidable; the Church-Turing thesis; left-right-stationary Turing machines.
+            <div class="slides"><a href="a3-self-rejectors.pptx">[pptx]</a> <a href="a3-self-rejectors.pdf">[pdf]</a></div>
+            <div class="materials">Here is the self-rejecting Python script example: <a href="word-count.py">word-count.py</a></div>
+            <div class="reading">Sections 3.2 (you can skip the part about nondeterminism) and 3.3.</div>
           </td></tr>
           <tr><td>
             Monday 3/31:
