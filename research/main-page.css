@@ -1,5 +1,9 @@
-.paper-list2 {
+.paper-list2, .student-list {
     padding-left:25px;
+}
+
+.student-list > li {
+    padding-left:10px;
 }
 
 .paper-list2 > li {
