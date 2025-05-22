@@ -10,13 +10,29 @@ def compile(papers):
     surveyListOL = soup.new_tag("ol")
     surveyListOL["class"] = "paper-list2"
 
+    dissertationOL = soup.new_tag("ol")
+    dissertationOL["class"] = "paper-list2"
+
     for paper in reversed(papers):
         if paper.isDissertation:
+            li = soup.new_tag("li")
+
             a = soup.new_tag("a")
             a["href"] = "dissertation"
             a["style"] = "font-style:normal;"
             a.string = paper.title
-            soup.find("data", value="DISSERTATION").replace_with(a)
+            li.append(a)
+
+            authorp = soup.new_tag("p")
+            authorp.append(paper.authors)
+            li.append(authorp)
+
+            yearp = soup.new_tag("p")
+            yearp.append("2021") # hard-coded for simplicity
+            yearp["style"] = "font-style:italic;"
+            li.append(yearp)
+
+            dissertationOL.append(li)
         else:
             li = soup.new_tag("li")
             # li["style"] = "font-style:italic;"
@@ -48,6 +64,7 @@ def compile(papers):
 
     soup.find("data", value="SURVEY-LIST").replace_with(surveyListOL)
     soup.find("data", value="PAPER-LIST").replace_with(paperListOL)
+    soup.find("data", value="DISSERTATION").replace_with(dissertationOL)
     
     indexFile = open("index.html", "w", encoding="utf-8")
     indexFile.write(str(soup))
