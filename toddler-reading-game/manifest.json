@@ -12,6 +12,7 @@
             "type": "image/webp"
         }
     ],
-    "display": "standalone"
+    "display": "standalone",
+    "orientation": "portrait"
 }
   
