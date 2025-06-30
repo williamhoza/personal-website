@@ -212,6 +212,7 @@
             class Customer {
                 constructor() {
                     this.customerType = customerTypes[Math.floor(Math.random() * customerTypes.length)];
+                    this.clickable = true;
                     this.requestedMerchandiseType = null;
                     this.difficultRequest = false;
 
@@ -252,7 +253,7 @@
                 }
 
                 order() {
-                    if (!this.archived) {
+                    if (!this.archived && this.clickable) {
                         document.querySelector("#thought-bubble").innerHTML = this.requestedMerchandiseType["emoji"];
                         document.querySelector("#thought-bubble").style.opacity = 1;
                         const GREETINGS = ["Hello! ", "Hi! ", "Hi there! ", "Excuse me. "];
@@ -293,7 +294,8 @@
                         bagsClickable = true;
                         utterance.addEventListener("end", function() {
                             bag.merchandiseItem.goIntoBag();
-                        });
+                            this.clickable = true;
+                        }.bind(this));
                     }
                 }
             }
@@ -416,6 +418,7 @@
                         if (window.navigator.vibrate) window.navigator.vibrate(50);
                         this.otherBag.merchandiseItem.goIntoBag();
                         this.merchandiseItem.emergeFromBag();
+                        activeCustomer.clickable = false;
                         setTimeout(function() {
                             activeCustomer.respondTo(this);
                         }.bind(this), 1000);
