@@ -1,0 +1,59 @@
+Minimum score to receive an A:
+
+	Spring 2025:	TBD
+	Spring 2024:	93%
+	Winter 2024:	91%
+
+Minimum score to receive an A-:
+
+	Spring 2025:	TBD
+	Spring 2024:	90%
+	Winter 2024:	88%
+
+Minimum score to receive a B+:
+
+	Spring 2025:	TBD
+	Spring 2024:	86%
+	Winter 2024:	85%
+
+Minimum score to receive a B:
+
+	Spring 2025:	TBD
+	Spring 2024:	82%
+	Winter 2024:	82%
+
+Minimum score to receive a B-:
+
+	Spring 2025:	TBD
+	Spring 2024:	77%
+	Winter 2024:	78%
+
+Minimum score to receive a C+:
+
+	Spring 2025:	TBD
+	Spring 2024:	71%
+	Winter 2024:	74%
+
+Minimum score to receive a C:
+
+	Spring 2025:	TBD
+	Spring 2024:	65%
+	Winter 2024:	69%
+
+Minimum score to receive a C-:
+
+	Spring 2025:	TBD
+	Spring 2024:	59%
+	Winter 2024:	63%
+
+Minimum score to receive a D+:
+
+	Spring 2025:	TBD
+	Spring 2024:	52%
+	Winter 2024:	57%
+
+Minimum score to receive a D:
+
+	Spring 2025:	TBD
+	Spring 2024:	45%
+	Winter 2024:	51%

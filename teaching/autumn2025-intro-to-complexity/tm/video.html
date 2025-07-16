@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"> 
+
+    <style>
+        .cell {
+            stroke-width:3;
+            stroke:black;
+            fill:#fff;
+        }
+
+        #head {
+            stroke-width:3;
+            stroke:black;
+            fill:#00ffff;
+            transition:all 300ms;
+        }
+
+        .cell-symbol {
+            text-anchor:middle;
+            dominant-baseline:middle;
+            font-size:24px;
+        }
+
+        #state {
+            text-anchor:middle;
+            dominant-baseline:middle;
+            font-size:18px;
+            transition:all 300ms;
+        }
+
+        #head, #state {
+            transform:translateX(50px);
+        }
+
+        body {
+            background-color:#fff;
+        }
+
+        #tmContainer {
+            border:6px ridge #ddd;
+            background-color:#ffe;
+        }
+    </style>
+</head>
+<html>
+    <body>
+        <svg id="tmContainer" width="500" height="120">
+            <polygon id="head" points="50,65 70,100 30,100" />
+            <text id="state" x="50" y="90">R</text>
+        </svg>
+        <script>
+            const tmContainer = document.querySelector("#tmContainer");
+            const head = document.querySelector("#head");
+            const stateTxt = document.querySelector("#state");
+            let state = 0; // 0 means scan right; 1 means decrement; 2 means halt
+            let tapeContents = {1: "1", 2: "1", 3: "0", 4: "1"};
+            let headLocation = 1;
+            let tapeTextElements = {};
+
+
+            function getSymbol(loc) {
+                return loc in tapeContents ? tapeContents[loc] : "⊔";
+            }
+            
+            function setSymbol(s) {
+                tapeContents[headLocation] = s;
+                tapeTextElements[headLocation].textContent = s;
+            }
+
+            function update() {
+                let currentSymbol = getSymbol(headLocation);
+
+                // Transition function is hard-coded here for now
+                if (state == 0) {
+                    // Scan right
+                    if (currentSymbol == "⊔") {
+                        state = 1;
+                        headLocation = headLocation - 1;
+                    } else {
+                        headLocation = headLocation + 1;
+                    }
+                } else if (state == 1) {
+                    // Decrement
+                    if (currentSymbol == "1") {
+                        setSymbol("0");
+                        state = 0;
+                        headLocation = headLocation + 1;
+                    } else if (currentSymbol == "0") {
+                        setSymbol("1");
+                        headLocation = headLocation - 1;
+                    } else if (currentSymbol == "⊔") {
+                        state = 2;
+                    }
+                }
+
+                if (state == 0) stateTxt.textContent = "R";
+                if (state == 1) stateTxt.textContent = "D";
+                if (state == 2) stateTxt.textContent = "H";
+                head.style.transform = `translateX(${headLocation * 50}px)`;
+                stateTxt.style.transform = `translateX(${headLocation * 50}px)`;
+            }
+
+            function init() {
+
+                for (let i = -100; i < 100; i++) {
+                    let txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    txt.setAttribute("x", 50 * (i + 1) + "");
+                    txt.setAttribute("y", "52");
+                    txt.classList.add("cell-symbol");
+                    txt.textContent = getSymbol(i);
+                    tmContainer.prepend(txt);
+                    tapeTextElements[i] = txt;
+
+                    let sq = document.createElementNS("http://www.w3.org/2000/svg","rect");
+                    sq.setAttribute("width", "50");
+                    sq.setAttribute("height", "50");
+                    sq.classList.add("cell")
+                    sq.setAttribute("x", 50 * i + 25 + "");
+                    sq.setAttribute("y", "25");
+                    tmContainer.prepend(sq);
+                }
+            }
+
+            init();
+            setInterval(update, 500);
+
+        </script>
+    </body>
+</html>

@@ -8,7 +8,7 @@
 <script src="/temml/auto-render.min.js"></script>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>
-On Sums of INW Pseudorandom Generators
+Fooling Near-Maximal Decision Trees
 </title>
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
 <link href="/main.css" rel="stylesheet"/>
@@ -24,26 +24,26 @@ On Sums of INW Pseudorandom Generators
 </p>
 <hr/>
 <h1>
-On Sums of INW Pseudorandom Generators
+Fooling Near-Maximal Decision Trees
 </h1>
 <p>
 By William M. Hoza and Zelin Lv
 </p>
 <hr/>
 <p>
-          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2025/050/">ECCC</a>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2025/003/">ECCC</a>
 </p>
 <details>
 <summary>Abstract (for specialists)</summary>
 <div class="indent">
 <p>
-        We study a new approach for constructing pseudorandom generators (PRGs) that fool constant-width standard-order read-once branching programs (ROBPs). Let $X$ be the $n$-bit output distribution of the INW PRG (Impagliazzo, Nisan, and Wigderson, STOC 1994), instantiated using expansion parameter $\lambda$. We prove that the bitwise XOR of $t$ independent copies of $X$ fools width-$w$ programs with error $n^{\log(w + 1)} \cdot (\lambda \cdot \log n)^t$. Notably, this error bound is meaningful even for relatively large values of $\lambda$ such as $\lambda = 1/O(\log n)$.
+        For any constant $\alpha &gt; 0$, we construct an explicit pseudorandom generator (PRG) that fools $n$-variate decision trees of size $m$ with error $\varepsilon$ and seed length $(1 + \alpha) \cdot \log_2 m + O(\log(1/\varepsilon) + \log \log n)$. For context, one can achieve seed length $(2 + o(1)) \cdot \log_2 m + O(\log(1/\varepsilon) + \log \log n)$ using well-known constructions and analyses of small-bias distributions, but such a seed length is trivial when $m \geq 2^{n/2}$. Our approach is to develop a new variant of the classic concept of almost $k$-wise independence, which might be of independent interest. We say that a distribution $X$ over $\{0, 1\}^n$ is <em>$k$-wise $\epsilon$-probably uniform</em> if every Boolean function $f$ that depends on only $k$ variables satisfies $\mathbb{E}[f(X)] \geq (1 - \epsilon) \cdot \mathbb{E}[f]$. We show how to sample a $k$-wise $\epsilon$-probably uniform distribution using a seed of length $(1 + \alpha) \cdot k + O(\log(1/\epsilon) + \log \log n)$.
     </p>
 <p>
-        Admittedly, our analysis does not yet imply any improvement in the bottom-line overall seed length required for fooling such programs — it just gives a new way of re-proving the well-known $O(\log^2 n)$ bound. Furthermore, we prove that this shortcoming is not an artifact of our analysis, but rather is an intrinsic limitation of our "XOR of INW" approach. That is, no matter how many copies of the INW generator we XOR together, and no matter how we set the expansion parameters, if the generator fools width-$3$ programs and the proof of correctness does not use any properties of the expander graphs except their spectral expansion, then we prove that the seed length of the generator is inevitably $\Omega(\log^2 n)$.
+        Meanwhile, we also show how to construct a set $H \subseteq \mathbb{F}_2^n$ such that every feasible system of $k$ linear equations in $n$ variables over $\mathbb{F}_2$ has a solution in $H$. The cardinality of $H$ and the time complexity of enumerating $H$ are at most $2^{k + o(k) + \mathrm{polylog}(n)}$, whereas small-bias distributions would give a bound of $2^{2k + O(\log(n/k))}$.
     </p>
 <p>
-        Still, we hope that our work might be a step toward constructing near-optimal PRGs fooling constant-width ROBPs. We suggest that one could try running the INW PRG on $t$ <em>correlated</em> seeds, sampled via another PRG, and taking the bitwise XOR of the outputs.
+        By combining our new constructions with work by Chen and Kabanets (TCS 2016), we obtain nontrivial PRGs and hitting sets for linear-size Boolean circuits. Specifically, we get an explicit PRG with seed length $(1 - \Omega(1)) \cdot n$ that fools circuits of size $2.99 \cdot n$ over the $U_2$ basis, and we get a hitting set with time complexity $2^{(1 - \Omega(1)) \cdot n}$ for circuits of size $2.49 \cdot n$ over the $B_2$ basis.
     </p>
 </div>
 </details>
@@ -52,17 +52,19 @@ By William M. Hoza and Zelin Lv
 <p>⚠️ <em>This summary might gloss over some important details.</em></p>
 <div class="indent" value="NOT-SO-ABSTRACT">
 <p>
-        A "pseudorandom generator" is an algorithm that flips a coin a few times and outputs a long sequence of bits that "appear random" in some sense. In this paper, we present a pseudorandom generators whose output bits appear random from the perspective of any observer who has a tiny amount of memory and who only looks at each bit one time in a predetermined order. Quantitatively speaking, our pseudorandom generator isn't any better than prior work, but we argue that our new generator might be a step on a path to near-optimal generators.
+        A "pseudorandom generator" is an algorithm that flips a coin a few times and outputs a long sequence of bits that "appear random" in some sense. In this paper, we design a pseudorandom generator that outputs a sequence of bits that appear random from the perspective of any observer who only looks at $k$ of the bits. The challenge is that we have to generate all the bits without knowing which $k$ bits the observer will choose to look at. In fact, even the observer doesn't necessarily know in advance which $k$ bits they will look at, because they are allowed to take into account the bits they've seen so far when they are deciding which bit to look at next. Before our work, there were known pseudorandom generators that use approximately $2k$ coin flips to output such a sequence. Our new pseudorandom generator only uses approximately $1.01k$ coin flips.
     </p>
 </div>
 </details>
 
 <p>
 
-    We posted a manuscript online in April 2025.
+    I posted a single-author manuscript online in January 2025. Zelin and I posted an updated, jointly-authored manuscript in July 2025. The paper will appear at RANDOM in August 2025.
 
 </p>
-
+<data value="EXPOSITORY"><hr/><p>Expository material:</p><ul><li>
+<a href="uchicago-theory-lunch-slides.pptx">[Slides pptx]</a> <a href="uchicago-theory-lunch-slides.pdf">[Slides pdf]</a>. These are slides from my presentation at the UChicago CS Theory Lunch (January 2025).
+</li></ul></data>
 <hr/>
 
 

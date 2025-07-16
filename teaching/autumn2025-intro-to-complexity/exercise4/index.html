@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/temml/Temml-Latin-Modern.css" />
+        <script src="/temml/temml.min.js"></script>
+        <script src="/temml/auto-render.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" href="/main.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
+
+        <title>
+            Exercise 4 (CMSC 28100, Spring 2025)
+        </title>
+
+        <style>
+            .cell {
+                stroke-width:3;
+                stroke:black;
+                fill:none;
+            }
+
+            #head {
+                stroke-width:3;
+                stroke:black;
+                fill:#00ffff;
+                transition:all 300ms;
+            }
+
+            .cell-symbol {
+                text-anchor:middle;
+                dominant-baseline:middle;
+                font-size:24px;
+            }
+
+            input {
+                width:70px;
+            }
+
+            input:invalid:not(:focus) {
+                border:2px solid red;
+            }
+
+            .symbol-entry {
+                text-align:center;
+                padding:10px 0;
+            }
+
+            .state-entry {
+                padding:0 10px;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            #tape {
+                transition:all 300ms;
+                transform:translateX(250px);
+            }
+
+            #tmContainer {
+                border:1px solid #a0a0a0;
+                margin:auto;
+                display:block;
+            }
+
+            #message {
+                color:red;
+            }
+
+            #state-header-div {
+                transform:rotate(-90deg);
+            }
+
+            #tm-input {
+                width:400px;
+            }
+
+            textarea {
+                width:100%;
+                height:200px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <article>
+                <h3>
+                    Exercise 4
+                </h3>
+                <p>
+                    Introduction to Complexity Theory, Spring 2025
+                </p>
+
+                <hr />
+
+                <p>
+                    For each positive integer $K$, let $\langle K \rangle$ denote the standard base-2 representation of $K$, and let $0^K$ denote the symbol $0$ repeated $K$ times. For example, $\langle 9 \rangle = 1001$ and $0^3 = 000$.
+                </p>
+
+                <p>
+                    <strong>Part (a): </strong> Let $Y = \{0^K \langle K \rangle : K \text{ is a positive integer}\}$. Design a Turing machine $M$ that decides $Y$.
+                </p>
+                <p>
+                    Record your machine's transition function in the table below. Each entry should have the form $(q, b, D)$, where $q$ is a state, $b$ is a symbol, and $D$ is a direction. The blank symbol is _, the start state is a, the accept state is y, and the reject state is z. There is a simulator below the table that you can use to test your Turing machine.
+                </p>
+                
+                <details>
+                    <summary>Tips</summary>
+                    <ul>
+                        <li>The Turing machine model that we discuss in class is slightly different from the model in the textbook. The simulator is based on the model that we discuss in class.</li>
+                        <li>It's okay to leave an entry in the table blank if there does not exist an input on which $M$ uses that transition.</li>
+                        <li>My solution uses a total of 5 states and 4 symbols. If you find yourself using significantly more than 5 states, or if you find yourself using significantly more than 4 symbols, then you might want to look for a simpler solution.</li>
+                        <li>When you edit the table, the machine's transition function updates instantaneously.</li>
+                        <li>Use the up/down arrow keys and tab/shift-tab to navigate through the table.</li>
+                        <li>A red border around a cell means that the entry in that cell is invalid.</li>
+                        <li>Theoretically, if you close and reopen your web browser, your work will not be lost. On the other hand, there is no way to load a saved transition function. Sorry!</li>
+                    </ul>
+                </details>
+
+                <table id="transitionTable">
+                    <tr>
+                        <td></td><th id="symb-header">Symbols</th>
+                    </tr>
+                    <tr>
+                        <th id="state-header"><div id="state-header-div">States</div></th>
+                    </tr>
+                </table>
+
+                <p>
+                    Turing machine simulator:
+                </p>
+
+                <svg id="tmContainer" width="700" height="120">
+                    <g id="tape"></g>
+                    <polygon id="head" points="350,65 370,100 330,100" />
+                    <text id="state" text-anchor="middle" x="350" y="92"></text>
+                </svg>
+
+                <p>
+                    <input type="button" value="Step" id="step-button" onclick="machine.step();"> <input type="button" value="Play" id="play-pause-button" onclick="playPause();"> <span id="message"></span>
+                </p>
+
+                <form action="" onsubmit = "try { initializeTM(); } finally { event.preventDefault(); }">
+                    Input: <input type="text" pattern="[01]*" id="tm-input"> <input type="submit" value="Initialize">
+                </form>
+
+                <hr />
+
+                <p>
+                    <strong>Part (b): </strong> In the text field below, write a few sentences explaining how your Turing machine works. You do not need to rigorously <em>prove</em> that $M$ decides $Y$, but you should explain your idea, and in particular you should explain how to interpret each of the states of $M$.
+                </p>
+
+                <textarea id="notes"></textarea>
+
+                <hr />
+
+                <p>
+                    <strong>Submission: </strong> Use this button to download the submission file: <button onclick="download();">Download</button>
+                </p>
+
+                <p>
+                    Make sure the file is named "turing-machine.json". Then upload the file to Gradescope.
+                </p>
+
+                <p>
+                    When you upload the file to Gradescope, you will get feedback from the autograder. If the autograder identifies a bug in your Turing machine, you should fix it and resubmit. You can resubmit as many times as you want before the deadline with no penalty.
+                </p>
+
+                <p>
+                    Note:
+                </p>
+
+                <ul>
+                    <li>Invalid transitions are not included in the download.</li>
+                    <li>The autograder will only simulate your machine for so many steps. If your Turing machine is absurdly slow, then you won't get full credit, even if your machine technically does correctly decide the language $Y$.</li>
+                </ul>
+
+            </article>
+        </main>
+
+        <script>
+            // TODO: Allow variation in symbols and states
+            const SYMBOLS = ["0", "1", "_", "#", "$", "&", "%", "@"]
+            const STATES = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            let machine;
+            let transitionInputs = {};
+            let intervalID = null;
+
+            function play() {
+                intervalID = setInterval(function() {
+                    machine.step();
+                }, 500);
+                machine.step();
+                document.querySelector("#step-button").disabled = "disabled";
+                document.querySelector("#play-pause-button").value = "Pause";
+            }
+
+            function pause() { 
+                if (intervalID != null) clearInterval(intervalID);
+                intervalID = null;
+                document.querySelector("#step-button").disabled = "";
+                document.querySelector("#play-pause-button").value = "Play";
+            }
+
+            function playPause() {
+                if (intervalID == null) {
+                    // Paused
+                    play();
+                } else {
+                    // Playing
+                    pause();
+                }
+            }
+
+            class TuringMachine {
+                constructor() {
+                    this.transition = {};
+                    for (let i = 0; i < STATES.length; i++) {
+                        this.transition[STATES[i]] = {};
+                        for (let j = 0; j < SYMBOLS.length; j++) {
+                            this.transition[STATES[i]][SYMBOLS[j]] = [];
+                        }
+                    }
+
+                    this.tape = {};
+                    for (let i = -20; i < 20; i++) {
+                        this.tape[i] = new TapeCell(i);
+                    }
+                    this.tapeLeftEnd = -20;
+                    this.tapeRightEnd = 19;
+
+                    console.log("hello?");
+
+                    this.state = STATES[0];
+                    this.headPosition = 1;
+                }
+
+                extendTape(intervalLeft, intervalRight) {
+                    for (let i = intervalLeft; i < this.tapeLeftEnd; i++) {
+                        this.tape[i] = new TapeCell(i);
+                    }
+                    this.tapeLeftEnd = Math.min(this.tapeLeftEnd, intervalLeft);
+
+                    for (let i = this.tapeRightEnd + 1; i <= intervalRight; i++) {
+                        this.tape[i] = new TapeCell(i);
+                    }
+                    this.tapeRightEnd = Math.max(this.tapeRightEnd, intervalRight);
+                }
+
+                setSymbol(pos, symb) {
+                    this.extendTape(pos, pos);
+                    this.tape[pos].setSymbol(symb);
+                }
+
+                clearTape() {
+                    for (let i = this.tapeLeftEnd; i <= this.tapeRightEnd; i++) {
+                        // SYMBOLS[2] is assumed to be the blank symbol
+                        this.tape[i].setSymbol(SYMBOLS[2]);
+                    }
+                }
+
+                setHeadPosition(pos) {
+                    this.extendTape(pos - 20, pos + 20);
+                    this.headPosition = pos;
+                    document.querySelector("#tape").style.transform = `translateX(${300 - 50 * pos}px)`;
+                }
+
+                setState(q) {
+                    this.state = q;
+                    document.querySelector("#state").innerHTML = q;
+                }
+
+                step() {
+                    // Clear message
+                    document.querySelector("#message").innerHTML = "";
+
+                    let arr = this.transition[this.state][this.tape[this.headPosition].symbol];
+                    if (arr == null) {
+                        document.querySelector("#message").innerHTML = "Transition undefined";
+                        pause();
+                    } else {
+                        this.setState(arr[0]);
+                        this.setSymbol(this.headPosition, arr[1]);
+                        this.setHeadPosition(arr[2] == "L" ? this.headPosition - 1 : this.headPosition + 1);
+
+                        if (this.state == STATES[STATES.length - 2]) {
+                            document.querySelector("#message").innerHTML = "Accept";
+                            pause();
+                        } else if (this.state == STATES[STATES.length - 1]) {
+                            document.querySelector("#message").innerHTML = "Reject";
+                            pause();
+                        }
+                    }
+                }
+            }
+
+            class TapeCell {
+                constructor(pos) {
+                    // SYMBOLS[2] is assumed to be the blank symbol
+                    this.symbol = SYMBOLS[2];
+
+                    this.rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+                    this.rect.setAttribute("width", "50");
+                    this.rect.setAttribute("height", "50");
+                    this.rect.classList.add("cell")
+                    this.rect.setAttribute("x", 50 * pos + 25 + "");
+                    this.rect.setAttribute("y", "25");
+                    document.querySelector("#tape").append(this.rect);
+
+                    this.svgText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    this.svgText.setAttribute("x", 50 * (pos + 1) + "");
+                    this.svgText.setAttribute("y", "52");
+                    this.svgText.classList.add("cell-symbol");
+                    this.svgText.textContent = this.symbol;
+                    document.querySelector("#tape").append(this.svgText);
+                }
+
+                setSymbol(symb) {
+                    this.symbol = symb;
+                    this.svgText.textContent = this.symbol;
+                }
+            }
+
+            function init() {
+                machine = new TuringMachine();
+                populateTransitionTable();
+            }
+
+            function populateTransitionTable() {
+                const tbl = document.querySelector("#transitionTable");
+
+                document.querySelector("#symb-header").setAttribute("colspan", SYMBOLS.length + 1);
+                document.querySelector("#state-header").setAttribute("rowspan", STATES.length + 1);
+
+                for (let i = 0; i < STATES.length + 1; i++) {
+                    if (tbl.rows.length <= i + 1) tbl.insertRow(i + 1);
+                    let row = tbl.rows[i + 1];
+                    for (let j = 0; j < SYMBOLS.length + 1; j++) {
+                        row.insertCell(-1);
+                    }
+                }
+
+                // Headers
+                for (let i = 0; i < SYMBOLS.length; i++) {
+                    let cell = tbl.rows[1].cells[i + 2];
+                    cell.classList.add("symbol-entry");
+                    cell.appendChild(document.createTextNode(SYMBOLS[i]));
+                }
+
+                for (let i = 0; i < STATES.length; i++) {
+                    let cell = tbl.rows[i + 2].cells[0];
+                    cell.classList.add("state-entry");
+                    cell.appendChild(document.createTextNode(STATES[i]));
+                }
+
+                // Main cells
+                for (let i = 0; i < STATES.length; i++) {
+                    transitionInputs[STATES[i]] = {};
+
+                    for (let j = 0; j < SYMBOLS.length; j++) {
+                        if ((tbl.rows[i + 2]).cells.length <= j + 1) tbl.rows[i + 2].insertCell(j + 1);
+                        let cell = tbl.rows[i + 2].cells[j + 1];
+
+                        let inp = document.createElement("input");
+                        inp.setAttribute("pattern", "\\([a-z],\\s*[01_#$&%@],\\s*[LR]\\)");
+                        cell.appendChild(inp);
+                        inp.value = localStorage.getItem(`tm[${STATES[i]}][${SYMBOLS[j]}]`) || "";
+                        transitionInputs[STATES[i]][SYMBOLS[j]] = inp;
+
+                        inp.addEventListener("change", function() {
+                            updateTransition(STATES[i], SYMBOLS[j]);
+                        });
+
+                        inp.addEventListener("keydown", function(evt) {
+                            if (evt.keyCode == 38) {
+                                // up arrow
+                                if (i > 0) transitionInputs[STATES[i - 1]][SYMBOLS[j]].focus();
+                                evt.preventDefault();
+                            } else if(evt.keyCode == 40) {
+                                // down arrow
+                                if (i < STATES.length - 1) transitionInputs[STATES[i + 1]][SYMBOLS[j]].focus();
+                                evt.preventDefault();
+                            }
+                        });
+
+                        updateTransition(STATES[i], SYMBOLS[j]);
+                    }
+                }
+
+                initializeTM();
+
+                nta = document.querySelector("#notes");
+                nta.value = localStorage.getItem("tm-notes") || "";
+                nta.addEventListener("change", function() {
+                    localStorage.setItem("tm-notes", nta.value);
+                });
+
+                if (localStorage.getItem("tm-session-id") == null) localStorage.setItem("tm-session-id", Math.random());
+            }
+
+            function updateTransition(state, symb) {
+                let inp = transitionInputs[state][symb];
+                localStorage.setItem(`tm[${state}][${symb}]`, inp.value);
+                if (inp.value != "" && inp.checkValidity()) {
+                    let parts = inp.value.split(",");
+                    machine.transition[state][symb] = [parts[0].slice(1).trim(), parts[1].trim(), parts[2].slice(0, -1).trim()];
+                } else {
+                    machine.transition[state][symb] = null;
+                }
+            }
+
+            function initializeTM() {
+                pause();
+
+                // Load input
+                let tmInput = document.querySelector("#tm-input").value;
+                machine.clearTape();
+                for (let i = 0; i < tmInput.length; i++) {
+                    machine.setSymbol(i + 1, tmInput[i]);
+                }
+
+                // Reset head
+                machine.setState(STATES[0]);
+                machine.setHeadPosition(1);
+
+                // Clear error message
+                document.querySelector("#message").innerHTML = "";
+            }
+
+            function download() {
+                ob = {};
+                ob["notes"] = document.querySelector("#notes").value;
+                ob["table-0"] = "     " + SYMBOLS.join("    ") + "  ";
+                ob["table-1"] = "  " + "-".repeat(SYMBOLS.length * 5 + 1);
+                for (let i = 0; i < STATES.length; i++) {
+                    let s = STATES[i] + " |";
+                    for (let j = 0; j < SYMBOLS.length; j++) {
+                        if (machine.transition[STATES[i]][SYMBOLS[j]] == null) {
+                            s += "     ";
+                        } else {
+                            s += " " + machine.transition[STATES[i]][SYMBOLS[j]].join("") + " ";
+                        }
+                    }
+                    ob["table-" + STATES[i]] = s;
+                }
+                ob["transitions"] = machine.transition;
+                ob["id"] = localStorage.getItem("tm-session-id");
+
+                const link = document.createElement("a");
+                const file = new Blob([JSON.stringify(ob, null, 2)], { type: "text/plain" });
+                link.href = URL.createObjectURL(file);
+                link.download = "turing-machine.json";
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+
+            init();
+        </script>
+
+        <script>
+            renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false }
+            ]
+            });
+        </script>
+    </body>
+</html>

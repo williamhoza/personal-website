@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            function generate(start, end) {
+                let ret = "";
+                let d = start;
+                let num = 3;
+                while (d.getTime() < end.getTime()) {
+                    let dayName = "";
+                    if (d.getDay() == 1) dayName = "Monday";
+                    if (d.getDay() == 3) dayName = "Wednesday";
+                    if (d.getDay() == 5) dayName = "Friday";
+                    if (dayName != "") {
+                        let s = "<strong>" + dayName + " " + (d.getMonth() + 1) + "/" + d.getDate() + ":</strong>";
+                        if (num % 3 == 0) {
+                            ret = ret + "</table>\n<p class=\"week-header\">Week " + (num/3) + ":</p>\n<table>\n";
+                        }
+                        ret = ret + "  <tr><td>\n    " + s + "\n    <div class=\"slides\"></div>\n    <div class=\"reading\"></div>\n  </td></tr>\n";
+                        num++;
+                    }
+                    d.setDate(d.getDate() + 1);
+                }
+                return ret + "</table>";
+            }
+        </script>
+    </body>
+</html>
