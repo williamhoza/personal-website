@@ -7,7 +7,7 @@
     <script src="/temml/auto-render.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <title>Introduction to Complexity Theory | Spring 2025 | William Hoza</title>
+    <title>Introduction to Complexity Theory | Autumn 2025 | William Hoza</title>
     
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/main.css" />
@@ -59,6 +59,20 @@
         border:1px solid #c0c0c0;
         border-collapse:collapse;
         margin-bottom:30px;
+      }
+
+      #letter-grades {
+        width: auto;
+        border:1px solid #d0d0d0;
+      }
+
+      #letter-grades tr th, #letter-grades tr td {
+        padding:7px;
+        border-right:1px solid #d0d0d0;
+      }
+
+      #letter-grades tr:first-child {
+        background-color:#d0d0d0;
       }
 
       tr:nth-child(odd) {
@@ -118,10 +132,10 @@
   <body>
     <main>
       <article>
-        <p style="color:red;">
+        <!--p style="color:red;">
           (DRAFT)
         </p>
-        <hr>
+        <hr-->
         <h1>
           CMSC 28100: Introduction to Complexity Theory (Autumn 2025)
         </h1>
@@ -189,7 +203,7 @@
             <strong>Friday 10/3:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 1-3 are due at 5pm</div>
+            <div class="deadline note">Exercises 1-3 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p class="week-header">Week 2:</p>
@@ -208,7 +222,7 @@
             <strong>Friday 10/10:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 4-7 are due at 5pm</div>
+            <div class="deadline note">Exercises 4-7 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p class="week-header">Week 3:</p>
@@ -227,7 +241,7 @@
             <strong>Friday 10/17:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 8-11 are due at 5pm</div>
+            <div class="deadline note">Exercises 8-11 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p class="week-header">Week 4:</p>
@@ -265,7 +279,7 @@
             <strong>Friday 10/31:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 12-15 are due at 5pm</div>
+            <div class="deadline note">Exercises 12-15 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p class="week-header">Week 6:</p>
@@ -284,7 +298,7 @@
             <strong>Friday 11/7:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 16-19 are due at 5pm</div>
+            <div class="deadline note">Exercises 16-19 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p class="week-header">Week 7:</p>
@@ -303,7 +317,7 @@
             <strong>Friday 11/14:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 20-23 are due at 5pm</div>
+            <div class="deadline note">Exercises 20-23 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p class="week-header">Week 8:</p>
@@ -322,8 +336,8 @@
             <strong>Friday 11/21:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 24-27 are due at 5pm</div>
-            <div class="note">(No classes next week due to Thanksgiving Break)</div>
+            <div class="deadline note">Exercises 24-27 are due at 11:59pm</div>
+            <div class="note">(No classes/exercises next week: Thanksgiving Break)</div>
           </td></tr>
         </table>
         <p class="week-header">Week 9:</p>
@@ -342,7 +356,7 @@
             <strong>Friday 12/5:</strong>
             <div class="slides"></div>
             <div class="reading"></div>
-            <div class="deadline note">Exercises 28-29 are due at 5pm</div>
+            <div class="deadline note">Exercises 28-29 are due at 11:59pm</div>
           </td></tr>
         </table>
         <p><strong>Date/time TBD:</strong> Final exam.</p>
@@ -363,7 +377,7 @@
         </ul>
         <h3>Permitted Resources</h3>
         <p>
-          In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook, any slides or notes posted in the "Course Timeline" section of this webpage, and Wikipedia. You may not use any other resources. Some examples of prohibited resources are ChatGPT and Stack Exchange.
+          In addition to discussions with me, discussions with TAs, and discussions with classmates as discussed above, you may also use the course textbook, any slides or notes posted in the "Course Timeline" section of this webpage, and Wikipedia. You may not use any other resources. For example, ChatGPT and Stack Exchange are prohibited.
         </p>
         <hr />
         <h2 class="toc-item">Grading Policies</h2>
@@ -373,7 +387,7 @@
           $$
             G = 0.65 \cdot A + 0.35 \cdot B + 0.3 \cdot B^6 \cdot \max(B - A, 0).
           $$
-          In this formula, $B$ is your score on the final exam, and $A$ is the weighted average of the midterm exam (35%), exercises 1-4 (5%), and exercises 5-28 (60%). The values $A$ and $B$ are both normalized so be between 0 and 1.
+          In this formula, $B$ is your score on the final exam, and $A$ is the weighted average of your score on homework exercises (65%) and your score on the midterm exam (35%). The values $A$ and $B$ are both normalized to be between 0 and 1.
         </p>
         <p>
           Here are a few hypothetical examples.
@@ -391,14 +405,28 @@
         </p>
         <h3>Letter Grades</h3>
         <p>
-          The letter grade thresholds will be determined at the end of the quarter. To get a rough sense, you can click <a href="previous-year-letter-grade-thresholds.txt">here</a> to see the thresholds from previous iterations of this course.
+          The tentative letter grade thresholds are as follows.
+          <ul>
+            <li>50% is the minimum numeric grade that translates to D</li>
+            <li>57% is the minimum numeric grade that translates to D+</li>
+            <li>63% is the minimum numeric grade that translates to C-</li>
+            <li>69% is the minimum numeric grade that translates to C</li>
+            <li>74% is the minimum numeric grade that translates to C+</li>
+            <li>79% is the minimum numeric grade that translates to B-</li>
+            <li>83% is the minimum numeric grade that translates to B</li>
+            <li>87% is the minimum numeric grade that translates to B+</li>
+            <li>90% is the minimum numeric grade that translates to A-</li>
+            <li>93% is the minimum numeric grade that translates to A</li>
+          </ul>
+          At the end of the quarter, after I've had a chance to review all the grades, I <em>might</em> adjust the thresholds a tiny bit to make the grading slightly more generous. I won't make it harsher.
         </p>
         <h3>Late Work</h3>
         <p>
           You are strongly encouraged to complete each exercise within the allotted time. If you don't master the subject matter of a particular exercise by the deadline, then you might have trouble understanding the topics we discuss in the following classes. Furthermore, if you submit your solutions late, then it might not be possible to give you timely feedback. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
         </p>
         <ul>
-          <li>If you submit your solution to an exercise $x$ days late, where $0 < x < 4$, then your score will be multiplied by $1.0063 - 0.0311x - (0.3523x - 0.43)^6$. The value $x$ can be fractional; some rounding will occur in the calculation. Work turned in four or more days late will ordinarily not receive any credit. Saturdays, Sundays, and <a href="https://humanresources.uchicago.edu/benefits/timeoff/vacationholidays/universityholidays.shtml">university holidays</a> are all excluded from the lateness calculation.</li>
+          <li>If you submit your solution to an exercise $x$ days late, where $0 < x < 5.5$, then your score will be multiplied by $1 - (0.03x)^{1.1} - (0.17914x)^{10}$. Some rounding will occur in the calculation. Work turned in 5.5 or more days late will ordinarily not receive any credit.</li>
+          <li>Homework submitted after the start of the final exam will not receive any credit.</li>
           <li>Even if two exercises have the same deadline, you do not have to submit your solutions simultaneously. You can submit one solution on time for full credit and submit the other solution late for partial credit. On the other hand, if an exercise is divided into parts, then you must submit your solutions to all parts simultaneously.</li>
           <li>Eventually, I will post official solutions. If you look at the official solution for an exercise, then from that point onward, you are not permitted to submit your own solution for that exercise. Submitting a solution after looking at the official solution would be an academic honesty violation.</li>
           <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
@@ -412,7 +440,7 @@
         </p>
         <h3>Regrade Requests</h3>
         <p>
-          If you think something was graded incorrectly, please submit a regrade request through Gradescope. Regrade requests for homework exercises will ordinarily be handled by a TA; you may contact me if you wish to "appeal" their decision. All regrade requests for exams will be handled by me.
+          If you think something was graded incorrectly, please submit a regrade request through Gradescope. Homework regrade requests will ordinarily be handled by a TA; you may contact me if you wish to "appeal" their decision. Exam regrade requests will be handled by me.
         </p>
         <hr />
         <!--h2 class="toc-item">If You Aren't Officially Enrolled</h2>

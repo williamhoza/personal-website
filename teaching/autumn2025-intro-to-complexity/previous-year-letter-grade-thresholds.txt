@@ -1,59 +1,78 @@
+DELME:
+
+The exact letter grade thresholds will be determined at the end of the quarter. The following table describes the range of possible letter grades for each numeric grade.
+          <table id="letter-grades">
+            <tr><th>Numeric grade</th><th>Letter grade</th></tr>
+            <tr><td>&lt; 44%</td> <td>F</td></tr>
+            <tr><td>44-51%</td>   <td>F or D</td></tr>
+            <tr><td>51-58%</td>   <td>D or D+</td></tr>
+            <tr><td>58-64%</td>   <td>D+ or C-</td></tr>
+            <tr><td>64-70%</td>   <td>C- or C</td></tr>
+            <tr><td>70-75%</td>   <td>C or C+</td></tr>
+            <tr><td>75-79%</td>   <td>C+ or B-</td></tr>
+            <tr><td>79-83%</td>   <td>B- or B</td></tr>
+            <tr><td>83-87%</td>   <td>B or B+</td></tr>
+            <tr><td>87-90%</td>   <td>B+ or A-</td></tr>
+            <tr><td>90-93%</td>   <td>A- or A</td></tr>
+            <tr><td>&gt; 93%</td>   <td>A</td></tr>
+          </table>
+
 Minimum score to receive an A:
 
-	Spring 2025:	TBD
+	Spring 2025:	93%
 	Spring 2024:	93%
 	Winter 2024:	91%
 
 Minimum score to receive an A-:
 
-	Spring 2025:	TBD
+	Spring 2025:	90%
 	Spring 2024:	90%
 	Winter 2024:	88%
 
 Minimum score to receive a B+:
 
-	Spring 2025:	TBD
+	Spring 2025:	86%
 	Spring 2024:	86%
 	Winter 2024:	85%
 
 Minimum score to receive a B:
 
-	Spring 2025:	TBD
+	Spring 2025:	82%
 	Spring 2024:	82%
 	Winter 2024:	82%
 
 Minimum score to receive a B-:
 
-	Spring 2025:	TBD
+	Spring 2025:	77%
 	Spring 2024:	77%
 	Winter 2024:	78%
 
 Minimum score to receive a C+:
 
-	Spring 2025:	TBD
+	Spring 2025:	72%
 	Spring 2024:	71%
 	Winter 2024:	74%
 
 Minimum score to receive a C:
 
-	Spring 2025:	TBD
+	Spring 2025:	67%
 	Spring 2024:	65%
 	Winter 2024:	69%
 
 Minimum score to receive a C-:
 
-	Spring 2025:	TBD
+	Spring 2025:	61%
 	Spring 2024:	59%
 	Winter 2024:	63%
 
 Minimum score to receive a D+:
 
-	Spring 2025:	TBD
+	Spring 2025:	55%
 	Spring 2024:	52%
 	Winter 2024:	57%
 
 Minimum score to receive a D:
 
-	Spring 2025:	TBD
+	Spring 2025:	48%
 	Spring 2024:	45%
 	Winter 2024:	51%

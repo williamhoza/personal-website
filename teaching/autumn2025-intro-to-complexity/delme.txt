@@ -1,0 +1,15 @@
+<h3>Late Work</h3>
+        <p>
+          You are strongly encouraged to complete each exercise within the allotted time. If you don't master the subject matter of a particular exercise by the deadline, then you might have trouble understanding the topics we discuss in the following classes. That being said, I understand that occasionally missing a deadline is inevitable. Late work will ordinarily receive partial credit based on the following principles.
+        </p>
+        <ul>
+          <li>Each exercise has an automatic 48-hour grace period. That is, if an exercise is due on Friday night and you submit your solution over the weekend, I won't take off any points. However, you might not receive timely feedback in such a case.</li>
+          <li>If you submit your solution to an exercise $x$ hours late, where $48 < x < 132$, then your score will be multiplied by $1.12 - \frac{x}{400} - 0.15 \cdot \ln(1 + e^{0.4x - 47.55})$. Some rounding will occur in the calculation. Work turned in 132 or more hours late will ordinarily not receive any credit.</li>
+          <li>Homework submitted after the start of the final exam will not receive any credit.</li>
+          <li>Even if two exercises have the same deadline, you do not have to submit your solutions simultaneously. You can submit one solution on time for full credit and submit the other solution late for partial credit. On the other hand, if an exercise is divided into parts, then you must submit your solutions to all parts simultaneously.</li>
+          <li>Eventually, I will post official solutions. If you look at the official solution for an exercise, then from that point onward, you are not permitted to submit your own solution for that exercise. Submitting a solution after looking at the official solution would be an academic honesty violation.</li>
+          <li>The principles described above might be ambiguous or problematic in some edge cases. Ultimately, I will decide how much credit to grant for late work.</li>
+        </ul>
+        <p>
+          The score you see in Gradescope represents your score <strong>before</strong> applying the lateness penalty, i.e., it is the score that you <strong>would have</strong> received if you had submitted your solution on time. Lateness penalties will only be recorded in Canvas, possibly after a significant delay.
+        </p>
