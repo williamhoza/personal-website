@@ -11,14 +11,14 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&display=swap" rel="stylesheet" />
 
         <title>
-            Exercise 4 (CMSC 28100, Spring 2025)
+            Exercise 3 (CMSC 28100, Autumn 2025)
         </title>
 
         <style>
             .cell {
                 stroke-width:3;
                 stroke:black;
-                fill:none;
+                fill:#FBE5D6;
             }
 
             #head {
@@ -32,6 +32,10 @@
                 text-anchor:middle;
                 dominant-baseline:middle;
                 font-size:24px;
+                fill:#7F7F7F;
+            }
+            .cell-symbol.present {
+                fill:#000;
             }
 
             input {
@@ -82,6 +86,13 @@
                 width:100%;
                 height:200px;
             }
+
+            .dash-line {
+                stroke-width:3;
+                stroke: #7F7F7F;
+                stroke-dasharray:5;
+                stroke-dashoffset:3;
+            }
         </style>
     </head>
 
@@ -89,16 +100,16 @@
         <main>
             <article>
                 <h3>
-                    Exercise 4
+                    Exercise 3
                 </h3>
                 <p>
-                    Introduction to Complexity Theory, Spring 2025
+                    Introduction to Complexity Theory, Autumn 2025
                 </p>
 
                 <hr />
 
                 <p>
-                    For each positive integer $K$, let $\langle K \rangle$ denote the standard base-2 representation of $K$, and let $0^K$ denote the symbol $0$ repeated $K$ times. For example, $\langle 9 \rangle = 1001$ and $0^3 = 000$.
+                    For each positive integer $K$, let $\langle K \rangle$ denote the standard base-2 representation of $K$, and let $0^K$ denote the symbol $0$ repeated $K$ times. For example, $\langle 13 \rangle = 1101$ and $0^3 = 000$.
                 </p>
 
                 <p>
@@ -113,7 +124,7 @@
                     <ul>
                         <li>The Turing machine model that we discuss in class is slightly different from the model in the textbook. The simulator is based on the model that we discuss in class.</li>
                         <li>It's okay to leave an entry in the table blank if there does not exist an input on which $M$ uses that transition.</li>
-                        <li>My solution uses a total of 5 states and 4 symbols. If you find yourself using significantly more than 5 states, or if you find yourself using significantly more than 4 symbols, then you might want to look for a simpler solution.</li>
+                        <li>My solution uses a total of 7 states and 4 symbols. If you find yourself using significantly more than 7 states, or if you find yourself using significantly more than 4 symbols, then you might want to look for a simpler solution.</li>
                         <li>When you edit the table, the machine's transition function updates instantaneously.</li>
                         <li>Use the up/down arrow keys and tab/shift-tab to navigate through the table.</li>
                         <li>A red border around a cell means that the entry in that cell is invalid.</li>
@@ -135,7 +146,10 @@
                 </p>
 
                 <svg id="tmContainer" width="700" height="120">
-                    <g id="tape"></g>
+                    <g id="tape">
+                        <g id="tape-cells"></g>
+                        <g id="tape-symbols"></g>
+                    </g>
                     <polygon id="head" points="350,65 370,100 330,100" />
                     <text id="state" text-anchor="middle" x="350" y="92"></text>
                 </svg>
@@ -163,11 +177,7 @@
                 </p>
 
                 <p>
-                    Make sure the file is named "turing-machine.json". Then upload the file to Gradescope.
-                </p>
-
-                <p>
-                    When you upload the file to Gradescope, you will get feedback from the autograder. If the autograder identifies a bug in your Turing machine, you should fix it and resubmit. You can resubmit as many times as you want before the deadline with no penalty.
+                    Upload the file to Gradescope. You will get feedback from the autograder. If the autograder identifies a bug in your Turing machine, you should fix it and resubmit. You can resubmit as many times as you want before the deadline with no penalty.
                 </p>
 
                 <p>
@@ -260,6 +270,7 @@
                     for (let i = this.tapeLeftEnd; i <= this.tapeRightEnd; i++) {
                         // SYMBOLS[2] is assumed to be the blank symbol
                         this.tape[i].setSymbol(SYMBOLS[2]);
+                        this.tape[i].rect.style.display = "none";
                     }
                 }
 
@@ -267,6 +278,7 @@
                     this.extendTape(pos - 20, pos + 20);
                     this.headPosition = pos;
                     document.querySelector("#tape").style.transform = `translateX(${300 - 50 * pos}px)`;
+                    this.tape[pos].materialize();
                 }
 
                 setState(q) {
@@ -302,26 +314,57 @@
                 constructor(pos) {
                     // SYMBOLS[2] is assumed to be the blank symbol
                     this.symbol = SYMBOLS[2];
+                    this.present = false;
 
+                    this.vertDashLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.vertDashLine.setAttribute("x1", 50 * pos + 25 + "");
+                    this.vertDashLine.setAttribute("y1", "25");
+                    this.vertDashLine.setAttribute("x2", 50 * pos + 25 + "");
+                    this.vertDashLine.setAttribute("y2", "75");
+                    this.vertDashLine.classList.add("dash-line");
+                    document.querySelector("#tape-cells").append(this.vertDashLine);
+
+                    this.topDashLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.topDashLine.setAttribute("x1", 50 * pos + 25 + "");
+                    this.topDashLine.setAttribute("y1", "25");
+                    this.topDashLine.setAttribute("x2", 50 * pos + 75 + "");
+                    this.topDashLine.setAttribute("y2", "25");
+                    this.topDashLine.classList.add("dash-line");
+                    document.querySelector("#tape-cells").append(this.topDashLine);
+
+                    this.botDashLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    this.botDashLine.setAttribute("x1", 50 * pos + 25 + "");
+                    this.botDashLine.setAttribute("y1", "75");
+                    this.botDashLine.setAttribute("x2", 50 * pos + 75 + "");
+                    this.botDashLine.setAttribute("y2", "75");
+                    this.botDashLine.classList.add("dash-line");
+                    document.querySelector("#tape-cells").append(this.botDashLine);
+                    
                     this.rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
                     this.rect.setAttribute("width", "50");
                     this.rect.setAttribute("height", "50");
                     this.rect.classList.add("cell")
                     this.rect.setAttribute("x", 50 * pos + 25 + "");
                     this.rect.setAttribute("y", "25");
-                    document.querySelector("#tape").append(this.rect);
+                    // intentionally not appended
 
                     this.svgText = document.createElementNS("http://www.w3.org/2000/svg", "text");
                     this.svgText.setAttribute("x", 50 * (pos + 1) + "");
                     this.svgText.setAttribute("y", "52");
                     this.svgText.classList.add("cell-symbol");
                     this.svgText.textContent = this.symbol;
-                    document.querySelector("#tape").append(this.svgText);
+                    document.querySelector("#tape-symbols").append(this.svgText);
                 }
 
                 setSymbol(symb) {
                     this.symbol = symb;
                     this.svgText.textContent = this.symbol;
+                }
+
+                materialize() {
+                    document.querySelector("#tape-cells").append(this.rect);
+                    this.rect.style.display = "";
+                    this.svgText.classList.add("present");
                 }
             }
 
@@ -357,6 +400,11 @@
                     cell.appendChild(document.createTextNode(STATES[i]));
                 }
 
+                if (localStorage.getItem("aut25tm-session-id") == null) {
+                    localStorage.setItem("aut25tm-session-id", Math.random());
+                    localStorage.setItem("aut25tm[a][_]", "(a, _, L)")
+                }
+
                 // Main cells
                 for (let i = 0; i < STATES.length; i++) {
                     transitionInputs[STATES[i]] = {};
@@ -368,7 +416,7 @@
                         let inp = document.createElement("input");
                         inp.setAttribute("pattern", "\\([a-z],\\s*[01_#$&%@],\\s*[LR]\\)");
                         cell.appendChild(inp);
-                        inp.value = localStorage.getItem(`tm[${STATES[i]}][${SYMBOLS[j]}]`) || "";
+                        inp.value = localStorage.getItem(`aut25tm[${STATES[i]}][${SYMBOLS[j]}]`) || "";
                         transitionInputs[STATES[i]][SYMBOLS[j]] = inp;
 
                         inp.addEventListener("change", function() {
@@ -394,17 +442,15 @@
                 initializeTM();
 
                 nta = document.querySelector("#notes");
-                nta.value = localStorage.getItem("tm-notes") || "";
+                nta.value = localStorage.getItem("aut25tm-notes") || "";
                 nta.addEventListener("change", function() {
-                    localStorage.setItem("tm-notes", nta.value);
+                    localStorage.setItem("aut25tm-notes", nta.value);
                 });
-
-                if (localStorage.getItem("tm-session-id") == null) localStorage.setItem("tm-session-id", Math.random());
             }
 
             function updateTransition(state, symb) {
                 let inp = transitionInputs[state][symb];
-                localStorage.setItem(`tm[${state}][${symb}]`, inp.value);
+                localStorage.setItem(`aut25tm[${state}][${symb}]`, inp.value);
                 if (inp.value != "" && inp.checkValidity()) {
                     let parts = inp.value.split(",");
                     machine.transition[state][symb] = [parts[0].slice(1).trim(), parts[1].trim(), parts[2].slice(0, -1).trim()];
@@ -419,13 +465,15 @@
                 // Load input
                 let tmInput = document.querySelector("#tm-input").value;
                 machine.clearTape();
+                machine.tape[0].materialize();
                 for (let i = 0; i < tmInput.length; i++) {
                     machine.setSymbol(i + 1, tmInput[i]);
+                    machine.tape[i + 1].materialize();
                 }
 
                 // Reset head
                 machine.setState(STATES[0]);
-                machine.setHeadPosition(1);
+                machine.setHeadPosition(0);
 
                 // Clear error message
                 document.querySelector("#message").innerHTML = "";
@@ -448,7 +496,7 @@
                     ob["table-" + STATES[i]] = s;
                 }
                 ob["transitions"] = machine.transition;
-                ob["id"] = localStorage.getItem("tm-session-id");
+                ob["id"] = localStorage.getItem("aut25tm-session-id");
 
                 const link = document.createElement("a");
                 const file = new Blob([JSON.stringify(ob, null, 2)], { type: "text/plain" });
