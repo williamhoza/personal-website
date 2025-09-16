@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            function generate(start, end) {
+                let ret = "";
+                let d = start;
+                while (d.getTime() < end.getTime()) {
+                    let s = "";
+                    if (d.getDay() == 2) s = "Tuesday";
+                    if (d.getDay() == 4) s = "Thursday";
+                    if (s != "") {
+                        s = s + " " + (d.getMonth() + 1) + "/" + d.getDate();
+                        ret = ret + "<tr><td>\n  <strong>" + s + ":</strong>\n  <div class=\"reading\"></div>\n</td></tr>\n"
+                    }
+                    d.setDate(d.getDate() + 1);
+                }
+                return ret;
+            }
+        </script>
+    </body>
+</html>
