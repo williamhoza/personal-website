@@ -54,7 +54,7 @@
         padding:15px;
       }
 
-      table {
+      .timeline {
         width: 100%;
         border:1px solid #c0c0c0;
         border-collapse:collapse;
@@ -75,8 +75,18 @@
         background-color:#d0d0d0;
       }
 
-      tr:nth-child(odd) {
+      .timeline tr:nth-child(odd) {
         background-color:#f0f0f0;
+      }
+
+      #oh {
+        border-collapse: collapse;
+        margin-bottom:20px;
+      }
+
+      #oh td, #oh th {
+        padding:10px;
+        border:1px solid #a0a0a0;
       }
 
       @media print {
@@ -149,7 +159,7 @@
           <strong>TAs: </strong> Zelin Lv and Mirza Mehmedagic
         </p>
         <p>
-          <strong>Meetings: </strong> Mondays, Wednesdays, and Fridays | 2:30pm - 3:20pm | Location TBD
+          <strong>Meetings: </strong> Mondays, Wednesdays, and Fridays | 2:30pm - 3:20pm | RY 251
         </p>
         <p>
           <strong>Textbook: </strong> <em>Introduction to the Theory of Computing, 3rd Edition</em> by Michael Sipser. ISBN-13: 9780357670583.
@@ -174,16 +184,37 @@
         <hr />
         <h2 class="toc-item">Office Hours and Student Meet-Up Time</h2>
         <p>
-          By default, the office hours are as follows [tentative].
+          By default, we will use the following schedule.
         </p>
-        <ul>
-          <li>Thursdays, 2pm to 3pm, JCL Common Area A (near room 299): Student meet-up time</li>
-          <li>Thursdays, 3pm to 4pm, JCL 205: Office hours, hosted by TBD</li>
-          <li>Fridays, 9am to 11am, JCL 205: Office hours, hosted by William</li>
-          <li>Additional office hours TBD</li>
-        </ul>
+        <table id="oh">
+          <tr>
+            <th>When</th>
+            <th>Where</th>
+            <th>What</th>
+          </tr>
+          <tr>
+            <td>Thursdays, 11am to noon</td>
+            <td>JCL 205</td>
+            <td>Office hours, hosted by Mirza</td>
+          </tr>
+          <tr>
+            <td>Thursdays, 2pm to 3pm</td>
+            <td>JCL Common Area 2A (outside room 299)</td>
+            <td>Student meet-up time</td>
+          </tr>
+          <tr>
+            <td>Thursdays, 3pm to 4pm</td>
+            <td>JCL 205</td>
+            <td>Office hours, hosted by Zelin</td>
+          </tr>
+          <tr>
+            <td>Fridays, 9am to 11am</td>
+            <td>JCL 205</td>
+            <td>Office hours, hosted by William</td>
+          </tr>
+        </table>
         <p>
-          Some weeks will have modified hours, which will be posted on Ed. 
+          Some weeks will have a modified schedule, which will be posted on Ed. 
         </p>
         <hr />
         <h2 class="toc-item">Course Timeline</h2>
@@ -191,7 +222,7 @@
           (The information below will be updated throughout the quarter.)
         </p>
         <p class="week-header">Week 1:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 9/29:</strong>
             <div class="slides"></div>
@@ -210,7 +241,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 2:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 10/6:</strong>
             <div class="slides"></div>
@@ -229,7 +260,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 3:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 10/13:</strong>
             <div class="slides"></div>
@@ -248,7 +279,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 4:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 10/20:</strong>
             <div class="slides"></div>
@@ -267,7 +298,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 5:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 10/27:</strong>
             <div class="slides"></div>
@@ -286,7 +317,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 6:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 11/3:</strong>
             <div class="slides"></div>
@@ -305,7 +336,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 7:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 11/10:</strong>
             <div class="slides"></div>
@@ -324,7 +355,7 @@
           </td></tr>
         </table>
         <p class="week-header">Week 8:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 11/17:</strong>
             <div class="slides"></div>
@@ -345,7 +376,7 @@
         </table>
         <p><em>(No classes/exercises during Thanksgiving week)</em></p>
         <p class="week-header">Week 9:</p>
-        <table>
+        <table class="timeline">
           <tr><td>
             <strong>Monday 12/1:</strong>
             <div class="slides"></div>
