@@ -17,16 +17,19 @@
     <script src="dateDifference.js"></script>
     
     <style>
-      li.c {
-        color:red;
+      ul {
+        margin-top:0;
+        margin-bottom:15px;
+        padding:15px;
+        padding-left:30px;
+        border:1px solid #e0e0e0;
       }
-      
-      li.l {
-        color:blue;
-      }
-      
-      li.c > span, li.l > span {
-        color:black;
+
+      .preface {
+        list-style-type:none;
+        list-style-position:inside;
+        margin-left:-15px;
+        padding-left:0;
       }
     </style>
   </head>
@@ -42,46 +45,49 @@
         <h1>
           Personal info
         </h1>
-        <p>
-          Please help yourself to these facts about me!
-        </p>
-        <ul>
-          <li>I go by William, not Will/Bill/etc. (Students: Please call me either William or Professor Hoza, whichever makes you more comfortable.)</li>
-          <li>I'm <span class="elapsed" data-start="1994-06-02">?</span> old. <span id="grade"></span></li>
-          <li>I've been happily married to Alicia Torres Hoza for <span class="elapsed" data-start="2019-11-08">?</span>.</li>
-          <li>We have two kids 🙂 We also had two other children who, tragically, died before birth.</li>
-          <li>I'm about 5' 5" tall, much like the <a href="https://en.wikipedia.org/wiki/Average_human_height_by_country">average man in North Korea or the average woman in Sweden.</a></li>
-          <li>I have Celiac disease, so I cannot eat gluten. Also, I try to avoid eating meat on Fridays, and I try to avoid eating pork or beef on any day of the week, but sometimes I make exceptions to these rules.</li>
-          <li>I like pineapple on pizza, and I like the Star Wars prequel trilogy, but I don't like chocolate.</li>
-          <li>I enjoy computer programming as a casual hobby.</li>
-        </ul>
+        <details>
+            <summary>Some basic biographical information about me</summary>
+            <ul>
+                <li>I go by William, not Will/Bill/etc. (Students: Please call me either William or Professor Hoza, whichever makes you more comfortable.)</li>
+                <li>I'm <span class="elapsed" data-start="1994-06-02">?</span> old. <span id="grade"></span></li>
+                <li>I've been happily married to Alicia Torres Hoza for <span class="elapsed" data-start="2019-11-08">?</span>.</li>
+                <li>We have two kids 🙂 We also had two other children who, tragically, died before birth.</li>
+            </ul>
+        </details>
+        <details>
+            <summary>Some additional miscellaneous facts about me</summary>
+            <ul>
+                <li>I'm about 5' 5" tall, much like the <a href="https://en.wikipedia.org/wiki/Average_human_height_by_country">average man in North Korea or the average woman in Sweden.</a></li>
+                <li>I have Celiac disease, so I cannot eat gluten. Also, I try to avoid eating meat on Fridays, and I try to avoid eating pork or beef on any day of the week, but sometimes I make exceptions to these rules.</li>
+                <li>I like pineapple on pizza, and I like the Star Wars prequel trilogy, but I don't like chocolate.</li>
+                <li>I enjoy computer programming as a casual hobby.</li>
+            </ul>
+        </details>
         <details>
           <summary>Some of my favorite things</summary>
-          <div class="indent">
-            <ul style="margin-top:0;margin-bottom:0;padding-left:15px;">
-              <li><strong>Colors:</strong> Green; orange; pink</li>
-              <li><strong>Complexity classes:</strong> $\mathsf{BPL}$; $\mathsf{AC}^0$</li>
-              <li><strong>Foods:</strong> Chicken; mandarin oranges; pizza</li>
-              <li><strong>Inequalities:</strong> Markov's inequality; Jensen's inequality; Hoeffding's inequality; $1 + x \leq e^x$</li>
-              <li><strong>Movies:</strong> 12 Angry Men (1957)</li>
-              <li><strong>NP-complete problems:</strong> Undirected Hamiltonian Cycle; Subset Sum; 3-Colorability</li>
-              <li><strong>TV shows:</strong> Avatar: The Last Airbender</li>
-              <li><strong>Paradoxes:</strong> Curry's paradox; Galileo's paradox; Moore's paradox</li>
-              <li><strong>Greek letters:</strong> Lowercase epsilon ($\varepsilon$); lowercase delta ($\delta$); lowercase lambda ($\lambda$)</li>
-              <li><strong>Board games:</strong> Boggle; Pictionary; Blokus</li>
-              <li><strong>Polyhedra:</strong> Tetrahedron; icosahedron; cuboctahedron</li>
-              <li><strong>Books:</strong> I, Robot (Isaac Asimov)</li>
-              <li><strong>Boolean functions:</strong> Parity; majority; tribes</li>
-            </ul>
-          </div>
+          <ul>
+            <li><strong>Colors:</strong> Green; orange; pink</li>
+            <li><strong>Complexity classes:</strong> $\mathsf{BPL}$; $\mathsf{AC}^0$</li>
+            <li><strong>Foods:</strong> Chicken; mandarin oranges; pizza</li>
+            <li><strong>Inequalities:</strong> Markov's inequality; Jensen's inequality; Hoeffding's inequality; $1 + x \leq e^x$</li>
+            <li><strong>Movies:</strong> 12 Angry Men (1957)</li>
+            <li><strong>NP-complete problems:</strong> Undirected Hamiltonian Cycle; Subset Sum; 3-Colorability</li>
+            <li><strong>TV shows:</strong> Avatar: The Last Airbender</li>
+            <li><strong>Paradoxes:</strong> Curry's paradox; Galileo's paradox; Moore's paradox</li>
+            <li><strong>Greek letters:</strong> Lowercase epsilon ($\varepsilon$); lowercase delta ($\delta$); lowercase lambda ($\lambda$)</li>
+            <li><strong>Board games:</strong> Boggle; Pictionary; Blokus</li>
+            <li><strong>Polyhedra:</strong> Tetrahedron; icosahedron; cuboctahedron</li>
+            <li><strong>Books:</strong> I, Robot (Isaac Asimov)</li>
+            <li><strong>Boolean functions:</strong> Parity; majority; tribes</li>
+          </ul>
         </details>
-        <p>
-          I have an amateur interest in philosophy. I wish I knew more about it. Some of my philosophical opinions are listed below.
-        </p>
         <details>
-          <summary>Philosophical views</summary>
-          <div class="indent">
-            <ul style="margin-top:0;margin-bottom:0;padding-left:15px;">
+            <summary>Some of my opinions on philosopical matters</summary>
+            
+            <ul>
+              <li class="preface">
+                I have an amateur interest in philosophy. I wish I knew more about the subject. Some of my philosophical opinions are listed below.
+              </li>
               <li>
                 I'm Catholic.
               </li>
@@ -98,88 +104,69 @@
                 I favor <a href="http://plato.stanford.edu/entries/time/#TheBThe">B-theorist</a> accounts of time.
               </li>
             </ul>
-          </div>
         </details>
-        <p>
-          I also list some of my political views below. People tell me that it's foolish to have this list on my website, and maybe they're right. However, I believe that each of us has a civic duty to advocate for just and wise policies. Instead of a culture in which politics is a taboo subject, I would like to cultivate a culture in which we all respect each other and work together despite passionate disagreements. (For example, I am certainly happy to mentor students who oppose my political views.)
-        </p>
         <details>
-          <summary>Political views</summary>
-          <p>
-            ⚠️<em>Whether you lean "left", "right", or some other direction, you are probably going to disagree with me about some of this stuff. I hope we can still be friends! Please trust that I want us all to thrive. I'm sure there are many things I'm wrong about.</em>
-          </p>
-          <div class="indent">
-            I'm a member of the <a href="https://solidarity-party.org/">American Solidarity Party</a>. Here are some of my views on various U.S. issues:
+            <summary>Some of my opinions on political matters</summary>
+
             <ul>
-              <li class="l">
-                <span>
-                  I support serious government interventions to mitigate and prevent climate change. I'm in favor of taxing carbon emissions from fossil fuels and rapidly increasing the taxation rate to phase out fossil fuels entirely. I'm not talking about a blanket carbon tax; I think a different system would be more appropriate for regulating carbon emissions from non-fossil-fuel sources such as livestock and biofuels.
-                </span>
-              </li>
-              <li class="c">
-                <span>
-                  I support a ban on the destruction of human embryos in laboratories, such as in the context of stem cell research or <i>in vitro</i> fertilization. I think we all have dignity and value that doesn't depend on the circumstances of our conception, and I respect persons conceived <i>in vitro</i> as equals, whether they are embryos or adults.
-                </span>
-              </li>
-              <li class="l">
-                <span>
-                  I favor making it very easy to legally immigrate to the U.S. I want the border between the U.S. and Mexico to be similar to the border between Texas and New Mexico. I don't think any special excuse or reason should be required to become a U.S. citizen.
-                </span>
-              </li>
-              <li class="c">
-                <span>
-                  I support a ban on abortion. I think we should use nonviolent methods to support pregnant women. For example, I support government-funded pregnancy centers, and I would like the government to ensure that it is possible and financially viable for parents of newborns to take time off of work. (Here's a <a href="/blog/economic-theory-of-abortion-policies/">relevant blog post</a>. See also: <a href="https://whatsmyprolifeline.com">What's My Pro-Life Line?</a>)
-                </span>
-              </li>
-              <li class="l">
-                <span>
-                  I favor abolishing capital punishment. I also think the prison system is greatly overused. People who commit crimes should face consequences, but years of imprisonment is extreme.
-                </span>
-              </li>
-              <li class="c">
-                <span>
-                  I favor making adultery illegal, at <em>least</em> in cases where the non-participating spouse disapproves. More generally, I think that married people should have greater legal obligations toward their spouses. I think marriage is more than a contract; it seems to me that the law currently treats it as less than a contract.
-                </span>
-              </li>
-              <li class="l">
-                <span>
-                  I favor giving every citizen the right to vote, regardless of age or criminal history. Yes, I'm serious, regardless of age. (Here's a <a href="https://www.vox.com/future-perfect/2019/9/10/20835327/voting-age-youth-rights-kids-vote">relevant Vox article</a>.)
-                </span>
-              </li>
-              <li class="c">
-                <span>
-                  I support a ban on physician-assisted suicide and all forms of euthanasia.
-                </span>
-              </li>
-              <li class="l">
-                <span>
-                  I support robust government programs to support homeless people, low-income people, and other vulnerable populations.
-                </span>
-              </li>
-              <li class="c">
-                <span>
-                  I support <a href="https://en.wikipedia.org/wiki/Originalism">constitutional originalism.</a> I think the Constitution has room for improvement. I favor clearly distinguishing between improvements that <em>could potentially</em> be made and improvements that <em>actually have</em> been made. I think the legitimate way to change the Constitution is to use the amendment process described in Article V of the Constitution itself.
-                </span>
-              </li>
-              <li class="l">
-                <span>
-                  I oppose torture. More generally, I oppose almost all violent actions performed by the U.S. military. I am grateful for the service of those members of the military who honorably and ethically defend the country.
-                </span>
-              </li>
-              <li class="l">
-                <span>
-                  I favor repealing the second amendment.
-                </span>
-              </li>
-              <li>
-                I support an expansive right to freedom of speech. I think that in most cases, the best response to objectionable speech is respectful dialogue and persuasive <a href="https://en.wikipedia.org/wiki/Counterspeech">counterspeech</a> rather than punishment, censorship, or ostracization.
-              </li>
-              <li>
-                I oppose efforts by the NSA to weaken widely-used cryptographic software.
-              </li>
+                <li class="preface">
+                    People tell me that it's foolish to have a list of political opinions on my website, and maybe they're right. However, I believe that each of us has a civic duty to advocate for just and wise policies. Instead of a culture in which politics is a taboo subject, I would like to cultivate a culture in which we all respect each other and work together despite passionate disagreements. (For example, I am certainly happy to mentor students who oppose my political views.)
+                </li>
+
+                <li class="preface">
+                    ⚠️Whether you lean "left", "right", or some other direction, you are probably going to disagree with me about some of this stuff. I hope we can still be friends! Please trust that I want us all to thrive. I'm sure there are many things I'm wrong about.
+                </li>
+
+                <li class="preface">
+                    I'm a member of the <a href="https://solidarity-party.org/">American Solidarity Party</a>. Here are some of my views on various U.S. issues:
+                </li>
+
+                <li>
+                    I support serious government interventions to mitigate and prevent climate change. I'm in favor of taxing carbon emissions from fossil fuels and rapidly increasing the taxation rate to phase out fossil fuels entirely. I'm not talking about a blanket carbon tax; I think a different system would be more appropriate for regulating carbon emissions from non-fossil-fuel sources such as livestock and biofuels.
+                </li>
+                <li>
+                    I support a ban on the destruction of human embryos in laboratories, such as in the context of stem cell research or <i>in vitro</i> fertilization. I think we all have dignity and value that doesn't depend on the circumstances of our conception, and I respect persons conceived <i>in vitro</i> as equals, whether they are embryos or adults.
+                </li>
+                <li>
+                    I favor making it very easy to legally immigrate to the U.S. I don't think any special excuse or reason should be required to become a U.S. citizen. I don't mind that there is a process to immigration and naturalization, but I wish it were open to pretty much whoever wants to do it.
+                </li>
+                <li>
+                    I support a ban on abortion. I think we should use nonviolent methods to support pregnant women. For example, I support government-funded pregnancy centers, and I would like the government to ensure that it is possible and financially viable for parents of newborns to take time off of work. (Here's a <a href="/blog/economic-theory-of-abortion-policies/">relevant blog post</a>. See also: <a href="https://whatsmyprolifeline.com">What's My Pro-Life Line?</a>)
+                </li>
+                <li>
+                    I favor abolishing capital punishment. I also think the prison system is greatly overused. People who commit crimes should face consequences, but years of imprisonment is extreme.
+                </li>
+                <li>
+                    I favor making adultery illegal, at <em>least</em> in cases where the non-participating spouse disapproves. More generally, I think that married people should have greater legal obligations toward their spouses. I think marriage is more than a contract; it seems to me that the law currently treats it as less than a contract.
+                </li>
+                <li>
+                    I favor giving every citizen the right to vote, regardless of age or criminal history. Yes, I'm serious, regardless of age. (Here's a <a href="https://www.vox.com/future-perfect/2019/9/10/20835327/voting-age-youth-rights-kids-vote">relevant Vox article</a>.)
+                </li>
+                <li>
+                    I support a ban on physician-assisted suicide and all forms of euthanasia.
+                </li>
+                <li>
+                    I support robust government programs to support homeless people, low-income people, and other vulnerable populations.
+                </li>
+                <li>
+                    I support <a href="https://en.wikipedia.org/wiki/Originalism">constitutional originalism.</a> I think the Constitution has room for improvement. I favor clearly distinguishing between improvements that <em>could potentially</em> be made and improvements that <em>actually have</em> been made. I think the legitimate way to change the Constitution is to use the amendment process described in Article V of the Constitution itself.
+                </li>
+                <li>
+                    I oppose torture. More generally, I oppose almost all violent actions performed by the U.S. military. I am grateful for the service of those members of the military who honorably and ethically defend the country.
+                </li>
+                <li>
+                    I favor repealing the second amendment.
+                </li>
+                <li>
+                    I support an expansive right to freedom of speech. I think that in most cases, the best response to objectionable speech is respectful dialogue and persuasive <a href="https://en.wikipedia.org/wiki/Counterspeech">counterspeech</a> rather than punishment, censorship, or ostracization.
+                </li>
+                <li>
+                    I oppose efforts by the NSA to weaken widely-used cryptographic software.
+                </li>
+                <li class="preface">
+                    Are you interested in discussing any of this stuff with me? On the one hand, I value respectful dialogue, especially with people who disagree with me. On the other hand, my time is limited, so unfortunately I cannot always participate in such dialogues. In practice, I'm most likely to discuss politics and religion and whatnot when I'm participating in an <em>in-person meeting with no particular agenda,</em> such as a shared meal.
+                </li>
             </ul>
-            Are you interested in discussing any of this stuff with me? On the one hand, I value respectful dialogue, especially with people who disagree with me. On the other hand, my time is limited, so unfortunately I cannot always participate in such dialogues. In practice, I'm most likely to discuss politics and religion and whatnot when I'm participating in an <em>in-person meeting with no particular agenda,</em> such as a shared meal.
-          </div>
         </details>
       </article>
     </main>
