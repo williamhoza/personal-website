@@ -109,7 +109,7 @@
                 <hr />
 
                 <p>
-                    For each positive integer $K$, let $\langle K \rangle$ denote the standard base-2 representation of $K$, and let $0^K$ denote the symbol $0$ repeated $K$ times. For example, $\langle 13 \rangle = 1101$ and $0^3 = 000$.
+                    For each positive integer $K$, let $\langle K \rangle$ denote the standard base-2 representation of $K$, and let $0^K$ denote the symbol $0$ repeated $K$ times. For example, $\langle 6 \rangle = 110$ and $0^6 = 000000$.
                 </p>
 
                 <p>
@@ -271,6 +271,7 @@
                         // SYMBOLS[2] is assumed to be the blank symbol
                         this.tape[i].setSymbol(SYMBOLS[2]);
                         this.tape[i].rect.style.display = "none";
+                        this.tape[i].svgText.classList.remove("present");
                     }
                 }
 
