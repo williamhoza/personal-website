@@ -585,6 +585,121 @@
             "phrase": "some maracas",
             "emoji": "🪇",
             "difficult": false
+        }, {
+            "word": "trumpet",
+            "phrase": "a trumpet",
+            "emoji": "🎺",
+            "difficult": false
+        }, {
+            "word": "saxophone",
+            "phrase": "a saxophone",
+            "emoji": "🎷",
+            "difficult": false
+        }, {
+            "word": "violin",
+            "phrase": "a violin",
+            "emoji": "🎻",
+            "difficult": false
+        }, {
+            "word": "drum",
+            "phrase": "a drum",
+            "emoji": "🥁",
+            "difficult": false
+        }, {
+            "word": "flute",
+            "phrase": "a flute",
+            "emoji": "🪈",
+            "difficult": false
+        }, {
+            "word": "guitar",
+            "phrase": "a guitar",
+            "emoji": "🎸",
+            "difficult": false
+        }, {
+            "word": "goggles",
+            "phrase": "some goggles",
+            "emoji": "🥽",
+            "difficult": false
+        }, {
+            "word": "purse",
+            "phrase": "a purse",
+            "emoji": "👛",
+            "difficult": false
+        }, {
+            "word": "microphone",
+            "phrase": "a microphone",
+            "emoji": "🎤",
+            "difficult": false
+        }, {
+            "word": "headphones",
+            "phrase": "some headphones",
+            "emoji": "🎧",
+            "difficult": false
+        }, {
+            "word": "harp",
+            "phrase": "a harp",
+            "emoji": "🪉",
+            "difficult": false
+        }, {
+            "word": "battery",
+            "phrase": "a battery",
+            "emoji": "🔋",
+            "difficult": false
+        }, {
+            "word": "paperclip",
+            "phrase": "a paperclip",
+            "emoji": "📎",
+            "difficult": false
+        }, {
+            "word": "hammer",
+            "phrase": "a hammer",
+            "emoji": "🔨",
+            "difficult": false
+        }, {
+            "word": "wrench",
+            "phrase": "a wrench",
+            "emoji": "🔧",
+            "difficult": true
+        }, {
+            "word": "screwdriver",
+            "phrase": "a screwdriver",
+            "emoji": "🪛",
+            "difficult": false
+        }, {
+            "word": "lotion",
+            "phrase": "some lotion",
+            "emoji": "🧴",
+            "difficult": false
+        }, {
+            "word": "broom",
+            "phrase": "a broom",
+            "emoji": "🧹",
+            "difficult": false
+        }, {
+            "word": "pumpkin",
+            "phrase": "a pumpkin",
+            "emoji": "🎃",
+            "difficult": false
+        }, {
+            "word": "basketball",
+            "phrase": "a basketball",
+            "emoji": "🏀",
+            "difficult": false
+        }, {
+            "word": "baseball",
+            "phrase": "a baseball",
+            "emoji": "⚾",
+            "difficult": false
+        }, {
+            "word": "volleyball",
+            "phrase": "a volleyball",
+            "emoji": "🏐",
+            "difficult": false
+        }, {
+            "word": "football",
+            "phrase": "a football",
+            "emoji": "🏈",
+            "difficult": false
         }
     ], "customers": [
         "🐒", "🦍", "🦧", "🐕", "🐩", "🐈", "🐈‍⬛", "🐅", "🐆", "🫏", "🐎", "🦌", "🦬", "🐃", "🐄", "🐖", "🐑", "🐐", "🐪", "🐫", "🦙", "🦒", "🐘", "🦣", "🦏", "🦛", "🐁", "🐀", "🐇", "🐿️", "🦫", "🦔", "🦇", "🦥", "🦦", "🦨", "🦘", "🦡", "🦃", "🐓", "🐤", "🐦", "🐧", "🕊️", "🦅", "🦢", "🦤", "🦩", "🦜", "🐦‍⬛", "🪿", "🐦‍🔥", "🦉", "🐊", "🐢", "🦎", "🐍", "🐉", "🦕", "🦖", "🐋", "🐬", "🦭", "🐟", "🐠", "🐡", "🦈", "🐙", "🪼", "🦀", "🦞", "🦐", "🦑", "🐌", "🦋", "🐛", "🐜", "🐝", "🪲", "🐞", "🦗", "🪳", "🕷️", "🦂", "🦟", "🪰", "🪱", "🧜‍♀️", "🧚‍♀️", "⛄", "🌝", "🌞", "🧸"
