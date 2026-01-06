@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            Soph-email
+        </title>
+
+        <style>
+            @media print {
+                main {
+                    width:50%;
+                    word-wrap:break-word;
+                }
+            }
+
+            body {
+                print-color-adjust:exact !important;
+            }
+            
+            .timestamp {
+                font-size:12px;
+                color:#606060;
+            }
+
+            .message {
+                background-color:#e0e0e0;
+                padding:5px;
+                border-radius:5px;
+                font-size:18px;
+                margin-top:3px;
+                margin-bottom:3px;
+                display:inline-block;
+            }
+
+            .reactions {
+                margin-bottom:20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            
+        </main>
+        <script>
+            const REACTIONS = "❤️ 😂 😮 👍 😢 😡";
+
+            load()
+
+            async function load() {
+                const response = await fetch("2025-12-29.json")
+                const result = await response.json();
+                render(result);
+            }
+
+            function render(ob) {
+                for (let i = 0; i < ob.length; i++) {
+                    if (ob[i]["type"] == "message" && ob[i]["subtype"] == undefined) {
+                        const d = new Date(parseFloat(ob[i]["ts"]) * 1000);
+                        const dElt = document.createElement("div");
+                        dElt.innerHTML = d.toString();
+                        dElt.classList.add("timestamp");
+                        document.querySelector("main").appendChild(dElt);
+
+                        const mElt = document.createElement("div");
+                        mElt.innerHTML = ob[i]["text"];
+                        mElt.classList.add("message");
+                        document.querySelector("main").appendChild(mElt);
+
+                        const rElt = document.createElement("div");
+                        rElt.innerHTML = REACTIONS;
+                        rElt.classList.add("reactions");
+                        document.querySelector("main").appendChild(rElt);
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

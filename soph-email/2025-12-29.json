@@ -1,0 +1,334 @@
+[
+    {
+        "subtype": "channel_join",
+        "user": "U0A6D14K8JV",
+        "text": "<@U0A6D14K8JV> has joined the channel",
+        "type": "message",
+        "ts": "1767028929.719909"
+    },
+    {
+        "subtype": "channel_name",
+        "user": "U0A6D14K8JV",
+        "old_name": "all-soph-email",
+        "name": "main",
+        "text": "has renamed the channel from \"all-soph-email\" to \"main\"",
+        "type": "message",
+        "ts": "1767029187.315159"
+    },
+    {
+        "user": "U0A6D14K8JV",
+        "type": "message",
+        "ts": "1767029266.196029",
+        "client_msg_id": "38e4b837-8b31-40ad-a9d8-ea1efb26b556",
+        "text": "Test message 1",
+        "team": "T0A5WL2R8P7",
+        "user_team": "T0A5WL2R8P7",
+        "source_team": "T0A5WL2R8P7",
+        "user_profile": {
+            "avatar_hash": "g097402f073d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/097402f073d681610d0884a9ae981485.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png",
+            "first_name": "William",
+            "real_name": "William Hoza",
+            "display_name": "",
+            "team": "T0A5WL2R8P7",
+            "name": "williamhoza",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "IFvl8",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Test message 1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U0A6D14K8JV",
+        "type": "message",
+        "ts": "1767029268.797049",
+        "client_msg_id": "60688f87-ef97-470e-a194-ebc1e10aef2e",
+        "text": "Test message 2",
+        "team": "T0A5WL2R8P7",
+        "user_team": "T0A5WL2R8P7",
+        "source_team": "T0A5WL2R8P7",
+        "user_profile": {
+            "avatar_hash": "g097402f073d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/097402f073d681610d0884a9ae981485.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png",
+            "first_name": "William",
+            "real_name": "William Hoza",
+            "display_name": "",
+            "team": "T0A5WL2R8P7",
+            "name": "williamhoza",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "M0YNi",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Test message 2"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U0A6D14K8JV",
+        "type": "message",
+        "ts": "1767041372.582709",
+        "client_msg_id": "62257c9c-d33e-4e0b-9d22-037310607bf2",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a urna ut magna egestas mollis a at turpis. Quisque pulvinar fringilla velit sit amet mollis. Donec sapien ex, iaculis in quam non, pulvinar tempus nibh. Donec tempor, urna sagittis dapibus suscipit, orci purus venenatis augue, efficitur interdum risus libero eu mi. Nulla malesuada arcu nisi, ut commodo enim tincidunt non. Integer quis vehicula augue. Donec non tellus nec est posuere placerat condimentum non leo. In hendrerit libero vel porta rhoncus. Mauris at ornare nisl. Maecenas non metus semper, sodales lacus ac, bibendum dolor. Nam tellus metus, interdum non ligula quis, fringilla imperdiet lorem. Mauris rhoncus eros nibh, quis porttitor massa placerat quis.",
+        "team": "T0A5WL2R8P7",
+        "user_team": "T0A5WL2R8P7",
+        "source_team": "T0A5WL2R8P7",
+        "user_profile": {
+            "avatar_hash": "g097402f073d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/097402f073d681610d0884a9ae981485.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png",
+            "first_name": "William",
+            "real_name": "William Hoza",
+            "display_name": "",
+            "team": "T0A5WL2R8P7",
+            "name": "williamhoza",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "3pyV9",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a urna ut magna egestas mollis a at turpis. Quisque pulvinar fringilla velit sit amet mollis. Donec sapien ex, iaculis in quam non, pulvinar tempus nibh. Donec tempor, urna sagittis dapibus suscipit, orci purus venenatis augue, efficitur interdum risus libero eu mi. Nulla malesuada arcu nisi, ut commodo enim tincidunt non. Integer quis vehicula augue. Donec non tellus nec est posuere placerat condimentum non leo. In hendrerit libero vel porta rhoncus. Mauris at ornare nisl. Maecenas non metus semper, sodales lacus ac, bibendum dolor. Nam tellus metus, interdum non ligula quis, fringilla imperdiet lorem. Mauris rhoncus eros nibh, quis porttitor massa placerat quis."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U0A6D14K8JV",
+        "type": "message",
+        "ts": "1767041414.380629",
+        "client_msg_id": "4a02fc2f-d3b1-4646-9f9f-e02bbb5db9d8",
+        "text": "Formatting test: *bold* _italics_ underline",
+        "team": "T0A5WL2R8P7",
+        "user_team": "T0A5WL2R8P7",
+        "source_team": "T0A5WL2R8P7",
+        "user_profile": {
+            "avatar_hash": "g097402f073d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/097402f073d681610d0884a9ae981485.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png",
+            "first_name": "William",
+            "real_name": "William Hoza",
+            "display_name": "",
+            "team": "T0A5WL2R8P7",
+            "name": "williamhoza",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "26AtX",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Formatting test: "
+                            },
+                            {
+                                "type": "text",
+                                "text": "bold",
+                                "style": {
+                                    "bold": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " "
+                            },
+                            {
+                                "type": "text",
+                                "text": "italics",
+                                "style": {
+                                    "italic": true
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": " "
+                            },
+                            {
+                                "type": "text",
+                                "text": "underline",
+                                "style": {
+                                    "underline": true
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "user": "U0A6D14K8JV",
+        "type": "message",
+        "ts": "1767041438.003309",
+        "client_msg_id": "e6faf1c8-c021-4882-9a6e-bb6956b3bd2b",
+        "text": "Emoji test: :basketball::upside_down_face::parrot:",
+        "team": "T0A5WL2R8P7",
+        "user_team": "T0A5WL2R8P7",
+        "source_team": "T0A5WL2R8P7",
+        "user_profile": {
+            "avatar_hash": "g097402f073d",
+            "image_72": "https:\/\/secure.gravatar.com\/avatar\/097402f073d681610d0884a9ae981485.jpg?s=72&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0026-72.png",
+            "first_name": "William",
+            "real_name": "William Hoza",
+            "display_name": "",
+            "team": "T0A5WL2R8P7",
+            "name": "williamhoza",
+            "is_restricted": false,
+            "is_ultra_restricted": false
+        },
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "2K0RO",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Emoji test: "
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "basketball",
+                                "unicode": "1f3c0"
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "upside_down_face",
+                                "unicode": "1f643"
+                            },
+                            {
+                                "type": "emoji",
+                                "name": "parrot",
+                                "unicode": "1f99c"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "text": "Image test:",
+        "files": [
+            {
+                "id": "F0A6103SBV0",
+                "created": 1767041555,
+                "timestamp": 1767041555,
+                "name": "2020-10-22.jpg",
+                "title": "2020-10-22.jpg",
+                "mimetype": "image\/jpeg",
+                "filetype": "jpg",
+                "pretty_type": "JPEG",
+                "user": "U0A6D14K8JV",
+                "user_team": "T0A5WL2R8P7",
+                "editable": false,
+                "size": 3930294,
+                "mode": "hosted",
+                "is_external": false,
+                "external_type": "",
+                "is_public": true,
+                "public_url_shared": false,
+                "display_as_bot": false,
+                "username": "",
+                "url_private": "https:\/\/files.slack.com\/files-pri\/T0A5WL2R8P7-F0A6103SBV0\/2020-10-22.jpg?token=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "url_private_download": "https:\/\/files.slack.com\/files-pri\/T0A5WL2R8P7-F0A6103SBV0\/download\/2020-10-22.jpg?token=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "media_display_type": "unknown",
+                "thumb_64": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_64.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_80": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_80.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_360": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_360.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_360_w": 360,
+                "thumb_360_h": 270,
+                "thumb_480": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_480.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_480_w": 480,
+                "thumb_480_h": 360,
+                "thumb_160": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_160.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_720": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_720.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_720_w": 720,
+                "thumb_720_h": 540,
+                "thumb_800": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_800.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_800_w": 800,
+                "thumb_800_h": 600,
+                "thumb_960": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_960.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_960_w": 960,
+                "thumb_960_h": 720,
+                "thumb_1024": "https:\/\/files.slack.com\/files-tmb\/T0A5WL2R8P7-F0A6103SBV0-4c479a38c2\/2020-10-22_1024.jpg?t=xoxe-10200682858789-10217911369745-10197957691955-7ce9425993a0884fb4890650663a2d68",
+                "thumb_1024_w": 1024,
+                "thumb_1024_h": 768,
+                "original_w": 4096,
+                "original_h": 3072,
+                "thumb_tiny": "AwAkADCukjyHLZIHpx+GOlSKQJgOSuM4J5qtE+OCSB7U+JsuWJPC5NKw7lpAX43AMB36GhkkQbmKYqNiyueRzjt70khbyTk55+lKw7lhtqgktn6UxWD8K4yexFMZmA+YADI6HPeo1fbIh2nggnJ7fnRYdysKs2wBDg9DxSAL6L\/3xTlOCcD\/AL5XFUQPI3SsPTH+NDfcb8aaWIYlR1pC7FSNvWgBZGBU8ZGAaqseamyw4PIxg5ppQf3R+ZpDNFOlSio06CpB0piHU006mmgBjVC9TNUL0Af\/2Q==",
+                "permalink": "https:\/\/soph-email.slack.com\/files\/U0A6D14K8JV\/F0A6103SBV0\/2020-10-22.jpg",
+                "permalink_public": "https:\/\/slack-files.com\/T0A5WL2R8P7-F0A6103SBV0-b14eb886cd",
+                "is_starred": false,
+                "skipped_shares": true,
+                "has_rich_preview": false,
+                "file_access": "visible"
+            }
+        ],
+        "upload": false,
+        "user": "U0A6D14K8JV",
+        "display_as_bot": false,
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "laDxK",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "Image test:"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "type": "message",
+        "ts": "1767041564.819339",
+        "client_msg_id": "824e7662-2949-4aa3-9000-939f75dacee0"
+    }
+]
