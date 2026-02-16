@@ -89,16 +89,28 @@ p, li {
   border-top:1px solid #e0e0e0;
 }
 
-blockquote {
+figure {
+  padding:10px;
+  border-left:5px solid #a0a0a0;
+  background-color:#f0f0f0;
+}
+
+figure > blockquote {
+  margin-left:0;
+  margin-top:0;
+  font-style:italic;
+}
+
+div > blockquote {
   border:3px dashed #c0c0c0;
   padding:10px;
 }
 
-blockquote p:first-child {
+div > blockquote p:first-child {
   margin-top:0;
 }
 
-blockquote p:last-child {
+div > blockquote p:last-child {
   margin-bottom:0;
 }
 
