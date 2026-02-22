@@ -80,7 +80,7 @@ time {
   color:gray;
 }
 
-p, li {
+p, li, figure > blockquote {
   line-height:1.5;
 }
 
@@ -92,7 +92,7 @@ p, li {
 figure {
   padding:10px;
   border-left:5px solid #a0a0a0;
-  background-color:#f0f0f0;
+  background-color:#f0f0f0; 
 }
 
 figure > blockquote {
