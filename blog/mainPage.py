@@ -20,8 +20,11 @@ def compile(posts):
     <main class="one-column-container">
       <div class="main-column">
         <div class="main-column-inner">
+          <p>
+            Some people write blog posts simply to fill up their blogs with content. I have the opposite attitude: the only reason I have a blog is so that I have a place to put my blog posts.
+          </p>
           <p class="main-page-intro">
-            Hi, I'm <a href="/">William Hoza</a>. My blog posts are listed below, and an RSS feed is <a href="/blog/rss.xml">here</a>.
+            My blog posts are listed below, and an RSS feed is <a href="/blog/rss.xml">here</a>.
           </p>
           {postLinkList}
         </div>
