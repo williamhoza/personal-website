@@ -1,3 +1,6 @@
+# -*- coding: pyxl -*-
+from pyxl import html
+
 import json
 import page
 
@@ -8,7 +11,7 @@ class Post:
     self.slug = slug
     
     bodyFile = open(f"{slug}/body.html", "r", encoding="utf-8")
-    self.body = bodyFile.read()
+    self.body = html.rawhtml(bodyFile.read())
     
     metadataFile = open(f"{slug}/metadata.json", "r", encoding="utf-8")
     self.metadata = json.load(metadataFile)
@@ -19,20 +22,20 @@ class Post:
       return ""
       
     return f"{self.dt:%B} {self.dt.day}, {self.dt.year}"
-  
-  # TODO: Use proper template system
+    
   def compile(self):
     controls = ("controls" in self.metadata and self.metadata["controls"])
     
     if "draft" in self.metadata and self.metadata["draft"]:
-      draftText = '<span style="color:red">[draft]</span>'
-      comments = '<span style="color:gray">[comments not yet enabled]</span>'
+      draftText = <span style="color:red">[draft]</span>
+      comments = <span style="color:gray">[comments not yet enabled]</span>
     else:
-      draftText = ''
-      comments = '<script src="https://giscus.app/client.js" data-repo="williamhoza/blog-comments" data-repo-id="R_kgDOHeMfrQ" data-category="Announcements" data-category-id="DIC_kwDOHeMfrc4CPjCb" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async></script>'
+      draftText = None
+      # fbComments = <div class="fb-comments" data-href="https://williamhoza.com/blog/{self.slug}/" data-width="100%" data-numposts="5"></div>
+      comments = <script src="https://giscus.app/client.js" data-repo="williamhoza/blog-comments" data-repo-id="R_kgDOHeMfrQ" data-category="Announcements" data-category-id="DIC_kwDOHeMfrc4CPjCb" data-mapping="pathname" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="en" crossorigin="anonymous" async></script>
     
     if controls:
-      main = f"""
+      main = (
         <main>
           <div class="column-container">
             <div class="main-column">
@@ -61,9 +64,9 @@ class Post:
             </div>
           </section>
         </main>
-      """
+      )
     else:
-      main = f"""
+      main = (
         <main class="one-column-container">
           <div class="main-column">
             <div class="main-column-inner">
@@ -84,25 +87,29 @@ class Post:
             </div>
           </section>
         </main>
-      """
+      )
     
     if ("og-image" in self.metadata):
-      ogImageTags = f"""
-        <meta property="og:image" content="https://williamhoza.com/blog/{self.slug}/{self.metadata['og-image']}" />
-        <meta property="og:image:width" content="{self.metadata['og-image-width']}" />
-        <meta property="og:image:height" content="{self.metadata['og-image-height']}" />
-      """
+      ogImageTags = (
+        <frag>
+          <meta property="og:image" content="https://williamhoza.com/blog/{self.slug}/{self.metadata['og-image']}" />
+          <meta property="og:image:width" content="{self.metadata['og-image-width']}" />
+          <meta property="og:image:height" content="{self.metadata['og-image-height']}" />
+        </frag>
+      )
     else:
-      ogImageTags = ""
+      ogImageTags = None
     
-    extraHeadElements = f"""
-      <meta property="og:url" content="https://williamhoza.com/blog/{self.slug}/" />
-      <meta property="og:type" content="article" />
-      <meta property="og:description" content="{self.metadata['snippet']}" />
-    """
+    extraHeadElements = (
+      <frag>
+        <meta property="og:url" content="https://williamhoza.com/blog/{self.slug}/" />
+        <meta property="og:type" content="article" />
+        <meta property="og:description" content="{self.metadata['snippet']}" />
+      </frag>
+    )
     
     if ("styling" in self.metadata and self.metadata["styling"]):
-      extraHeadElements += '<link rel="stylesheet" href="index.css" />'
+      extraHeadElements.append(<link rel="stylesheet" href="/blog/{self.slug}/index.css" />)
       
     indexFile = open(f"{self.slug}/index.html", "w", encoding="utf-8")
     page.compile(controls, main, extraHeadElements, indexFile, self.metadata["title"], ogImageTags)

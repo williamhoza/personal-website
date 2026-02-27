@@ -1,10 +1,13 @@
+# -*- coding: pyxl -*-
+from pyxl import html
+
 import page
 
 def compile(posts):
-  postLinkList = ""
+  postLinkList = <frag></frag>
   
   for post in posts.values():
-    postLinkList += f"""
+    postLinkList.append(
       <p>
         <a class="title-link" href="/blog/{post.slug}">
           {post.metadata["title"]}
@@ -14,9 +17,9 @@ def compile(posts):
           {post.humanReadableDate()}
         </time>
       </p>
-    """
+    )
   
-  main = f"""
+  main = (
     <main class="one-column-container">
       <div class="main-column">
         <div class="main-column-inner">
@@ -27,9 +30,13 @@ def compile(posts):
         </div>
       </div>
     </main>
-  """
+  )
   
-  extraHeadElements = '<meta property="og:url" content="https://williamhoza.com/blog/" />'
+  extraHeadElements = (
+    <frag>
+      <meta property="og:url" content="https://williamhoza.com/blog/" />
+    </frag>
+  )
   
   indexFile = open("index.html", "w", encoding="utf-8")
   page.compile(False, main, extraHeadElements, indexFile)
