@@ -174,7 +174,7 @@
             <div id="keyboard"></div>
             <div id="system-message"></div>
             <div id="user-message"></div>
-            <button id="next" onclick="pickNewWord();">Next</button>
+            <button id="next" onclick="presentNewWord();">Next</button>
         </main>
 
         <script>
@@ -198,6 +198,7 @@
             let difficultAudio;
             let firstLetterAudio = [];
             let secondLetterAudio = [];
+            let sentenceAudio = new Audio();
             let promptAvailable = true;
             let prizeCells = [];
             let currentSpeech = null;
@@ -298,7 +299,7 @@
                                 prizeCells[i].updatePrize(true);
                                 this.updatePrize(true);
                                 moved = true;
-                                upgradeAudio.fastSeek(0);
+                                upgradeAudio.currentTime = 0;
                                 upgradeAudio.play();
                             }
                             
@@ -345,14 +346,13 @@
             class Word {
                 constructor(ob) {
                     this.text = ob["word"];
-                    this.sentence = ob["sentence"];
                     this.difficult = ob["difficult"];
-                    this.alt = ob["alt"] || null;
                 }
 
                 loadAudio() {
-                    this.audio = new Audio("audio/" + this.text + ".mp3?v=6");
-                    return loadPromise(this.audio);
+                    sentenceAudio.src = "audio/" + this.text + ".mp3?v=6";
+                    sentenceAudio.load();
+                    return loadPromise(sentenceAudio);
                 }
             }
 
@@ -374,7 +374,6 @@
                     } else {
                         easyWords.push(newWord);
                     }
-                    audioPromiseArray.push(newWord.loadAudio());
                 }
 
                 shuffle(easyWords);
@@ -398,7 +397,7 @@
                 upgradeAudio = new Audio("audio/upgrade.mp3?v=5");
                 audioPromiseArray.push(loadPromise(upgradeAudio));
 
-                await Promise.all(audioPromiseArray);
+                audioPromiseArray.push(pickNewWord());
 
                 for (let r = 0; r < PRIZE_ROWS; r++) {
                     for (let c = 0; c < PRIZE_COLUMNS; c++) {
@@ -408,6 +407,8 @@
 
                 constructKeyboard();
 
+                await Promise.all(audioPromiseArray);
+
                 document.querySelector("#start").disabled = "";
                 document.querySelector("#start").innerHTML = "Start!";
             }
@@ -415,7 +416,7 @@
             function start() {
                 document.querySelector("#loading-stuff").style.display = "none";
                 document.querySelector("main").style.display = "flex";
-                pickNewWord();
+                presentNewWord();
             }
 
             function constructKeyboard() {
@@ -462,10 +463,6 @@
             }
 
             function pickNewWord() {
-                document.querySelector("#system-message").style.display = "none";
-                document.querySelector("#user-message").style.display = "none";
-                document.querySelector("#next").style.display = "none";
-
                 let difficultProbability;
 
                 if (streak >= DIFFICULT_MODE_STREAK_THRESHOLD) {
@@ -484,6 +481,14 @@
                     easyWords.push(currentWord);
                 }
 
+                return currentWord.loadAudio();
+            }
+
+            function presentNewWord() {
+                document.querySelector("#system-message").style.display = "none";
+                document.querySelector("#user-message").style.display = "none";
+                document.querySelector("#next").style.display = "none";
+
                 document.querySelector("#illustration").src = "images/" + currentWord.text + ".png";
                 setUserInput("");
                 document.querySelector("#user-input").style.visibility = "visible";
@@ -493,7 +498,6 @@
             }
 
             async function send() {
-                currentWord.audio.pause();
                 promptAvailable = false;
                 document.querySelector("#user-input").style.visibility = "hidden";
                 document.querySelector("#keyboard").style.visibility = "hidden";
@@ -501,6 +505,7 @@
                 document.querySelector("#user-message").style.display = "block";
 
                 let correct = (userInput.toLowerCase() == currentWord.text) || (userInput.toLowerCase() == "o" && currentWord.text == "oh");
+
                 if (correct) {
                     streak = streak + 1;
                     document.querySelector("#user-message").innerHTML = "✅ " + userInput;
@@ -535,13 +540,18 @@
                     await playNonOverlapping(secondLetterAudio[currentWord.text.charCodeAt(1) - 97]);
                 }
 
+                document.querySelector("#next").innerHTML = "Loading...";
+                document.querySelector("#next").disabled = "true";
                 document.querySelector("#next").style.display = "block";
+                await pickNewWord();
+                document.querySelector("#next").innerHTML = "Next";
+                document.querySelector("#next").disabled = "";
             }
 
             function playNonOverlapping(audio) {
                 if (currentSpeech != null) currentSpeech.pause();
                 currentSpeech = audio;
-                audio.fastSeek(0);
+                audio.currentTime = 0;
                 audio.play();
                 return new Promise(function(resolve) {
                     audio.addEventListener("ended", resolve);
@@ -551,7 +561,7 @@
             async function sayPrompt() {
                 if (promptAvailable) {
                     if (currentWord.difficult) await playNonOverlapping(difficultAudio);
-                    playNonOverlapping(currentWord.audio);
+                    playNonOverlapping(sentenceAudio);
                 }
             }
 
