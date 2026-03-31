@@ -508,14 +508,6 @@
 
                 if (correct) {
                     streak = streak + 1;
-                } else {
-                    streak = 0;
-                }
-
-                let oldWordText = currentWord.text;
-                let newAudioPromise = pickNewWord();
-
-                if (correct) {
                     document.querySelector("#user-message").innerHTML = "✅ " + userInput;
 
                     // Find empty prize cell
@@ -532,25 +524,26 @@
                     if (userInput.toLowerCase() == "o") {
                         await playNonOverlapping(correctOAudio);
                         document.querySelector("#system-message").style.display = "block";
-                        document.querySelector("#system-message").innerHTML = "✅ " + oldWordText.toUpperCase();
-                        await playNonOverlapping(firstLetterAudio[oldWordText.charCodeAt(0) - 97]);
-                        await playNonOverlapping(secondLetterAudio[oldWordText.charCodeAt(1) - 97]);
+                        document.querySelector("#system-message").innerHTML = "✅ " + currentWord.text.toUpperCase();
+                        await playNonOverlapping(firstLetterAudio[currentWord.text.charCodeAt(0) - 97]);
+                        await playNonOverlapping(secondLetterAudio[currentWord.text.charCodeAt(1) - 97]);
                     } else {
                         playNonOverlapping(correctAudio);
                     }
                 } else {
+                    streak = 0;
                     document.querySelector("#user-message").innerHTML = "❌ " + userInput;
                     await playNonOverlapping(incorrectAudio);
                     document.querySelector("#system-message").style.display = "block";
-                    document.querySelector("#system-message").innerHTML = "✅ " + oldWordText.toUpperCase();
-                    await playNonOverlapping(firstLetterAudio[oldWordText.charCodeAt(0) - 97]);
-                    await playNonOverlapping(secondLetterAudio[oldWordText.charCodeAt(1) - 97]);
+                    document.querySelector("#system-message").innerHTML = "✅ " + currentWord.text.toUpperCase();
+                    await playNonOverlapping(firstLetterAudio[currentWord.text.charCodeAt(0) - 97]);
+                    await playNonOverlapping(secondLetterAudio[currentWord.text.charCodeAt(1) - 97]);
                 }
 
                 document.querySelector("#next").innerHTML = "Loading...";
                 document.querySelector("#next").disabled = "true";
                 document.querySelector("#next").style.display = "block";
-                await newAudioPromise;
+                await pickNewWord();
                 document.querySelector("#next").innerHTML = "Next";
                 document.querySelector("#next").disabled = "";
             }
