@@ -217,13 +217,8 @@
                     this.row = row;
                     this.column = column;
 
-                    this.left = document.body.clientWidth / 2 - 44 * PRIZE_COLUMNS / 2 + column * 44;
-                    this.top = row * 44;
-
                     this.square = document.createElement("div");
                     this.square.classList.add("prize-cell");
-                    this.square.style.left = this.left + "px";
-                    this.square.style.top = this.top + "px";
                     document.querySelector("main").appendChild(this.square);
 
                     const savedRank = localStorage.getItem("tlsb-prize-" + this.row + "-" + this.column, this.rank); 
@@ -232,8 +227,9 @@
                     this.prize = document.createElement("div");
                     this.prize.classList.add("prize");
                     this.prize.classList.add("free");
-                    this.updatePrize(true);
                     document.querySelector("main").appendChild(this.prize);
+
+                    this.setPosition();
 
                     this.prize.addEventListener('mousedown', this.startDrag.bind(this));
                     this.prize.addEventListener('mousemove', this.drag.bind(this));
@@ -244,6 +240,16 @@
                     this.prize.addEventListener('touchend', this.endDrag.bind(this));
                     this.prize.addEventListener('touchleave', this.endDrag.bind(this));
                     this.prize.addEventListener('touchcancel', this.endDrag.bind(this));
+                }
+
+                setPosition() {
+                    this.left = document.body.clientWidth / 2 - 44 * PRIZE_COLUMNS / 2 + this.column * 44;
+                    this.top = this.row * 44;
+                    
+                    this.square.style.left = this.left + "px";
+                    this.square.style.top = this.top + "px";
+
+                    this.updatePrize(true);
                 }
 
                 startDrag(evt) {
@@ -404,6 +410,12 @@
                         prizeCells.push(new PrizeCell(r, c));
                     }
                 }
+
+                window.addEventListener("resize", function() {
+                    for (let i = 0; i < prizeCells.length; i++) {
+                        prizeCells[i].setPosition();
+                    }
+                })
 
                 constructKeyboard();
 
