@@ -196,6 +196,7 @@
             let correctOAudio;
             let incorrectAudio;
             let difficultAudio;
+            let skipAudio;
             let firstLetterAudio = [];
             let secondLetterAudio = [];
             let sentenceAudio = new Audio();
@@ -402,6 +403,8 @@
                 audioPromiseArray.push(loadPromise(difficultAudio));
                 upgradeAudio = new Audio("audio/upgrade.mp3?v=5");
                 audioPromiseArray.push(loadPromise(upgradeAudio));
+                skipAudio = new Audio("audio/skip.mp3");
+                audioPromiseArray.push(loadPromise(skipAudio));
 
                 audioPromiseArray.push(pickNewWord());
 
@@ -514,8 +517,6 @@
                 document.querySelector("#user-input").style.visibility = "hidden";
                 document.querySelector("#keyboard").style.visibility = "hidden";
 
-                document.querySelector("#user-message").style.display = "block";
-
                 let correct = (userInput.toLowerCase() == currentWord.text) || (userInput.toLowerCase() == "o" && currentWord.text == "oh");
 
                 if (correct) {
@@ -529,6 +530,7 @@
 
                 if (correct) {
                     document.querySelector("#user-message").innerHTML = "✅ " + userInput;
+                    document.querySelector("#user-message").style.display = "block";
 
                     // Find empty prize cell
                     let availableCells = [];
@@ -551,8 +553,14 @@
                         playNonOverlapping(correctAudio);
                     }
                 } else {
-                    document.querySelector("#user-message").innerHTML = "❌ " + userInput;
-                    await playNonOverlapping(incorrectAudio);
+                    if (userInput == "") {
+                        // "Skip this word"
+                        await playNonOverlapping(skipAudio);
+                    } else {    
+                        document.querySelector("#user-message").innerHTML = "❌ " + userInput;
+                        document.querySelector("#user-message").style.display = "block";
+                        await playNonOverlapping(incorrectAudio);
+                    }
                     document.querySelector("#system-message").style.display = "block";
                     document.querySelector("#system-message").innerHTML = "✅ " + oldWordText.toUpperCase();
                     await playNonOverlapping(firstLetterAudio[oldWordText.charCodeAt(0) - 97]);
