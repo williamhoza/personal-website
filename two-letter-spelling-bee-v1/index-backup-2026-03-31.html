@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+        <link rel="manifest" href="manifest.json?v=2" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+        <style>
+            * {
+                font-family: "Lexend", sans-serif;
+            }
+
+            html, body {
+                width:100%;
+                height:100%;
+                max-width:100%;
+                max-height:100%;
+                margin: 0;
+                padding: 0;
+                overflow:hidden;
+            }
+
+            main {
+                margin:auto;
+                max-width:800px;
+                display:none; /* will be flex when visible */
+                flex-direction:column;
+                height:100%;
+            }
+
+            #prize-placeholder {
+                flex: 0 0 90px;
+            }
+
+            #illustration {
+                flex: 1 1 100%;
+                height: 100%;
+                object-fit:contain;
+            }
+
+            #system-message {
+                background-color:#eee;
+                right:20px;
+            }
+
+            #user-message {
+                background-color:#d9c5ff;
+                left:20px;
+            }
+
+            #system-message, #user-message {
+                border-radius:5px;
+                padding:10px;
+                position:absolute;
+                bottom:150px;
+                font-size:22px;
+            }
+
+            #next {
+                display:none;
+                padding:10px;
+                font-size:20px;
+                position:absolute;
+                bottom:50px;
+                left:50%;
+                transform:translateX(-50%);
+            }
+
+            #start, #reset {
+                display:block;
+                margin:auto;
+                margin-top:100px;
+                padding:10px;
+                font-size:20px;
+            }
+
+            #keyboard {
+                text-align:center;
+            }
+
+            #keyboard button {
+                font-size:22px;
+                margin:3px;
+                width:45px;
+                height:45px;
+                background-color:#d9c5ff;
+                vertical-align:middle;
+            }
+
+            #keyboard button[disabled] {
+                background-color:#f0f0f0;
+                color:#d0d0d0;
+            }
+
+            #user-input {
+                margin-top:5px;
+                margin-bottom:5px;
+                padding:0 5px;
+            }
+
+            #user-input-field {
+                font-size:22px;
+                width:calc(100% - 55px);
+                display:inline-block;
+                border:2px solid gray;
+                height:45px;
+                box-sizing:border-box;
+                padding:4px;
+                line-height:32px;
+            }
+
+            #send-button {
+                width:45px;
+                height:45px;
+                vertical-align:top;
+                margin-left:10px;
+            }
+
+            #send-button img {
+                width:100%;
+                height:100%;
+            }
+
+            .prize-cell {
+                width:45px;
+                height:45px;
+                display:inline-block;
+                position:absolute;
+                border:1px solid #888;
+                box-sizing:border-box;
+            }
+
+            .prize-cell.highlighted {
+                border-width:4px;
+                width:48px;
+                height:48px;
+                transform:translate(-2px, -2px);
+            }
+
+            .prize {
+                width:44px;
+                height:44px;
+                text-align:center;
+                align-content:center;
+                font-size:29px;
+                cursor:move;
+                position:absolute;
+                display:none;
+            }
+
+            .prize.free {
+                transition: left 500ms ease-out, top 500ms ease-out;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="loading-stuff">
+            <button id="start" onclick="start();" disabled>Loading...</button>
+            <button id="reset" onclick="resetPrizes();">Reset prizes</button>
+        </div>
+
+        <main>
+            <div id="prize-placeholder"></div>
+            <img id="illustration" onclick="sayPrompt();" />
+            <div id="user-input">
+                <div id="user-input-field">&nbsp;</div><button onclick="send();" id="send-button"><img src="send-icon.svg" /></button>
+            </div>
+            <div id="keyboard"></div>
+            <div id="system-message"></div>
+            <div id="user-message"></div>
+            <button id="next" onclick="presentNewWord();">Next</button>
+        </main>
+
+        <script>
+            const PRIZE_EMOJIS = ["⭐", "🪙", "🎈", "🍪", "🍭", "🍩", "🌻", "🍀", "🪩", "🏆", "💎", "👑"];
+            const DIFFICULT_MODE_STREAK_THRESHOLD = 8;
+            const PRIZE_ROWS = 2;
+            const PRIZE_COLUMNS = 6;
+            const EASY_WORD_RANDOMNESS = 8;
+            const DIFFICULT_WORD_RANDOMNESS = 4;
+
+            let easyWords = [];
+            let difficultWords = [];
+            let streak = 0;
+            let currentWord = null;
+            let userInput = "";
+            let letterButtons = [];
+            let backspaceButton;
+            let correctAudio;
+            let correctOAudio;
+            let incorrectAudio;
+            let difficultAudio;
+            let firstLetterAudio = [];
+            let secondLetterAudio = [];
+            let sentenceAudio = new Audio();
+            let promptAvailable = true;
+            let prizeCells = [];
+            let currentSpeech = null;
+
+            function resetPrizes() {
+                if (prompt("Are you sure? Type 'reset prizes' to confirm.") == "reset prizes") {
+                    for (let i = 0; i < prizeCells.length; i++) {
+                        prizeCells[i].rank = -1;
+                        prizeCells[i].updatePrize(true);
+                    }
+                }
+            }
+
+            class PrizeCell {
+                constructor(row, column) {
+                    this.row = row;
+                    this.column = column;
+
+                    this.left = document.body.clientWidth / 2 - 44 * PRIZE_COLUMNS / 2 + column * 44;
+                    this.top = row * 44;
+
+                    this.square = document.createElement("div");
+                    this.square.classList.add("prize-cell");
+                    this.square.style.left = this.left + "px";
+                    this.square.style.top = this.top + "px";
+                    document.querySelector("main").appendChild(this.square);
+
+                    const savedRank = localStorage.getItem("tlsb-prize-" + this.row + "-" + this.column, this.rank); 
+                    this.rank = savedRank == null ? -1 : parseInt(savedRank);
+
+                    this.prize = document.createElement("div");
+                    this.prize.classList.add("prize");
+                    this.prize.classList.add("free");
+                    this.updatePrize(true);
+                    document.querySelector("main").appendChild(this.prize);
+
+                    this.prize.addEventListener('mousedown', this.startDrag.bind(this));
+                    this.prize.addEventListener('mousemove', this.drag.bind(this));
+                    this.prize.addEventListener('mouseup', this.endDrag.bind(this));
+                    this.prize.addEventListener('mouseleave', this.endDrag.bind(this));
+                    this.prize.addEventListener('touchstart', this.startDrag.bind(this));
+                    this.prize.addEventListener('touchmove', this.drag.bind(this));
+                    this.prize.addEventListener('touchend', this.endDrag.bind(this));
+                    this.prize.addEventListener('touchleave', this.endDrag.bind(this));
+                    this.prize.addEventListener('touchcancel', this.endDrag.bind(this));
+                }
+
+                startDrag(evt) {
+                    if (evt.touches) evt = evt.touches[0];
+                    this.dragStartMX = evt.clientX;
+                    this.dragStartMY = evt.clientY;
+                    this.dragStartLeft = this.prize.offsetLeft;
+                    this.dragStartTop = this.prize.offsetTop;
+                    this.dragging = true;
+                    this.prize.classList.remove("free");
+                }
+
+                drag(evt) {
+                    if (this.dragging) {
+                        evt.preventDefault();
+                        if (evt.touches) evt = evt.touches[0];
+
+                        this.prizeLeft = this.dragStartLeft + evt.clientX - this.dragStartMX;
+                        this.prizeTop = this.dragStartTop + evt.clientY - this.dragStartMY;
+                        this.prize.style.left = this.prizeLeft + "px";
+                        this.prize.style.top = this.prizeTop + "px";
+
+                        // Inefficient, but simple
+                        let found = false;
+                        for (let i = 0; i < prizeCells.length; i++) {
+                            if (this.prizeIsIn(prizeCells[i]) && (prizeCells[i].rank == -1 || prizeCells[i].rank == this.rank)) {
+                                prizeCells[i].square.classList.add("highlighted");
+                            } else {
+                                prizeCells[i].square.classList.remove("highlighted");
+                            }
+                        }
+                    }
+                }
+
+                endDrag(evt) {
+                    this.dragging = false;
+                    this.prize.classList.add("free");
+                    let moved = false;
+
+                    for (let i = 0; i < prizeCells.length; i++) {
+                        prizeCells[i].square.classList.remove("highlighted");
+                        if (this.prizeIsIn(prizeCells[i])) {
+                            if (prizeCells[i].rank == -1) {
+                                prizeCells[i].rank = this.rank;
+                                this.rank = -1;
+                                prizeCells[i].updatePrize(true);
+                                this.updatePrize(true);
+                                moved = true;
+                            } else if (prizeCells[i].rank == this.rank && prizeCells[i] != this) {
+                                // Merge
+                                prizeCells[i].rank = this.rank + 1;
+                                this.rank = -1;
+                                prizeCells[i].updatePrize(true);
+                                this.updatePrize(true);
+                                moved = true;
+                                upgradeAudio.currentTime = 0;
+                                upgradeAudio.play();
+                            }
+                            
+                            break;
+                        }
+                    }
+
+                    if (!moved) {
+                        this.prize.style.left = this.left + 1 + "px";
+                        this.prize.style.top = this.top + 1 + "px";
+                    }
+                }
+
+                updatePrize(instant) {
+                    if (this.rank == -1) {
+                        this.prize.innerHTML = "";
+                        this.prize.style.left = "-45px"; // document.body.clientWidth / 2 - 22 + "px";
+                        this.prize.style.top = document.body.clientHeight + "px"; // document.body.clientWidth + 30 + "px";
+                        this.prize.style.display = "none";
+                        this.prize.classList.add("free");
+                    } else {
+                        this.prize.innerHTML = PRIZE_EMOJIS[this.rank];
+                        this.prize.style.display = "block";
+                        if (instant) {
+                            this.prize.classList.remove("free");
+                            this.prize.style.left = this.left + 1 + "px";
+                            this.prize.style.top = this.top + 1 + "px";
+                        } else {
+                            setTimeout(function() {
+                                this.prize.style.left = this.left + 1 + "px";
+                                this.prize.style.top = this.top + 1 + "px";
+                            }.bind(this), 500);
+                        }
+                    }
+
+                    localStorage.setItem("tlsb-prize-" + this.row + "-" + this.column, this.rank);
+                }
+
+                prizeIsIn(cell) {
+                    return this.prizeLeft >= cell.left - 22 && this.prizeLeft < cell.left + 22 && this.prizeTop >= cell.top - 22 && this.prizeTop < cell.top + 22;
+                }
+            }
+
+            class Word {
+                constructor(ob) {
+                    this.text = ob["word"];
+                    this.difficult = ob["difficult"];
+                }
+
+                loadAudio() {
+                    sentenceAudio.src = "audio/" + this.text + ".mp3?v=6";
+                    sentenceAudio.load();
+                    return loadPromise(sentenceAudio);
+                }
+            }
+
+            function loadPromise(audio) {
+                return new Promise(function(resolve) {
+                    audio.addEventListener("canplaythrough", resolve);
+                });
+            }
+
+            async function init() {
+                let res = await fetch("data.json?v=5");
+                let arr = await res.json();
+                let audioPromiseArray = [];
+                
+                for (let i = 0; i < arr.length; i++) {
+                    let newWord = new Word(arr[i]);
+                    if (newWord.difficult) {
+                        difficultWords.push(newWord);
+                    } else {
+                        easyWords.push(newWord);
+                    }
+                }
+
+                shuffle(easyWords);
+                shuffle(difficultWords);
+
+                for (let i = 0; i < 26; i++) {
+                    firstLetterAudio[i] = new Audio("audio/" + String.fromCharCode(97 + i) + "1.mp3?v=5");
+                    audioPromiseArray.push(firstLetterAudio[i]);
+                    secondLetterAudio[i] = new Audio("audio/" + String.fromCharCode(97 + i) + "2.mp3?v=5");
+                    audioPromiseArray.push(secondLetterAudio[i]);
+                }
+
+                correctAudio = new Audio("audio/correct.mp3?v=5");
+                audioPromiseArray.push(loadPromise(correctAudio));
+                correctOAudio = new Audio("audio/correct-o.mp3?v=5");
+                audioPromiseArray.push(loadPromise(correctOAudio));
+                incorrectAudio = new Audio("audio/incorrect.mp3?v=5");
+                audioPromiseArray.push(loadPromise(incorrectAudio));
+                difficultAudio = new Audio("audio/difficult.mp3?v=5");
+                audioPromiseArray.push(loadPromise(difficultAudio));
+                upgradeAudio = new Audio("audio/upgrade.mp3?v=5");
+                audioPromiseArray.push(loadPromise(upgradeAudio));
+
+                audioPromiseArray.push(pickNewWord());
+
+                for (let r = 0; r < PRIZE_ROWS; r++) {
+                    for (let c = 0; c < PRIZE_COLUMNS; c++) {
+                        prizeCells.push(new PrizeCell(r, c));
+                    }
+                }
+
+                constructKeyboard();
+
+                await Promise.all(audioPromiseArray);
+
+                document.querySelector("#start").disabled = "";
+                document.querySelector("#start").innerHTML = "Start!";
+            }
+
+            function start() {
+                document.querySelector("#loading-stuff").style.display = "none";
+                document.querySelector("main").style.display = "flex";
+                presentNewWord();
+            }
+
+            function constructKeyboard() {
+                for (let i = 0; i < 26; i++) {
+                    letterButtons[i] = document.createElement("button");
+                    letterButtons[i].appendChild(document.createTextNode(String.fromCharCode(65 + i)));
+                    document.querySelector("#keyboard").appendChild(letterButtons[i]);
+                    letterButtons[i].addEventListener("click", function() {
+                        typeLetter(i);
+                    })
+                }
+
+                backspaceButton = document.createElement("button");
+                backspaceButton.appendChild(document.createTextNode("⌫"));
+                backspaceButton.disabled = true;
+                document.querySelector("#keyboard").appendChild(backspaceButton);
+                backspaceButton.addEventListener("click", backspace);
+            }
+
+            function typeLetter(i) {
+                setUserInput(userInput + String.fromCharCode(65 + i));
+            }
+
+            function setUserInput(newUserInput) {
+                console.assert(newUserInput.length <= 2);
+                userInput = newUserInput;
+                document.querySelector("#user-input-field").innerHTML = (userInput == "" ? "&nbsp;" : userInput);
+                backspaceButton.disabled = (userInput == "");
+                for (let i = 0; i < 26; i++) {
+                    letterButtons[i].disabled = (userInput.length == 2);
+                }
+            }
+
+            function backspace() {
+                setUserInput(userInput.substr(0, userInput.length - 1));
+            }
+
+            // Fisher-Yates
+            function shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+            }
+
+            function pickNewWord() {
+                let difficultProbability;
+
+                if (streak >= DIFFICULT_MODE_STREAK_THRESHOLD) {
+                    difficultProbability = difficultWords.length / (easyWords.length + difficultWords.length);
+                } else {
+                    difficultProbability = 0;
+                }
+
+                if (Math.random() < difficultProbability) {
+                    // Difficult word
+                    currentWord = difficultWords.splice(Math.floor(Math.random() * DIFFICULT_WORD_RANDOMNESS), 1)[0];
+                    difficultWords.push(currentWord);
+                } else {
+                    // Easy word
+                    currentWord = easyWords.splice(Math.floor(Math.random() * EASY_WORD_RANDOMNESS), 1)[0];
+                    easyWords.push(currentWord);
+                }
+
+                return currentWord.loadAudio();
+            }
+
+            function presentNewWord() {
+                document.querySelector("#system-message").style.display = "none";
+                document.querySelector("#user-message").style.display = "none";
+                document.querySelector("#next").style.display = "none";
+
+                document.querySelector("#illustration").src = "images/" + currentWord.text + ".png";
+                setUserInput("");
+                document.querySelector("#user-input").style.visibility = "visible";
+                document.querySelector("#keyboard").style.visibility = "visible";
+                promptAvailable = true;
+                sayPrompt();
+            }
+
+            async function send() {
+                promptAvailable = false;
+                document.querySelector("#user-input").style.visibility = "hidden";
+                document.querySelector("#keyboard").style.visibility = "hidden";
+
+                document.querySelector("#user-message").style.display = "block";
+
+                let correct = (userInput.toLowerCase() == currentWord.text) || (userInput.toLowerCase() == "o" && currentWord.text == "oh");
+
+                if (correct) {
+                    streak = streak + 1;
+                    document.querySelector("#user-message").innerHTML = "✅ " + userInput;
+
+                    // Find empty prize cell
+                    let availableCells = [];
+                    for (let i = 0; i < prizeCells.length; i++) {
+                        if (prizeCells[i].rank == -1) availableCells.push(prizeCells[i]);
+                    }
+                    if (availableCells.length > 0) {
+                        cell = availableCells[Math.floor(Math.random() * availableCells.length)];
+                        cell.rank = 0;
+                        cell.updatePrize(false);
+                    }
+
+                    if (userInput.toLowerCase() == "o") {
+                        await playNonOverlapping(correctOAudio);
+                        document.querySelector("#system-message").style.display = "block";
+                        document.querySelector("#system-message").innerHTML = "✅ " + currentWord.text.toUpperCase();
+                        await playNonOverlapping(firstLetterAudio[currentWord.text.charCodeAt(0) - 97]);
+                        await playNonOverlapping(secondLetterAudio[currentWord.text.charCodeAt(1) - 97]);
+                    } else {
+                        playNonOverlapping(correctAudio);
+                    }
+                } else {
+                    streak = 0;
+                    document.querySelector("#user-message").innerHTML = "❌ " + userInput;
+                    await playNonOverlapping(incorrectAudio);
+                    document.querySelector("#system-message").style.display = "block";
+                    document.querySelector("#system-message").innerHTML = "✅ " + currentWord.text.toUpperCase();
+                    await playNonOverlapping(firstLetterAudio[currentWord.text.charCodeAt(0) - 97]);
+                    await playNonOverlapping(secondLetterAudio[currentWord.text.charCodeAt(1) - 97]);
+                }
+
+                document.querySelector("#next").innerHTML = "Loading...";
+                document.querySelector("#next").disabled = "true";
+                document.querySelector("#next").style.display = "block";
+                await pickNewWord();
+                document.querySelector("#next").innerHTML = "Next";
+                document.querySelector("#next").disabled = "";
+            }
+
+            function playNonOverlapping(audio) {
+                if (currentSpeech != null) currentSpeech.pause();
+                currentSpeech = audio;
+                audio.currentTime = 0;
+                audio.play();
+                return new Promise(function(resolve) {
+                    audio.addEventListener("ended", resolve);
+                })
+            }
+
+            async function sayPrompt() {
+                if (promptAvailable) {
+                    if (currentWord.difficult) await playNonOverlapping(difficultAudio);
+                    playNonOverlapping(sentenceAudio);
+                }
+            }
+
+            function say(txt) {
+                synth.cancel();
+                let utterance = new SpeechSynthesisUtterance(txt);
+                utterance.rate = 0.5;
+                synth.speak(utterance);
+                return utterance;
+            }
+
+            init();
+        </script>
+    </body>
+</html>

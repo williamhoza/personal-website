@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html, body, #container {
+                height:100%;
+                margin:0;
+            }
+
+            #container {
+                display:flex;
+                flex-direction:column;
+            }
+
+            #it1 {
+                flex: 50px 0 0;
+                background-color:red;
+            }
+
+            #it2 {
+                flex: 1 1 100%;
+                width: auto;
+                height: 100%;
+                min-height: 1px;
+                max-height: 100%;
+                background-color:green;
+            }
+
+            #it3 {
+                flex: 50px 0 0;
+                background-color:purple;
+            }
+
+            #it4 {
+                flex: 50px 0 0;
+                background-color:blue;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="it1"></div>
+            <img id="it2" src="images/me.png" />
+            <div id="it3"></div>
+            <div id="it4"></div>
+        </div>
+    </body>
+</html>

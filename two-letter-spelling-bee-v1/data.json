@@ -1,8 +1,7 @@
 [
     {
         "word": "ad",
-        "difficult": false,
-        "decoys": ["t"]
+        "difficult": false
     }, {
         "word": "am",
         "difficult": false
@@ -11,16 +10,13 @@
         "difficult": false
     }, {
         "word": "as",  
-        "difficult": true,
-        "decoys": ["z"]
+        "difficult": true
     }, {
         "word": "at",
-        "difficult": false,
-        "decoys": ["d"]
+        "difficult": false
     }, {
         "word": "ax",
-        "difficult": true,
-        "decoys": ["c", "k", "s"]
+        "difficult": true
     }, {
         "word": "ma",
         "difficult": true
@@ -47,19 +43,16 @@
         "difficult": false
     }, {
         "word": "is",
-        "difficult": true,
-        "decoys": ["z"]
+        "difficult": true
     }, {
         "word": "it",
-        "difficult": false,
-        "decoys": ["d"]
+        "difficult": false
     }, {
         "word": "hi",
         "difficult": false
     }, {
         "word": "of",
-        "difficult": true,
-        "decoys": ["v"]
+        "difficult": true
     }, {
         "word": "oh",
         "difficult": true
@@ -74,12 +67,10 @@
         "difficult": true
     }, {
         "word": "ox",
-        "difficult": true,
-        "decoys": ["c", "k", "s"]
+        "difficult": true
     }, {
         "word": "do",
-        "difficult": true,
-        "decoys": ["t"]
+        "difficult": true
     }, {
         "word": "go",
         "difficult": false

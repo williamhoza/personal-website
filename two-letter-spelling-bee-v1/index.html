@@ -27,7 +27,7 @@
 
             main {
                 margin:auto;
-                max-width:500px;
+                max-width:800px;
                 display:none; /* will be flex when visible */
                 flex-direction:column;
                 height:100%;
@@ -37,14 +37,28 @@
                 flex: 0 0 90px;
             }
 
-            #letter-placeholder {
-                flex: 0 0 250px;
-            }
-
             #illustration {
                 flex: 1 1 100%;
                 height: 100%;
                 object-fit:contain;
+            }
+
+            #system-message {
+                background-color:#eee;
+                right:20px;
+            }
+
+            #user-message {
+                background-color:#d9c5ff;
+                left:20px;
+            }
+
+            #system-message, #user-message {
+                border-radius:5px;
+                padding:10px;
+                position:absolute;
+                bottom:150px;
+                font-size:22px;
             }
 
             #next {
@@ -63,6 +77,53 @@
                 margin-top:100px;
                 padding:10px;
                 font-size:20px;
+            }
+
+            #keyboard {
+                text-align:center;
+            }
+
+            #keyboard button {
+                font-size:22px;
+                margin:3px;
+                width:45px;
+                height:45px;
+                background-color:#d9c5ff;
+                vertical-align:middle;
+            }
+
+            #keyboard button[disabled] {
+                background-color:#f0f0f0;
+                color:#d0d0d0;
+            }
+
+            #user-input {
+                margin-top:5px;
+                margin-bottom:5px;
+                padding:0 5px;
+            }
+
+            #user-input-field {
+                font-size:22px;
+                width:calc(100% - 55px);
+                display:inline-block;
+                border:2px solid gray;
+                height:45px;
+                box-sizing:border-box;
+                padding:4px;
+                line-height:32px;
+            }
+
+            #send-button {
+                width:45px;
+                height:45px;
+                vertical-align:top;
+                margin-left:10px;
+            }
+
+            #send-button img {
+                width:100%;
+                height:100%;
             }
 
             .prize-cell {
@@ -95,42 +156,6 @@
             .prize.free {
                 transition: left 500ms ease-out, top 500ms ease-out;
             }
-
-            .letter-space {
-                width:61px;
-                height:61px;
-                display:inline-block;
-                position:absolute;
-                border:3px dashed #888;
-                box-sizing:border-box;
-            }
-
-            .letter-space.highlighted {
-                border-color:#00f;
-            }
-
-            .correctness-indicator {
-                width:61px;
-                padding-top:5px;
-                display:inline-block;
-                position:absolute;
-                font-size:12px;
-                text-align:center;
-            }
-
-            .letter-block {
-                width:61px;
-                height:61px;
-                text-align:center;
-                align-content:center;
-                font-size:35px;
-                cursor:move;
-                position:absolute;
-            }
-
-            .letter-block.free {
-                transition: left 200ms ease-out, top 200ms ease-out;
-            }
         </style>
     </head>
 
@@ -143,7 +168,12 @@
         <main>
             <div id="prize-placeholder"></div>
             <img id="illustration" onclick="sayPrompt();" />
-            <div id="letter-placeholder"></div>
+            <div id="user-input">
+                <div id="user-input-field">&nbsp;</div><button onclick="send();" id="send-button"><img src="send-icon.svg" /></button>
+            </div>
+            <div id="keyboard"></div>
+            <div id="system-message"></div>
+            <div id="user-message"></div>
             <button id="next" onclick="presentNewWord();">Next</button>
         </main>
 
@@ -152,8 +182,6 @@
             const DIFFICULT_MODE_STREAK_THRESHOLD = 8;
             const PRIZE_ROWS = 2;
             const PRIZE_COLUMNS = 6;
-            const LETTER_BLOCK_ROWS = 2;
-            const LETTER_BLOCK_COLUMNS = 4;
             const EASY_WORD_RANDOMNESS = 8;
             const DIFFICULT_WORD_RANDOMNESS = 4;
 
@@ -161,7 +189,12 @@
             let difficultWords = [];
             let streak = 0;
             let currentWord = null;
+            let userInput = "";
+            let letterButtons = [];
+            let backspaceButton;
             let correctAudio;
+            let correctOAudio;
+            let incorrectAudio;
             let difficultAudio;
             let skipAudio;
             let firstLetterAudio = [];
@@ -170,8 +203,6 @@
             let promptAvailable = true;
             let prizeCells = [];
             let currentSpeech = null;
-            let letterBlocks = [];
-            let letterSpaces = [];
 
             function resetPrizes() {
                 if (prompt("Are you sure? Type 'reset prizes' to confirm.") == "reset prizes") {
@@ -243,6 +274,7 @@
                         this.prize.style.top = this.prizeTop + "px";
 
                         // Inefficient, but simple
+                        let found = false;
                         for (let i = 0; i < prizeCells.length; i++) {
                             if (this.prizeIsIn(prizeCells[i]) && (prizeCells[i].rank == -1 || prizeCells[i].rank == this.rank)) {
                                 prizeCells[i].square.classList.add("highlighted");
@@ -254,39 +286,37 @@
                 }
 
                 endDrag(evt) {
-                    if (this.dragging) {
-                        this.dragging = false;
-                        this.prize.classList.add("free");
-                        let moved = false;
+                    this.dragging = false;
+                    this.prize.classList.add("free");
+                    let moved = false;
 
-                        for (let i = 0; i < prizeCells.length; i++) {
-                            prizeCells[i].square.classList.remove("highlighted");
-                            if (this.prizeIsIn(prizeCells[i])) {
-                                if (prizeCells[i].rank == -1) {
-                                    prizeCells[i].rank = this.rank;
-                                    this.rank = -1;
-                                    prizeCells[i].updatePrize(true);
-                                    this.updatePrize(true);
-                                    moved = true;
-                                } else if (prizeCells[i].rank == this.rank && prizeCells[i] != this) {
-                                    // Merge
-                                    prizeCells[i].rank = this.rank + 1;
-                                    this.rank = -1;
-                                    prizeCells[i].updatePrize(true);
-                                    this.updatePrize(true);
-                                    moved = true;
-                                    upgradeAudio.currentTime = 0;
-                                    upgradeAudio.play();
-                                }
-                                
-                                break;
+                    for (let i = 0; i < prizeCells.length; i++) {
+                        prizeCells[i].square.classList.remove("highlighted");
+                        if (this.prizeIsIn(prizeCells[i])) {
+                            if (prizeCells[i].rank == -1) {
+                                prizeCells[i].rank = this.rank;
+                                this.rank = -1;
+                                prizeCells[i].updatePrize(true);
+                                this.updatePrize(true);
+                                moved = true;
+                            } else if (prizeCells[i].rank == this.rank && prizeCells[i] != this) {
+                                // Merge
+                                prizeCells[i].rank = this.rank + 1;
+                                this.rank = -1;
+                                prizeCells[i].updatePrize(true);
+                                this.updatePrize(true);
+                                moved = true;
+                                upgradeAudio.currentTime = 0;
+                                upgradeAudio.play();
                             }
+                            
+                            break;
                         }
+                    }
 
-                        if (!moved) {
-                            this.prize.style.left = this.left + 1 + "px";
-                            this.prize.style.top = this.top + 1 + "px";
-                        }
+                    if (!moved) {
+                        this.prize.style.left = this.left + 1 + "px";
+                        this.prize.style.top = this.top + 1 + "px";
                     }
                 }
 
@@ -305,7 +335,6 @@
                             this.prize.style.left = this.left + 1 + "px";
                             this.prize.style.top = this.top + 1 + "px";
                         } else {
-                            this.prize.classList.add("free");
                             setTimeout(function() {
                                 this.prize.style.left = this.left + 1 + "px";
                                 this.prize.style.top = this.top + 1 + "px";
@@ -321,213 +350,10 @@
                 }
             }
 
-            class LetterSpace {
-                constructor(pos) {
-                    this.pos = pos;
-                    this.correctLetter = "?";
-
-                    this.square = document.createElement("div");
-                    this.square.classList.add("letter-space");
-                    document.querySelector("main").appendChild(this.square);
-
-                    this.correctnessIndicator = document.createElement("div");
-                    this.correctnessIndicator.classList.add("correctness-indicator");
-                    document.querySelector("main").appendChild(this.correctnessIndicator);
-
-                    this.letterBlock = null;
-
-                    this.setPosition();
-                }
-
-                setPosition() {
-                    // Box is 61 x 61
-                    this.left = document.body.clientWidth / 2 - 71 + 71 * this.pos + 5;
-                    this.top = document.body.clientHeight - 245;
-
-                    this.square.style.left = this.left + "px";
-                    this.square.style.top = this.top + "px";
-                    this.correctnessIndicator.style.left = this.left + "px";
-                    this.correctnessIndicator.style.top = (this.top + 61) + "px";
-                }
-
-                // Note: Letter blocks are responsible for managing their own .letterSpace fields
-                setLetterBlock(block) {
-                    this.letterBlock = block;
-                    if (this.letterBlock == null) {
-                        this.correctnessIndicator.innerHTML = "";
-                        this.square.classList.remove("highlighted");
-                    } else {
-                        this.square.classList.add("highlighted");
-                        if (this.letterBlock.letter == this.correctLetter) {
-                            this.correctnessIndicator.innerHTML = "👍";
-                        } else {
-                            this.correctnessIndicator.innerHTML = "👎";
-                            streak = -1;
-                        }
-                    }
-
-                    checkForCorrectness();
-                }
-            }
-
-            async function checkForCorrectness() {
-                let correct = true;
-                for (let i = 0; i < letterSpaces.length; i++) {
-                    if (letterSpaces[i].letterBlock == null || letterSpaces[i].letterBlock.letter != letterSpaces[i].correctLetter) {
-                        correct = false;
-                        break;
-                    }
-                }
-
-                if (correct) {
-                    promptAvailable = false;    
-                    for (let i = 0; i < letterBlocks.length; i++) {
-                        if (letterBlocks[i].letterSpace == null) {
-                            letterBlocks[i].elt.style.display = "none";
-                        }
-                    }
-                    streak = streak + 1;
-
-                    // Award a prize
-                    let availableCells = [];
-                    for (let i = 0; i < prizeCells.length; i++) {
-                        if (prizeCells[i].rank == -1) availableCells.push(prizeCells[i]);
-                    }
-                    if (availableCells.length > 0) {
-                        cell = availableCells[Math.floor(Math.random() * availableCells.length)];
-                        cell.rank = 0;
-                        cell.updatePrize(false);
-                    }
-
-                    playNonOverlapping(correctAudio);
-
-                    document.querySelector("#next").innerHTML = "Loading...";
-                    document.querySelector("#next").disabled = "true";
-                    document.querySelector("#next").style.display = "block";
-                    await pickNewWord();
-                    document.querySelector("#next").innerHTML = "Next";
-                    document.querySelector("#next").disabled = "";
-                }
-            }
-
-            class LetterBlock {
-                constructor(row, column) {
-                    this.row = row;
-                    this.column = column;
-                    this.letter = "?";
-
-                    this.elt = document.createElement("div");
-                    this.elt.classList.add("letter-block");
-                    document.querySelector("main").appendChild(this.elt);
-
-                    this.elt.addEventListener('mousedown', this.startDrag.bind(this));
-                    this.elt.addEventListener('mousemove', this.drag.bind(this));
-                    this.elt.addEventListener('mouseup', this.endDrag.bind(this));
-                    this.elt.addEventListener('mouseleave', this.endDrag.bind(this));
-                    this.elt.addEventListener('touchstart', this.startDrag.bind(this));
-                    this.elt.addEventListener('touchmove', this.drag.bind(this));
-                    this.elt.addEventListener('touchend', this.endDrag.bind(this));
-                    this.elt.addEventListener('touchleave', this.endDrag.bind(this));
-                    this.elt.addEventListener('touchcancel', this.endDrag.bind(this));
-
-                    this.present();
-                }
-
-                present() {
-                    this.letterSpace = null;
-                    this.elt.innerHTML = this.letter.toUpperCase();
-                    this.elt.style.display = "block";
-                    this.elt.classList.remove("free");
-                    this.setPosition();
-                }
-
-                eltIsIn(letterSpace) {
-                    return this.eltLeft >= letterSpace.left - 31 && this.eltLeft < letterSpace.left + 31 && this.eltTop >= letterSpace.top - 31 && this.eltTop < letterSpace.top + 31;
-                }
-
-                startDrag(evt) {
-                    // TODO: Unify / consolidate with prize drag logic...
-                    if (evt.touches) evt = evt.touches[0];
-                    this.dragStartMX = evt.clientX;
-                    this.dragStartMY = evt.clientY;
-                    this.dragStartLeft = this.elt.offsetLeft;
-                    this.dragStartTop = this.elt.offsetTop;
-                    this.dragging = true;
-                    this.elt.classList.remove("free");
-                    if (this.letterSpace != null) this.letterSpace.setLetterBlock(null);
-                    this.letterSpace = null;
-                }
-
-                drag(evt) {
-                    if (this.dragging) {
-                        evt.preventDefault();
-                        if (evt.touches) evt = evt.touches[0];
-
-                        this.eltLeft = this.dragStartLeft + evt.clientX - this.dragStartMX;
-                        this.eltTop = this.dragStartTop + evt.clientY - this.dragStartMY;
-                        this.elt.style.left = this.eltLeft + "px";
-                        this.elt.style.top = this.eltTop + "px";
-
-                        // Inefficient, but simple
-                        for (let i = 0; i < letterSpaces.length; i++) {
-                            if (this.eltIsIn(letterSpaces[i])) {
-                                letterSpaces[i].square.classList.add("highlighted");
-                            } else if (letterSpaces[i].letterBlock == null) {
-                                letterSpaces[i].square.classList.remove("highlighted");
-                            }
-                        }
-                    }
-                }
-
-                endDrag(evt) {
-                    if (this.dragging) {
-                        this.dragging = false;
-                        this.elt.classList.add("free");
-
-                        for (let i = 0; i < letterSpaces.length; i++) {
-                            if (this.eltIsIn(letterSpaces[i])) {
-                                if (letterSpaces[i].letterBlock != null) letterSpaces[i].letterBlock.exitLetterSpace();
-
-                                this.elt.style.left = letterSpaces[i].left + "px";
-                                this.elt.style.top = letterSpaces[i].top + "px";
-                                this.letterSpace = letterSpaces[i];
-                                letterSpaces[i].setLetterBlock(this);
-                            }
-                        }
-
-                        if (this.letterSpace == null) {
-                            setTimeout(function() {
-                                this.elt.style.left = this.homeLeft + "px";
-                                this.elt.style.top = this.homeTop + "px";
-                            }.bind(this), 0);
-                        }
-                    }
-                }
-
-                exitLetterSpace() {
-                    this.letterSpace.letterBlock = null;
-                    this.letterSpace = null;
-                    this.elt.classList.add("free");
-                    setTimeout(function() {
-                        this.elt.style.left = this.homeLeft + "px";
-                        this.elt.style.top = this.homeTop + "px";
-                    }.bind(this), 0);
-                }
-
-                setPosition() {
-                    this.homeLeft = document.body.clientWidth / 2 - 75 * LETTER_BLOCK_COLUMNS / 2 + this.column * 75 + 7;
-                    this.homeTop = document.body.clientHeight - 75 * LETTER_BLOCK_ROWS + this.row * 75 + 7;
-                    
-                    this.elt.style.left = this.homeLeft + "px";
-                    this.elt.style.top = this.homeTop + "px";                    
-                }
-            }
-
             class Word {
                 constructor(ob) {
                     this.text = ob["word"];
                     this.difficult = ob["difficult"];
-                    this.decoys = ob["decoys"] || [];
                 }
 
                 loadAudio() {
@@ -580,19 +406,11 @@
                 skipAudio = new Audio("audio/skip.mp3");
                 audioPromiseArray.push(loadPromise(skipAudio));
 
+                audioPromiseArray.push(pickNewWord());
+
                 for (let r = 0; r < PRIZE_ROWS; r++) {
                     for (let c = 0; c < PRIZE_COLUMNS; c++) {
                         prizeCells.push(new PrizeCell(r, c));
-                    }
-                }
-
-                for (let i = 0; i < 2; i++) {
-                    letterSpaces.push(new LetterSpace(i));
-                }
-
-                for (let r = 0; r < LETTER_BLOCK_ROWS; r++) {
-                    for (let c = 0; c < LETTER_BLOCK_COLUMNS; c++) {
-                        letterBlocks.push(new LetterBlock(r, c));
                     }
                 }
 
@@ -600,17 +418,10 @@
                     for (let i = 0; i < prizeCells.length; i++) {
                         prizeCells[i].setPosition();
                     }
-
-                    for (let i = 0; i < 2; i++) {
-                        letterSpaces[i].setPosition();
-                    }
-
-                    for (let i = 0; i < letterBlocks.length; i++) {
-                        letterBlocks[i].setPosition();
-                    }
                 })
 
-                audioPromiseArray.push(pickNewWord());
+                constructKeyboard();
+
                 await Promise.all(audioPromiseArray);
 
                 document.querySelector("#start").disabled = "";
@@ -621,6 +432,41 @@
                 document.querySelector("#loading-stuff").style.display = "none";
                 document.querySelector("main").style.display = "flex";
                 presentNewWord();
+            }
+
+            function constructKeyboard() {
+                for (let i = 0; i < 26; i++) {
+                    letterButtons[i] = document.createElement("button");
+                    letterButtons[i].appendChild(document.createTextNode(String.fromCharCode(65 + i)));
+                    document.querySelector("#keyboard").appendChild(letterButtons[i]);
+                    letterButtons[i].addEventListener("click", function() {
+                        typeLetter(i);
+                    })
+                }
+
+                backspaceButton = document.createElement("button");
+                backspaceButton.appendChild(document.createTextNode("⌫"));
+                backspaceButton.disabled = true;
+                document.querySelector("#keyboard").appendChild(backspaceButton);
+                backspaceButton.addEventListener("click", backspace);
+            }
+
+            function typeLetter(i) {
+                setUserInput(userInput + String.fromCharCode(65 + i));
+            }
+
+            function setUserInput(newUserInput) {
+                console.assert(newUserInput.length <= 2);
+                userInput = newUserInput;
+                document.querySelector("#user-input-field").innerHTML = (userInput == "" ? "&nbsp;" : userInput);
+                backspaceButton.disabled = (userInput == "");
+                for (let i = 0; i < 26; i++) {
+                    letterButtons[i].disabled = (userInput.length == 2);
+                }
+            }
+
+            function backspace() {
+                setUserInput(userInput.substr(0, userInput.length - 1));
             }
 
             // Fisher-Yates
@@ -650,57 +496,83 @@
                     easyWords.push(currentWord);
                 }
 
-                // Include the five primary vowels
-                let letterOptions = ["a", "e", "i", "o", "u"];
-
-                // Include the actual letters of the word
-                for (let i = 0; i < currentWord.text.length; i++) {
-                    if (!letterOptions.includes(currentWord.text[i])) {
-                        letterOptions.push(currentWord.text[i]);
-                    }
-                }
-
-                // Include one decoy letter, if available
-                shuffle(currentWord.decoys);
-                for (let i = 0; i < currentWord.decoys.length; i++) {
-                    if (!letterOptions.includes(currentWord.decoys[i])) {
-                        letterOptions.push(currentWord.decoys[i]);
-                        break;
-                    }
-                }
-
-                // Fill the rest of the slots randomly
-                let candidates = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"];
-                shuffle(candidates);
-                for (let i = 0; i < candidates.length; i++) {
-                    console.assert(letterOptions.length <= LETTER_BLOCK_COLUMNS * LETTER_BLOCK_ROWS);
-                    if (letterOptions.length == LETTER_BLOCK_COLUMNS * LETTER_BLOCK_ROWS) break;
-                    if (!letterOptions.includes(candidates[i])) letterOptions.push(candidates[i]);
-                }
-
-                letterOptions.sort();
-                for (let i = 0; i < letterBlocks.length; i++) {
-                    letterBlocks[i].letter = letterOptions[i];
-                }
-
-                for (let i = 0; i < letterSpaces.length; i++) {
-                    letterSpaces[i].correctLetter = currentWord.text[i];
-                }
-
                 return currentWord.loadAudio();
             }
 
             function presentNewWord() {
+                document.querySelector("#system-message").style.display = "none";
+                document.querySelector("#user-message").style.display = "none";
                 document.querySelector("#next").style.display = "none";
+
                 document.querySelector("#illustration").src = "images/" + currentWord.text + ".png";
-                for (let i = 0; i < letterSpaces.length; i++) {
-                    letterSpaces[i].setLetterBlock(null);
-                }
-                for (let i = 0; i < letterBlocks.length; i++) {
-                    letterBlocks[i].present();
-                }
+                setUserInput("");
+                document.querySelector("#user-input").style.visibility = "visible";
+                document.querySelector("#keyboard").style.visibility = "visible";
                 promptAvailable = true;
                 sayPrompt();
+            }
+
+            async function send() {
+                promptAvailable = false;
+                document.querySelector("#user-input").style.visibility = "hidden";
+                document.querySelector("#keyboard").style.visibility = "hidden";
+
+                let correct = (userInput.toLowerCase() == currentWord.text) || (userInput.toLowerCase() == "o" && currentWord.text == "oh");
+
+                if (correct) {
+                    streak = streak + 1;
+                } else {
+                    streak = 0;
+                }
+
+                let oldWordText = currentWord.text;
+                let newAudioPromise = pickNewWord();
+
+                if (correct) {
+                    document.querySelector("#user-message").innerHTML = "✅ " + userInput;
+                    document.querySelector("#user-message").style.display = "block";
+
+                    // Find empty prize cell
+                    let availableCells = [];
+                    for (let i = 0; i < prizeCells.length; i++) {
+                        if (prizeCells[i].rank == -1) availableCells.push(prizeCells[i]);
+                    }
+                    if (availableCells.length > 0) {
+                        cell = availableCells[Math.floor(Math.random() * availableCells.length)];
+                        cell.rank = 0;
+                        cell.updatePrize(false);
+                    }
+
+                    if (userInput.toLowerCase() == "o") {
+                        await playNonOverlapping(correctOAudio);
+                        document.querySelector("#system-message").style.display = "block";
+                        document.querySelector("#system-message").innerHTML = "✅ " + oldWordText.toUpperCase();
+                        await playNonOverlapping(firstLetterAudio[oldWordText.charCodeAt(0) - 97]);
+                        await playNonOverlapping(secondLetterAudio[oldWordText.charCodeAt(1) - 97]);
+                    } else {
+                        playNonOverlapping(correctAudio);
+                    }
+                } else {
+                    if (userInput == "") {
+                        // "Skip this word"
+                        await playNonOverlapping(skipAudio);
+                    } else {    
+                        document.querySelector("#user-message").innerHTML = "❌ " + userInput;
+                        document.querySelector("#user-message").style.display = "block";
+                        await playNonOverlapping(incorrectAudio);
+                    }
+                    document.querySelector("#system-message").style.display = "block";
+                    document.querySelector("#system-message").innerHTML = "✅ " + oldWordText.toUpperCase();
+                    await playNonOverlapping(firstLetterAudio[oldWordText.charCodeAt(0) - 97]);
+                    await playNonOverlapping(secondLetterAudio[oldWordText.charCodeAt(1) - 97]);
+                }
+
+                document.querySelector("#next").innerHTML = "Loading...";
+                document.querySelector("#next").disabled = "true";
+                document.querySelector("#next").style.display = "block";
+                await newAudioPromise;
+                document.querySelector("#next").innerHTML = "Next";
+                document.querySelector("#next").disabled = "";
             }
 
             function playNonOverlapping(audio) {
