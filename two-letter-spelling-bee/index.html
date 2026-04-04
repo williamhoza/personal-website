@@ -170,9 +170,6 @@
             let currentWord = null;
             let correctAudio;
             let difficultAudio;
-            let skipAudio;
-            let firstLetterAudio = [];
-            let secondLetterAudio = [];
             let sentenceAudio = new Audio();
             let promptAvailable = true;
             let prizeCells = [];
@@ -610,19 +607,8 @@
                 shuffle(easyWords);
                 shuffle(difficultWords);
 
-                for (let i = 0; i < 26; i++) {
-                    firstLetterAudio[i] = new Audio("audio/" + String.fromCharCode(97 + i) + "1.mp3?v=5");
-                    audioPromiseArray.push(firstLetterAudio[i]);
-                    secondLetterAudio[i] = new Audio("audio/" + String.fromCharCode(97 + i) + "2.mp3?v=5");
-                    audioPromiseArray.push(secondLetterAudio[i]);
-                }
-
                 correctAudio = new Audio("audio/correct.mp3?v=5");
                 audioPromiseArray.push(loadPromise(correctAudio));
-                correctOAudio = new Audio("audio/correct-o.mp3?v=5");
-                audioPromiseArray.push(loadPromise(correctOAudio));
-                incorrectAudio = new Audio("audio/incorrect.mp3?v=5");
-                audioPromiseArray.push(loadPromise(incorrectAudio));
                 difficultAudio = new Audio("audio/difficult.mp3?v=5");
                 audioPromiseArray.push(loadPromise(difficultAudio));
                 upgradeAudio = new Audio("audio/upgrade.mp3?v=5");
