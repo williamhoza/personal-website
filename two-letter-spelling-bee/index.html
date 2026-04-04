@@ -721,10 +721,11 @@
                     letterSpaces[i].correctLetter = currentWord.text[i];
                 }
 
+                difficultAudio.pause();
                 return currentWord.loadAudio();
             }
 
-            function presentNewWord() {
+            async function presentNewWord() {
                 document.querySelector("#next").style.display = "none";
                 document.querySelector("#skip").disabled = "";
                 document.querySelector("#illustration").src = "images/" + currentWord.text + ".png";
@@ -751,7 +752,7 @@
             async function sayPrompt() {
                 if (promptAvailable) {
                     if (currentWord.difficult) await playNonOverlapping(difficultAudio);
-                    playNonOverlapping(sentenceAudio);
+                    return playNonOverlapping(sentenceAudio);
                 }
             }
 
