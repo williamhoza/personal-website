@@ -55,7 +55,8 @@
         "decoys": ["d"]
     }, {
         "word": "hi",
-        "difficult": false
+        "difficult": false,
+        "decoys": ["y"]
     }, {
         "word": "of",
         "difficult": true,
