@@ -131,6 +131,12 @@
             .letter-block.free {
                 transition: left 200ms ease-out, top 200ms ease-out;
             }
+
+            #skip {
+                position:absolute;
+                left:10px;
+                bottom:204px;
+            }
         </style>
     </head>
 
@@ -145,6 +151,7 @@
             <img id="illustration" onclick="sayPrompt();" />
             <div id="letter-placeholder"></div>
             <button id="next" onclick="presentNewWord();">Next</button>
+            <button id="skip" onclick="skip();">🛟</button>
         </main>
 
         <script>
@@ -172,6 +179,7 @@
             let currentSpeech = null;
             let letterBlocks = [];
             let letterSpaces = [];
+            let debugMode = (new URLSearchParams(window.location.search)).has("debug");
 
             function resetPrizes() {
                 if (prompt("Are you sure? Type 'reset prizes' to confirm.") == "reset prizes") {
@@ -189,9 +197,10 @@
 
                     this.square = document.createElement("div");
                     this.square.classList.add("prize-cell");
+                    if (debugMode) this.square.style.backgroundColor="#ddd";
                     document.querySelector("main").appendChild(this.square);
 
-                    const savedRank = localStorage.getItem("tlsb-prize-" + this.row + "-" + this.column, this.rank); 
+                    const savedRank = debugMode ? null : localStorage.getItem("tlsb-prize-" + this.row + "-" + this.column, this.rank); 
                     this.rank = savedRank == null ? -1 : parseInt(savedRank);
 
                     this.prize = document.createElement("div");
@@ -293,8 +302,8 @@
                 updatePrize(instant) {
                     if (this.rank == -1) {
                         this.prize.innerHTML = "";
-                        this.prize.style.left = "-45px"; // document.body.clientWidth / 2 - 22 + "px";
-                        this.prize.style.top = document.body.clientHeight + "px"; // document.body.clientWidth + 30 + "px";
+                        this.prize.style.left = Math.round(-45 + Math.random() * (document.body.clientWidth + 45)) + "px";
+                        this.prize.style.top = document.body.clientHeight + "px";
                         this.prize.style.display = "none";
                         this.prize.classList.add("free");
                     } else {
@@ -313,7 +322,7 @@
                         }
                     }
 
-                    localStorage.setItem("tlsb-prize-" + this.row + "-" + this.column, this.rank);
+                    if (!debugMode) localStorage.setItem("tlsb-prize-" + this.row + "-" + this.column, this.rank);
                 }
 
                 prizeIsIn(cell) {
@@ -348,10 +357,15 @@
                     this.square.style.top = this.top + "px";
                     this.correctnessIndicator.style.left = this.left + "px";
                     this.correctnessIndicator.style.top = (this.top + 61) + "px";
+
+                    if (this.letterBlock != null) {
+                        this.letterBlock.elt.style.left = this.left + "px";
+                        this.letterBlock.elt.style.top = this.top + "px";
+                    }
                 }
 
                 // Note: Letter blocks are responsible for managing their own .letterSpace fields
-                setLetterBlock(block) {
+                setLetterBlock(block, credit=true) {
                     this.letterBlock = block;
                     if (this.letterBlock == null) {
                         this.correctnessIndicator.innerHTML = "";
@@ -366,11 +380,39 @@
                         }
                     }
 
-                    checkForCorrectness();
+                    checkForCorrectness(credit);
                 }
             }
 
-            async function checkForCorrectness() {
+            function skip() {
+
+                // Inefficient, but simple
+                let correctBlocks = [];
+                for (let i = 0; i < letterBlocks.length; i++) {
+                    for (let j = 0; j < currentWord.text.length; j++) {
+                        if (letterBlocks[i].letter == currentWord.text[j]) {
+                            correctBlocks[j] = letterBlocks[i];
+                        }
+                    }
+                }
+
+                for (let i = 0; i < letterSpaces.length; i++) {
+                    if (letterSpaces[i].letterBlock != null) letterSpaces[i].letterBlock.letterSpace = null;
+                    letterSpaces[i].setLetterBlock(null);
+                }
+
+                for (let i = 0; i < letterSpaces.length; i++) {
+                    correctBlocks[i].letterSpace = letterSpaces[i];
+                    letterSpaces[i].setLetterBlock(correctBlocks[i], false);
+                    correctBlocks[i].elt.classList.add("free");
+                    setTimeout(function() {
+                        correctBlocks[i].elt.style.left = letterSpaces[i].left + "px";
+                        correctBlocks[i].elt.style.top = letterSpaces[i].top + "px";
+                    }, 0);
+                }
+            }
+
+            async function checkForCorrectness(credit=true) {
                 let correct = true;
                 for (let i = 0; i < letterSpaces.length; i++) {
                     if (letterSpaces[i].letterBlock == null || letterSpaces[i].letterBlock.letter != letterSpaces[i].correctLetter) {
@@ -386,21 +428,27 @@
                             letterBlocks[i].elt.style.display = "none";
                         }
                     }
-                    streak = streak + 1;
 
-                    // Award a prize
-                    let availableCells = [];
-                    for (let i = 0; i < prizeCells.length; i++) {
-                        if (prizeCells[i].rank == -1) availableCells.push(prizeCells[i]);
+                    if (credit) {
+                        streak = streak + 1;
+
+                        // Award a prize
+                        let availableCells = [];
+                        for (let i = 0; i < prizeCells.length; i++) {
+                            if (prizeCells[i].rank == -1) availableCells.push(prizeCells[i]);
+                        }
+                        if (availableCells.length > 0) {
+                            cell = availableCells[Math.floor(Math.random() * availableCells.length)];
+                            cell.rank = 0;
+                            cell.updatePrize(false);
+                        }
+
+                        playNonOverlapping(correctAudio);
+                    } else {
+                        streak = -1;
                     }
-                    if (availableCells.length > 0) {
-                        cell = availableCells[Math.floor(Math.random() * availableCells.length)];
-                        cell.rank = 0;
-                        cell.updatePrize(false);
-                    }
 
-                    playNonOverlapping(correctAudio);
-
+                    document.querySelector("#skip").disabled = "true";
                     document.querySelector("#next").innerHTML = "Loading...";
                     document.querySelector("#next").disabled = "true";
                     document.querySelector("#next").style.display = "block";
@@ -505,7 +553,7 @@
                 }
 
                 exitLetterSpace() {
-                    this.letterSpace.letterBlock = null;
+                    this.letterSpace.setLetterBlock(null);
                     this.letterSpace = null;
                     this.elt.classList.add("free");
                     setTimeout(function() {
@@ -518,8 +566,10 @@
                     this.homeLeft = document.body.clientWidth / 2 - 75 * LETTER_BLOCK_COLUMNS / 2 + this.column * 75 + 7;
                     this.homeTop = document.body.clientHeight - 75 * LETTER_BLOCK_ROWS + this.row * 75 + 7;
                     
-                    this.elt.style.left = this.homeLeft + "px";
-                    this.elt.style.top = this.homeTop + "px";                    
+                    if (this.letterSpace == null) {
+                        this.elt.style.left = this.homeLeft + "px";
+                        this.elt.style.top = this.homeTop + "px";
+                    }
                 }
             }
 
@@ -577,8 +627,6 @@
                 audioPromiseArray.push(loadPromise(difficultAudio));
                 upgradeAudio = new Audio("audio/upgrade.mp3?v=5");
                 audioPromiseArray.push(loadPromise(upgradeAudio));
-                skipAudio = new Audio("audio/skip.mp3");
-                audioPromiseArray.push(loadPromise(skipAudio));
 
                 for (let r = 0; r < PRIZE_ROWS; r++) {
                     for (let c = 0; c < PRIZE_COLUMNS; c++) {
@@ -692,6 +740,7 @@
 
             function presentNewWord() {
                 document.querySelector("#next").style.display = "none";
+                document.querySelector("#skip").disabled = "";
                 document.querySelector("#illustration").src = "images/" + currentWord.text + ".png";
                 for (let i = 0; i < letterSpaces.length; i++) {
                     letterSpaces[i].setLetterBlock(null);
