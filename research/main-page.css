@@ -20,8 +20,18 @@
 }
 
 .theorem {
-    background-color:#eee;
-    padding:0 10px;
+    background-color:#def;
+    border:3px solid #00c;
     margin:15px 0;
-    border:1px solid #ccc;
+}
+
+.theorem-header {
+    background-color:#00c;
+    color:white;
+    font-weight:bold;
+    padding:5px;
+}
+
+.theorem p {
+    padding: 0 10px;
 }
