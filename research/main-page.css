@@ -18,3 +18,10 @@
 .paper-list2 > li > p {
     margin: 5px 0;
 }
+
+.theorem {
+    background-color:#eee;
+    padding:0 10px;
+    margin:15px 0;
+    border:1px solid #ccc;
+}
