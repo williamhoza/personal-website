@@ -24,6 +24,7 @@
     border:3px solid #00c;
     margin:15px 0;
     border-radius:10px;
+    box-shadow:2px 2px 4px #888;
 }
 
 .theorem-header {
