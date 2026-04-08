@@ -1,3 +1,5 @@
+<!-- Sorry about the spaghetti code... good luck! -->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -492,15 +494,17 @@
 
                 startDrag(evt) {
                     // TODO: Unify / consolidate with prize drag logic...
-                    if (evt.touches) evt = evt.touches[0];
-                    this.dragStartMX = evt.clientX;
-                    this.dragStartMY = evt.clientY;
-                    this.dragStartLeft = this.elt.offsetLeft;
-                    this.dragStartTop = this.elt.offsetTop;
-                    this.dragging = true;
-                    this.elt.classList.remove("free");
-                    if (this.letterSpace != null) this.letterSpace.setLetterBlock(null);
-                    this.letterSpace = null;
+                    if (promptAvailable) {
+                        if (evt.touches) evt = evt.touches[0];
+                        this.dragStartMX = evt.clientX;
+                        this.dragStartMY = evt.clientY;
+                        this.dragStartLeft = this.elt.offsetLeft;
+                        this.dragStartTop = this.elt.offsetTop;
+                        this.dragging = true;
+                        this.elt.classList.remove("free");
+                        if (this.letterSpace != null) this.letterSpace.setLetterBlock(null);
+                        this.letterSpace = null;
+                    }
                 }
 
                 drag(evt) {
