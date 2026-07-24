@@ -1,75 +1,47 @@
-<!DOCTYPE html>
+<data value="TITLE">
+    Deterministic, Oblivious Isolation for Space-Bounded Computation Requires Large Weights
+</data>
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
-<script src="/temml/temml.min.js"></script>
-<script src="/temml/auto-render.min.js"></script>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>
-Deterministic, Oblivious Isolation for Space-Bounded Computation Requires Large Weights
-</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
-<link href="/main.css" rel="stylesheet"/>
-<link href="/research/papers.css" rel="stylesheet"/>
-</head>
-<body>
-<main>
-<article>
-<p>
-<a href="/research/">
-            Back to list of papers
-          </a>
-</p>
-<hr/>
-<h1>
-Deterministic, Oblivious Isolation for Space-Bounded Computation Requires Large Weights
-</h1>
-<p>
-By William M. Hoza
-</p>
-<hr/>
-<p>
-          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2026/124/">ECCC</a>
-</p>
-<details>
-<summary>Abstract (for specialists)</summary>
-<div class="indent">
-<p>
+<data value="AUTHORS">
+    William M. Hoza
+</data>
+
+<data value="ABBREV">
+    H
+</data>
+
+<data value="PAPER-LINKS">
+    <a href="https://eccc.weizmann.ac.il/report/2026/124/">ECCC</a>
+</data>
+
+<data value="VENUE">
+    Manuscript 2026
+</data>
+
+<data value="FIRST-POSTED">
+    2026-07-24
+</data>
+
+<data value="ABSTRACT">
+    <p>
         For a directed graph $G = (V, E)$, we say that a weight function $\rho \colon E \to [M]$ is <em>min-isolating</em> if the minimum-weight path from $u$ to $v$ is unique for each pair of vertices $u, v \in V$ such that $v$ is reachable from $u$. If we could efficiently construct a polynomially-bounded min-isolating weight function for any given digraph (or even just for <em>layered</em> digraphs), it would follow that $\mathsf{NL} = \mathsf{UL}$, thanks to work by Reinhardt and Allender (SICOMP 2000).
     </p>
-<p>
+
+    <p>
         Van Melkebeek and Prakriya constructed an explicit, deterministic, min-isolating weight function for layered digraphs (SICOMP 2019). Their weight function is <em>oblivious</em>, i.e., it is a single weight function that works for all width-$w$ length-$n$ layered digraphs simultaneously, assigning a weight to each possible edge in the digraph without needing to know which edges are actually present. However, they use weights of magnitude $M = 2^{\Theta(\log n \cdot \log w)}$ instead of the desired $M = \mathrm{poly}(wn)$.
     </p>
-<p>
+
+    <p>
         In this work, we prove that every deterministic, oblivious weight function that is min-isolating for width-$w$ length-$n$ layered digraphs must use weights of magnitude $2^{\Omega(\log w \cdot \log n)}$. This rules out one possible method of proving $\mathsf{NL} = \mathsf{UL}$. Our proof is based on a connection with coding theory. A <em>solid burst error</em> is a vector $e \in \mathbb{Z}_q^n$ such that the support of $e$ is an interval. Using spectral graph theory methods, we prove that every code $\mathcal{C} \subseteq \mathbb{Z}_q^n$ that can detect solid burst errors with Hamming weight up to $d$ must satisfy $|\mathcal{C}| \leq q^{n - \Omega(\log d)}$, which is optimal. The best prior bound, by Das (BEEI 2012), says $|\mathcal{C}| \leq q^n / (d + 1)$ assuming the code is linear.
     </p>
-</div>
-</details>
-<details>
-<summary>Not-so-abstract (for curious outsiders)</summary>
-<p>⚠️ <em>This summary might gloss over some important details.</em></p>
-<div class="indent" value="NOT-SO-ABSTRACT">
-<p>
+</data>
+
+<data value="NOT-SO-ABSTRACT">
+    <p>
         A "nondeterministic algorithm" uses guesswork to try to prove some statement. If the algorithm outputs "yes" at the end, it means the statement is true, whereas if the algorithm outputs "no," it could mean the statement is false, or it could just mean that the algorithm made a poor sequence of guesses. We say that a nondeterministic algorithm is "unambiguous" if there is always at most one sequence of guesses that leads the algorithm to output "yes." There is a conjecture in complexity theory, called the "$\mathsf{NL} = \mathsf{UL}$" conjecture, which says that every nondeterministic algorithm can be converted into an unambiguous algorithm without significantly increasing the amount of memory that the algorithm uses. In this paper, we rule out one method of proving $\mathsf{NL} = \mathsf{UL}$.
     </p>
-</div>
-</details>
+</data>
 
-<p>
-
+<data value="VERSION-SUMMARY">
     I posted a manuscript online in July 2026.
-
-</p>
-
-<hr/>
-
-
-
-</article>
-</main>
-<script src="/temml/call-auto-render.js"></script>
-<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
+</data>
