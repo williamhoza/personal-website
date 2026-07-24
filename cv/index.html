@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>CV (William Hoza)</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+        <style>
+            * {
+                font-family: "PT Serif";
+                font-size: 14px;
+            }
+
+            .note {
+                font-style: italic;
+            }
+
+            hr {
+                border:1px solid #aaa;
+            }
+
+            h1, h2 {
+                font-size: 18px;
+            }
+
+            h1, .contact {
+                text-align: center;
+            }
+
+            h1 {
+                margin-bottom: 3px;
+            }
+
+            h2 {
+                break-after:avoid;
+            }
+
+            .contact {
+                margin-top: 3px;
+                margxin-bottom: 18px;
+                font-style:normal;
+            }
+
+            a {
+                color: #800;
+            }
+
+            td, th {
+                vertical-align: top;
+                text-align:left;
+                padding-bottom:10px;
+            }
+
+            tr:last-child td, tr:last-child th {
+                padding-bottom:0;
+            }
+
+            table {
+                border-spacing: 0;
+            }
+
+            th {
+                width: 100px;
+                font-weight: normal;
+            }
+
+            li {
+                margin-top: 10px;
+                margin-bottom:10px;
+                break-inside:avoid; 
+            }
+
+            .publication-title, .talk-title, .course-title {
+                font-weight: bold;
+            }
+
+            .talk-title:before {
+                content: "\201C";
+            }
+
+            .talk-title:after {
+                content: "\201D";
+            }
+
+            @media screen {
+                html {
+                    background-color: #ddd;
+                }
+
+                body {
+                    max-width: 816px;
+                    padding:0;
+                    margin:auto;
+                    box-sizing:border-box;
+                    background-color:white;
+                }
+
+                main {
+                    padding: 48px 12px;
+                    box-sizing:border-box;
+                    max-width: 744px;
+                    margin:auto;
+                }
+            }
+
+            .date {
+                text-align:center;
+                margin-top:5px;
+                margin-bottom:20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <h1>William M. Hoza</h1>
+
+            <div class="contact">
+                <a href="mailto:williamhoza@uchicago.edu">williamhoza@uchicago.edu</a> <br />
+                <a href="https://williamhoza.com">https://williamhoza.com</a>
+            </div>
+
+            <p class="date">
+                <time datetime="2026-07-24">July 24, 2026</time>
+            </p>
+
+            <section id="academic-appointments">
+                <h2>Academic Appointments</h2>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th scope="row">2023 - present</th>
+                            <td>
+                                Assistant Professor<br />
+                                Department of Computer Science<br />
+                                The University of Chicago
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2021&ndash;2023</th>
+                            <td>
+                                Simons-Berkeley Postdoctoral Fellow<br />
+                                Simons Institute for the Theory of Computing<br />
+                                University of California, Berkeley
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="education">
+                <h2>Education</h2>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th scope="row">2016 - 2021</th>
+                            <td>
+                                Ph.D. in Computer Science, The University of Texas at Austin. Advisor: David Zuckerman. Dissertation: <a class="publication-title" href="https://doi.org/10.26153/tsw/15500">Derandomizing space-bounded computation via pseudorandom generators and their generalizations.</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2012 - 2016</th>
+                            <td>
+                                B.S. in Computer Science and Mathematics, The California Institute of Technology. Graduated &ldquo;with honors.&rdquo;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="journal-publications">
+                <h2>Journal Publications</h2>
+
+                <ul class="publications">
+                    <li>
+                        William M. Hoza, Edward Pyne, and Salil Vadhan.
+                        <a class="publication-title" href="https://doi.org/10.1007/s00453-024-01251-2">Limitations of the Impagliazzo&ndash;Nisan&ndash;Wigderson pseudorandom generator against permutation branching programs.</a>
+                        <cite>Algorithmica</cite>, 2024.
+                    </li>
+                    <li>
+                        Pooya Hatami and William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.1561/0400000109">Paradigms for unconditional pseudorandom generators.</a>
+                        <cite>Foundations and Trends&reg; in Theoretical Computer Science</cite>, 16(1-2), pages 1&ndash;210, 2024.
+                    </li>
+                    <li>
+                        Kuan Cheng and William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4086/toc.2022.v018a021">Hitting sets give two-sided derandomization of small space.</a>
+                        <cite>Theory of Computing</cite>, 18(21), pages 1&ndash;32 (special issue for CCC 2020), 2022.
+                        <ul class="related-publications">
+                            <li>
+                                <a href="https://doi.org/10.4230/LIPIcs.CCC.2020.10">Preliminary version</a> in <cite>Proceedings of the 35th Computational Complexity Conference (CCC)</cite>, pages 10:1&ndash;10:25, 2020.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        William M. Hoza and Chris Umans.
+                        <a class="publication-title" href="https://doi.org/10.1137/17M1145707">Targeted pseudorandom generators, simulation advice generators, and derandomizing logspace.</a>
+                        <cite>SIAM Journal on Computing</cite>, 51(2), pages STOC17-281&ndash;STOC17-304 (special section for STOC 2017), 2021.
+                        <ul class="related-publications">
+                            <li>
+                                <a href="https://doi.org/10.1145/3055399.3055414">Preliminary version</a> in <cite>Proceedings of the 49th Symposium on Theory of Computing (STOC)</cite>, pages 629&ndash;640, 2017.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        William M. Hoza and David Zuckerman.
+                        <a class="publication-title" href="https://doi.org/10.1137/19M1268707">Simple optimal hitting sets for small-success RL.</a>
+                        <cite>SIAM Journal on Computing</cite>, 49(4), pages 811&ndash;820, 2020.
+                        <ul class="related-publications">
+                            <li>
+                                <a href="https://doi.org/10.1109/FOCS.2018.00015">Preliminary version</a> in <cite>Proceedings of the 59th Symposium on Foundations of Computer Science (FOCS)</cite>, pages 59&ndash;64, 2018.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Cole A. Graham and William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.1103/PhysRevLett.119.050402">Universal Bell correlations do not exist.</a>
+                        <cite>Physical Review Letters</cite>, 119(5), article number 050402, 2017.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="conference-publications">
+                <h2>
+                    Conference Publications
+                </h2>
+
+                <p class="note">
+                    (Preliminary versions of journal publications are listed with the corresponding journal publications above, not in this section.)
+                </p>
+
+                <ul class="publications">
+                    <li>
+                        William M. Hoza and Zelin Lv.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2025.67">On Sums of INW Pseudorandom Generators.</a>
+                        <cite>Proceedings of the 29th International Conference on Randomization and Computation (RANDOM)</cite>, pages 67:1&ndash;67:24, 2025.
+                    </li>
+                    <li>
+                        William M. Hoza and Zelin Lv.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2025.35">Fooling Near-Maximal Decision Trees.</a>
+                        <cite>Proceedings of the 29th International Conference on Randomization and Computation (RANDOM)</cite>, pages 35:1&ndash;35:24, 2025.
+                    </li>
+                    <li>
+                        Dean Doron and William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2025.28">Implications of Better PRGs for Permutation Branching Programs.</a>
+                        <cite>Proceedings of the 29th International Conference on Randomization and Computation (RANDOM)</cite>, pages 28:1&ndash;28:20, 2025.
+                    </li>
+                    <li>
+                        Itamar Harel, William M. Hoza, Gal Vardi, Itay Evron, Nathan Srebro, and Daniel Soudry [non-alphabetical].
+                        <a class="publication-title" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/5fff164c04811174e1836dc3e66c0aba-Paper-Conference.pdf">Provable Tempered Overfitting of Minimal Nets and Typical Nets.</a>
+                        <cite>Proceedings of the 38th Conference on Neural Information Processing Systems (NeurIPS)</cite>, pages 53458&ndash;53524, 2024.
+                    </li>
+                    <li>
+                        William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.CCC.2024.1">A Technique for Hardness Amplification Against AC<sup>0</sup>.</a>
+                        <cite>Proceedings of the 39th Computational Complexity Conference (CCC)</cite>, pages 1:1&ndash;1:20, 2024.
+                        Full version to appear in the <cite>computational complexity</cite> special issue for CCC 2024.
+                    </li>
+                    <li>
+                        Lijie Chen, William M. Hoza, Xin Lyu, Avishay Tal, Hongxun Wu.
+                        <a class="publication-title" href="https://doi.org/10.1109/FOCS57990.2023.00072">Weighted Pseudorandom Generators via Inverse Analysis of Random Walks and Shortcutting.</a>
+                        <cite>Proceedings of the 64th Symposium on Foundations of Computer Science (FOCS)</cite>, pages 1224&ndash;1239, 2023.
+                    </li>
+                    <li>
+                        Pooya Hatami, William M. Hoza, Avishay Tal, and Roei Tell.
+                        <a class="publication-title" href="https://doi.org/10.1145/3564246.3585216">Depth-d Threshold Circuits vs. Depth-(d + 1) AND-OR Trees.</a>
+                        <cite>Proceedings of the 55th Symposium on Theory of Computing (STOC)</cite>, pages 895&ndash;904, 2023.
+                    </li>
+                    <li>
+                        Andrej Bogdanov, William M. Hoza, Gautam Prakriya, and Edward Pyne.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.CCC.2022.3">Hitting Sets for Regular Branching Programs.</a>
+                        <cite>Proceedings of the 37th Computational Complexity Conference (CCC)</cite>, pages 3:1&ndash;3:22, 2022.
+                    </li>
+                    <li>
+                        Pooya Hatami, William M. Hoza, Avishay Tal, and Roei Tell.
+                        <a class="publication-title" href="https://doi.org/10.1109/FOCS52979.2021.00019">Fooling Constant-Depth Threshold Circuits.</a>
+                        <cite>Proceedings of the 62nd Symposium on Foundations of Computer Science (FOCS)</cite>, pages 104&ndash;115, 2022.
+                    </li>
+                    <li>
+                        William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.APPROX/RANDOM.2021.28">Better Pseudodistributions and Derandomization for Space-Bounded Computation.</a>
+                        <cite>Proceedings of the 25th International Conference on Randomization and Computation (RANDOM)</cite>, pages 28:1&ndash;28:23, 2021.
+                        Full version to appear in the <cite>Theory of Computing</cite> special issue for RANDOM 2021.
+                    </li>
+                    <li>
+                        William M. Hoza, Edward Pyne, and Salil Vadhan.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.ITCS.2021.7">Pseudorandom Generators for Unbounded-Width Permutation Branching Programs.</a>
+                        <cite>Proceedings of the 12th Innovations in Theoretical Computer Science Conference (ITCS)</cite>, pages 7:1&ndash;7:20, 2021.
+                    </li>
+                    <li>
+                        Dean Doron, Pooya Hatami, and William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.CCC.2020.6">Log-Seed Pseudorandom Generators via Iterated Restrictions.</a>
+                        <cite>Proceedings of the 35th Computational Complexity Conference (CCC)</cite>, pages 6:1&ndash;6:36, 2020.
+                    </li>
+                    <li>
+                        Dean Doron, Pooya Hatami, and William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.CCC.2019.16">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas.</a>
+                        <cite>Proceedings of the 34th Computational Complexity Conference (CCC)</cite>, pages 16:1&ndash;16:34, 2019.
+                    </li>
+                    <li>
+                        William M. Hoza.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.CCC.2019.9">Typically-Correct Derandomization for Small Time and Space.</a>
+                        <cite>Proceedings of the 34th Computational Complexity Conference (CCC)</cite>, pages 9:1&ndash;9:39, 2019.
+                    </li>
+                    <li>
+                        William M. Hoza and Adam R. Klivans.
+                        <a class="publication-title" href="https://doi.org/10.4230/LIPIcs.APPROX-RANDOM.2018.43">Preserving Randomness for Adaptive Algorithms.</a>
+                        <cite>Proceedings of the 22nd International Conference on Randomization and Computation (RANDOM)</cite>, pages 43:1&ndash;43:19, 2018.
+                    </li>
+                    <li>
+                        William M. Hoza and Leonard J. Schulman.
+                        <a class="publication-title" href="https://doi.org/10.1137/1.9781611974331.ch18">The adversarial noise threshold for distributed protocols.</a>
+                        <cite>Proceedings of the 27th Symposium on Discrete Algorithms (SODA)</cite>, pages 240&ndash;258, 2016.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="newsletter-publications">
+                <h2>Newsletter Publications</h2>
+
+                <ul class="publications">
+                    <li>
+                        William M. Hoza.
+                        <a class="publication-title" href="http://bulletin.eatcs.org/index.php/beatcs/article/view/728">Recent Progress on Derandomizing Space-Bounded Computation.</a>
+                        <cite>Bulletin of the European Association for Theoretical Computer Science</cite> number 138, pages 114&ndash;143 (the Computational Complexity Column), 2022.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="preprints">
+                <h2>Preprints &amp; Unpublished Manuscripts</h2>
+
+                <ul class="publications">
+                    <li>
+                        William M. Hoza. <a class="publication-title" href="https://eccc.weizmann.ac.il/report/2026/124/">Deterministic, Oblivious Isolation for Space-Bounded Computation Requires Large Weights.</a> 2026.
+                    </li>
+                    <li>
+                        William M. Hoza.
+                        <a class="publication-title" href="https://arxiv.org/abs/1703.07768">Quantum Communication-Query Tradeoffs.</a>
+                        2017.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="oral-presentations">
+                <h2>Oral Presentations</h2>
+
+                <p class="note">
+                    (Conference presentations and presentations at my own institution are excluded.)
+                </p>
+
+                <ul>
+                    <li><span class="talk-title">A Technique for Hardness Amplification Against AC<sup>0</sup></span>
+                        <ul>
+                            <li>Purdue University Theory Seminar. West Lafayette, IN, 2024.</li>
+                            <li>Dagstuhl Seminar 24381: Algebraic and Analytic Methods in Computational Complexity. Wadern, Germany, 2024.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Weighted Pseudorandom Generators via Inverse Analysis of Random Walks and Shortcutting</span>
+                        <ul>
+                            <li>Theoretical Computer Science and Discrete Mathematics Seminar at the Institute for Advanced Study. Princeton, NJ, 2023.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Depth-d Threshold Circuits vs. Depth-(d + 1) AND-OR Trees</span>
+                        <ul>
+                            <li>Dagstuhl Seminar 22371: Algebraic and Analytic Methods in Computational Complexity. Wadern, Germany, 2022.</li>
+                            <li>Theory of Computing Associated of Silicon Valley (TOCA-SV). Stanford, CA, 2022.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Recent Progress on Derandomizing Space-Bounded Computation</span>
+                        <ul>
+                            <li>Theoretical Computer Science and Discrete Mathematics Seminar at the Institute for Advanced Study. Princeton, NJ, 2023.</li>
+                            <li>University of Michigan Theory Seminar. Online, 2022.</li>
+                            <li>University of Warwick Complexity Meetings. Online, 2022.</li>
+                            <li>Columbia Theory Seminar. Online, 2022.</li>
+                            <li>Oberwolfach Meeting 2146: Complexity Theory. Oberwolfach, Germany, 2021.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Better Pseudodistributions and Derandomization for Space-Bounded Computation</span>
+                        <ul>
+                            <li>Oxford-Warwick Complexity Meetings. Online, 2021.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Fooling Constant-Depth Threshold Circuits</span>
+                        <ul>
+                            <li>Computer Science Theory Seminar at the University of Texas at Austin. Online, 2022.</li>
+                            <li>TCS+ Seminar. Online, 2021.</li>
+                            <li>Michigan-Purdue Theory Seminar. Online, 2021.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Hitting Sets Give Two-Sided Derandomization of Small Space</span>
+                        <ul>
+                            <li>Computer Science Theory Seminar at the University of Illinois at Urbana-Champaign. Online, 2022.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Near-Optimal Pseudorandom Generators for Constant-Depth Read-Once Formulas</span>
+                        <ul>
+                            <li>BIRS Workshop 19w5088: Algebraic Techniques in Computational Complexity. Banff, Canada, 2019.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Simple Optimal Hitting Sets for Small-Success RL</span>
+                        <ul>
+                            <li>Dagstuhl Seminar 18391: Algebraic Methods in Computational Complexity. Wadern, Germany, 2018.</li>
+                            <li>China Theory Week. Beijing, China, 2018.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Typically-Correct Derandomization for Small Time and Space</span>
+                        <ul>
+                            <li>Theory of Computer Science Seminar at the Hebrew University of Jerusalem. Jerusalem, Israel, 2018.</li>
+                            <li>Theory of Computation Seminar at Tel Aviv University. Tel Aviv, Israel, 2018.</li>
+                            <li>Foundations of Computer Science Seminar at the Weizmann Institute of Science. Rehovot, Israel, 2018.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Preserving Randomness for Adaptive Algorithms</span>
+                        <ul>
+                            <li>Theory of Computing Seminar at the California Institute of Technology. Pasadena, CA, 2017.</li>
+                        </ul>
+                    </li>
+                    <li><span class="talk-title">Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace</span>
+                        <ul>
+                            <li>Dagstuhl Seminar 16411: Algebraic Methods in Computational Complexity. Wadern, Germany, 2016.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="advising">
+                <h2>Advising</h2>
+
+                <ul>
+                    <li>Mirza Mehmedagic.
+                        <ul>
+                            <li>PhD, starting Autumn 2026.</li>
+                            <li>MS, 2026. Thesis: <a class="publication-title" href="https://mmehmedagic.github.io/files/ms_thesis.pdf">The Zig-Zag Pseudorandom Generator.</a></li>
+                        </ul>
+                    </li>
+                    <li>Yakov Shalunov.
+                        <ul>
+                            <li>PhD, in progress.</li>
+                            <li>MS, in progress.</li>
+                        </ul>
+                    </li>
+                    <li>Zelin Lv.
+                        <ul>
+                            <li>PhD, in progress. Co-advised with Aaron Potechin.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="teaching">
+                <h2>Teaching</h2>
+                <ul>
+                    <li>Instructor, <span class="course-title">Introduction to Complexity Theory</span> (CMSC 28100) at the University of Chicago. Winter 2024, Spring 2024, Spring 2025, Autumn 2025, Winter 2027 (planned).</li>
+                    <li>Instructor, <span class="course-title">Topics in Theoretical Computer Science: Analysis of Boolean Functions</span> (CMSC 39600) at the University of Chicago. Autumn 2025.</li>
+                    <li>Instructor, <span class="course-title">Topics in Theoretical Computer Science: Derandomizing Space-Bounded Computation</span> (CMSC 39600) at the University of Chicago. Winter 2025.</li>
+                    <li>Instructor, <span class="course-title">Topics in Theoretical Computer Science: Circuit Complexity</span> (CMSC 39600) at the University of Chicago. Autumn 2024.</li>
+                    <li>Instructor, <span class="course-title">Topics in Theoretical Computer Science: Pseudorandomness</span> (CMSC 39600) at the University of Chicago. Autumn 2023.</li>
+                    <li>Teaching Assistant, <span class="course-title">Topics in Computer Science: Expanders and Extractors</span> (CS 395T) at the University of Texas at Austin. Fall 2020.</li>
+                    <li>Teaching Assistant, <span class="course-title">Introduction to Algorithms</span> (CS 38) at the California Institute of Technology. Spring 2015, Spring 2016.</li>
+                    <li>Teaching Assistant, <span class="course-title">Decidability and Tractability</span> (CS 21) at the California Institute of Technology. Winter 2015, Winter 2016.</li>
+                    <li>Teaching Assistant / Counselor, <span class="course-title">Summer Institute for Mathematics at the University of Washington</span> (SIMUW). Summer 2016.</li>
+                    <li>Peer Tutor, Olympia High School, 2010&ndash;2012.</li>
+                </ul>
+            </section>
+
+            <section id="service">
+                <h2>Service</h2>
+
+                <ul>
+                    <li>External
+                        <ul>
+                            <li>Organizer, &ldquo;Derandomization&rdquo; workshop at the Pseudorandomness &amp; High-Dimensional Expansion program, Simons Institute for the Theory of Computing, Fall 2026.</li>
+                            <li>Organizing Committee Member, DavidFest 2025.</li>
+                            <li>Program Committee Member, 28th International Conference on Randomization and Computation (RANDOM 2024).</li>
+                            <li>Program Committee Member, 15th Innovations in Theoretical Computer Science Conference (ITCS 2024).</li>
+                            <li>Program Committee Member, 38th Computational Complexity Conference (CCC 2023).</li>
+                            <li>Program Committee Member, 26th International Conference on Randomization and Computation (RANDOM 2022).</li>
+                            <li>Video Conferencing Assistant, Oberwolfach Research Institute for Mathematics, November 2021. Meeting 2146: Complexity Theory.</li>
+                        </ul>
+                    </li>
+                    <li>Internal (The University of Chicago)
+                        <ul>
+                            <li>PhD Admissions Committee Member. AY 2023-24, AY 2024-25, AY 2025-26.</li>
+                            <li>MS Committee Member for Kunal Marwaha (2023), Gabe Schoenbach (2025), and my own advisees.</li>
+                        </ul>
+                    </li>
+                    <li>Internal (The University of Texas at Austin)
+                        <ul>
+                            <li>Co-Organizer for the CS Theory Seminar (with John Kallaugher). Fall 2020.</li>
+                            <li>Junior Admissions Committee Member. December 2019.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="peer-review">
+                <h2>Peer Review</h2>
+
+                <ul>
+                    <li>(<em>Journals</em>)
+                        Journal of the ACM;
+                        SIAM Journal on Computing;
+                        ACM Transactions on Computation Theory;
+                        Theory of Computing;
+                        computational complexity;
+                        Algorithmica;
+                        IEEE Transactions on Information Theory;
+                        Distributed Computing
+                    </li>
+                    <li>(<em>Conferences</em>)
+                        Symposium on Theory of Computation (STOC);
+                        Symposium on Foundations of Computer Science (FOCS);
+                        Symposium on Discrete Algorithms (SODA);
+                        Computational Complexity Conference (CCC);
+                        Innovations in Theoretical Computer Science (ITCS);
+                        International Conference on Randomization and Computation (RANDOM);
+                        International Symposium on Mathematical Foundations of Computer Science (MFCS)
+                    </li>
+                    <li>(<em>Funding agencies</em>)
+                        Israel Science Foundation (ISF);
+                        European Research Council (ERC)
+                    </li>
+                </ul>
+            </section>
+
+            <section id="awards-and-honors">
+                <h2>Awards and Honors</h2>
+
+                <ul class="awards">
+                    <li>
+                        <strong>Invited papers:</strong>
+                        <ul>
+                            <li>
+                                William M. Hoza. <span class="publication-title">A Technique for Hardness Amplification Against AC<sup>0</sup>.</span>
+                                Invited to the special issue of <cite>computational complexity</cite> for CCC 2024.
+                            </li>
+                            <li>
+                                William M. Hoza.
+                                <span class="publication-title">Better Pseudodistributions and Derandomization for Space-Bounded Computation.</span>
+                                Invited to the special issue of <cite>Theory of Computing</cite> for RANDOM 2021.
+                            </li>
+                            <li>
+                                Kuan Cheng and William M. Hoza.
+                                <span class="publication-title">Hitting Sets Give Two-Sided Derandomization of Small Space.</span>
+                                Invited to the special issue of <cite>Theory of Computing</cite> for CCC 2020.
+                            </li>
+                            <li>
+                                William M. Hoza and Chris Umans.
+                                <span class="publication-title">Targeted Pseudorandom Generators, Simulation Advice Generators, and Derandomizing Logspace.</span>
+                                Invited to the special section of <cite>SIAM Journal on Computing</cite> for STOC 2017.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>NSF Graduate Research Fellowship.</strong>
+                        Awarded by the National Science Foundation for &ldquo;demonstrated potential to contribute to strengthening the vitality of the U.S. science and engineering enterprise,&rdquo; 2016.
+                    </li>
+                    <li>
+                        <strong>Donald D. Harrington Fellowship.</strong>
+                        Awarded by the University of Texas at Austin Graduate School for &ldquo;outstanding academic accomplishments, letters of recommendation, and the high interest of our faculty in having you come to UT-Austin for your graduate work,&rdquo; 2016.
+                    </li>
+                    <li>
+                        <strong>Outstanding TA Award.</strong>
+                        Awarded by the Caltech Registrar&rsquo;s Office and Office of Graduate Studies &ldquo;on the basis of students&rsquo; TQFR [Teaching Quality Feedback Report] comments,&rdquo; 2016.
+                    </li>
+                    <li>
+                        <strong>Gordon McClure Memorial Communication Prize in Philosophy.</strong>
+                        Awarded by the Caltech Division of Humanities and Social Sciences for &ldquo;excellence in written and oral communication skills,&rdquo; 2016.
+                    </li>
+                    <li>
+                        <strong>Bhansali Prize in Computer Science.</strong>
+                        Awarded by the Caltech Computer Science Department for &ldquo;outstanding research in Computer Science,&rdquo; 2015.
+                    </li>
+                    <li>
+                        <strong>Fredrick J. Zeigler Memorial Award.</strong>
+                        Awarded by the Caltech Mathematics Department and the Caltech Applied and Computational Mathematics Department for &ldquo;excellence in scholarship,&rdquo; 2014.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="computing-industry-experience">
+                <h2>Computing Industry Experience</h2>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Summer 2013</th>
+                            <td>
+                                Software Engineer Intern<br />
+                                Dropbox<br />
+                                San Francisco, CA
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </body>
+</html>
