@@ -6,6 +6,10 @@
     padding-left:10px;
 }
 
+.student-list ul li {
+    margin-top:5px;
+}
+
 .paper-list2 > li {
     list-style-type:disc;
     padding-left:10px;

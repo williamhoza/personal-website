@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Number Speaker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 8px;
+            background-color: #f0f4f8;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 90px;
+            padding: 8px 36px 8px 8px;
+            font-size: 1.2rem;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            resize: none;
+            outline: none;
+            word-break: break-all;
+        }
+
+        textarea:focus {
+            border-color: #0066cc;
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .say-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            background-color: #0066cc;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .say-btn:active {
+            background-color: #004b99;
+        }
+
+        .output {
+            font-size: 1rem;
+            color: #222;
+            word-wrap: break-word;
+            background: #fff;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="input-wrapper">
+            <textarea 
+                id="numberInput" 
+                placeholder="Type a number..." 
+                inputmode="numeric"
+                maxlength="50"
+                rows="3"
+                autofocus
+            ></textarea>
+            <button class="clear-btn" id="clearBtn" aria-label="Clear and stop speech">✕</button>
+        </div>
+        
+        <button class="say-btn" id="speakBtn">Say It!</button>
+        
+        <div class="output" id="wordsOutput"></div>
+    </div>
+
+    <script>
+        const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        
+        const scales = [
+            '', 'thousand', 'million', 'billion', 'trillion', 
+            'quadrillion', 'quintillion', 'sextillion', 'septillion', 
+            'octillion', 'nonillion', 'decillion', 'undecillion', 
+            'duodecillion', 'tredecillion', 'quattuordecillion', 'quindecillion'
+        ];
+
+        const numberInput = document.getElementById('numberInput');
+        const speakBtn = document.getElementById('speakBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const outputDiv = document.getElementById('wordsOutput');
+
+        function keepFocus() {
+            setTimeout(() => {
+                numberInput.focus();
+            }, 10);
+        }
+
+        function stopAudio() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function numberToWordsBigInt(bigNum) {
+            if (bigNum === 0n) return 'zero';
+            if (bigNum < 0n) return 'negative ' + numberToWordsBigInt(-bigNum);
+
+            let currentNum = bigNum;
+            let scaleIndex = 0;
+            let words = [];
+
+            while (currentNum > 0n) {
+                let chunk = Number(currentNum % 1000n);
+                if (chunk !== 0) {
+                    let chunkWords = convertChunk(chunk);
+                    if (scales[scaleIndex]) {
+                        chunkWords += ' ' + scales[scaleIndex] + ',';
+                    }
+                    words.unshift(chunkWords);
+                }
+                currentNum = currentNum / 1000n;
+                scaleIndex++;
+            }
+
+            return words.join(' ');
+        }
+
+        function convertChunk(num) {
+            let chunkWords = [];
+            
+            if (num >= 100) {
+                chunkWords.push(ones[Math.floor(num / 100)] + ' hundred');
+                num %= 100;
+            }
+
+            if (num >= 20) {
+                let tenWord = tens[Math.floor(num / 10)];
+                if (num % 10 !== 0) {
+                    tenWord += '-' + ones[num % 10];
+                }
+                chunkWords.push(tenWord);
+            } else if (num > 0) {
+                chunkWords.push(ones[num]);
+            }
+
+            return chunkWords.join(' ');
+        }
+
+        function speakNumber() {
+            const rawVal = numberInput.value.replace(/[\s,]/g, '');
+
+            if (rawVal === '') {
+                outputDiv.innerText = 'Please enter a number!';
+                keepFocus();
+                return;
+            }
+
+            if (!/^-?\d+$/.test(rawVal)) {
+                outputDiv.innerText = 'Please enter valid whole numbers only.';
+                keepFocus();
+                return;
+            }
+
+            if (rawVal.replace('-', '').length > 50) {
+                outputDiv.innerText = 'Number exceeds 50 digits limit!';
+                keepFocus();
+                return;
+            }
+
+            try {
+                const bigNum = BigInt(rawVal);
+                const wordsWithPauses = numberToWordsBigInt(bigNum);
+                
+                outputDiv.innerText = wordsWithPauses.replace(/,\s*$/, '');
+
+                if ('speechSynthesis' in window) {
+                    stopAudio(); // Reset audio before speaking new text
+                    const utterance = new SpeechSynthesisUtterance(wordsWithPauses);
+                    utterance.rate = 0.85; 
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    alert('Text-to-speech is not supported on this browser.');
+                }
+            } catch (e) {
+                outputDiv.innerText = 'Could not process number.';
+            }
+
+            keepFocus();
+        }
+
+        // Actions
+        speakBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            speakNumber();
+        });
+
+        clearBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            stopAudio(); // Immediately stops speech engine
+            numberInput.value = '';
+            outputDiv.innerText = '';
+            keepFocus();
+        });
+
+        // Prevent soft-keyboard dismissal when clicking controls
+        document.addEventListener('touchend', (e) => {
+            if (e.target !== numberInput && e.target !== clearBtn && e.target !== speakBtn) {
+                keepFocus();
+            }
+        });
+
+        // Trigger on Enter key inside multiline area
+        numberInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Stop newline creation
+                speakNumber();
+            }
+        });
+
+        window.addEventListener('load', keepFocus);
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<data value="TITLE">
+    The BRRY Analysis of the INW Pseudorandom Generator is Optimal
+</data>
+
+<data value="AUTHORS">
+    William M. Hoza and Yakov Shalunov
+</data>
+
+<data value="ABBREV">
+    HS
+</data>
+
+<data value="PAPER-LINKS">
+    <a href="https://eccc.weizmann.ac.il/report/2026/184/">ECCC</a>
+</data>
+
+<data value="VENUE">
+    Manuscript 2026
+</data>
+
+<data value="FIRST-POSTED">
+    2026-09-16
+</data>
+
+<data value="ABSTRACT">
+    <p>
+        Braverman, Rao, Raz, and Yehudayoff  (SICOMP 2014) showed that there is an explicit pseudorandom generator (PRG) that fools standard-order regular read-once branching programs (ROBPs) with seed length
+        $$
+            O(\log n \cdot \log \log n + \log n \cdot \log(wd/\epsilon)),
+        $$
+        where $w$ is the width of the program, $n$ is the length, $d$ is the alphabet size, and $\epsilon$ is the error of the generator. To prove it, they prove a bound on the error of the INW generator (Impagliazzo, Nisan, and Wigderson, STOC 1994) in terms of the spectral expansion parameters of the expander graphs used to construct the generator. Then they plug in standard explicit constructions of sparse spectral expanders.
+    </p>
+
+    <p>
+        In this paper, we prove that Braverman, Rao, Raz, and Yehudayoff's analysis is optimal. That is, if some instantiation of the INW generator fools standard-order regular ROBPs and the proof of correctness doesn't use any properties of the underlying graphs except bounds on their spectral expansion parameters, then the seed length of the generator is at least
+        $$
+            \Omega(\log n \cdot \log \log n + \log n \cdot \log(wd/\epsilon)),
+        $$
+        provided $w \in [6, 2^{n^{0.99}}]$, $\epsilon \in [2^{-n^{0.99}}, 0.01]$, and $d \leq \mathrm{poly}(n)$. A lower bound of $\Omega(\log n \cdot \log(w/\epsilon))$ was already known even for the special case of fooling permutation ROBPs (Hoza, Pyne, and Vadhan, Algorithmica 2024). Our contribution is to prove that the $\log n \cdot \log \log n$ and $\log n \cdot \log d$ terms are unavoidable if one wishes to fool regular programs.
+    </p>
+</data>
+
+<data value="NOT-SO-ABSTRACT">
+    <p>
+        A "pseudorandom generator" is an algorithm that flips a coin a few times and outputs a long sequence of bits that "appear random" in some sense. In this paper, we study a famous pseudorandom generator called the "Impagliazzo-Nisan-Wigderson generator" (named after its inventors). We establish some <em>limitations</em> of this pseudorandom generator, i.e., we prove that its output bits do <em>not</em> appear random in certain respects.
+    </p>
+</data>
+
+<data value="VERSION-SUMMARY">
+    Yakov and I posted a manuscript online in September 2026.
+</data>
