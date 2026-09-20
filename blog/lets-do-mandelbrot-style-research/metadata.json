@@ -1,0 +1,8 @@
+{
+  "title": "Let's do Mandelbrot-style research",
+  "date": "2026-09-19",
+  "time-slot": 0,
+  "draft": true,
+  "snippet": "Remember the Mandelbrot set? The mathematical definition of the Mandelbrot set is simple and elegant: it's the set of complex numbers $c$ such that if we start at $x = 0$ and we repeatedly update $x \\leftarrow x^2 + c$, the absolute value of $x$ doesn't go to infinity. But when you plot the Mandelbrot set on the plane, you get mind-blowing fractal images like the animation above. What an amazing mathematical phenomenon!",
+  "styling": false
+}
