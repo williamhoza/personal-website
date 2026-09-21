@@ -92,13 +92,13 @@ class Post:
         <meta property="og:image:width" content="{self.metadata['og-image-width']}" />
         <meta property="og:image:height" content="{self.metadata['og-image-height']}" />
       """
-    else:
+    else: 
       ogImageTags = ""
     
     extraHeadElements = f"""
       <meta property="og:url" content="https://williamhoza.com/blog/{self.slug}/" />
       <meta property="og:type" content="article" />
-      <meta property="og:description" content="{self.metadata['snippet']}" />
+      <meta property="og:description" content="{self.metadata['snippet'].replace('"', '&quot;')}" />
     """
     
     if ("styling" in self.metadata and self.metadata["styling"]):

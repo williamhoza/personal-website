@@ -3,6 +3,9 @@
   "date": "2026-09-21",
   "time-slot": 0,
   "draft": true,
-  "snippet": "Remember the Mandelbrot set? The Mandelbrot set is the set of complex numbers \\(c\\) such that if we start at \\(x_1 = 0\\) and we inductively define \\(x_{n + 1} = x_n^2 + c\\), the absolute value of \\(x_n\\) doesn't go to infinity. It's a simple definition, but when you plot it, you get mind-blowing fractal images like the ones in the animation above. What an amazing phenomenon!",
-  "styling": false
+  "snippet": "Remember the Mandelbrot set? The Mandelbrot set is the set of complex numbers c such that if we start at x_1 = 0 and we inductively define x_{n + 1} = x_n^2 + c, the absolute value of x_n doesn't go to infinity. It's a simple definition, but when you plot it, you get mind-blowing fractal images like the ones in the animation above. What an amazing phenomenon!",
+  "styling": false,
+  "og-image": "mandelbrot-static.png",
+  "og-image-width": 1280,
+  "og-image-height": 1280
 }
