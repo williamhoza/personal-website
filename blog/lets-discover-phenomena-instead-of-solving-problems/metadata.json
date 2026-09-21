@@ -2,7 +2,7 @@
   "title": "Let's discover phenomena instead of solving problems",
   "date": "2026-09-21",
   "time-slot": 0,
-  "draft": true,
+  "draft": false,
   "snippet": "Remember the Mandelbrot set? The Mandelbrot set is the set of complex numbers c such that if we define x_1 = 0 and x_{n + 1} = x_n^2 + c, then |x_n| doesn't go to infinity. It's a simple definition, but when you plot it, you get mind-blowing fractal images like the ones in the animation above. What an amazing phenomenon! I bring it up because mathematical disciplines are currently going through a kind of existential crisis.",
   "styling": false,
   "og-image": "mandelbrot-static.png",
