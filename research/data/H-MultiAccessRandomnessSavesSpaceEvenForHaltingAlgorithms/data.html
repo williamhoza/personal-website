@@ -1,0 +1,47 @@
+<data value="TITLE">
+    Multi-Access Randomness Saves Space, Even for Halting Algorithms
+</data>
+
+<data value="AUTHORS">
+    William M. Hoza
+</data>
+
+<data value="ABBREV">
+    H
+</data>
+
+<data value="PAPER-LINKS">
+    <a href="https://eccc.weizmann.ac.il/report/2026/226/">ECCC</a>
+</data>
+
+<data value="VENUE">
+    Manuscript 2026
+</data>
+
+<data value="FIRST-POSTED">
+    2026-10-02
+</data>
+
+<data value="ABSTRACT">
+    <p>
+        We prove that every language in $\mathsf{P}^{\# \mathsf{P}}$ can be decided by a bounded-error randomized algorithm that uses only $O(\log n)$ bits of work space. The algorithm is guaranteed to halt for every input and every setting of the random tape. However, there is a catch: the algorithm uses a <em>multi-access</em> random tape, i.e., the algorithm scans both forward and backward across a read-only tape filled with an unlimited number of random bits. Prior work on log-space algorithms with multi-access randomness either focuses on polynomial-time algorithms, or else permits algorithms that sometimes run forever. Our algorithm always halts, but it uses exponential time. Thus, our work identifies a natural model of computation in which randomness is intrinsically useful, assuming $\mathsf{L} \neq \mathsf{P}^{\# \mathsf{P}}$.
+    </p>
+</data>
+
+<data value="NOT-SO-ABSTRACT">
+    <p>
+        We show that certain problems can be solved using randomness and a small amount of memory. We expect that solving these problems <em>deterministically</em> requires a <em>large</em> amount of memory, so this is a case where algorithms with randomness are apparently more powerful than algorithms without randomness.
+    </p>
+
+    <p>
+        A subtlety is that our algorithm cannot be implemented in a scenario where our only source of randomness is a coin that we can flip. Instead, our algorithm requires access to a large database of pre-generated random bits. That way, it can go back and re-read old random bits as many times as it wants.
+    </p>
+
+    <p>
+        An algorithm with similar properties to ours has been known since the 1980s, but the old algorithm has a weakness, which is that it is not guaranteed to halt. If you run the old algorithm, it might just run forever and never give you an output. Our new algorithm always halts.
+    </p>
+</data>
+
+<data value="VERSION-SUMMARY">
+    I posted a manuscript online in October 2026.
+</data>

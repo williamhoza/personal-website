@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+Multi-Access Randomness Saves Space, Even for Halting Algorithms
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+<link href="/research/papers.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
+<p>
+<a href="/research/">
+            Back to list of papers
+          </a>
+</p>
+<hr/>
+<h1>
+Multi-Access Randomness Saves Space, Even for Halting Algorithms
+</h1>
+<p>
+By William M. Hoza
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2026/226/">ECCC</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+        We prove that every language in $\mathsf{P}^{\# \mathsf{P}}$ can be decided by a bounded-error randomized algorithm that uses only $O(\log n)$ bits of work space. The algorithm is guaranteed to halt for every input and every setting of the random tape. However, there is a catch: the algorithm uses a <em>multi-access</em> random tape, i.e., the algorithm scans both forward and backward across a read-only tape filled with an unlimited number of random bits. Prior work on log-space algorithms with multi-access randomness either focuses on polynomial-time algorithms, or else permits algorithms that sometimes run forever. Our algorithm always halts, but it uses exponential time. Thus, our work identifies a natural model of computation in which randomness is intrinsically useful, assuming $\mathsf{L} \neq \mathsf{P}^{\# \mathsf{P}}$.
+    </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+        We show that certain problems can be solved using randomness and a small amount of memory. We expect that solving these problems <em>deterministically</em> requires a <em>large</em> amount of memory, so this is a case where algorithms with randomness are apparently more powerful than algorithms without randomness.
+    </p>
+<p>
+        A subtlety is that our algorithm cannot be implemented in a scenario where our only source of randomness is a coin that we can flip. Instead, our algorithm requires access to a large database of pre-generated random bits. That way, it can go back and re-read old random bits as many times as it wants.
+    </p>
+<p>
+        An algorithm with similar properties to ours has been known since the 1980s, but the old algorithm has a weakness, which is that it is not guaranteed to halt. If you run the old algorithm, it might just run forever and never give you an output. Our new algorithm always halts.
+    </p>
+</div>
+</details>
+
+<p>
+
+    I posted a manuscript online in October 2026.
+
+</p>
+
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
