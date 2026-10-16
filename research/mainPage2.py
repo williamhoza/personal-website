@@ -1,14 +1,15 @@
 from bs4 import BeautifulSoup
+from datetime import date
     
 def compile(papers):
     templateFile = open("main-page-template.html", "r", encoding="utf-8")
     soup = BeautifulSoup(templateFile.read(), 'html.parser')
 
-    paperListOL = soup.new_tag("ol")
-    paperListOL["class"] = "paper-list2"
+    preAIPaperListOL = soup.new_tag("ol")
+    preAIPaperListOL["class"] = "paper-list2"
 
-    surveyListOL = soup.new_tag("ol")
-    surveyListOL["class"] = "paper-list2"
+    postAIPaperListOL = soup.new_tag("ol")
+    postAIPaperListOL["class"] = "paper-list2"
 
     dissertationOL = soup.new_tag("ol")
     dissertationOL["class"] = "paper-list2"
@@ -43,6 +44,9 @@ def compile(papers):
             a.string = paper.title
             li.append(a)
 
+            if paper.isSurvey:
+                li.append(" (survey)")
+
             authorp = soup.new_tag("p")
             authorp.append(paper.authors)
             li.append(authorp)
@@ -57,13 +61,13 @@ def compile(papers):
             # li.append(soup.new_tag("br"))
             # li.append(" • ".join(paper.venues))
 
-            if paper.isSurvey:
-                surveyListOL.append(li)
+            if paper.firstPostedDate.year < 2026:
+                preAIPaperListOL.append(li)
             else:
-                paperListOL.append(li)
+                postAIPaperListOL.append(li)
 
-    soup.find("data", value="SURVEY-LIST").replace_with(surveyListOL)
-    soup.find("data", value="PAPER-LIST").replace_with(paperListOL)
+    soup.find("data", value="PRE-AI-PAPER-LIST").replace_with(preAIPaperListOL)
+    soup.find("data", value="POST-AI-PAPER-LIST").replace_with(postAIPaperListOL)
     soup.find("data", value="DISSERTATION").replace_with(dissertationOL)
     
     indexFile = open("index.html", "w", encoding="utf-8")
