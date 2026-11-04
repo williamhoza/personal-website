@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <audio id = "goodSound" controls = "CONTROLS">
+      <source src="good.ogg" type="audio/ogg" />
+      <source src="good.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id = "badSound" controls = "CONTROLS">
+      <source src="bad.ogg" type="audio/ogg" />
+      <source src="bad.mp3" type="audio/mpeg" />
+    </audio>
+    
+    <button ontouchstart = "playSound(goodSound);" style = "font-size:50px;">
+      good
+    </button>
+    
+    <button ontouchstart = "playSound(badSound);" style = "font-size:50px;">
+      bad
+    </button>
+    
+    <button ontouchstart = "loadSound(goodSound);" style = "font-size:50px;">
+      load
+    </button>
+    
+    <hr>
+    
+    <div id = "debugDiv">
+    </div>
+    
+    <script type = "text/javascript">
+      var goodSound = document.getElementById('goodSound');
+      var badSound = document.getElementById('badSound');
+      var debugDiv = document.getElementById('debugDiv');
+    
+      function playSound(s)
+      {
+        s.currentTime = 0;
+        s.play();
+      }
+    
+      function setupSound(s)
+      {
+        s.addEventListener('timeupdate', handleTimeUpdate);
+      }
+    
+      function loadSound(s)
+      {
+        debug("loading " + s.id);
+        s.setAttribute('loading', true);
+        s.play();
+      }
+      
+      function handleTimeUpdate()
+      {
+        debug(this.id + ' timeupdate event firing');
+        
+        if(this.getAttribute('loading'))
+        {
+          this.setAttribute('loading', false);
+          if(this == goodSound)
+          {
+            loadSound(badSound);
+          }
+          this.pause();
+        }
+      }
+      
+      function debug(m)
+      {
+        debugDiv.innerHTML += m + "<br>";
+      }
+      
+      setupSound(goodSound);
+      setupSound(badSound);
+    </script>
+  </body>
+</html>

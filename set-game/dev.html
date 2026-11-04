@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html style = "height:100%;">
+
+<head>
+  <title>
+    Set
+  </title>
+
+  <script type = "text/javascript" src = "cookies.js"></script>
+</head>
+
+<body style = "height:100%;margin:0px;font-size:0px;background-color:black;" onresize = "body_resize();">
+  <div style = "dixsplay: none;">
+    <audio id="goodSound" controls = "CONTROLS">
+      <source src="good.ogg" type="audio/ogg" />
+      <source src="good.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="badSound" controls = "CONTROLS">
+      <source src="bad.ogg" type="audio/ogg" />
+      <source src="bad.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <div style = "text-align:center;overflow:hidden;">
+    <canvas id = "canv" ontouchstart = "canv_touchstart(event);return false;" onclick = "if(!onMobile) canv_click(event);">
+      you need a better browser, fool
+    </canvas>
+  </div>
+  
+  <canvas id = "patternCanv" width = "6" height = "1" style = "display:none;"></canvas>
+  
+  <script type = "text/javascript">
+    var canv = $('canv');
+    var ctx = canv.getContext('2d');
+    var patternCanv = $('patternCanv');
+    var patternCtx = patternCanv.getContext('2d');
+    var cw;
+    var ch;
+    var colors = ["rgba(255, 0, 0, 1)", "rgba(20, 140, 50, 1)", "rgba(128, 0, 128, 1)"];
+    var lines = new Array();
+    
+    var deck = new Array();
+    var table = new Array();
+    
+    var onMobile = false;
+    
+    var scaleRatio = 0.7;
+    
+    var SHAPE_SQUIGGLE = 0;
+    var SHAPE_DIAMOND = 1;
+    var SHAPE_OVAL = 2;
+    
+    var SHADING_EMPTY = 0;
+    var SHADING_LINES = 1;
+    var SHADING_FILLED = 2;
+    
+    var COLOR_RED = 0;
+    var COLOR_GREEN = 1;
+    var COLOR_BLUE = 2;
+    
+    var NUMBER_ONE = 0;
+    var NUMBER_TWO = 1;
+    var NUMBER_THREE = 2;
+    
+    var PROP_COLOR = 0;
+    var PROP_SHAPE = 1;
+    var PROP_SHADING = 2;
+    var PROP_NUMBER = 3;
+    
+    var NUM_PROPS = 4; //dumb
+    
+    var sets = 0;
+    var fails = 0;
+    
+    var startTime;
+    var timerInterval;
+    
+    var best = 0;
+    var done = false;
+    
+    var gameTime = 0;
+    var setOnTable = null;
+    
+    var revealBoxX = 0;
+    var revealBoxY = 0;
+    var revealBoxWidth = 0;
+    var revealBoxHeight = 0;
+    var setIsHighlighted = true;
+    
+    var soundLoadingBegun = false;
+    var sounds = new Array();
+    
+    function addSound(id)
+    {
+      var index = sounds.length;
+      sounds[index] = new Sound(id, index);
+    }
+    
+    function Sound(id, index)
+    {
+      this.id = id;
+      this.index = index;
+      this.player = document.getElementById(id);
+      this.player.setAttribute('index', index);
+      this.loaded = false;
+    }
+    Sound.prototype.play = function()
+    {
+      if(this.loaded)
+      {
+        this.player.currentTime = 0;
+        this.player.play();
+      }
+      else
+      {
+        setTimeout(this.play, 100);
+      }
+    }
+    Sound.prototype.load = function()
+    {
+      this.player.addEventListener('play', handlePlayback);
+      this.player.addEventListener('canplaythrough', handlePlaythroughAbility);
+      this.player.play();
+    }
+    
+        
+    function loadSound(id)
+    {
+      var player = document.getElementById(id);
+      player.addEventListener('canplaythrough', handlePlaythroughAbility);
+      player.play();
+    }
+    
+    function handlePlayback()
+    {
+      this.removeEventListener('play', handlePlayback);
+      this.pause();
+    }
+    function handlePlaythroughAbility()
+    {
+      alert('WHAT is going ON?');
+    
+      var index = this.getAttribute('index');
+      console.log(index);
+      var soundObject = sounds[index];
+      
+      soundObject.loaded = true;
+      this.removeEventListener('canplaythrough', handlePlaythroughAbility);
+      if(index < sounds.length - 1) sounds[index + 1].load();
+    }
+    
+    function highlightSet(val)
+    {
+      if(typeof val == 'undefined') val = true;
+      if(setOnTable != null)
+      {
+        for(var i = 0; i < setOnTable.length; i++)
+        {
+          setOnTable[i].highlighted = val;
+        }
+      }
+    }
+    
+    function drawScore()
+    {
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.clearRect(10, 830, 630, 30);
+      ctx.fillStyle = "#FFFFFF";
+      ctx.font = "30px sans-serif";
+      ctx.fillText("sets " + sets + "    fails " + fails + "    score " + (sets - fails) + "    best " + best, 10, 845);
+    
+      ctx.textAlign = 'right';
+      var tWidth = ctx.measureText('reveal').width;
+      ctx.fillStyle = "#00FFFF";
+      ctx.fillText("reveal", 640, 845);
+      
+      revealBoxX = 640 - tWidth - 10;
+      revealBoxY = 830;
+      revealBoxWidth = tWidth + 20;
+      revealBoxHeight = 30;
+      
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#00FFFF";
+      ctx.beginPath();
+      ctx.moveTo(revealBoxX + 10, revealBoxY + revealBoxHeight - 1);
+      ctx.lineTo(revealBoxX + revealBoxWidth - 10, revealBoxY + revealBoxHeight - 1);
+      ctx.stroke();
+    }
+    
+    function drawShape(x, y, shape)
+    {
+      var sc = [-0.95474,-0.53486,-2.2026,-2.06862,-3.41138,-4.35538,
+                -1.85363,-3.50668,-2.64013,-7.82488,-2.98088,-14.65776,
+                -0.30389,-6.09366,1.08775,-11.27269,3.03335,-15.5,
+                8.08749,-17.57214,24.41891,-20.84381,51.69878,-10.3568,
+                6.5184,2.50582,8.91291,2.96734,12.92929,2.49197,
+                4.52698,-0.53579,13.78529,-4.55572,22.6307,-9.82618,
+                9.10547,-5.42541,17.03179,4.13204,15.42212,18.59579,
+                -1.37961,12.39655,-7.60349,21.56046,-18.1794,26.76696,
+                -5.81001,2.86026,-11.96933,3.35842,-16.28814,3.65864,
+                -4.31881,0.30022,-10.48607,0.0979,-18.69755,-2.72153,
+                -13.61715,-4.67549,-19.38931,-4.06011,-30.29422,3.2297,
+                -4.38421,2.9308,-6.66384,3.96137,-10.28411,3.89817,
+                -2.48754,-0.0434,-4.81322,-0.75187,-5.57856,-1.22358]; //Squiggle Coords
+      
+      if(shape == SHAPE_SQUIGGLE)
+      {
+        var sx = x - 47;
+        var sy = y + 25;
+      
+        ctx.moveTo(sx, sy);
+        var lx = sx;
+        var ly = sy;
+        for(var i = 0; i < sc.length; i+=6)
+        {
+          ctx.bezierCurveTo(lx + sc[i], ly + sc[i + 1], lx + sc[i + 2], ly + sc[i + 3], lx + sc[i + 4], ly + sc[i + 5]);
+          lx += sc[i + 4];
+          ly += sc[i + 5];
+        }
+        ctx.closePath();
+      }
+      else if(shape == SHAPE_DIAMOND)
+      {
+        ctx.moveTo(x - 55, y);
+        ctx.lineTo(x, y - 28);
+        ctx.lineTo(x + 55, y);
+        ctx.lineTo(x, y + 28);
+        ctx.closePath();
+      }
+      else if(shape == SHAPE_OVAL)
+      {
+        ctx.moveTo(x - 29, y + 25);
+        ctx.arc(x - 29, y, 25, Math.PI/2, 3*Math.PI/2, false);
+        ctx.lineTo(x + 29, y - 25);
+        ctx.arc(x + 29, y, 25, 3*Math.PI/2, Math.PI/2, false);
+        ctx.closePath();
+      }
+    }
+    
+    function dealWithClick(mx, my)
+    {
+      if(!soundLoadingBegun)
+      {
+        //sounds[0].load();
+        loadSound('goodSound');
+        soundLoadingBegun = true;
+      }
+    
+      if(!done)
+      {
+        var selectedCards = new Array();
+      
+        for(var i = 0; i < table.length; i++)
+        {
+          if(mx >= table[i].x && mx <= table[i].x + 150
+          && my >= table[i].y && my <= table[i].y + 250)
+          {
+            table[i].selected = !table[i].selected;
+          }
+          
+          if(table[i].selected) selectedCards[selectedCards.length] = table[i];
+        }
+        
+        if(selectedCards.length == 3)
+        {
+          var correct = checkForSet(selectedCards);
+          var setIsHighlighted = true;
+          if(correct)
+          {
+            for(var i = 0; i < selectedCards.length; i++)
+            {
+              selectedCards[i].disappearing = true;
+              selectedCards[i].cover = 0;
+              if(!selectedCards[i].highlighted) setIsHighlighted = false;
+            }
+            if(!setIsHighlighted)
+            {
+              sets++;
+              gameTime += (30*5)/(sets + 4);
+              drawScore();
+              sounds[0].play();
+            }
+            else
+            {
+              sounds[0].play();
+            }
+            highlightSet(false);
+          }
+          else
+          {
+            for(var i = 0; i < selectedCards.length; i++)
+            {
+              selectedCards[i].selected = false;
+              selectedCards[i].wrongness = 1;
+            }
+            fails++;
+            drawScore();
+            sounds[1].play();
+          }
+        }
+        
+        if(mx >= revealBoxX && mx <= revealBoxX + revealBoxWidth
+        && my >= revealBoxY && my <= revealBoxY + revealBoxHeight
+        && setOnTable && !setOnTable[0].highlighted)
+        {
+          highlightSet();
+          fails++;
+          drawScore();
+          sounds[1].play();
+        }
+      }
+      else
+      {
+        done = true;
+        newGame();
+      }
+    }
+    
+    function clientXToCanvX(cx)
+    {
+      return cx - canv.offsetLeft;
+    }
+    function clientYToCanvY(cy)
+    {
+      return cy;
+    }
+    
+    function canv_touchstart(evt)
+    {
+      var mx = clientXToCanvX(evt.touches[0].clientX) / scaleRatio;
+      var my = clientYToCanvY(evt.touches[0].clientY) / scaleRatio;
+
+      dealWithClick(mx, my);
+      onMobile = true;
+    }
+    
+    function canv_click(evt)
+    {
+      var mx = clientXToCanvX(evt.clientX) / scaleRatio;
+      var my = clientYToCanvY(evt.clientY) / scaleRatio;
+      
+      dealWithClick(mx, my);
+    }
+    
+    function checkForSet(selectedCards)
+    {
+      var propSum = 0;
+      
+      for(var j = 0; j < NUM_PROPS; j++)
+      {
+        for(var i = 0; i < selectedCards.length; i++)
+        {
+          propSum += selectedCards[i].props[j];
+        }
+        if(propSum % 3 != 0) return false; //just think about it for a while
+      }
+      
+      return true;
+    }
+  
+    function $(id)
+    {
+      return document.getElementById(id);
+    }
+    
+    function body_resize()
+    {
+      //the whole thing should be 650 x 870
+    
+      canv.width = cw = Math.min(document.body.clientWidth, document.body.clientHeight * 650/870);
+      canv.height = ch = Math.min(document.body.clientWidth * 870/650, document.body.clientHeight);
+      
+      scaleRatio = cw / 650 // == ch / 870;
+      
+      ctx.scale(scaleRatio, scaleRatio);
+      drawScore();
+      if(done)
+      {
+        drawEndStuff();
+      }
+    }
+    
+    function Card(cColor, cShape, cShading, cNumber)
+    {
+      this.props = [cColor, cShape, cShading, cNumber];
+      this.selected = false;
+      
+      this.x = -1;
+      this.y = -1;
+      
+      this.disappearing = false;
+      this.cover = 0;
+      this.wrongness = 0;
+    }
+    Card.prototype.draw = function(x, y)
+    {
+      //draws the card with upper left corner at (x, y)
+      
+      if(typeof x != "undefined")
+      {
+        this.x = x;
+        this.y = y;
+      }
+      else
+      {
+        x = this.x;
+        y = this.y;
+      }
+      
+      ctx.clearRect(x - 5, y - 5, 160, 260);
+      
+      if(this.selected)
+      {
+        ctx.fillStyle = "#FFFF80";
+        ctx.fillRect(x, y, 150, 250);
+      
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "#FF8000";
+        ctx.strokeRect(x, y, 150, 250);
+      }
+      else if(this.highlighted)
+      {
+        ctx.fillStyle = "#80FFFF";
+        ctx.fillRect(x, y, 150, 250);
+      
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "#00A0A0";
+        ctx.strokeRect(x, y, 150, 250);
+      }
+      else
+      {
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(x, y, 150, 250);
+      }
+      
+      ctx.beginPath();
+      for(var i = 0; i < this.props[PROP_NUMBER] + 1; i++)
+      {
+        drawShape(x + 75, y + 125 - this.props[PROP_NUMBER]/2*70 + i*70, this.props[PROP_SHAPE]);
+      }
+      
+      if(this.props[PROP_SHADING] == SHADING_LINES)
+      {
+        ctx.fillStyle = lines[this.props[PROP_COLOR]];
+        ctx.fill();
+      }
+      else if(this.props[PROP_SHADING] == SHADING_FILLED)
+      {
+        ctx.fillStyle = colors[this.props[PROP_COLOR]];
+        ctx.fill();
+      }
+      
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = colors[this.props[PROP_COLOR]];
+      ctx.stroke();
+      
+      if(this.cover > 0)
+      {
+        ctx.fillStyle = "rgba(0, 0, 0, " + this.cover + ")";
+        ctx.fillRect(x - 5, y - 5, 160, 260);
+      }
+      if(this.disappearing)
+      {
+        this.cover += 0.16;
+      }
+      else
+      {
+        this.cover -= 0.16;
+      }
+      
+      if(this.wrongness > 0)
+      {
+        ctx.fillStyle = "rgba(255, 0, 0, " + this.wrongness + ")";
+        ctx.fillRect(x, y, 150, 250);
+        
+        this.wrongness -= 0.04;
+      }
+    }
+    
+    function newGame()
+    {
+      for(var i = 0; i < table.length; i++)
+      {
+        putCardBackInDeck(i);
+      }
+      
+      done = false;
+      gameTime = 60;
+      sets = 0;
+      fails = 0;
+      fillInTable();
+      startTime = (new Date()).getTime();
+      timerInterval = setInterval(timer, 30);
+      drawScore();
+    }
+    
+    function init()
+    {
+      for(var i = 0; i < colors.length; i++)
+      {
+        patternCtx.fillStyle = colors[i];
+        patternCtx.fillRect(0, 0, 2, 1);
+        lines[i] = ctx.createPattern(patternCanv, 'repeat');
+      }
+      
+      for(var cColor = 0; cColor < 3; cColor++)
+      {
+        for(var cShape = 0; cShape < 3; cShape++)
+        {
+          for(var cShading = 0; cShading < 3; cShading++)
+          {
+            for(var cNumber = 0; cNumber < 3; cNumber++)
+            {
+              deck[deck.length] = new Card(cColor, cShape, cShading, cNumber);
+            }
+          }
+        }
+      }
+      
+      for(var i = 0; i < 12; i++)
+      {
+        table[i] = null;
+      }
+      
+      best = docCookies.getItem('best');
+      if(best == null) best = 0;
+      
+      body_resize();
+      addSound('goodSound');
+      addSound('badSound');
+      
+      newGame();
+    }
+    
+    function timer()
+    {
+      drawTable();
+      drawTimer();
+    }
+    
+    function fillInTable()
+    {
+      /* Fill in any holes in the table with cards chosen so as to
+         guarantee the existence of a set, without making the location
+         of that set predictable. */
+         
+      var nullReplacements = new Array();
+      for(var i = 0; i < table.length; i++)
+      {
+        if(table[i] == null)
+        {
+          if(nullReplacements.length == 0)
+          {
+            nullReplacements[0] = null;
+          }
+          else
+          {
+            nullReplacements[nullReplacements.length] = deck.splice(Math.floor(Math.random()*deck.length), 1)[0];
+          }
+        }
+      }
+      
+      if(nullReplacements.length > 0)
+      {
+        var whatWeHaveSoFar = table.concat(nullReplacements);
+        for(var i = 0; i < whatWeHaveSoFar.length; i++)
+        {
+          if(whatWeHaveSoFar[i] == null)
+          {
+            whatWeHaveSoFar.splice(i, 1);
+            i--;
+          }
+        }
+        
+        setOnTable = searchForSet(whatWeHaveSoFar);
+        if(setOnTable == null)
+        {
+          //We gotta fill the last spot with something that makes a set.
+          var firstIndex = Math.floor(Math.random()*whatWeHaveSoFar.length);
+          var secondIndex = Math.floor(Math.random()*(whatWeHaveSoFar.length - 1));
+          if(secondIndex >= firstIndex) secondIndex++;
+          
+          var first = whatWeHaveSoFar[firstIndex];
+          var second = whatWeHaveSoFar[secondIndex];
+          
+          var desiredProps = new Array();
+          
+          for(var i = 0; i < NUM_PROPS; i++)
+          {
+            desiredProps[i] = desiredProp(first.props[i], second.props[i]);
+          }
+          
+          var failed;
+          
+          for(var i = 0; i < deck.length; i++)
+          {
+            failed = false;
+            for(var j = 0; j < NUM_PROPS; j++)
+            {
+              if(deck[i].props[j] != desiredProps[j])
+              {
+                failed = true;
+                break;
+              }
+            }
+            if(!failed)
+            {
+              nullReplacements[0] = deck.splice(i, 1)[0];
+              setOnTable = [first, second, nullReplacements[0]];
+              break;
+            }
+          }
+        }
+        else
+        {
+          nullReplacements[0] = deck.splice(Math.floor(Math.random()*deck.length), 1)[0];
+        }
+        
+        nullReplacements.shuffle();
+        
+        for(var i = 0; i < table.length; i++)
+        {
+          if(table[i] == null)
+          {
+            table[i] = nullReplacements.splice(0, 1)[0];
+            table[i].cover = 1;
+          }
+        }
+      }
+    }
+    
+    Array.prototype.shuffle = function()
+    {
+      var i = this.length;
+      if(i != 0)
+      {
+        while(--i)
+        {
+           var j = Math.floor(Math.random() * (i + 1));
+           var tempi = this[i];
+           var tempj = this[j];
+           this[i] = tempj;
+           this[j] = tempi;
+        }
+      }
+    }
+    
+    function searchForSet(collectionOfCards)
+    {
+      for(var i = 0; i < collectionOfCards.length - 2; i++)
+      {
+        for(var j = i + 1; j < collectionOfCards.length - 1; j++)
+        {
+          for(var k = j + 1; k < collectionOfCards.length; k++)
+          {
+            var potentialSet = [collectionOfCards[i], collectionOfCards[j], collectionOfCards[k]];
+            if(checkForSet(potentialSet))
+            {
+              return potentialSet;
+            }
+          }
+        }
+      }
+      
+      return null;
+    }
+    
+    function desiredProp(a, b)
+    {
+      return (3 - ((a + b) % 3)) % 3; //just think about it for a while
+    }
+    
+    function drawTimer()
+    {
+      var now = (new Date()).getTime();
+    
+      ctx.clearRect(10, 10, 630, 30);
+      
+      ctx.strokeStyle = "#FF8000";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(12, 12, 626, 26);
+      
+      var timeRemaining = gameTime*1000 - (now - startTime);
+      var fractionLeft = Math.min(timeRemaining/(120000), 1);
+      ctx.fillStyle = "#FF8000";
+      ctx.fillRect(12, 12, 626*fractionLeft, 26);
+      
+      var displayedTime = Math.ceil(timeRemaining/1000);
+      ctx.fillStyle = "#FFFFFF";
+      ctx.font = "30px Sans-Serif";
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(displayedTime, 325, 25);
+      
+      if(fractionLeft <= 0)
+      {
+        outOfTime();
+      }
+    }
+    
+    function drawEndStuff()
+    {
+      drawTable();
+    
+      ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      ctx.fillRect(0, 0, 650, 870);
+      ctx.font = "50px Sans-Serif";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.strokeStyle = "#000000";
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.lineWidth = 4;
+      
+      var s = "Out of time! Score: " + (sets - fails);
+      var x = 325;
+      var y = 305;
+      ctx.strokeText(s, x, y);
+      ctx.fillText(s, x, y);
+      
+      s = "Click to play again";
+      y = 565;
+      ctx.strokeText(s, x, y);
+      ctx.fillText(s, x, y);
+    }
+    
+    function outOfTime()
+    {
+      clearInterval(timerInterval);
+      
+      done = true;
+      
+      if(sets - fails > best)
+      {
+        best = sets - fails;
+        docCookies.setItem("best", best);
+      }
+      
+      highlightSet();
+      drawEndStuff();
+    }
+    
+    function putCardBackInDeck(i)
+    {
+      if(table[i] != null)
+      {
+        table[i].cover = 0;
+        table[i].disappearing = false;
+        table[i].selected = false;
+        table[i].wrongness = 0;
+        table[i].highlighted = false;
+        deck[deck.length] = table[i];
+        table[i] = null;
+      }
+    }
+    
+    function drawTable()
+    {
+      for(var i = 0; i < table.length; i++)
+      {
+        table[i].draw(160 * (i % 4) + 10, 260 * Math.floor(i/4) + 50);
+        if(table[i].cover >= 1)
+        {
+          putCardBackInDeck(i);
+        }
+      }
+      
+      fillInTable();
+    }
+    
+    init();
+  </script>
+</body>
+
+</html>
