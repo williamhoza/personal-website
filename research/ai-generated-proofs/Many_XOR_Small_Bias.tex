@@ -1,0 +1,637 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,microtype}
+\usepackage[margin=1.05in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={A mod-three obstruction to repeated XOR of small-bias sources}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\F}{\mathbb F_3}
+\newcommand{\E}{\mathbb E}
+\newcommand{\wt}{\operatorname{wt}}
+\title{A mod-three obstruction to repeated XOR of small-bias sources}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-3em}
+\begin{abstract}
+For $q=3^m$ and fixed $t$, every XOR of up to $t$ points from our
+construction has Hamming weight divisible by three. The source has
+bias at most $\exp(-q^{c_t/(1+\log^*q)})$.
+At any prescribed bias $q^{-C}$ there is a polynomial-time sampler
+using $O_{t,C}(\log q)$ unbiased bits. With a longer seed the support
+condition persists for $\Omega(\sqrt{\log q})$ copies at the same
+inverse-polynomial bias. The distinguisher is the width-three
+permutation program that counts ones modulo three.
+\end{abstract}
+
+\section{Results and construction}
+For a bit string $Y$ indexed by $x\in\F^m$, write $S_Y(x)=(-1)^{Y_x}$.
+A distribution on $Y$ has bias at most $\delta$ if
+$|\mathbb E\prod_{x\in T}S_Y(x)|\le\delta$ for every nonempty set
+of indices $T$. The signs denote real numbers when taking expectations
+and elements of $\F$ when evaluating polynomials. We use
+$\log^*$ for the iterated logarithm with base three.
+
+\begin{theorem}\label{thm:main}
+Let $t\ge1$ be a fixed integer and $q=3^m$. For all sufficiently
+large $m$ there are distributions on $q$ bits for which
+\begin{equation}
+ \wt(y_1\oplus\cdots\oplus y_j)\equiv0\pmod 3
+ \qquad(1\le j\le t,\; y_1,\dots,y_j\in\operatorname{supp}(Y)).
+ \label{eq:checksum}
+\end{equation}
+One can obtain either of the following guarantees.
+\begin{enumerate}
+\item\label{item:tiny} The bias is at most
+$\exp(-q^{c_t/(1+\log^*q)})$ for some $c_t>0$.
+The sampler uses polynomial time and polynomially many unbiased bits.
+\item\label{item:short} For each fixed $C>0$ the bias is at most $q^{-C}$.
+The sampler runs in polynomial time and uses $O_{t,C}(\log q)$ unbiased bits.
+\end{enumerate}
+At bias $q^{-C}$ there is also a polynomial-time, polynomial-randomness
+sampler satisfying \eqref{eq:checksum} with
+$t=\lfloor c\sqrt m\rfloor$ for an absolute $c>0$ and all sufficiently
+large $m$ depending on $C$.
+\end{theorem}
+
+A three-state program adds each input bit to its current state modulo
+three, starts at zero, and accepts states one and two. It rejects every
+word in \eqref{eq:checksum}. At $q=3^m$, $m\ge1$, its uniform acceptance
+probability is $2/3+2^{1-q}/3$. Indeed, with
+$\zeta=e^{2\pi i/3}$ the uniform probability of residue zero is
+$[1+2\operatorname{Re}(((1+\zeta)/2)^q)]/3$.
+Thus the support of the XOR even misses a language of density greater
+than $2/3$. All lengths can be covered by taking the largest power of
+three $q\le n$, appending independent small-bias bits, and letting the
+program ignore that suffix. The pure Hamming-weight conclusion in
+\eqref{eq:checksum} applies to the original $q$ coordinates.
+
+Lee and Viola~\cite[Theorem 1.4(iv)]{LV} obtained a mod-three linear
+distinguisher for $t$ copies at bias $q^{-\Omega(1/t)}$. Here the test
+counts ordinary Hamming weight for every $t$, and the exponent $C$ in
+part~\ref{item:short} is arbitrary. The bound in part~\ref{item:tiny} is
+weaker than $\exp(-\Omega(q))$, the bias in the two-copy self-dual-code
+example. These counterexamples concern assertions uniform over
+all distributions of the given bias.
+
+\paragraph{The support condition.}
+Suppose each sign word has a polynomial representative of total degree
+at most $d$ in the $m$ index trits. Whenever $td<2m$ we have
+\[
+  \sum_{x\in\F^m}\prod_{i=1}^j S_{y_i}(x)=0\quad\text{in }\F
+               \qquad (1\le j\le t).
+\]
+Indeed, each monomial of degree less than $2m$ has an exponent zero or
+one in some coordinate. Summation in that coordinate gives zero in
+$\F$. The left side is $q-2\wt(y_1\oplus\dots\oplus y_j)$ modulo
+three. This proves \eqref{eq:checksum}, including for repeated support
+points. We will multiply two independent random sign words. Their
+ternary degrees add, while their real parity biases multiply.
+
+\paragraph{Interpolation on few points.}
+For $1\le K\le q$ let $d_K=2\lceil\log_3K\rceil$. A uniformly random
+ternary polynomial on $\F^m$, sampled by choosing independent coefficients
+on all monomials of degree at most $d_K$ and individual degree at most
+two, has independent uniform values on any specified $K$ points.
+Indeed for each point separately a random linear map to
+$\F^{\lceil\log_3 K\rceil}$ separates it from the other points with
+positive probability by the union bound. The indicator of its fiber is
+a polynomial of degree at most $d_K$, by multiplying factors
+$1-(\ell(x)-a)^2$. These indicators interpolate all possible
+assignments, so the linear evaluation map is surjective.
+\section{Nearly balanced signs of low ternary degree}
+\label{sec:multi-coin}
+
+Throughout this section, a sign polynomial is a polynomial over
+$\mathbb F_3$ taking only the values $1,-1$. Its mean denotes the real
+mean of the corresponding signs on uniform, independent ternary inputs.
+Let $\log^* L$ be the number of iterated base-three logarithms needed to
+reach a value at most one.
+\begin{lemma}\label{lem:multi-coin}
+For every integer $L\ge1$, one can construct a sign polynomial $P$
+in $O(L)$ ternary variables with real mean $-3^{-a}$ for some integer
+$L\le a\le 4L$. Its degree is $O(1+\log^* L)$.
+Its description and evaluation take time polynomial in $L$.
+There is also a direct construction of a sign polynomial of degree
+$O(\log(2L))$ and absolute mean at most $3^{-L}$ on $O(L)$ variables.
+\end{lemma}
+
+\begin{proof}
+For $j\ge1$, take $Q_j=\sum_{i=1}^j u_i v_i$ with all pairs
+independently uniform over $\mathbb F_3^2$. For $c\in\mathbb F_3$ put
+$H_{j,c}=2\mathbf1[Q_j=c]-1$. This is a sign polynomial because
+$\mathbf1[z=c]=1-(z-c)^2$. Conditional on the $u_i$ not all being
+zero, $Q_j$ is uniform. Otherwise $Q_j=0$. Consequently
+\[
+    \mathbb E[H_{j,0}]-\mathbb E[H_{j,1}]=2\cdot 3^{-j}.
+\]
+For the direct construction, let $R=3^h=2T+1$ be the least power
+of three at least $2L+1$. Give one of the $R$ possible addresses
+in $\mathbb F_3^h$ the constant value $-1$. Give the remaining addresses
+the values $H_{j,0}$ and $-H_{j,1}$ for $1\le j\le T$,
+using the same list of $T$ independent pairs for all the branches.
+The resulting mean is
+\[
+    R^{-1}\left(-1+\sum_{j=1}^T2\cdot3^{-j}\right)
+       =-3^{-T}/R .
+\]
+An address indicator has degree at most $2h$, so the degree is at most
+$2h+4$.
+
+For the improved degree, begin with a sign of mean $-1/3$, obtained by
+returning $1$ on one of the three values of a single ternary variable.
+We describe a step starting with a sign of mean $-3^{-a}$. Choose any
+integer $0\le h\le a$ and set $R=3^h$. Use an independent uniform
+address $s\in\mathbb F_3^h$. Regard its coordinates as ternary digits
+$[s_i]\in\{0,1,2\}$ and put
+\[
+   J=a-h+1+\sum_{i=1}^h 3^{i-1}[s_i].
+\]
+We can realize a single polynomial $Q$ of degree at most four whose
+conditional distribution at each address is that of $Q_J$.
+Use $a-h+1$ unconditional summands $u v$. In addition, for digit $i$
+use two disjoint groups of $3^{i-1}$ fresh pairs. Multiply the sum of
+the products in one group by $\mathbf1[s_i\ne0]$, and the sum in the
+other by $\mathbf1[s_i=2]$. These two indicators have degree at most
+two over $\mathbb F_3$. At any address the number of active pairs is
+exactly $J$.
+
+Use a fresh ternary selector. On its three possible values, return
+$2\mathbf1[Q=0]-1$, $-(2\mathbf1[Q=1]-1)$, or the old sign,
+respectively. Since $J$ is uniform on the integers from $a-h+1$
+through $a-h+R$, the mean is
+\[
+ \frac13\left(
+  \frac{2}{R}\sum_{j=a-h+1}^{a-h+R}3^{-j}-3^{-a}\right)
+ =-3^{-(a+R+1)}.
+\]
+Thus the exponent advances from $a$ to $a+3^h+1$. If the old degree
+was $d$, the new degree is at most $\max\{10,d+2\}$. The number of
+additional variables and arithmetic operations is $O(a+R)$.
+
+For completeness, here is a choice of steps for every target $L$.
+For $1\le L\le 16$ one may apply the step with $h=0$ until its
+exponent first reaches $L$. For $L>16$ first recurse with target
+$h=\lceil\log_3 L\rceil$, obtaining an exponent $a\in[h,4h]$.
+Apply the step with this $h$. The resulting exponent lies between
+$L$ and $4L$ since $3^h<3L$ and $4h+1\le L$ for $L>16$.
+There are $O(1+\log^* L)$ recursive stages. The sum of the variable
+counts over the stages is $O(L)$, since each successive recursive
+target is at most half the preceding target whenever that target
+exceeds $16$. The same construction evaluates the polynomial by
+arithmetic circuits with $O(L)$ gates up to an absolute constant.
+\end{proof}
+\section{A short-seed source for parities on large sets}
+\label{sec:large-parities}
+
+Use $q=3^m$ coordinates indexed by $x\in\mathbb F_3^m$.
+Fix $2\le g\le m$ and partition the $m$ trits into $g$ chunks
+of sizes at most $\lceil m/g\rceil$. Write $x_a$ for the value of
+chunk $a$. We construct random signs $H(x)$ with the following
+two properties. Every output is a polynomial over $\mathbb F_3$
+of total degree at most $8\lceil m/g\rceil$. For every nonempty
+$T\subseteq\mathbb F_3^m$ and $0<\delta<1$,
+\begin{equation}
+ \left|\mathbb E\prod_{x\in T}H(x)\right|
+ \le 2\delta+\exp\!\bigl(-2^{-g}|T|^{1/g}\bigr).
+ \label{eq:large-parity-bound}
+\end{equation}
+The explicit sampler uses $O_g(\log q+\log(1/\delta))$ unbiased bits.
+
+For each $i\in[g]$ construct a table of bits $b^{(i)}_y$ indexed by
+values of chunk $i$. Use a $\delta$-biased source for this table.
+Independently construct a second bit string containing $u^{(i)}_y$
+and all lookup entries $L^{(i)}_{y,a}(v)$, where $a\ne i$
+and $v$ is a value of chunk $a$. Use an explicit generator for
+degree-$g$ polynomials over $\mathbb F_2$ whose error in the
+expectation of each sign $(-1)^P$ is at most $\delta$.
+Viola's theorem gives this generator by XORing $g$ independent
+sufficiently small-bias sources~\cite{Viola}.
+Take the choices for distinct $i$ independently. Regarding the
+table entries as elements of $\mathbb F_3$, set
+\[
+ P_i(x)= b^{(i)}_{x_i}+u^{(i)}_{x_i}
+       +\sum_{a\ne i}L^{(i)}_{x_i,a}(x_a),\qquad
+ P(x)=\sum_{i=1}^{g} P_i(x),\qquad
+ H(x)=(-1)^{\mathbf 1[P(x)=0]}.
+\]
+Any lookup on two chunks is a ternary polynomial of total degree at
+most $4\lceil m/g\rceil$, by interpolation with individual degree at
+most two. In $\mathbb F_3$ the sign $H$ equals $-1-P^2$.
+This gives the degree bound for every seed. There are at most
+$O(g^2q)$ table entries. The seed bound follows from the small-bias
+and degree-$g$ generators.
+
+To prove \eqref{eq:large-parity-bound}, choose $i$ so that projection
+onto chunk $i$ gives $M\ge |T|^{1/g}$ distinct values on $T$. Such
+a chunk exists because $T$ lies in the Cartesian product of its
+projections. Fix the tables belonging to all other chunks. Their
+contribution to $P$ is now a fixed function $P_0(x)$. Suppress
+the superscript $(i)$ from the remaining tables and let
+$T_y=\{x\in T:x_i=y\}$. Work in $\mathbb F_4$ with a primitive cube
+root of unity $\omega$ and write $\operatorname{Tr}$ for the trace to
+$\mathbb F_2$. For $z\in\mathbb F_3$ we have the binary identity
+$\mathbf 1[z=0]=1+\operatorname{Tr}(\omega^z)$. Define
+\[
+ V_y=\sum_{x\in T_y}\omega^{P_0(x)}
+                   \prod_{a\ne i}\omega^{L_{y,a}(x_a)},\qquad
+ c_y=\operatorname{Tr}\!\left((1+\omega)\omega^{u_y}V_y\right).
+\]
+Conditional on $u,L$, the parity of the zero count of $P$ on $T$ is
+an affine binary function of $b$ with coefficients $c_y$. Indeed,
+$\omega^{b_y}=1+(1+\omega)b_y$ for binary $b_y$. Thus the desired
+sign expectation has absolute value at most
+$\delta+\Pr_{u,L}[c_y=0\text{ for all occupied }y]$.
+
+Under independent uniform $u,L$, the $c_y$ for distinct fibers are
+independent. For each occupied fiber, treat the lookup factors as
+formal variables $z_{a,v}$. The polynomial $V_y$ has distinct
+monomials for distinct $x\in T_y$, each with a nonzero coefficient
+and one variable from each of $g-1$ groups. With independent
+uniform substitutions from $\{1,\omega\}$ it is nonzero with
+probability at least $2^{-(g-1)}$. In detail, fix any one monomial
+and expose every variable outside it. Its coefficient remains
+nonzero because no monomial strictly contains it. The resulting
+multiaffine polynomial is nonzero on at least one of the
+$2^{g-1}$ points of the remaining grid, by univariate interpolation
+in each variable. If $V_y\ne0$, at least one of the two values
+$u_y=0,1$ makes $c_y=1$, since $1,\omega$ span $\mathbb F_4$ over
+$\mathbb F_2$ and the trace pairing is nondegenerate. It follows
+that the probability all $c_y$ vanish is at most
+$(1-2^{-g})^M\le \exp(-2^{-g} M)$ under uniform $u,L$.
+
+Finally, each $c_y$ is a binary polynomial of degree at most $g$
+in $u,L$. Each factor $\omega^v$ is affine over $\mathbb F_4$ in
+a binary lookup entry $v$, and the trace is binary linear. Hence
+every binary linear combination of the $c_y$ has degree at most
+$g$. The indicator that all $M$ coefficients vanish is the average
+of $(-1)^{\sum_y a_y c_y}$ over $a\in\mathbb F_2^M$. The generator
+for $u,L$ therefore changes its expectation by at most $\delta$.
+This bound is uniform in the fixed $P_0$ and proves
+\eqref{eq:large-parity-bound}.
+
+\subsection{Hashing to reach parities of logarithmic size}
+\label{sec:hashed-large-parities}
+
+One can replace the coordinate projection above by a ternary linear
+hash without increasing the asymptotic degree. This gives an
+$O_{g,C}(\log q)$-bit sampler for all sets of size at least
+$O_{g,C}(\log q)$ at error $q^{-C}$.
+
+Fix $s=\lfloor m/g\rfloor$. Identify the index grid with
+$\mathbb F_{3^m}$ in a fixed ternary basis, and define
+$h_\lambda(x)$ to be the first $s$ coordinates of $\lambda x$.
+Draw $R$ independent hash parameters. In the summand for hash $h$
+use $y=h(x)$ and the lookup entries $L_{y,a}(x_a)$ for
+\emph{all} $g$ of the fixed chunks $a$, including any chunks
+intersecting the domain of the hash. Thus the summand is
+\[
+ b_{h(x)}+u_{h(x)}+\sum_{a=1}^g L_{h(x),a}(x_a).
+\]
+Use independent table samplers for the $R$ summands, with the
+degree-$(g+1)$ generator for the $u,L$ tables. All $s$ hash
+coordinates are ternary linear forms in the index. A table entry
+$L_{h(x),a}(x_a)$ can be interpolated in the $s$ hash coordinates
+and at most $\lceil m/g\rceil$ other coordinates, with individual
+degree two before substitution. The final output sign has degree
+at most $4(s+\lceil m/g\rceil)\le8\lceil m/g\rceil$.
+
+For any $K\le |T|$, fix $K$ distinct indices of $T$. For a
+uniform $\lambda$, two distinct such indices have equal hashes
+with probability $3^{-s}$, since multiplication by their
+nonzero difference permutes $\mathbb F_{3^m}$. The probability
+that none of the $R$ hashes separates all $K$ indices is at most
+$\bigl(\binom K2 3^{-s}\bigr)^R$. Conditional on any good list
+of hashes, choose the first separating hash and condition on the
+tables of all other summands. At least $K$ of its fibers are
+occupied by $T$. The fiber argument above applies to all points
+of $T$, including those outside the selected $K$. Indeed, the
+full tuple $(x_1,\ldots,x_g)$ determines the index, so the
+lookup monomials for distinct points in a fiber are distinct even
+for a non-coordinate hash. Now each monomial has $g$ factors.
+The same interpolation argument gives
+$\Pr[c_y\ne0]\ge2^{-(g+1)}$ for an occupied fiber under
+uniform $u,L$. Each $c_y$ has binary degree at most $g+1$.
+Writing $\eta$ for the error of each table sampler in the
+corresponding sign tests, we obtain
+\[
+ \left|\mathbb E\prod_{x\in T}H(x)\right|
+ \le 2\eta+\exp(-2^{-(g+1)}K)+
+      \left(\binom K2 3^{-s}\right)^R
+\]
+for ideal uniform hashes.
+
+For an unbiased bit seed, approximate a uniform field index by
+reducing a uniform $b$-bit integer modulo $q$, with statistical error at
+most $q2^{-b}$. Using $b=\lceil\log_2(8Rq/\delta)\rceil$ for
+each hash changes the expectation of any sign by at most
+$\delta/4$. At $\delta=q^{-C}$ set $\eta=\delta/8$,
+$K=\lceil 2^{g+1}\ln(4/\delta)\rceil$, and choose a fixed
+integer $R>2g(C+1)$. For sufficiently large $q$, these choices
+give bias at most $\delta$ for every $|T|\ge K$, since
+$\binom K2 3^{-s}\le q^{-1/(2g)}$. All $R$ hash parameters and
+table seeds together cost $O_{g,C}(\log q)$ bits. A field model
+and its multiplication can be computed in time polynomial in $q$,
+for instance by enumerating and testing monic degree-$m$
+polynomials over $\mathbb F_3$ until an irreducible one is found.
+\section{A short-seed source for parities on small sets}
+\label{sec:small-parities}
+
+Let $q=3^m$, let $1\le K\le q$, and let $0<\delta\le1/2$.
+We index coordinates by $x\in\mathbb F_3^m$. Put
+$d=2\lceil\log_3 K\rceil$ and $v=\lceil\log_3(4/\delta)\rceil$.
+The sampler below satisfies the following three bounds.
+\begin{enumerate}
+\item For every seed its output is a sign polynomial in $x$ of degree
+at most $d(2\lceil\log_3(2v+1)\rceil+4)$.
+\item For every nonempty $S$ of at most $K$ locations,
+$|\mathbb E\prod_{x\in S}L(x)|\le\delta$.
+\item It uses $O(\log(2q)+K+\log(1/\delta))$ unbiased random bits.
+It runs in time polynomial in $q$ and $1/\delta$ when
+$K=O(\log(1/\delta))$.
+\end{enumerate}
+
+Use the $D\le q$ reduced monomials of degree at most $d$.
+By the interpolation argument in Section~1, a uniformly
+random coefficient vector gives independent uniform trits at any fixed
+$k\le K$ distinct locations.
+
+Set $h=\lceil\log_3(2v+1)\rceil$, $R=3^h=2T+1$. Use one ternary
+polynomial for each of $h$ address digits, each of $T$ variables
+$u_1,\ldots,u_T$, and each of $T$ variables $v_1,\ldots,v_T$.
+All use the monomials above. Sample the three concatenated coefficient
+vectors for addresses, $u$'s, and $v$'s independently, each from a
+ternary $\eta$-biased source, with $\eta$ chosen below. At location
+$x$, interpret the address digits as an integer $a\in[0,2T]$.
+Return $-1$ if $a=T$. If $a=T-j$, return $H_{j,0}$, and if $a=T+j$,
+return $-H_{j,1}$, where
+\[
+ Q_j=\sum_{b=1}^j u_b(x)v_b(x),\qquad
+ H_{j,c}=2\mathbf1[Q_j=c]-1.
+\]
+The direct construction of Lemma~\ref{lem:multi-coin} gives the
+stated degree upon composition. Under uniformly random coefficients,
+all gadget variables on $S$ are independent, and each sign has mean
+$-3^{-T}/R$. Every nonempty such parity therefore has absolute mean
+at most $3^{-v}\le\delta/4$.
+
+We record a fact for comparing the true and pseudorandom coefficients.
+An affine subspace of a ternary vector space has indicator equal to an
+average of additive characters times unit complex phases. Thus its
+probability changes by at most $\eta$ when uniform inputs are replaced
+by $\eta$-biased inputs, meaning that every nontrivial additive
+character has absolute expectation at most $\eta$. A decision tree
+making at most $B$ adaptive ternary linear queries has at most $3^B$
+leaves. Each leaf is an affine subspace or empty, so the expectation of
+an output in $[-1,1]$ changes by at most $3^B\eta$. If the original
+tree may run for more than $B$ queries with uniform probability $p$,
+truncate it at $B$, returning zero on an unfinished branch. Its timeout
+probability under the biased source is at most $p+3^B\eta$, by applying
+the same argument to the timeout indicator. Altogether, the change in
+expectation for the original tree is at most $2p+2\cdot3^B\eta$.
+
+Fix a test on $k=|S|\le K$ locations. First condition on the address
+and $u$ pools. The output product is a bounded function of at most $k$
+linear forms in the $v$ coefficient pool, one $Q_j$ per nonconstant
+branch. The depth-$k$ tree which reads these forms shows that replacing
+this pool by uniform coefficients changes the test by at most $3^k\eta$.
+
+Next fix the addresses and integrate over this uniform $v$ pool.
+At distinct sites the selected forms use independent arrays of
+uniform trits. Each selected $Q_j$ is uniform unless the first $j$
+$u$ entries at that site vanish, in which case $Q_j=0$. The conditional
+mean of the product is therefore a product of bounded factors. Each
+factor can be computed by reading the first $j$ entries of its $u$
+list, stopping at the first nonzero. Across the $k$ sites under uniform
+$u$ coefficients, the query counts are independently dominated by a
+geometric variable $G$ with $\Pr[G>r]=3^{-r}$ for integers $r\ge0$.
+In particular $\mathbb E[2^G]=4$. Thus the total number exceeds $B$
+with probability at most $4^k2^{-B}$. Every query is a linear form in
+the $u$ coefficients. The decision-tree bound permits the replacement
+of this pool by uniform coefficients.
+
+Finally, keep the $v$ pool integrated out and condition on the now
+uniform $u$ pool. Let $J$ be the first nonzero position at a given
+site, with $J=T+1$ if the list vanishes. Its factor depends only on
+whether $a<T$, $a=T$, or $a>T$, and whether $|a-T|\ge J$.
+This function has at most four changes between consecutive addresses.
+Read the ternary digits of $a$ from most significant to least until
+the current prefix interval has constant factor. After $r$ digits,
+the chance that this still needs another digit under a uniform address
+is at most $4\cdot3^{-r}$, since each cut can intersect the interior
+of at most one prefix interval. If $C$ is the query count, the tail
+sum identity gives $\mathbb E[2^C]\le1+4\sum_{r\ge0}(2/3)^r=13$.
+The addresses on $S$ are independent under uniform coefficients. The
+total address query count consequently exceeds $B$ with probability
+at most $13^k2^{-B}$, uniformly in the conditioned $u$ pool. All
+address digit queries are linear forms in the address coefficients.
+Applying the decision-tree bound one last time replaces the address
+pool by uniform coefficients.
+
+Take $B=\lceil K\log_2 13+\log_2(32/\delta)\rceil$ and
+$\eta=\delta/(32\cdot3^B)$. The three hybrid errors together with the
+uniform bias sum to at most $\delta$. Each pool has $M\le O(Dv)$
+ternary coefficients. For an explicit sampler, choose an extension
+$\mathbb F_{3^s}$ of size at least $4M/\eta$, with $s$ minimal.
+For independent uniform $b,z$ in this field take the $M$ trits
+$\operatorname{Tr}_{\mathbb F_{3^s}/\mathbb F_3}(b z^i)$,
+$0\le i<M$. A nonzero character has bias at most $(M-1)/3^s$ by
+averaging over $b$ and counting roots of a nonzero polynomial in $z$.
+Using $\lceil\log_2(8\cdot3^{2s}/\eta)\rceil$ unbiased bits and
+reduction modulo $3^{2s}$ to choose $(b,z)$ changes a character
+expectation by at most $\eta/4$. The resulting source is $\eta$-biased
+and uses $O(\log(2M)+\log(1/\eta))$ bits. The field and its arithmetic
+can be constructed by exhaustive search in time polynomial in $3^s$.
+This proves the seed and time bounds.
+\section{Putting the bounds together}
+\label{sec:assembly}
+Fix $g=100t$. For the first part of Theorem~\ref{thm:main}, let $L$
+be a parameter and put
+\[
+   K=\left\lceil(2^g(2L+2))^g\right\rceil .
+\]
+Use Lemma~\ref{lem:multi-coin} to take a sign $F$ of degree
+$O(1+\log^*L)$ on $v=O(L)$ trits with absolute real mean at most
+$3^{-L}$. Independently choose $v$ uniform ternary polynomials
+$A_1,\ldots,A_v$ of degree at most $d_K$. Set
+$L_0(x)=F(A_1(x),\ldots,A_v(x))$. On any nonempty $T$ of size
+at most $K$, its signs are independent with common mean of magnitude
+at most $3^{-L}$. Its ternary degree satisfies
+\[
+       \deg L_0\le d_K\deg F
+          =O_t\big(\log(2L)(1+\log^* L)\big).
+\]
+Take an independent large-set sign $H$ from
+Section~\ref{sec:large-parities}, using truly independent unbiased
+table entries. The proof of \eqref{eq:large-parity-bound} gives
+$|\mathbb E\prod_{x\in T}H(x)|\le\exp(-2^{-g}|T|^{1/g})$.
+For $|T|>K$ this is at most $e^{-2L}$. Hence $L_0H$ has bias
+at most $\max(3^{-L},e^{-2L})$.
+
+Take $L=3^{\lfloor m/(A_t(1+\log^*m))\rfloor}$ with
+$A_t$ a sufficiently large integer. Then $K\le q$ for all sufficiently
+large $m$. Also $\log^* L\le 1+\log^*m+O(1)$, and the constant in
+the low-degree bound is independent of $m$. Taking $A_t$ large
+enough yields $t\deg L_0\le m$. Since $t\deg H\le
+8t\lceil m/g\rceil<m/2$ for large $m$, the product satisfies the
+support condition. There are at most $q$ coefficients per $A_i$,
+so the number of uniform trits needed is polynomial in $q$.
+They can all be sampled to within total variation
+$e^{-2L}/2$ by reducing a sufficiently long uniform binary integer
+modulo the cardinality of their product space. This adds at most
+$e^{-2L}$ to any parity bias, and every possible seed still gives
+the degree bound. Brute-force monomial enumeration and evaluation
+take polynomial time in $q$. Decreasing a positive constant $c_t$
+absorbs the rounding terms and proves part~\ref{item:tiny}.
+
+For part~\ref{item:short}, set $\delta=q^{-C}$ and
+$K=\lceil 2^{g+1}\ln(4/\delta)\rceil$.
+Multiply the independent signs from Sections~\ref{sec:small-parities}
+and~\ref{sec:hashed-large-parities}. The first has bias at most
+$\delta$ for $1\le |T|\le K$, and the second has bias at most
+$\delta$ for $|T|\ge K$. Their seed lengths sum to
+$O_{t,C}(\log q)$. Their total ternary degree is at most
+\[
+     O_{t,C}((\log m)^2)+8\lceil m/g\rceil < 2m/t
+\]
+for sufficiently large $m$. This proves the short-seed assertion.
+\section{A growing number of summands}
+\label{sec:growing-summands}
+
+Fix $C>0$. For all sufficiently large $m$ and every integer
+$1\le t\le \sqrt m/250$, there is a $q^{-C}$-biased distribution
+on $q=3^m$ bits such that the XOR of any $1$ through $t$ support
+points has Hamming weight divisible by three. The sampler runs in
+polynomial time in $q$ for fixed $C$. This construction uses a
+polynomial number of random bits. The logarithmic seed bound in the
+fixed-$t$ construction does not enter this argument.
+
+Put $g=100t$, $b=\lfloor m/g\rfloor$, $a=\lceil m/g\rceil$,
+$K=\lceil(C+2)m\rceil$, and $M=\lfloor3^{b/3}\rfloor$.
+In particular, $K<M$ for all sufficiently large $m$, uniformly in
+the stated range of $t$. Index coordinates by $x\in\mathbb F_3^m$.
+Use the independent product of the following two random sign functions.
+For the first sign $L(x)$, use the small-set construction of
+Section~\ref{sec:small-parities} with cutoff $K$ and error
+$q^{-C}/4$. Its degree is $O_C(\log^2 m)$ for every seed.
+
+For the second sign, take a uniformly random reduced ternary
+polynomial $P$ of total degree at most $D=2(a+b)$. More precisely,
+the coefficients of all monomials of degree at most $D$ and
+individual degrees at most two are independent uniform trits.
+Set $H(x)=(-1)^{\mathbf1[P(x)=0]}$, represented over $\mathbb F_3$
+by $-1-P(x)^2$. For every $K\le |T|\le M$, the evaluations of $P$
+on $T$ are independent uniform trits. Indeed, each point in $T$ is
+separated from the others by a linear map to
+$\mathbb F_3^{\lceil\log_3 |T|\rceil}$, and the indicator of the
+fiber containing this point has degree at most
+$2\lceil\log_3 |T|\rceil\le D$, as in
+Section~1. Thus
+\[
+  \left|\mathbb E\prod_{x\in T}H(x)\right|
+   =3^{-|T|}\le q^{-C-2}.
+\]
+
+For $|T|>M$, choose $M$ distinct points in $T$. Some linear map
+$h:\mathbb F_3^m\to\mathbb F_3^b$ is injective on these points,
+since a random linear map collides on a pair with probability at
+most $\binom M2 3^{-b}<1$. This map can be chosen separately in
+the analysis of each $T$. Partition the $m$ coordinates into $g$
+chunks of size at most $a$, and use the correction polynomial
+\[
+   W(x)= B_{h(x)}+U_{h(x)}+\sum_{j=1}^g A_{h(x),j}(x_j),
+\]
+with independent uniform binary table entries embedded in
+$\mathbb F_3$. Here $x_j$ denotes the entire $j$th chunk. Since
+each table entry depends on at most $a+b$ ternary linear forms,
+$W$ has reduced degree at most $D$. For $P_0$ an independent
+uniform polynomial from the same space as $P$, we have
+$P_0+W\overset{\mathrm{law}}=P$. Conditional on $P_0$, the
+uniform-table calculation in Section~\ref{sec:hashed-large-parities}
+applies. At least $M$ fibers are occupied, the table entries in
+different fibers are independent, and each occupied fiber has
+probability at least $2^{-(g+1)}$ of making its parity unbiased
+over the unused binary entry $B_y$. Hence
+\[
+   \left|\mathbb E\prod_{x\in T} H(x)\right|
+       \le \exp\bigl(-2^{-(g+1)}M\bigr).
+\]
+This is at most $q^{-C}/4$ for all sufficiently large $m$ uniformly
+in $t$. Indeed, $g\le(2/5)\sqrt m$ and
+$b\ge(5/2)\sqrt m-1$, so
+\[
+ \log\bigl(2^{-(g+1)}M\bigr)
+ \ge \left(\tfrac56\log 3-\tfrac25\log 2\right)\sqrt m-O(1).
+\]
+There are at most $q$ coefficients to sample in $P$. Reducing a
+uniform binary integer modulo $3^{\#\mathrm{coefficients}}$
+with $\lceil (\#\mathrm{coefficients})\log_2 3+
+\log_2(16q^C)\rceil$ random bits incurs total variation distance at
+most $q^{-C}/16$. Thus all the parity bounds suffice with a fixed
+polynomial-length unbiased binary seed. Independence of $L$ and $H$
+makes their biases multiply on each test set. For sets smaller than
+$K$ use the bound on $L$, and for all larger sets use the bound on
+$H$.
+
+Each sign $LH$ has degree at most $D_*=O_C(\log^2 m)+4(a+b)$.
+We have $tD_*\le O_C(\sqrt m\log^2m)+8m/100+4t<2m$ for large
+$m$. Every product of at most $t$ such signs is a polynomial of
+degree less than $2m$. Its sum over the ternary grid vanishes in
+$\mathbb F_3$, because each monomial has some coordinate of
+exponent zero or one, and the sum in that coordinate is zero.
+Writing the sign product as $(-1)^z$ yields
+$0=\sum_x(-1)^{z(x)}=q-2|z|$ in $\mathbb F_3$. This is the
+claimed checksum for the XOR. Counting weight modulo three is a
+standard-order width-three permutation program.
+
+\subsection{An upper bound for an exact mod-three checksum}
+Suppose a $\delta$-biased distribution on $q$ bits has support $A$, and
+every XOR of exactly $t$ support words, repetitions allowed, has the same
+Hamming weight modulo three. For $0\le\delta<1$,
+\[
+               t\le \frac{\log q}{\log(2/(1+\delta))}.
+\]
+In particular $t\le(1+o(1))\log_2 q$ when $\delta=o(1)$.
+
+Translate $A$ and its distribution by $v\in A$. The resulting
+support $A'$ contains zero and has the same bias bound. Set $u=v$
+if $t$ is odd, and $u=0$ if $t$ is even. For any XOR $z$ of at most
+$t$ words in $A'$, padding with zero puts $z\oplus u$ in the original
+$t$-fold sumset. Taking $z=0$ identifies its common residue as $|u|$.
+With $w_i=(-1)^{u_i}$ we obtain
+$\sum_i w_i z_i= |z\oplus u|-|u|=0\pmod 3$.
+
+Sample $t$ independent words from $A'$. Write $p_i\in\{-1,1\}^t$
+for their signs at coordinate $i$ and $\mathbf{1}$ for the all-one
+pattern. For every $J\subseteq[t]$, the preceding weighted identity
+for the XOR on $J$ gives
+$\sum_i w_i\prod_{j\in J}p_{ij}=\sum_i w_i$ in $\mathbb F_3$.
+By linearity, for every multilinear ternary polynomial $Q$,
+\[
+       \sum_i w_i Q(p_i)=\Big(\sum_i w_i\Big)Q(\mathbf{1})
+                     \qquad\text{in }\mathbb F_3.
+\]
+Fix one coordinate $i$. For $k\ne i$, two-coordinate bias gives
+$\Pr[p_k=p_i]\le((1+\delta)/2)^t$. Singleton bias gives the same
+bound on $\Pr[p_i=\mathbf{1}]$. If $q((1+\delta)/2)^t<1$, some
+choice of words has $p_i$ distinct from all other patterns and from
+$\mathbf{1}$. The indicator of this chosen pattern is the multilinear
+polynomial $Q(X)=\prod_{j=1}^t(1+p_{ij}X_j)/2^t$ over $\mathbb F_3$.
+Its left side above is $w_i\ne0$, and its right side is zero.
+This contradiction proves the bound.
+
+\begin{thebibliography}{9}
+\bibitem{LV} Chin Ho Lee and Emanuele Viola.
+\emph{Some limitations of the sum of small-bias distributions}.
+Theory of Computing 13(16), 1--23, 2017.
+\href{https://doi.org/10.4086/toc.2017.v013a016}{doi:10.4086/toc.2017.v013a016}.
+\bibitem{Viola} Emanuele Viola.
+\emph{The sum of $D$ small-bias generators fools polynomials of degree $D$}.
+Computational Complexity 18, 209--217, 2009.
+\href{https://eccc.weizmann.ac.il/report/2007/132/}{ECCC TR07-132}.
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,642 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,microtype}
+\usepackage[margin=1.05in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\F}{\mathbb F_3}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Cube}{\{-1,1\}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\bias}{\operatorname{bias}}
+\newcommand{\card}[1]{\lvert #1\rvert}
+\title{Generators for constant-width read-once programs}
+\author{Constructions for restricted classes and obstructions to three reductions}
+\date{November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We consider a generator that must work simultaneously for every standard-order branching program of a fixed width. We give explicit $o(\log^2 n)$ seed bounds under restrictions on transition images, block maps, or the sequence of permutation signs. For general programs we give obstructions to three possible reductions. The XOR of two samples from an exponentially small-bias source can miss a dense width-three language. A distribution that fools permutation programs to exponentially small error can miss a dense regular width-four language. A signed generator with inverse-polynomial error for width two can miss a dense width-three read-once CNF. These constructions leave the case of unrestricted constant width open.
+\end{abstract}
+\section{Reducing width by fixing alternating bits}
+Let $T_{i,b}$ be the transition map at position $i$ on bit $b$. We call the cardinality of its image its rank. A PRG with error $\varepsilon$ changes every acceptance probability by at most $\varepsilon$. An HSG with threshold $\varepsilon$ has some output accepted by the program whenever the uniform acceptance probability exceeds $\varepsilon$. We use base-two logarithms. At constant threshold, Krak gives an HSG for all width-four programs with seed $O((\log n)^{3/2}\sqrt{\log\log n})$~\cite{Krak}. We seek a bound of $o(\log^2 n)$ for every fixed width.
+\begin{theorem}\label{thm:rank}
+Let $r\ge 2$ and suppose that every $T_{i,b}$ has rank at most $r$. If $G$ is an $s$-bit, error-$\delta$ PRG for standard-order width-$r$ programs of length $\lceil n/2\rceil$, interleaving two independent copies gives a $2s$-bit, error-$2\delta$ PRG for the original program.
+\end{theorem}
+\begin{proof}
+Fix the even bits. Immediately after each even position the computation is confined to the image of its fixed map, a known set of at most $r$ states. Group each odd step with the fixed even step that follows it. The resulting program on the odd bits has width $r$. An unpaired last step can send its output directly to one of two terminal states. In the opposite restriction, fix all odd bits, absorb the first fixed step into the start state, and group each even step with the next fixed odd step. The same bound holds. Replace first the odd bits and then the even bits, using independence to condition on the complementary subsequence in each hybrid. The two errors sum to at most $2\delta$.
+\end{proof}
+For $r=3$ and constant error, the width-three PRG of Meka, Reingold and Tal gives seed length $O(\log n\,(\log\log n)^{O(1)})$~\cite{MRT}. The two images on a layer may differ. For instance, a four-state layer can have image $\{1,2,3\}$ on zero and $\{2,3,4\}$ on one. The theorem covers width-four programs with two singular transitions at every layer.
+
+With at most $k$ exceptional layers there is an HSG obtained by guessing their locations and values and applying Theorem~\ref{thm:rank} to the remaining variables. Some fixing preserves the original density by averaging. Composing a fixed transition into a neighboring variable transition cannot increase its rank. At constant threshold this adds $O(k\log(2n))$ seed bits, which keeps the total at $o(\log^2 n)$ for $r=3$ and $k=o(\log n)$.
+
+\section{An HSG for programs with short blocks and few losses of rank}
+\label{sec:block-hsg}
+
+Consider a width-$W$ standard-order read-once branching program $P$ on
+$n$ input bits. Suppose there are boundary layers
+$0=t_0<t_1<\cdots<t_m=n$, each of width $r$, and
+$t_j-t_{j-1}\le B$ for all $j$. Write $S_j$ for the state set of
+layer $t_j$. Let $\pi_j:S_{j-1}\to S_j$ be the transition map induced
+by feeding zeros to block $j$. Define its rank defect to be
+$d_j=r-|\pi_j(S_{j-1})|$ and let $D=\sum_{j=1}^m d_j$.
+For example, $D=0$ if the all-zero word induces a bijection on every
+block. Other words in the same blocks may induce arbitrary maps.
+
+\begin{theorem}\label{thm:block-hsg}
+For every $n,W,r,B,D$ and $0<\varepsilon<1$, there is an explicit
+$\varepsilon$-HSG for all programs admitting the above description with
+total rank defect at most $D$. The generator is independent of the
+boundary locations. Writing $k=r-1+D$, its seed length is at most
+\[
+ O\!\left(k\left(\log(2n)+
+ \min\left\{B,\ \log(2B)\log(2nW/\varepsilon)\right\}\right)\right).
+\]
+In particular, for fixed $W,D,\varepsilon$ and
+$B\le 2^{\sqrt{\log n}}$, the seed length is $O(\log^{3/2}n)$.
+\end{theorem}
+
+\begin{proof}
+Set $\tau=\varepsilon/(2nr)$. In block $j$, retain the edge from
+$u\in S_{j-1}$ to $v\in S_j$ whenever a uniform block word takes
+$u$ to $v$ with probability at least $\tau$. Conditional on any
+entrance state, a uniform block traverses an unretained edge with
+probability at most $r\tau$. Consequently a uniform input traverses
+any unretained edge with probability at most $mr\tau\le\varepsilon/2$.
+If $P$ has acceptance probability greater than $\varepsilon$, some
+accepting path uses only retained edges.
+
+Let $R_0$ consist of the start state. Inductively, form $R_j$ by
+taking all retained successors of $R_{j-1}$ and all zero-word
+successors $\pi_j(R_{j-1})$. In particular $R_m$ contains an
+accepting state. Call block $j$ exceptional when
+$R_j\supsetneq\pi_j(R_{j-1})$. Since
+$|R_{j-1}|-|\pi_j(R_{j-1})|\le d_j$, the number of exceptional
+blocks is bounded by
+\begin{align*}
+ \sum_{j=1}^m \bigl(|R_j|-|\pi_j(R_{j-1})|\bigr)
+ &= |R_m|-1
+    +\sum_{j=1}^m\bigl(|R_{j-1}|-|\pi_j(R_{j-1})|\bigr)\\
+ &\le r-1+D.
+\end{align*}
+On each nonexceptional block, using only the zero word gives precisely
+$R_j$ from $R_{j-1}$. Thus every state in $R_m$ remains reachable if
+we allow retained edges and zero words on the exceptional blocks and
+require zero words everywhere else.
+
+The generator specifies up to $k$ disjoint intervals of length at most
+$B$ by their endpoints. On each selected interval it places the
+appropriate prefix of an independently seeded length-$B$ Nisan
+generator with error $\tau/2$ for width $W$~\cite{Nisan}. It outputs
+zeros elsewhere. One may use $B$ uniform bits per interval when that
+uses a shorter seed. Every retained edge has a witness in the local
+support, because testing it from its entrance state is a width-$W$
+program that ignores any extra bits after the interval. Select the
+exceptional intervals on which an accepting path uses a retained edge
+in place of the zero word. The witnesses for those edges concatenate,
+so an output is accepted. Empty intervals encode unused choices, and
+invalid lists may output the all-zero string. The endpoint and local
+seed costs give the bound.
+\end{proof}
+
+The rank hypothesis has a concrete limitation. Divide $n=b\ell$
+positions into $b$ blocks of length $\ell=\lceil\log_2(2b)\rceil$,
+and accept exactly when every block contains a one. This is a
+width-three standard-order program. Its acceptance probability is at
+least $1-b2^{-\ell}\ge1/2$. Every accepted word has a one in every
+block. More generally an interval of length $B$ intersects at most
+$\lceil B/\ell\rceil+1$ blocks. Thus inputs that differ from zero on
+at most $k$ intervals of length $B$ all fail whenever
+$k(\lceil B/\ell\rceil+1)<b$, even if the intervals may start at
+arbitrary positions.
+
+\section{A low-error generator for runs of even and odd permutations}
+\label{sec:s3runs}
+
+Consider a word $g_1,\ldots,g_n\in S_3$. On input $x\in\{0,1\}^n$
+the program computes $P(x)=g_1^{x_1}\cdots g_n^{x_n}$ and tests whether
+$P(x)$ belongs to an arbitrary set $B\subseteq S_3$. A width-three
+permutation branching program has this form after relabeling the states
+in each layer so that the transitions labeled $0$ are identities.
+Write $c_i=0$ if $g_i$ is even and $c_i=1$ if $g_i$ is odd. A run is
+a maximal consecutive interval on which $c_i$ is constant. The odd
+permutations within a run can be different transpositions.
+
+\begin{theorem}
+For every $n,k\ge 1$ and $0<\varepsilon<1$, an explicit generator with
+seed length $O(\log n+k+\log(1/\varepsilon))$ $\varepsilon$-fools every
+such program with at most $k$ runs. The generator only needs the upper
+bound $k$. In particular, $k=O(\log n)$ and
+$\varepsilon=n^{-O(1)}$ give seed length $O(\log n)$.
+\end{theorem}
+
+\paragraph{Construction.}
+Let $Y_0=0$. Generate the odd-indexed bits of $Y_1,\ldots,Y_n$ with
+the Lovett--Reingold--Trevisan--Vadhan modular-sums generator for
+modulus~$3$ and error $\delta$~\cite{LRTV}. Generate the even-indexed
+bits with an independent copy. Output
+\[
+    X_i=Y_{i-1}\oplus Y_i,\qquad 1\le i\le n.
+\]
+Each copy uses $O(\log n+\log(1/\delta))$ seed bits. The map from $Y$
+to $X$ is a bijection, so independent uniform $Y_i$ give uniform $X$.
+
+\begin{proof}
+We first record that the modular-sums guarantee controls any number
+of simultaneous affine equations over $\mathbb F_3$. Suppose $V$ is
+one copy of the generator, $U$ consists of uniform bits of the same
+length, and the system is $Mv=b$ with $s$ equations. For
+$\omega=\exp(2\pi\mathrm{i}/3)$, its indicator is
+\[
+    \mathbf{1}[Mv=b]
+    =3^{-s}\sum_{h\in\mathbb F_3^s}\omega^{h^{\mathsf T}(Mv-b)}.
+\]
+Each summand changes in expectation by at most $2\delta$ upon replacing
+$U$ by $V$, since the corresponding linear residue changes by at most
+$\delta$ in total variation. The same bound holds for the indicator.
+This also handles equations fixing individual Boolean coordinates.
+
+Set $A=A_3\cong\mathbb F_3$ and choose coset representatives
+$t_0=e$ and $t_1=(12)$ for $S_3/A$. Write the product through position
+$i$ uniquely as $a_i t_{s_i}$ with $a_i\in A$ and
+$s_i\in\{0,1\}$. Initially $a_0=e$ and $s_0=0$. The updates are
+\[
+    s_i=s_{i-1}\oplus(c_i X_i),\qquad
+    a_i=a_{i-1}\bigl(t_{s_{i-1}}g_i^{X_i}t_{s_i}^{-1}\bigr).
+\]
+The factor in parentheses belongs to $A$.
+
+Fix a program with $r\le k$ runs and endpoints
+$0=b_0<b_1<\cdots<b_r=n$. Decompose the acceptance indicator according
+to the $2^r$ possible assignments $Y_{b_j}=e_j$ for $1\le j\le r$.
+Put $e_0=0$. For a fixed assignment the quotient state at each run
+endpoint is determined. Indeed, on the interval $(b_{j-1},b_j]$
+the state $s_i$ is constant if $c_i=0$. On a run with $c_i=1$ it is
+\[
+    s_i=s_{b_{j-1}}\oplus e_{j-1}\oplus Y_i
+\]
+because the consecutive differences $Y_{h-1}\oplus Y_h$ telescope.
+Consequently the $i$th factor contributing to $a_n$, on inputs that
+agree with the endpoint assignment, is a function
+$f_i(Y_{i-1},Y_i)\in A$. Using additive notation for $A$, the final
+coordinate is $\sum_i f_i(Y_{i-1},Y_i)$. We can use this formula on
+all inputs when we also impose the equations $Y_{b_j}=e_j$.
+
+Fix a possible accepting value $a\in A$ with $a t_{s_n}\in B$.
+The corresponding event consists of the endpoint equations and
+$\sum_i f_i(Y_{i-1},Y_i)=a$. After fixing all odd-indexed bits, each
+summand depends on at most one even-indexed bit. Every function of
+one Boolean bit into $\mathbb F_3$ is affine on that bit, so the event
+is a system of affine equations in the even-indexed bits. The same
+argument applies after fixing the even-indexed bits. Replace the two
+uniform subsequences by their independent pseudorandom counterparts,
+one at a time. Each replacement changes this event's probability by
+at most $2\delta$.
+
+There are at most $3\cdot 2^r$ disjoint events in the decomposition.
+The total error is at most $12\cdot2^r\delta$. Taking
+$\delta=\varepsilon/(12\cdot2^k)$ proves the theorem.
+\end{proof}
+
+The loss in this proof comes from enumerating the bits at the run
+endpoints. A word can alternate between an even permutation and a
+transposition at every position, in which case the enumeration uses
+$n$ boundary bits.
+
+\section{A single fixed successor suffices nonuniformly}
+There exists one cyclic permutation $h$ of the $k$-bit words such that
+\[
+  x,\ h(x),\ h^2(x),\ldots,h^{m-1}(x),
+  \qquad m=\lceil n/k\rceil,
+\]
+truncated to $n$ bits, $\varepsilon$-fools all width-$w$ programs for uniform $x$, with $k=O(\log(nw/\varepsilon))$. The argument gives a polynomial-size table for $h$ when $w$ and $1/\varepsilon$ are polynomial in $n$. Finding a uniform construction of the table is an additional problem.
+
+To prove the assertion, choose a uniformly random cyclic listing of the $Q=2^k$ words, and let $h$ send each word to its successor. For a fixed program let $F$ be the fraction of the $Q$ cyclic windows that it accepts. A random window has the law of $m$ independent uniform words conditioned to be distinct, as long as $m\le Q$. Thus $|\mathbb EF-\Pr[B(U)=1]|\le \binom m2/Q$. Swapping two positions of the listing changes $F$ by at most $2m/Q$, since only windows meeting these positions can change. Expose the listing one position at a time. Conditional completions for two different choices at one position are coupled by a single transposition, so the Doob martingale differences have absolute value at most $2m/Q$. Azuma's inequality gives
+\[
+  \Pr[|F-\mathbb EF|>\varepsilon/2]
+       \le 2\exp\bigl(-\varepsilon^2 Q/(32m^2)\bigr).
+\]
+There are at most $w\,2^w w^{2wn}$ labeled programs. Choosing $Q$ a sufficiently large power of two with $Q\ge C\varepsilon^{-2}n^2(nw\log(2w)+1)$ makes the union bound less than one and the collision error at most $\varepsilon/2$. This proves the claim. The seed for evaluating the resulting table is the initial word $x$. The counting argument does not specify its entries efficiently from $n$.
+
+\clearpage
+\section{Two small-bias samples can miss a dense width-three language}
+
+Write $[n]=\{1,\ldots,n\}$ and $\chi_S(x)=\prod_{i\in S}x_i$ for
+$x\in\Cube^n$. Identify a bit $b$ with the sign $(-1)^b$, so that bitwise
+XOR is coordinatewise multiplication. A distribution $D$ on signs
+has bias $\max_{\varnothing\ne S\subseteq[n]}\card{\E_D\chi_S}$.
+
+\begin{theorem}\label{thm:main}
+There is an absolute constant $\gamma>0$ such that for every sufficiently
+large $n$ divisible by $12$, there is a nonempty set $A\subseteq\Cube^n$
+with the following properties.
+\begin{enumerate}
+\item The uniform distribution on $A$ has bias at most $2^{-\gamma n}$.
+\item For every $x,y\in A$, the Hamming distance $d(x,y)$ is divisible by
+three.
+\end{enumerate}
+\end{theorem}
+
+A standard-order width-three permutation branching program can keep the
+Hamming weight modulo three and accept the two nonzero residues. It rejects
+every XOR of two elements of $A$. On a uniform $n$-bit string its acceptance
+probability is $\tfrac23-\tfrac23\,2^{-n}$ when $12\mid n$, by the
+roots-of-unity filter. The assertion about the support holds for any
+coupling of the two samples.
+
+Lee and Viola give an explicit inverse-polynomial-bias example
+distinguished by a mod-three linear test and discuss the question of
+Reingold and Vadhan about two copies of an arbitrary $n^{-c}$-biased
+source for sufficiently large $c$ \cite[Question~1.2 and
+Theorem~1.4(iv)]{LV}. Theorem~\ref{thm:main} gives a counterexample for
+every fixed $c$, already for Hamming weight modulo three. Its quantifier
+over the source is existential. An individual construction of a
+small-bias generator, or an XOR of three or more samples, requires its own
+analysis.
+
+\subsection{Random ternary self-dual codes}
+
+Regard $\Cube^n$ as a subset of $\F^n$. A subspace is totally isotropic if
+the standard dot product of every pair of its elements vanishes. For
+$n=2m$ divisible by $12$, there is a totally isotropic $m$-dimensional
+subspace. In each block of four coordinates, take the span of
+$(1,1,1,0)$ and $(1,-1,0,1)$, then take the direct sum over blocks.
+Nondegeneracy of the dot product implies that such a subspace $C$ equals
+$C^\perp$. Put
+\[
+ A(C)=C\cap\Cube^n.
+\]
+For $x,y\in A(C)$, reduction modulo three gives
+$0=x\cdot y=n-2d(x,y)$. Thus every candidate $C$ satisfies the distance
+condition. We choose $C$ uniformly from all $m$-dimensional totally
+isotropic subspaces to prove that some $A(C)$ has small bias.
+
+\begin{lemma}\label{lem:inclusion}
+For a fixed totally isotropic subspace $U$ of dimension $d\le m$,
+\[
+ a_d:=\Pr[U\subseteq C]
+     =\prod_{j=m-d}^{m-1}\frac{1}{3^j+1}.
+\]
+In particular $a_0=1$. If $L$ is fixed and $1\le r\le L\le m$, then
+$a_{L-r}/a_L=O_L(3^{mr})$.
+\end{lemma}
+
+\begin{proof}
+A nondegenerate symmetric space of dimension $2k$ with a totally
+isotropic $k$-space has coordinates $(a,b)\in\F^k\times\F^k$ in
+which isotropy of a vector is $a\cdot b=0$. Indeed, a basis of the
+isotropic space can be paired with dual vectors, and subtracting half
+the Gram matrix of the dual vectors in the original basis makes the
+dual span isotropic as well. These coordinates give
+$(3^k-1)(3^{k-1}+1)$ nonzero isotropic vectors, by counting $a=0$
+and $a\ne0$ separately.
+
+For any isotropic line $J$, maximal isotropic spaces containing $J$
+correspond to maximal isotropic spaces in the nondegenerate quotient
+$J^\perp/J$. This quotient again has an isotropic space of half the
+dimension. If $V$ is a fixed maximal isotropic space, take the image of
+$(V\cap J^\perp)+J$ in the quotient and use $V=V^\perp$ to see that the
+image has dimension $k-1$. Hence the number of completions is the same
+for every isotropic line. Each maximal isotropic space contains
+$3^k-1$ nonzero vectors, so a prescribed isotropic line lies in a
+uniform maximal isotropic space with probability $1/(3^{k-1}+1)$.
+Iterate along a flag in $U$ to obtain the formula.
+\end{proof}
+
+\subsection{A moment calculation}
+
+Fix the even integer $L=40$. We compare two laws for an $L\times n$
+matrix $M$ with independent columns. Under law $B$, each column is
+uniform on $\Cube^L$. Under law $H$, each column is uniform on
+\[
+ H=\bigl\{u\in\Cube^L:\ \textstyle\prod_{j=1}^L u_j=1\bigr\}.
+\]
+All ranks, spans and Gram matrices below are over $\F$. Write
+$h=\binom L2$. Independently sample $C$ as in
+Lemma~\ref{lem:inclusion} and let $p_B,p_H$ be the respective
+probabilities that all rows of $M$ belong to $C$.
+
+\begin{lemma}\label{lem:comparison}
+There is a constant $\rho<1$ such that for both $D=B,H$,
+\[
+ p_D=a_L\bigl(3^{-h}+O(\rho^n)\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+First consider the Gram matrix $MM^{\mathsf T}$. Its diagonal is zero
+because every entry on the diagonal equals $n$ modulo three. Its
+off-diagonal part is a sum of $n$ independent copies of
+$g(u)=(u_i u_j)_{i<j}\in\F^h$. For each nonzero $\alpha\in\F^h$,
+the function $q_\alpha(u)=\sum_{i<j}\alpha_{ij}u_i u_j$ is nonconstant
+under both column laws. On the full sign group, the constant and the
+degree-two characters are distinct. On $H$, two characters restrict to
+the same character exactly when their subsets agree or are complements.
+Since $L>4$, the constant and all degree-two characters remain distinct
+there. These characters are linearly independent as $\F$-valued
+functions by orthogonality, since the orders of both sign groups are
+invertible in $\F$.
+
+With $\omega=e^{2\pi i/3}$ this gives
+$|\E_D\omega^{q_\alpha(u)}|<1$ for every nonzero $\alpha$. There
+are finitely many such $\alpha$, independently of $n$. Fourier
+inversion on $\F^h$ now yields, for some fixed $\rho_0<1$,
+\[
+ \Pr_D[MM^{\mathsf T}=0]=3^{-h}+O(\rho_0^n).
+ \tag{1}
+\]
+
+We also need to account for rank loss, since a smaller isotropic row
+span has a higher probability of inclusion in $C$. We claim that for
+each $1\le r\le L$ there is a $b_r<3^{-r/2}$ such that every
+codimension-$r$ subspace $W\le\F^L$ satisfies $\Pr_D[u\in W]\le b_r$.
+Under $B$, solving for $r$ pivot coordinates gives a bound of $2^{-r}$.
+Under $H$, direct conditioning gives $2^{1-r}$, which is strictly
+smaller than $3^{-r/2}$ for $r\ge5$.
+
+For $1\le r\le4$, use
+\[
+ \Pr_H[u\in W]=\Pr_B[u\in W]
+   +\E_B\!\left[\mathbf 1_W(u)\prod_{j=1}^L u_j\right].
+\]
+Expand $\mathbf 1_W$ as the average of $\omega^{v\cdot u}$ over
+$v\in W^\perp$. Each term in the last expectation factors as
+$\prod_j\E_{u_j}[u_j\omega^{v_j u_j}]$. A zero coordinate of $v$
+makes the product zero, and each nonzero coordinate gives a factor
+of magnitude $\sqrt3/2$. It follows that
+\[
+ \Pr_H[u\in W]\le 2^{-r}+(\sqrt3/2)^{40}<3^{-r/2}
+ \qquad(1\le r\le4).
+ \tag{2}
+\]
+This proves the claim for both laws.
+
+Rank at most $L-r$ puts all $n$ columns in a codimension-$r$ subspace.
+A union bound over these subspaces, whose number depends only on $L$,
+gives $\Pr_D[\rank M\le L-r]=O_L(b_r^n)$. Given $M$, the probability
+that $C$ contains its rows is $a_{\rank M}$ if $MM^{\mathsf T}=0$,
+and zero otherwise. Thus
+\[
+ 0\le \frac{p_D}{a_L}-\Pr_D[MM^{\mathsf T}=0]
+ \le \sum_{r=1}^L\frac{a_{L-r}}{a_L}\Pr_D[\rank M=L-r]
+ \le O_L(1)\sum_{r=1}^L(3^{r/2}b_r)^n,
+\]
+where we used $m=n/2$. Every base is strictly less than one. Combining
+this with (1) proves the lemma.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Write $Z=\card{A(C)}$ and $W_S=\sum_{x\in A(C)}\chi_S(x)$, so
+$W_\varnothing=Z$. Enumerating ordered $L$-tuples of sign rows gives
+\[
+ \E_C Z^L=2^{nL}p_B,\qquad
+ \E_C\sum_{S\subseteq[n]} W_S^L=2^{nL}p_H.
+\]
+For the second identity, the character sum over $S$ is $2^n$ if
+each column of the tuple has product one and zero otherwise.
+There are $2^{(L-1)n}$ tuples with all column products one.
+
+Weight the choice of $C$ by $Z^L$. Under this probability measure
+$Z>0$, and the expectation of
+$\sum_{S\ne\varnothing}|W_S/Z|^L$ is
+$(p_H-p_B)/p_B=O(\rho^n)$ by Lemma~\ref{lem:comparison}. Here
+evenness of $L$ makes every summand nonnegative. Some $C$ therefore
+has every nontrivial parity bias at most $O(\rho^{n/L})$.
+Absorbing the constant into the exponent proves the theorem.
+\end{proof}
+
+\subsection{Polynomial-time inverse-polynomial-bias examples}
+
+\begin{corollary}\label{cor:explicit}
+For each fixed $c>0$ and all sufficiently large $N$, there is a
+deterministic polynomial-time computable generator on $O_c(\log N)$
+uniform seed bits whose $N$-bit output has bias at most $N^{-c}$.
+A width-three standard-order permutation program of uniform acceptance
+probability $2/3-o(1)$ rejects every XOR of two outputs of this generator.
+\end{corollary}
+
+\begin{proof}
+Set $d=\lceil c\rceil$ and $\eta=1/(4N^d)$. We construct a bad prefix
+of length $n=O_c(\log N)$. For any candidate length divisible by $12$,
+introduce the potential
+\[
+ \Phi(C)=\sum_{S\ne\varnothing}W_S^L-\eta^L Z^L.
+\]
+The expectation of $\Phi$ is negative for some such
+$n=O_c(\log N)$ by Lemma~\ref{lem:comparison} and the two moment
+identities. One may start at the least multiple of $12$ exceeding
+$\max(2L,\log_2 N)$ and test successive multiples until this
+expectation is negative. The lower limit ensures that $n$ tends to infinity.
+
+Fix a totally isotropic subspace $U$. Evaluating the conditional expectation
+$\E[\Phi(C)\mid U\subseteq C]$ takes $2^{O(n)}\operatorname{poly}(\log N)$
+time. Expand the powers as sums over $L$ sign rows of length $n$ and
+enumerate the $2^n$ subsets $S$ if needed. For a given tuple, let $V$
+be the span of $U$ and its rows. Its inclusion probability conditional
+on $U\subseteq C$ is zero unless $V$ is totally isotropic, in which case
+it is $a_{\dim V}/a_{\dim U}$ by Lemma~\ref{lem:inclusion}.
+The number of possible dimensions is $O(n)$, and the products in the
+lemma have $O(n^2)$ bits, so the exact arithmetic has polynomial bit cost.
+
+Starting at $U=0$, enumerate the isotropic one-dimensional extensions
+of $U$ in $U^\perp$, and choose one whose conditional expectation is
+at most the current one. To see that one exists, first draw $C$
+conditioned on $U\subseteq C$, then choose an extension uniformly
+among the one-dimensional extensions inside $C$. All such $C$ have
+the same number of extensions of $U$, so conditional on the chosen
+extension the law of $C$ is uniform among its completions. This
+also gives the required averaging identity. After $n/2$ steps,
+$\Phi(C)<0$, which implies $Z>0$ and $|W_S|/Z<\eta$ for every
+nonempty $S$. Enumerating the candidates at each step takes
+$3^{O(n)}$ time in addition to the cost of evaluating expectations.
+
+Enumerate $A(C)$ and use $R=\lceil\log_2(2Z/\eta)\rceil$ seed bits to
+choose a list position by reducing an integer modulo $Z$. The resulting
+distribution has total variation distance at most $Z/2^R$ from uniform
+on the list, so each parity bias is at most $2\eta$. Independently
+generate the remaining $N-n$ bits with an $\eta$-biased generator. For
+example, choose a binary field of cardinality $q\ge N/\eta$ with
+$\log_2 q=O_c(\log N)$, draw $a,t$ independently uniformly from the
+field, and output $\operatorname{Tr}(a t^j)$ for $0\le j<N-n$
+\cite{AGHP}. Averaging over $a$ bounds the bias of each nonempty parity
+by the root fraction of a nonzero polynomial of degree less than $N$,
+which is at most $N/q$. Field arithmetic and a defining irreducible
+polynomial can be computed in time polynomial in $q$.
+
+Independence makes every nonempty parity of the concatenation have
+bias at most $2\eta\le N^{-c}$. The total seed has $O_c(\log N)$ bits
+and all preprocessing takes time polynomial in $N$ for fixed $c$. The
+program reads the weight of the first $n$ bits modulo three and ignores
+the remaining bits. Its acceptance event has the claimed properties
+by the distance condition.
+\end{proof}
+
+
+\section{A separation between permutation fooling and width-four hitting}
+\label{sec:ip}
+
+For uniformly random $X\in\{0,1\}^{2m}$, write
+\[
+ F(X)=\bigoplus_{j=1}^m X_{2j-1}X_{2j},
+ \qquad \sigma(X)=(-1)^{F(X)}.
+\]
+The function $F$ has a standard-order width-four program that stores
+the running parity and the first bit of the current pair. Lee, Pyne, and
+Vadhan show that $F$ is average-case hard for arbitrary-order
+permutation programs and state a conjecture about exponential
+advantage~\cite[Theorem~12 and Conjecture~13]{LPV}. The following
+estimate implies their stated conjecture.
+
+\begin{theorem}\label{thm:ip-correlation}
+Let $P$ be a width-$W$ permutation branching program reading the $2m$
+bits in any fixed order, each once. For every final-state labeling
+$a\in\mathbb R^W$, if $s(X)$ denotes the final state, then
+\[
+ \big|\mathbb E[\sigma(X)a_{s(X)}]\big|
+ \le 2^{-m/2}\|a\|_2.
+\]
+In particular,
+\[
+ \Pr[P(X)=F(X)]\le \tfrac12+\tfrac12\sqrt W\,2^{-m/2}.
+\]
+\end{theorem}
+
+\begin{proof}
+Call a pair open if exactly one of its two bits has been read. Index
+vectors $v_z\in\mathbb R^W$ by the assignments $z$ to the first-read
+bits of all open pairs. Let $S$ be the sum of the bit products over
+completed pairs. The entry $v_z(q)$ is the expectation of $(-1)^S$
+times the indicator that the open assignment is $z$ and the current
+state is $q$. Initially the sole vector is
+the unit vector of the start state. Track the energy
+$\sum_z\|v_z\|_2^2$. Write $U_0,U_1$ for the permutation matrices
+of the current layer, acting on column vectors.
+
+When this layer opens a pair, each $v_z$ is replaced by
+$U_0v_z/2$ and $U_1v_z/2$. The energy is halved. When it closes a pair,
+group the vectors in pairs $v_0,v_1$ that agree on all other open bits.
+After this read the new vector for this group is
+\[
+ u=\tfrac12\bigl[U_0(v_0+v_1)+U_1(v_0-v_1)\bigr].
+\]
+The minus sign occurs exactly when both bits of the closing pair are
+one. Orthogonality and the parallelogram identity give
+\[
+ \|u\|_2^2\le
+ \tfrac12\bigl(\|v_0+v_1\|_2^2+\|v_0-v_1\|_2^2\bigr)
+ =\|v_0\|_2^2+\|v_1\|_2^2.
+\]
+Thus closing a pair does not increase energy, regardless of which
+other pairs are open. There are $m$ openings. The final signed
+state vector has norm at most $2^{-m/2}$. Taking its inner product
+with $a$ gives the first bound. Taking $a_q=(-1)^{P(q)}$, where
+$P(q)$ is the output label of terminal state $q$, gives the second.
+\end{proof}
+
+For instance, width at most $2^{m/3}$ gives agreement advantage at
+most $2^{-m/3}/2$. The same argument bounds the density of a permutation
+sublanguage. If $g$ is the Boolean output of a width-$W$ permutation
+program and $g\le F$ pointwise, then $\sigma g=-g$, so
+$\mathbb E[g]\le\sqrt W\,2^{-m/2}$.
+
+There is also a direct consequence for hitting sets. Let $D$ be the
+uniform distribution conditioned on $F=0$. Independence of the pairs
+gives $\mathbb E[\sigma]=2^{-m}$. For any Boolean width-$W$
+permutation test $g$, the theorem with its accepting-state indicator
+gives
+\[
+ \left|\mathbb E_D[g]-\mathbb E[g]\right|
+ =\frac{\left|\mathbb E[\sigma g]-2^{-m}\mathbb E[g]\right|}
+        {1+2^{-m}}
+ \le \frac{\sqrt{W}\,2^{-m/2}+2^{-m}}{1+2^{-m}}.
+\]
+For polynomial $W$, this error is exponentially small. Yet
+$D$ misses $F=1$, a standard-order width-four language of uniform
+density $(1-2^{-m})/2$. Thus an inference from permutation-fooling
+error alone to a width-four hitting guarantee for the same support
+would be false. Reductions that transform the support can still
+use a permutation generator.
+
+\section{A support obstruction for weighted width induction}
+
+Doron and Hoza show that the support of a distribution fooling width-$w$
+programs to error $0.01/n$ hits every width-$w$ unanimity program of
+uniform density greater than $0.4$
+\cite[Corollary~4.2]{DH}.
+A unanimity program can mark edges as rejecting and accepts exactly when
+its computation traverses no marked edge. The following example tests
+whether the same implication holds for a signed distribution.
+
+\begin{theorem}
+For each fixed $A>0$ and infinitely many $n$, there is an explicit weighted
+PRG with seed length $O_A(\log n)$, weights bounded by $O_A(1)$, and error
+at most $n^{-A}$ for every width-two ROBP. Every generator output is
+rejected by the same width-two unanimity program of density at least $0.99$.
+\end{theorem}
+
+\begin{proof}
+Choose an integer $d>A+2$ and an integer $C$ with $d2^{-C}<0.01$. Take $m$
+a power of two, $\ell=\log_2 m+C$, and $n=dm\ell$. Partition the input
+in order into $d$ groups of $m$ blocks of $\ell$ bits each. Our target
+accepts if every block contains a one. Two live states suffice to remember
+whether the current block has seen a one. At a block boundary the program
+rejects an empty block and resets for the next block. Under the uniform
+distribution the probability of rejection is at most $dm2^{-\ell}<0.01$.
+
+Let $U_i$ be uniform on group $i$. To sample $P_i$, draw from $U_i$ and
+overwrite one uniformly chosen block by zeros. Consider the signed measure
+\[
+  \mu=\bigotimes_{i=1}^d U_i-\bigotimes_{i=1}^d(U_i-P_i).
+\]
+Its expansion contains $2^d-1$ terms, each with coefficient $\pm1$ and
+at least one planted zero block. Its total mass is one. For any parity
+$\chi$ on group $i$, the integral of $\chi$ against $U_i-P_i$ is $-1/m$
+if $\chi$ touches exactly one block and zero otherwise. Consequently every
+nonconstant parity has expectation of absolute value at most $m^{-d}$
+under $\mu$.
+
+To sample the expansion with a short seed, choose a uniform subset
+$T\subseteq[d]$ and one uniform block in each selected group. Fill the
+input with an independent $\delta$-biased string and overwrite the selected
+blocks by zeros. Assign weight $2^d(-1)^{|T|+1}$ when $T$ is nonempty.
+For empty $T$, output the all-zero string with weight zero. Given the
+planted positions, any parity of the output is a parity of the filling,
+possibly constant. The resulting signed bias is therefore at most
+$m^{-d}+(2^d-1)\delta$. With $\delta=n^{-A-3}$ the seed length is
+$O_A(\log n)$, using a standard explicit small-bias generator \cite{AGHP}.
+
+For completeness, every width-two ROBP has Fourier $\ell_1$ norm at most
+$n+2$. Encode the state as $s\in\{-1,1\}$. The $i$th update has the form
+$s\mapsto a_i(x_i)s+b_i(x_i)$, where $a_i$ and $b_i$ take values in
+$\{-1,0,1\}$. Each has Fourier $\ell_1$ norm at most one, since for a
+one-bit function this norm equals its maximum absolute value. Expanding
+the updates expresses the final state as a sum of $n+1$ products, each of
+Fourier $\ell_1$ norm at most one. Applying the final acceptance predicate
+gives the stated bound. The fooling error is thus at most
+$(n+2)(m^{-d}+(2^d-1)\delta)\le n^{-A}$ for sufficiently large $m$.
+\end{proof}
+
+\begin{thebibliography}{9}
+\bibitem{AGHP}
+Noga Alon, Oded Goldreich, Johan H\aa stad, and Ren\'e Peralta.
+Simple constructions of almost $k$-wise independent random variables.
+\emph{Random Structures \& Algorithms}, 3(3), 289--304, 1992.
+\href{https://doi.org/10.1002/rsa.3240030308}{doi:10.1002/rsa.3240030308}.
+\bibitem{LV}
+Chin Ho Lee and Emanuele Viola.
+Some limitations of the sum of small-bias distributions.
+\emph{Theory of Computing}, 13(16), 1--23, 2017.
+\href{https://doi.org/10.4086/toc.2017.v013a016}{doi:10.4086/toc.2017.v013a016}.
+
+\bibitem{Nisan} Noam Nisan. Pseudorandom generators for space-bounded computation. \emph{Combinatorica}, 12, 449--461, 1992.
+\bibitem{MRT} Raghu Meka, Omer Reingold, and Avishay Tal. Pseudorandom generators for width-3 branching programs. \emph{STOC}, 2019. \href{https://eccc.weizmann.ac.il/report/2018/112/}{ECCC TR18-112}.
+\bibitem{Krak} Gonen Krak. Beyond Width-3: Better Hitting Set Generators for Width-4 Read-Once Branching Programs. \href{https://eccc.weizmann.ac.il/report/2026/225/}{ECCC TR26-225}, 2026.
+\bibitem{LRTV} Shachar Lovett, Omer Reingold, Luca Trevisan, and Salil Vadhan. Pseudorandom bit generators that fool modular sums. \emph{RANDOM}, 2009. \href{https://people.seas.harvard.edu/~salil/research/modular-abs.html}{Authors' version}.
+\bibitem{LPV} Chin Ho Lee, Edward Pyne, and Salil Vadhan. On the power of regular and permutation branching programs. \emph{RANDOM}, 2023. \href{https://doi.org/10.4230/LIPIcs.APPROX-RANDOM.2023.44}{doi:10.4230/LIPIcs.APPROX-RANDOM.2023.44}.
+\bibitem{DH} Dean Doron and William Hoza. Implications of better PRGs for permutation branching programs. \emph{RANDOM}, 2025. \href{https://eccc.weizmann.ac.il/report/2024/137/}{ECCC TR24-137}.
+\end{thebibliography}
+\end{document}
