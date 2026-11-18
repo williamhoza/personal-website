@@ -1,0 +1,517 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,hmargin=1.02in,vmargin=0.93in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,microtype}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newcommand{\F}{\mathbb F}
+\newcommand{\NL}{\mathsf{NL}}
+\newcommand{\US}{\mathsf{USPACE}}
+\newcommand{\calC}{\mathcal C}
+\newcommand{\calF}{\mathcal F}
+\newcommand{\fr}{\operatorname{Fr}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\pr}{\Pr}
+\allowdisplaybreaks
+\hypersetup{pdftitle={Unambiguous reachability in near-logarithmic space}}
+\title{Unambiguous reachability in near-logarithmic space}
+\author{}
+\date{November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We give an unambiguous algorithm for directed reachability that uses
+$O(\log n\,(\log\log n)^2)$ space. We construct a family of vertex weight assignments, indexed by short seeds,
+that includes a min-isolating assignment for each layered graph.
+The construction maintains a bound on the product of the numbers of optimal
+boundary sequences for several endpoint pairs. This joint bound allows the
+algorithm to double the number of binary levels handled at each step. We use
+exhaustive seed search and make no polynomial-time claim.
+\end{abstract}
+
+\section{Statement and proof strategy}
+
+\begin{theorem}\label{thm:main}
+For every language in $\NL$ there is an unambiguous machine deciding the language
+in $O(\log n\,(\log\log n)^2)$ space.
+\end{theorem}
+
+We give the proof for a simple layered DAG on $N$ vertices. Layers are numbered
+$0,\ldots,d$ with $d\le N$, every edge advances one layer, and vertices have
+distinct identifiers in $[N]$. The standard logspace reduction from $\NL$
+gives graphs of this form with $N$ polynomial in the input length. Write
+$L=\lceil\log_2 N\rceil$ and $\ell=\lceil\log_2(2L)\rceil$. All bounds below
+are for sufficiently large $N$. If the graph contains no path of length two,
+reachability can be decided directly in logarithmic space by testing equality
+and adjacency. We henceforth assume at least one such path exists.
+
+An assignment is \emph{min-isolating} if every reachable pair has a unique
+minimum-weight path. We minimize a sequence of additive vertex weights
+lexicographically. Optimal subpaths are optimal for their own endpoints,
+by replacement. When comparing paths between fixed endpoints, we omit the
+endpoints' contributions. The entire vector objective can be encoded by
+one integer weight.
+
+\paragraph{The issue with a single endpoint pair.}
+Suppose that each binary midpoint has at most $K$ plausible choices.
+Recording the path at $q-1$ boundaries gives as many as $K^{q-1}$
+sequences for a fixed pair. Even after thinning to $K=\mathrm{poly}(L)$,
+this estimate runs out when $q$ grows past a polynomial in $L$.
+The proof below counts the choices in a collection of intervals jointly.
+
+At a given scale, suppose a tuple of optimal boundary sequences has many
+locations where two choices are possible. Choose $m$ such locations.
+They involve disjoint sets of layers, so a random additive perturbation
+must satisfy $m$ independent equations to preserve all the ties.
+We need two bounds for the union argument. The first bounds how many
+lists of locations and endpoints can occur. The second bounds how many
+pairs of alternatives those locations admit, \emph{in total}. We build
+the lists from coarse to fine using an initial midpoint bound. We then
+choose weights from fine to coarse, proving the required joint bound
+for every list. The lists are a counting device in the proof. The
+machine only enumerates seeds for vertex weights.
+
+The use of shifted hashes and the passage from min-isolation to unambiguous
+computation follow van Melkebeek and Prakriya~\cite{vMP} and Reinhardt and
+Allender~\cite{RA}. We use binary layer valuations in the form of the
+dyadic construction analyzed by Hoza~\cite[Appendix A]{Hoza}.
+
+\begin{lemma}[Small-bias labels]\label{lem:bias}
+For a prime $p$, $n_0$ coordinates, and $0<\varepsilon<1$, there is an explicit
+distribution on $h\in\F_p^{n_0}$ with every nontrivial additive character
+of expectation of absolute value at most $\varepsilon$. A seed and the
+space to evaluate a coordinate each use $O(\log n_0+\log p+\log(1/\varepsilon))$
+bits. For any fixed system of $m$ linearly independent affine constraints
+on $h$, the probability of satisfying all of them is at most
+$p^{-m}+\varepsilon$.
+\end{lemma}
+\begin{proof}
+Choose the smallest extension $E=\F_{p^u}$ with $|E|>n_0/\varepsilon$.
+For uniform independent $x,y\in E$ and any nonzero
+$\F_p$-linear functional $\pi:E\to\F_p$, put $h_j=\pi(yx^j)$, $1\le j\le n_0$.
+A nontrivial linear combination has a nonzero coefficient polynomial
+of degree at most $n_0$ in $x$. Away from its roots the linear combination
+is uniform by the choice of $y$. This proves the bias bound.
+Expanding the indicator of the affine system in characters gives a constant term
+$p^{-m}$, and the remaining coefficients have total absolute value at most one.
+For uniform evaluation, enumerate monic degree-$u$ polynomials and test
+irreducibility by trial division. In the first resulting field representation
+one may take $\pi$ to be the constant coefficient. The search and the field
+arithmetic use $O(u\log p)$ space.
+\end{proof}
+
+\section{Thinning the feasible midpoints}
+
+Write $L=\lceil\log_2 N\rceil$ and $\ell=\lceil\log_2(2L)\rceil$.
+For two vertices $x,y$ in layers $a<b$ with $b-a\ge 2$, let their
+\emph{pivot} be the internal layer $i$ maximizing $\nu_2(i)$.
+The pivot is unique because between two positive integers of the same
+$2$-adic valuation lies an integer of higher valuation. The feasible
+midpoints for $(x,y)$ are the vertices in its pivot layer on an
+$x$--$y$ path.
+
+\begin{lemma}\label{lem:raw}
+There is an explicitly enumerable family of nonnegative integer vertex
+weights $V$ for $N$-vertex layered graphs with the following property.
+For each graph, some $V$ in the family ensures that, for every reachable
+pair $(x,y)$ having a pivot, at most $K=L^{O(1)}$ distinct pivot
+vertices occur on minimum-$V$ paths from $x$ to $y$. The seed length,
+the bit length of a path weight, and the workspace for evaluating a
+vertex weight are all $O(L\ell^2)$.
+\end{lemma}
+
+\begin{proof}
+We first construct a coloring for any fixed family of at most $N^2$
+nonempty subsets of an $N$-element ground set. We want at most $K$
+elements of the least occupied color in every set. At any stage retain
+in each set the elements having its lexicographically least tuple of
+colors so far. Suppose every retained set has size at most $2^a$.
+Initially $a=L$. While $a>256\ell$, the next stage reduces this bound to
+$2^{\lceil a/2\rceil}$.
+
+Choose a fresh $\varepsilon$-biased string with $Na$ binary coordinates
+using Lemma~\ref{lem:bias} over $\mathbb F_2$. Each vertex receives its
+own block of $a$ bits. Its color for this stage is $a$ minus the number
+of leading zero bits in its block. In particular, for every $d\le a$,
+the event that the first $d$ bits are zero is a union of the lowest
+colors. Take
+\[
+ t=2\lceil 64L/a\rceil,\qquad
+ \varepsilon=2^{-10L-2t(a+1)}.
+\]
+This choice uses $O(L)$ seed bits since $t(a+1)=O(L)$.
+
+Fix the choices of all preceding stages and consider one retained set
+of size $m>2^{\lceil a/2\rceil}$. Choose an integer $0\le d\le a$ such
+that $\mu=m2^{-d}$ lies in $[2^{a/4},2^{1+a/4}]$. Let $I_v$ indicate
+that the first $d$ bits of vertex $v$ are zero, and let $X$ be their sum
+over the retained set. Under fully independent bits these indicators
+are independent with mean $p=2^{-d}$. In the expansion of
+$\mathbb E[(X-\mu)^t]$, a tuple in which some vertex occurs exactly
+once contributes zero. A remaining tuple has $j\le t/2$ distinct
+vertices and contributes at most $(2p)^j$ in absolute value, since
+$\mathbb E|I_v-p|^h\le 2p$ for all integers $h\ge 1$. There are at
+most $m^j t^t$ tuples with $j$ distinct vertices. Hence the moment
+under fully independent bits is at most
+$2t^t(2\mu)^{t/2}$.
+
+The Fourier coefficients of $I_v$ on the binary cube have absolute
+sum one, by expanding the product of the $d$ indicators of a zero bit.
+Thus the coefficients of $I_v-p$ have absolute sum at most two.
+The coefficients of each product of $t$ centered indicators have
+absolute sum at most $2^t$, including when vertices repeat. Under an
+$\varepsilon$-biased distribution, its expectation therefore differs
+from that under independence by at most $2^t\varepsilon$. Summing over
+the $m^t$ tuples and applying Markov's inequality for even $t$ gives
+\[
+ \Pr[|X-\mu|\ge\mu]
+ \le 2(2t^2/\mu)^{t/2}
+      +\varepsilon(2m/\mu)^t
+ \le 2^{-5L}
+\]
+for all sufficiently large $N$. Indeed, $a>256\ell$ and
+$\log_2 t\le \ell+7$ give
+$\log_2(\mu/(2t^2))\ge a/6$, while $t\ge128L/a$.
+On the complementary event the prefix class contains at least one and
+fewer than $2\mu\le 2^{\lceil a/2\rceil}$ vertices. The least occupied
+color class is contained in this prefix class. A set already of size at
+most $2^{\lceil a/2\rceil}$ stays within the bound. A union bound gives
+a seed that works for all the retained sets at once. Since this holds
+for each fixed successful prefix of seeds, a successful sequence exists.
+
+There are $O(\ell)$ stages. The final bound $K=2^{256\ell}$ is
+polynomial in $L$. The full seed has $O(L\ell)$ bits. Encode the
+tuple of colors as a mixed-radix integer $c(v)\in\{0,\ldots,C-1\}$ in
+lexicographic order. Each radix is at most $L+1$, so
+$\log_2 C=O(\ell^2)$.
+
+Apply the coloring to the nonempty feasible midpoint sets of the graph.
+Put $B=4C+4$ and, at a positive layer $i$, set
+\[
+ V(v)=(1+c(v))B^{\nu_2(i)}.
+\]
+Take $V=0$ in layer zero. Fix an endpoint pair with pivot of valuation
+$h$. For each $j\ge 1$ there are at most $2^j$ internal layers of
+valuation $h-j$. Consequently their total contribution, summed over
+all lower valuations along any path, is at most
+\[
+ C B^h\sum_{j\ge 1}(2/B)^j
+ =\frac{2C}{B-2}B^h < B^h.
+\]
+An increase of one in pivot color costs $B^h$. Any minimum-$V$ path
+must therefore use a feasible midpoint of the least occupied color.
+There are at most $K$ such vertices. Finally $h\le L$, and a path has
+at most $N$ vertices, giving bit length $O(L\ell^2)$. The colors and
+the integer power can be evaluated within this space by regenerating
+the relevant bits and using binary arithmetic.
+\end{proof}
+\section{Frontiers and the lists of endpoint pairs}
+
+Fix successful initial weights $V$ from Lemma~\ref{lem:raw}. A \emph{window}
+$I=(x,y)$ is a reachable ordered pair with at least one internal layer.
+For $D\ge1$, give layer $t>0$ rank
+\[
+                   r_D(t)=\lfloor \nu_2(t)/D\rfloor .
+\]
+The \emph{frontier} $\fr_D(I)$ is the nonempty set of internal layer indices
+of largest rank $r_D$ in the window. The $D$-skeleton of a path in $I$
+lists the vertices it uses on these layers, in order. For a vector $W$
+of weights, let $\calF_D(I;W)$ be the set of $D$-skeletons of $W$-optimal paths.
+Write $f_D(I;W)=|\calF_D(I;W)|$. In particular, $f_1(I;V)\le K$.
+
+Put $D_i=2^i$, for $0\le i\le s$, where $s$ is largest with
+$D_s\le L/\ell^2$. Thus $s=O(\ell)$ and $D_s=\Theta(L/\ell^2)$.
+We pass between successive frontiers as follows. Put $D=D_{i-1}$.
+The binary valuations in a $2D$-frontier belong to one
+band of $2D$ consecutive valuations. This band splits into a lower
+half and an upper half of $D$ valuations each.
+\begin{itemize}
+\item First expose the $D$-skeleton of the entire window $I$.
+If the greatest internal valuation belongs to the lower half, this
+already specifies the $2D$-skeleton.
+\item Otherwise the first exposure gives all upper-half vertices.
+Between consecutive specified vertices, including the original endpoints,
+expose the $D$-skeleton of each gap containing a lower-half frontier
+layer. These exposures give precisely the remaining vertices of the
+$2D$-skeleton.
+\end{itemize}
+Call each window on which this procedure asks for a $D$-skeleton a
+\emph{site}. The site endpoints in the second step depend on the first
+answer. On a fixed path the sites' $D$-frontiers partition $\fr_{2D}(I)$.
+Site intervals can be nested, but their frontier layer sets are disjoint.
+
+For each $i\in[s]$ define
+\[
+ a_i=D_i\lceil\log_2(K+1)\rceil+\ell,\qquad
+ b_i=\lceil C_*\ell a_i\rceil,\qquad m_i=\lceil 16 L/b_i\rceil ,
+\]
+where $C_*$ is a sufficiently large absolute constant fixed below.
+The integer $b_i$ controls the range of a perturbation at step $i$.
+The number $m_i$ is how many ambiguous sites a witness must exhibit.
+
+Define finite catalogues $\calC_s,\ldots,\calC_0$ before choosing any
+perturbations. A member of $\calC_i$ is a list of windows with pairwise
+disjoint $D_i$-frontiers. Start $\calC_s$ with the singleton lists of all
+windows. Given $\calC_i$, take a list $J\in\calC_i$. Form the union of
+the possible sites obtained from its windows using any $V$-minimum path
+in each window. Put in $\calC_{i-1}$ all lists of length at most $m_i$
+drawn from this union, in any order, whose $D_{i-1}$-frontiers are
+pairwise disjoint. Include the empty list. Allowing separately feasible
+sites from incompatible paths only enlarges the catalogue.
+
+\begin{lemma}\label{lem:catalogues}
+For $C_*$ sufficiently large and $N$ sufficiently large, every catalogue
+has size at most $2^{4L}$.
+\end{lemma}
+\begin{proof}
+Fix a parent list and consider how to specify one possible site. Its
+parent window can be named in $O(\ell)$ bits, since every list has
+length $O(L)$. In a band of $D_i$ binary valuations the frontier contains
+at most $2^{D_i}-1$ positions. Indeed the positions are multiples of
+the band's lowest power of two between consecutive multiples of the
+next higher band's power. A site can therefore name its endpoint layers
+in $O(D_i+1)$ bits, allowing the two original endpoints as well.
+
+To name the vertex in one of those layers, descend the binary pivot
+recursion from the two known endpoints of the parent. At each pivot
+there are at most $K$ choices under $V$. Once the vertex has been
+chosen, the target layer determines which side to enter. The valuations
+strictly decrease and the target belongs to the same band as the first
+pivot, so at most $D_i$ vertex choices are needed. The same argument
+names the other endpoint. This is a counting argument, so the names may
+be ranks in lists defined by $V$-optimality. A total of $c a_i$ bits
+per site suffices for an absolute $c$, including the length and ordering
+overhead for specifying a list of up to $m_i$ sites by padding.
+
+It follows that
+\[
+ \log_2|\calC_j|\le 2L+c\sum_{i=j+1}^{s}m_i a_i
+ \le 2L+\frac{16cLs}{C_*\ell}
+             +c\sum_{i=1}^{s}a_i .
+\]
+The last sum is $O(D_s\log(K+1)+s\ell)=O(L/\ell+\ell^2)=o(L)$.
+Choose $C_*$ large enough that the middle term is at most $L$.
+\end{proof}
+
+\section{Controlling ambiguity on all the listed windows}
+
+We construct a new additive objective $U_i$ at each step. Write
+$W_0=(V)$ and $W_i=(V,U_1,\ldots,U_i)$ with lexicographic minimization.
+We will inductively establish
+\begin{equation}\label{eq:inv}
+     \prod_{I\in J} f_{D_i}(I;W_i)\le 2^L
+                  \qquad\text{for every }J\in\calC_i .
+\end{equation}
+For $i=0$ this follows from $f_1(I;V)\le K$ and
+$m_1\log_2 K\le L$ for sufficiently large $N$.
+
+\subsection{Weights at one step}
+
+Fix $i\ge1$, write $D=D_{i-1}$ and $q=2^D$, and choose the least prime
+$p>2^{b_i}$. Take a power of two $A$ between $16p q^2$ and $32p q^2$.
+The rank $r_D(t)$ is also the exponent of $q$ dividing $t$.
+There are at most $H=1+\lfloor L/D\rfloor$ ranks.
+Partition them in increasing order into consecutive batches of at most
+$\Delta$ ranks. The choice of $\Delta$ will be made in the space calculation.
+Independently in each batch $g$, choose $h_g\in\F_p^N$ using
+Lemma~\ref{lem:bias} with $\varepsilon=2^{-32L}$. Give a vertex $v$
+whose rank is in batch $g$, at position $j$ counting from zero, the weight
+\[
+                    U_i(v)=A^j[h_g(v)]_p,
+\]
+where $[\cdot]_p$ is the representative in $\{0,\ldots,p-1\}$.
+All objectives assign zero to layer zero.
+
+\begin{lemma}[Simultaneous ties]\label{lem:ties}
+Condition on $W_{i-1}$. Fix $m$ sites whose $D$-frontiers are disjoint.
+At each site $I$ fix two distinct skeletons from $\calF_D(I;W_{i-1})$.
+The probability that at every site both fixed skeletons occur on
+$W_i$-optimal paths is at most $p^{-m}+2H\varepsilon$.
+\end{lemma}
+\begin{proof}
+Consider one site with greatest internal rank $h$ at position $j$ in
+batch $g$. Condition on the seeds of earlier batches. For a fixed
+skeleton $S$, let $c_S$ be the minimum earlier-batch $U_i$-cost over
+the $W_{i-1}$-optimal paths in $I$ with skeleton $S$.
+It is fixed before $h_g$ is chosen. There are no internal layers of
+later batches. The least total $U_i$-cost in this class equals
+\[
+      c_S + A^j \sum_{v\in S}[h_g(v)]_p+\eta_S,
+                         \qquad 0\le\eta_S<A^j/8 .
+\]
+For the error bound, there are fewer than $q^{t+1}$ internal layers
+of rank $h-t$ for $1\le t\le h$, since the interval contains no internal
+multiple of $q^{h+1}$. Thus the portion from smaller ranks of the
+current batch is bounded, on every path, by
+\[
+    A^j p\sum_{t\ge1} q^{t+1} A^{-t}
+      = A^j \frac{p q^2}{A-q}<A^j/8 .
+\]
+Minimization over paths preserves this bound.
+
+If $S$ and $T$ both occur on $W_i$-optimal paths, their class minima
+are equal. The integer $\sum_{v\in S}[h_g(v)]_p-\sum_{v\in T}[h_g(v)]_p$
+lies within $1/8$ of $(c_T-c_S)/A^j$. There is at most one such integer,
+fixed under the conditioning. Reducing it modulo $p$ gives an affine
+constraint, or the event is impossible. Its coefficient row is nonzero
+because different skeletons differ at some layer. Within this batch,
+distinct sites use disjoint frontier layers, hence their coefficient
+rows have disjoint supports and are linearly independent.
+
+If $m_g$ sites belong to batch $g$, the conditional probability of the
+required constraints is at most $p^{-m_g}+\varepsilon$. Whether the ties
+occur in one batch depends only on that batch and its predecessors.
+Iterating conditional probabilities gives an upper bound
+$\prod_g(p^{-m_g}+\varepsilon)$. Its difference from $p^{-m}$ is at most
+$(1+\varepsilon)^H-1\le2H\varepsilon$ for sufficiently large $N$.
+\end{proof}
+
+\subsection{The joint induction}
+
+\begin{proposition}\label{prop:ind}
+If~\eqref{eq:inv} holds at step $i-1$, the batch seeds for $U_i$ can
+be chosen so that it holds at step $i$.
+\end{proposition}
+\begin{proof}
+For a list $J$ of exactly $m_i$ sites in $\calC_{i-1}$, the number of ways
+to specify an ordered pair of old-optimal skeletons at every site is at most
+\[
+                   \left(\prod_{I\in J}f_D(I;W_{i-1})\right)^2\le 2^{2L},
+                   \qquad D=D_{i-1}.
+\]
+This use of the product bound is essential. It costs only $2L$ bits to
+name the two entire tuples, even though the list can have many sites.
+Consider choices that differ at every site. By Lemmas~\ref{lem:catalogues}
+and~\ref{lem:ties}, the probability that any such choice survives
+everywhere is at most
+\[
+          2^{4L}\,2^{2L}\bigl(p^{-m_i}+2H\varepsilon\bigr)<1,
+\]
+using $m_i b_i\ge16L$. Fix seeds avoiding this event.
+
+Fix a parent list $J\in\calC_i$. Form a decision tree whose leaves are
+the tuples of $D_i$-skeletons obtained by choosing a $W_i$-optimal path
+in each listed window. Different windows may choose paths independently.
+Use list order and the two-step frontier decomposition above, processing
+gaps in layer order. At each site branch on the different $D$-skeletons
+that admit a completion consistent with the prefix. This prescription
+gives each full tuple one leaf, since the sequence of site questions
+is determined by the earlier answers. Along a given traversal the
+site frontiers are disjoint. This follows from the partition inside
+each window and the disjoint parent frontiers.
+
+If a traversal had $m_i$ sites with more than one available answer,
+take exactly $m_i$ of them, with the endpoints they have on this traversal.
+They form a list in $\calC_{i-1}$. Indeed, every $W_i$-optimal path
+is $V$-minimum, and its site placements therefore occur among those used
+to construct the catalogue. At each branching site at least two skeletons
+occur on $W_i$-optimal paths of that site, by optimal subpath replacement.
+The alternative at an earlier site need not preserve later endpoints.
+The excluded event only asks that the two alternatives exist separately
+at each of the recorded sites. This contradiction shows that every
+traversal has fewer than $m_i$ branching sites.
+
+Choose an answer uniformly from the available answers at each decision
+node. For any fixed leaf, the list of all its branching sites also belongs
+to $\calC_{i-1}$. Its probability is the reciprocal of the product of
+its branching factors. Those factors are bounded by the respective
+$f_D(I;W_{i-1})$, so by induction every leaf has probability at least
+$2^{-L}$. The tree has at most $2^L$ leaves. Its leaf count is precisely
+the product in~\eqref{eq:inv} for the parent list. This proves the
+inductive claim for every parent simultaneously.
+\end{proof}
+
+\section{Isolation and space}
+
+At the final scale the catalogue includes every singleton, so
+$f_{D_s}(I;W_s)\le2^L$ for every window. Choose a prime $P>N^{10}$
+of $O(L)$ bits and one field element $z\in\F_P$. For distinct old-optimal
+skeletons $S,T$ at any one window, the polynomial
+\[
+           \sum_{v\in S}z^{\id(v)}-\sum_{v\in T}z^{\id(v)}
+\]
+is nonzero and has degree at most $N$. The number of comparisons is at
+most $N^2 2^{2L}$, so some $z$ makes all these differences nonzero.
+For the last objective give $v$ in positive layer $t$ weight
+\[
+                   B^{r_{D_s}(t)}[z^{\id(v)}]_P ,
+                    \qquad B=16NP .
+\]
+On a window of maximum rank $h$, a unit gap between frontier sums
+dominates all contributions of lower ranks, which total at most
+$NP B^{h-1}$ when $h>0$. The winning skeleton is unique, and its
+gap intervals have smaller maximum rank. By induction their optimal paths
+are unique. A pair with no internal layer has at most one path by
+simplicity. Thus the complete lexicographic objective is min-isolating.
+
+\paragraph{Size of the weights and seed.}
+The initial objective costs $O(L\ell^2)$ bits by Lemma~\ref{lem:raw}.
+At step $i$, use $u_i=b_i+2D_{i-1}+7$ as an integer upper bound on
+$\log_2 A$, using Bertrand's postulate. We have
+\[
+ u_i=O(D_{i-1}\ell^2),\qquad b_i=O(L),\qquad
+ H=O(L/D_{i-1}).
+\]
+Each batch seed costs $O(L)$ by Lemma~\ref{lem:bias}. For $\Delta$ ranks
+per batch, all seeds at this step and the bit length of its path cost
+therefore total
+\[
+             O\bigl(L\lceil H/\Delta\rceil+L+\Delta u_i\bigr).
+\]
+Take $\Delta$ to be $\lceil\sqrt{HL/u_i}\rceil$ clipped to $[1,H]$.
+The displayed quantity is $O(L+u_i+\sqrt{H L u_i})=O(L\ell)$.
+All $O(\ell)$ steps together cost $O(L\ell^2)$. The last objective
+has $O(L/D_s)=O(\ell^2)$ radix positions of $O(L)$ bits. All the parameters
+admit integer computation using ceilings or integer powers of two.
+
+Encode the objectives in mixed radix, taking each radix greater than
+an explicit upper bound on the maximum path cost of its coordinate.
+Multiplying the maximum possible vertex weight for that coordinate by
+$N$ suffices. Summing the encoded vertex weights then implements
+lexicographic path comparison without a carry. The resulting bit length
+is bounded by the sum already computed. Trial division for primes and
+field polynomials, evaluation of the small-bias coordinates, and
+ordinary integer arithmetic fit the same space.
+
+\paragraph{Turning isolation into an unambiguous decision.}
+Enumerate all seed tuples in fixed order until the first min-isolating
+tuple passes. The weighted reachability checker of van Melkebeek and
+Prakriya~\cite[Lemma 3.5]{vMP} uses space $O(\log N+\log(W+1))$ for an
+upper bound $W$ on the path weights. For completeness, in the layered
+case one can implement the checker as follows. Count all entered vertices
+when weighing paths. At layer distance $j$ store the number of reachable
+pairs and the sum of their minimum weights. For $j=0$ these numbers are
+$N$ and zero. Suppose the census is correct and all the minima at distance
+$j$ are unique. To look up any of these distances, scan all pairs at that
+layer distance, guessing either to skip a pair or exhibit a path for it.
+Abort unless the stored count and sum match. The count forces every
+reachable pair to be represented. The sum then forces every exhibited path
+to be minimum. Using a unique encoding of path guesses leaves exactly one
+returning branch, which also knows the requested distance or its infinity.
+
+For each distance-$(j+1)$ pair, scan the last edge and use these lookups
+to find the best predecessor. Two predecessors tied for a finite minimum give a unique
+return reporting a failed assignment. Otherwise accumulate the next
+census and continue. This uses a constant number of counters of
+$O(L+\log(W+1))$ bits. One can also record the designated pair's reachability,
+handling same-layer and backward queries directly. Thus even the search
+through failed assignments has a unique continuing branch. The enumeration
+terminates by Proposition~\ref{prop:ind} and the final isolation argument.
+This proves Theorem~\ref{thm:main}.
+
+\begin{thebibliography}{9}
+\bibitem{vMP} Dieter van Melkebeek and Gautam Prakriya.
+\emph{Derandomizing isolation in space-bounded settings}.
+SIAM Journal on Computing 48(3), 979--1021, 2019.
+\href{https://doi.org/10.1137/17M1130538}{doi:10.1137/17M1130538}.
+\bibitem{Hoza} William M. Hoza.
+\emph{Deterministic, oblivious isolation for space-bounded computation requires large weights}.
+ECCC TR26-124, 2026. \url{https://eccc.weizmann.ac.il/report/2026/124/}
+\bibitem{RA} Klaus Reinhardt and Eric Allender.
+\emph{Making nondeterminism unambiguous}.
+SIAM Journal on Computing 29(4), 1118--1131, 2000.
+\href{https://doi.org/10.1137/S0097539798339041}{doi:10.1137/S0097539798339041}.
+\end{thebibliography}
+\end{document}

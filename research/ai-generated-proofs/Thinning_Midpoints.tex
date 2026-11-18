@@ -1,0 +1,183 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=1.02in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,microtype}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\NL}{\mathsf{NL}}
+\newcommand{\US}{\mathsf{USPACE}}
+\newcommand{\F}{\mathbb F}
+\newcommand{\wt}{\mathop{\rm wt}}
+\DeclareMathOperator{\rank}{rank}
+\allowdisplaybreaks
+\title{Thinning midpoints for unambiguous reachability}
+\author{}
+\date{November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We give a proof of $\NL\subseteq\US(O(\log^{3/2}n/\sqrt{\log\log n}))$.
+The primary weights of a layered graph restrict the number of choices at each binary midpoint. The secondary weights can then handle $\Theta(\log\log n)$ binary levels in a single hashing step. Applying the hash-reuse argument of van Melkebeek and Prakriya at these larger steps gives the space saving. The machine uses exhaustive seed search.
+\end{abstract}
+
+\section{Parameters and plan}
+
+All logarithms are base two. A layered graph has layers numbered $0,\ldots,d$, and edges from one layer to the next. We assume a simple graph on $N$ vertices with positive distinct vertex identifiers in $[N]$ and $d\le N$. These conditions hold for the standard layered configuration graph for directed reachability. A weight assignment is \emph{min-isolating} if every reachable ordered pair has a unique minimum-weight path. In comparing paths with the same endpoints, we count only internal vertex weights. Counting the final vertex as well gives the same minimizers.
+
+\begin{theorem}\label{thm:main}
+An $N$-vertex layered reachability instance can be decided unambiguously in space
+\[
+ O\!\left(\frac{(\log N)^{3/2}}{\sqrt{\log\log N}}\right).
+\]
+Consequently $\NL\subseteq\US(O(\log^{3/2}n/\sqrt{\log\log n}))$.
+\end{theorem}
+
+Van Melkebeek and Prakriya construct min-isolating assignments by combining fresh hashes with successive shifts of a shared hash~\cite{vMP}. The relevant measure is the sum of the seed length and the bit length of a path weight. Their construction uses $O((\log N)^{3/2})$ bits for this sum. We first restrict which paths the hashing step has to distinguish.
+
+We can decide same-layer and backward queries directly, including the case $d=0$. For sufficiently large $N$, put
+\[
+ L=\lceil\log N\rceil,\qquad
+ Q=2^{\lfloor(\log L)/4\rfloor},\qquad
+ K=2^{\lceil L/Q\rceil},\qquad r=8Q .
+\]
+Thus $Q=\Theta(L^{1/4})$ and $K^Q\le 2^{L+Q}\le 2^{2L}$. Let $p$ be the least prime larger than $N^{12}$. Bertrand's postulate gives $\log p=O(L)$.
+
+The construction has three steps.
+\begin{enumerate}
+\item Find a short vertex coloring for which each feasible midpoint set has at most $K$ vertices of its least color. Place the colors at dyadic scales so that every primary-minimum path uses a least-color midpoint.
+\item Merge $\log Q$ binary levels at once. For fixed endpoints, the primary-minimum paths have at most $K^{Q-1}$ different sequences of vertices on the new boundaries. One field element can hash all these alternatives, since their number is polynomial in $N$.
+\item Group the resulting $O(L/\log L)$ levels into batches. Within a batch, use shifted copies of one polynomial hash. Across batches, reset the shift and choose fresh hashes.
+\end{enumerate}
+All choices come from explicit finite lists. The algorithm tests the resulting weights for min-isolation. It never has to recognize a successful primary coloring in isolation.
+
+\section{A small least-color class}
+
+\begin{lemma}\label{lem:colors}
+There is an explicit family of colorings $c:[N]\to\{0,\ldots,C-1\}$, with seed length $O(rL)$ and $\log C=O(r\log L)$, with the following property. For any fixed family of at most $N^2$ nonempty subsets of $[N]$, some coloring assigns the least color in each set to at most $K$ elements of that set.
+\end{lemma}
+
+\begin{proof}
+Identify each element with its identifier in $\F_p$. Use $r$ independent affine functions $f_i(x)=a_ix+b_i$ over $\F_p$, choosing both coefficients uniformly. Write $[y]_p$ for the representative in $\{0,\ldots,p-1\}$. The bucket of $y$ is the least nonnegative integer $j$ such that $[y]_p<2^j$. Color $x$ by the tuple of buckets of $f_1(x),\ldots,f_r(x)$, in lexicographic order. Encoding the tuple in base $1+\lceil\log p\rceil$ gives the claimed $C$.
+
+Start with one fixed set and retain its least occupied bucket in each successive coordinate. Given all previous coordinates, let the present set have size $m>K$. Choose the largest power of two $T\le pK/(2m)$. Then $T<p$, and the number $X$ of present elements satisfying $[f_i(x)]_p<T$ has mean
+\[
+ K/4<\mu=mT/p\le K/2 .
+\]
+Pairwise independence gives $\operatorname{Var}(X)\le\mu$. If $X=0$ or $X>K$, then $|X-\mu|\ge\mu$, so this event has probability at most $4/K$. The prefix $[0,T)$ is a union of complete buckets. When $1\le X\le K$, the least occupied bucket has size at most $K$. A set of size at most $K$ stays that small. Hence the probability that a fixed final least-color class has more than $K$ elements is at most $(4/K)^r$. For sufficiently large $N$ this is at most $K^{-r/2}\le 2^{-4L}$. Take a union bound over the prescribed sets.
+\end{proof}
+
+For vertices $x,y$ in layers $a<b$ with $b-a\ge2$, define their \emph{pivot layer} to be the internal layer $i$ maximizing $\nu_2(i)$, where $\nu_2(i)$ is the exponent of two dividing $i$. Such a layer is unique, since between two integers of the same valuation lies an integer of higher valuation. When $x$ reaches $y$, let $S(x,y)$ be the set of vertices at the pivot through which an $x$--$y$ path passes. These sets are fixed by the input graph alone. Apply Lemma~\ref{lem:colors} to all of them and fix a successful coloring.
+
+Take $A=8(C+1)$ and assign to a vertex $v$ of positive layer $i$ primary weight
+\[
+                       V(v)=c(v)A^{\nu_2(i)} .
+\]
+Give vertices in layer zero weight zero. This dyadic ordering is the shifting construction of van Melkebeek and Prakriya in the form analyzed by Hoza~\cite[Appendix A]{Hoza}.
+
+\begin{lemma}\label{lem:mid}
+Every primary-minimum path from $x$ to $y$ uses a least-color vertex of $S(x,y)$ at its pivot. In particular, at most $K$ pivot choices occur on such paths.
+\end{lemma}
+\begin{proof}
+If the maximum internal valuation is $k$, all internal layers lie strictly between two consecutive multiples of $2^{k+1}$. For $j<k$ there are at most $2^{k-j}$ layers of valuation $j$. The total contribution from them to any path is at most
+\[
+ C\sum_{j<k}2^{k-j}A^j
+ < A^k \frac{2C}{A-2} < A^k .
+\]
+A decrease of one unit in the pivot color saves $A^k$. There is a feasible path through every vertex of $S(x,y)$, which proves the claim.
+\end{proof}
+
+\section{Grouping levels and hashing paths}
+
+For a positive layer $i$, set $h(i)=\max\{h:Q^h\mid i\}$ and call this its \emph{level}. Consider any interval with at least one internal layer and let $h$ be its largest internal level. Its internal layers of level $h$ will be called its boundaries. There are at most $Q-1$ of them, since there is no internal multiple of $Q^{h+1}$. A path's \emph{skeleton} is its sequence of boundary vertices in layer order.
+
+\begin{lemma}\label{lem:skeleton}
+For fixed reachable $x,y$, the number of skeletons of primary-minimum $x$--$y$ paths is at most $K^{Q-1}$.
+\end{lemma}
+\begin{proof}
+Expose the path at its binary pivot, and recursively expose the pivots of its two subpaths as long as the pivot is at level $h$. The exposed layers are exactly the boundaries. Indeed, $Q$ is a power of two, so each level collects a consecutive range of binary valuations. The resulting order of exposures can be fixed, say in preorder, using only the layers of $x$ and $y$. After fixing the endpoints of a subpath, its primary weight must be minimum for those endpoints, by path replacement. Lemma~\ref{lem:mid} gives at most $K$ choices for its pivot vertex. There are at most $Q-1$ exposures.
+\end{proof}
+
+Put $H=1+\lfloor\log_Q d\rfloor$ for $d\ge1$ and $b=\lceil\sqrt H\rceil$. Partition the levels $0,\ldots,H-1$ into consecutive batches of at most $b$ levels each. Set $B$ to be the smallest power of two larger than $8Np$. For each batch $g$ choose one $z_g\in\F_p$. A vertex $v$ at the $j$th level of batch $g$, counting from $j=0$, receives secondary weight
+\[
+                     U(v)= B^j [z_g^{\operatorname{id}(v)}]_p .
+\]
+Again give layer zero weight zero.
+
+\begin{lemma}\label{lem:shift}
+The batch seeds can be chosen so that, for every reachable ordered pair, precisely one of its primary-minimum paths minimizes secondary weight.
+\end{lemma}
+\begin{proof}
+Proceed through batches in increasing order. Assume that the already chosen batches give the desired uniqueness on every interval whose internal levels belong to those batches. For the next batch choose $z$ uniformly in $\F_p$. We first impose conditions that separate skeletons on all intervals whose largest internal level is in this batch.
+
+Fix such an endpoint pair and write $j$ for the position of its largest level in the batch. For each skeleton $S$ that occurs on a primary-minimum path, define $c_S$ as the minimum, over all primary-minimum paths with skeleton $S$, of the secondary cost from \emph{previous batches only}. Thus $c_S$ is fixed before choosing $z$. After assigning the batch weights the minimum secondary cost for this skeleton equals
+\begin{equation}\label{eq:cost}
+     c_S+B^j H_z(S)+\eta_S(z),\qquad
+     H_z(S)=\sum_{v\in S}[z^{\operatorname{id}(v)}]_p,\qquad
+     0\le\eta_S(z)<B^j/8 .
+\end{equation}
+To see this, every path with skeleton $S$ receives the displayed boundary contribution. If $j>0$, the remaining contribution from this batch lies between zero and $NpB^{j-1}<B^j/8$ on \emph{every} such path. This bound survives minimizing, even if the identity of the minimizing path changes. For $j=0$ the remaining contribution vanishes.
+
+If two distinct skeletons $S,T$ have the same minimum cost, then
+\[
+ \left|H_z(S)-H_z(T)+\frac{c_S-c_T}{B^j}\right|<1/8.
+\]
+The interval allowed for the integer $H_z(S)-H_z(T)$ contains at most one integer, fixed independently of $z$. If that integer is $a$, equality implies
+\[
+    \sum_{v\in S}z^{\operatorname{id}(v)}
+    -\sum_{v\in T}z^{\operatorname{id}(v)}-a=0\qquad\text{in }\F_p .
+\]
+This polynomial is nonzero and has degree at most $N$. Indeed, the skeletons use one vertex at each of the same boundary layers. Different skeletons differ as sets, and the vertex identifiers are positive and distinct. The collision probability is therefore at most $N/p$.
+
+There are at most $N^2$ endpoint pairs and at most $K^{2Q}$ ordered pairs of skeletons per endpoint pair, by Lemma~\ref{lem:skeleton}. These counts and all $c_S$ are independent of the current seed. Since $K^{2Q}\le2^{4L}$ and $p>N^{12}$, the union bound is less than one. Choose a seed avoiding every collision in this batch.
+
+It remains to handle paths with the same skeleton. Induct on the largest internal level, in increasing order within this batch. Distinct skeletons now have distinct minima. Given the winning skeleton, the intervals between consecutive specified vertices (including the original endpoints) have strictly smaller largest internal level, or no internal vertices. For each interval a globally optimal path must use a primary-minimum segment and, among those, a secondary-minimum segment. Otherwise it can be improved by replacement. Each segment is unique by induction, with the single-edge case following from simplicity. Their concatenation is unique. Later batches assign weights only at higher levels, so all conclusions for this batch persist.
+\end{proof}
+
+\section{The unambiguous machine}
+
+For a tuple of all the seeds use scalar vertex weights
+\[
+                         w(v)=B^{b+1} V(v)+U(v).
+\]
+The secondary cost of any path is less than $NpB^{b-1}<B^b$. Consequently scalar minimization implements primary minimization followed by secondary minimization. The preceding lemmas give at least one min-isolating tuple for every graph.
+
+For completeness we give a checker specialized to layered graphs. This is a version of the inductive-counting method of Reinhardt and Allender~\cite{RA} and van Melkebeek and Prakriya~\cite[Lemma 3.5]{vMP}. A \emph{total unambiguous subroutine} has exactly one branch that returns a value, whether that value is true or false. All other branches abort. This distinction matters when a search tries an unsuccessful seed.
+
+\begin{lemma}\label{lem:check}
+Given nonnegative integer vertex weights at most $W$, there is a total unambiguous subroutine that tests min-isolation in $O(\log N+\log(W+1))$ workspace, in addition to read-only access to the weights. On a successful assignment it can also return the reachability bit for a designated pair.
+\end{lemma}
+\begin{proof}
+In this subroutine count all entered vertices, including the final vertex and excluding the initial one. Keep a census $(c_k,s_k)$ of the number of reachable ordered pairs at layer distance $k$ and the sum of their minimum weights. Initially $c_0=N$ and $s_0=0$.
+
+Suppose the census is correct and every reachable pair at distance $k$ has a unique minimum path. One can retrieve the minimum weight for any such query, or $\infty$ for an unreachable pair, by scanning all ordered pairs at layer distance $k$. For each pair, guess either to skip it or to exhibit a path of length $k$ between its endpoints. Check each edge and count the exhibited paths and their total weight. Retain the guessed value for the query. Abort unless the two totals equal $(c_k,s_k)$. Meeting the count forces a path for every reachable pair. Meeting the sum then forces a minimum path for each. The uniqueness assumption gives exactly one returning branch. Use a fixed encoding of vertex guesses to ensure that each exhibited path has exactly one encoding.
+
+Now process each pair $(x,y)$ at layer distance $k+1$. Scan the incoming neighbors $u$ of $y$, retrieving the distance from $x$ to $u$ as above. The minimum of the finite retrieved distances plus $w(y)$ is the new minimum cost. Two neighbors attaining it certify failure of min-isolation, in which case return false. Otherwise accumulate the number and sum for the next census. This proves the invariant by induction and gives a unique returning branch even at the first failing layer distance. Initialize the designated reachability bit to the truth value of $s=t$ and update it when its forward pair is processed. At any time only a constant number of vertex identifiers, path weights, and census totals are stored. Every census sum is at most $N^3 W$. The work per assignment is polynomial in $N$ and the weight bit length, assuming polynomial-time weight access.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Enumerate all seed tuples in a fixed order, using Lemma~\ref{lem:check} on each. Stop at the first passing tuple and use its reachability bit. There is a passing tuple for every input. Every failed trial has a unique branch that returns false, so sequential composition preserves unambiguity.
+
+The primary seed uses $O(rL)$ bits. Since $\log C=O(r\log L)$, the largest primary weight has bit length $O(Lr\log L)$. There are $\lceil H/b\rceil$ secondary seeds, each using $O(L)$ bits, and $\log B=O(L)$. Thus the tuple, the path weights and all working storage fit in
+\[
+  O\bigl(Lr\log L+L\lceil H/b\rceil+Lb\bigr)
+  =O\left(L^{5/4}\log L+L\sqrt{L/\log L}\right)
+  =O\left(L^{3/2}/\sqrt{\log L}\right).
+\]
+The last equality uses $Q=\Theta(L^{1/4})$ and $H=O(L/\log L)$. One can find the prime by trial division, evaluate modular powers by repeated squaring, and form the integer powers with ordinary binary arithmetic in this space. Finitely many small input sizes can be handled directly. The usual logspace reduction from an $n$-bit NL input to reachability in a polynomial-size layered configuration graph preserves the bound. The search may take superpolynomial time.
+\end{proof}
+
+\begin{thebibliography}{9}
+\bibitem{vMP} Dieter van Melkebeek and Gautam Prakriya.
+\emph{Derandomizing isolation in space-bounded settings}.
+SIAM Journal on Computing 48(3), 979--1021, 2019.
+\href{https://doi.org/10.1137/17M1130538}{doi:10.1137/17M1130538}.
+\bibitem{Hoza} William M. Hoza.
+\emph{Deterministic, oblivious isolation for space-bounded computation requires large weights}.
+ECCC TR26-124, 2026. \url{https://eccc.weizmann.ac.il/report/2026/124/}
+\bibitem{RA} Klaus Reinhardt and Eric Allender.
+\emph{Making nondeterminism unambiguous}.
+SIAM Journal on Computing 29(4), 1118--1131, 2000.
+\href{https://doi.org/10.1137/S0097539798339041}{doi:10.1137/S0097539798339041}.
+\end{thebibliography}
+\end{document}

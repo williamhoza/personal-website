@@ -1,0 +1,238 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,hmargin=1.06in,vmargin=0.94in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,microtype}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\NL}{\mathsf{NL}}
+\newcommand{\UL}{\mathsf{UL}}
+\newcommand{\F}{\mathbb F}
+\newcommand{\dist}{\operatorname{dist}}
+\hypersetup{pdftitle={Masked binary words for unambiguous reachability}}
+\title{Masked binary words for unambiguous reachability}
+\author{}
+\date{November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We give a proposed proof of $\NL=\UL$. The construction assigns each
+vertex of a layered graph a binary word and applies the same random mask
+to all the words. Each coordinate at which two candidate midpoint
+vertices differ can force a bit of the mask if their minimum path costs
+tie. A random binary Toeplitz matrix supplies the words. The construction
+uses $O(\log N)$ random bits and polynomially bounded integer weights on
+a graph with $N$ vertices.
+\end{abstract}
+
+\section{The weight assignment}
+
+A simple layered directed graph has layers $0,\ldots,d$, and each edge
+advances exactly one layer. An assignment of vertex weights is
+\emph{min-isolating} if every reachable ordered pair has a unique
+minimum-weight path. When comparing paths with fixed endpoints, we charge
+only their internal vertices. Adding either endpoint to every path in a
+comparison preserves all ties and minimizers.
+
+\begin{theorem}\label{thm:main}
+There is a logspace-computable family of nonnegative integer vertex
+weights with the following guarantee. On each fixed simple layered
+directed graph with $N\ge2$ vertices and $d\le N$, a uniform seed of
+$O(\log N)$ bits gives a min-isolating assignment with probability at
+least $1-N^{-2}$. Every path cost is bounded by $N^{O(1)}$.
+\end{theorem}
+
+Give the vertices distinct labels $x(v)\in\F_2^L$, where
+$L=\lceil\log_2 N\rceil$. Set $k=16L$ and $B=16$. Use independent
+uniform bits $\tau_0,\ldots,\tau_{k+L-2}$ to define
+\[
+    a_j(v)=\bigoplus_{i=0}^{L-1}\tau_{j-1+i}\,x_i(v)
+                       \qquad(1\le j\le k).
+\]
+This is binary Toeplitz hashing with the order of the input coordinates
+reversed. Choose $k$ further independent uniform bits
+$\eta_1,\ldots,\eta_k$. For a vertex in positive layer $t$, set
+\begin{equation}\label{eq:weight}
+    w(v)=B^{\nu_2(t)}\sum_{j=1}^k B^{k-j}\eta_j a_j(v).
+\end{equation}
+Here $\nu_2(t)$ is the exponent of the highest power of two dividing
+$t$. Set the weight in layer zero to zero. The two sources of bits
+have different roles: $\tau$ assigns the words, then $\eta$ masks
+the same positions in every word. The analysis of the mask applies
+to \emph{arbitrary fixed} words.
+
+\section{A bound for two competing midpoint vertices}
+
+Fix endpoints $s,t$ with at least one internal layer, and consider their
+open interval of layers. It has a unique layer $t_*$ of maximum binary
+valuation $h$: between any two distinct integers of the same valuation
+lies an integer of higher valuation. Call $t_*$ the pivot layer.
+The entire interval lies strictly between consecutive multiples of
+$2^{h+1}$, so the number of its layers of valuation $h-r$ is at most
+$2^r$ for each $1\le r\le h$. In particular,
+\begin{equation}\label{eq:geometry}
+ \sum_{\substack{t'\text{ internal}\\t'\ne t_*}} B^{\nu_2(t')-h}
+                 \ \le\ \sum_{r\ge1}(2/B)^r=\frac17 .
+\end{equation}
+
+For a pivot vertex $v$ lying on an $s$--$t$ path, let $D_v$ denote the
+least full cost of an $s$--$t$ path going through $v$. The vertex $v$ is
+prescribed, and all other internal vertices may vary in taking this minimum.
+
+\begin{lemma}\label{lem:mask}
+Fix the entire word table $a$. For any two distinct feasible vertices
+$u,v$ on the pivot layer,
+\[
+           \Pr_\eta[D_u=D_v\mid a]\le
+                    2^{-\dist(a(u),a(v))},
+\]
+where $\dist$ denotes Hamming distance.
+\end{lemma}
+
+\begin{proof}
+Fix a coordinate $j$ and expose $\eta_1,\ldots,\eta_{j-1}$.
+Let $c_u$ be the minimum cost over paths through $u$, charging the
+contributions of coordinates $1,\ldots,j-1$ at all internal vertices.
+Define $c_v$ the same way. Both numbers are determined by the exposed
+prefix. Write $\sigma=B^{h+k-j}$ for one unit in coordinate $j$ at
+the pivot. On every path through $u$, the current coordinate at the
+pivot contributes exactly $\sigma\eta_j a_j(u)$.
+
+Two contributions remain. At the current coordinate, the lower layers
+together cost at most $\sigma/7$ by \eqref{eq:geometry}. At all later
+coordinates, the sum over \emph{every} internal layer, including the
+pivot, is at most
+\[
+      \sigma(1+1/7)\sum_{q\ge1}B^{-q}=\frac{8}{105}\sigma .
+\]
+Both bounds hold on every path for every setting of the unexposed bits.
+With $\rho=1/7+8/105=23/105<1/4$, this gives
+\begin{equation}\label{eq:sandwich}
+  c_u+\sigma\eta_j a_j(u)\ \le\ D_u\
+            \le\ c_u+\sigma\eta_j a_j(u)+\rho\sigma .
+\end{equation}
+Nonnegativity gives the lower bound. For the upper bound, evaluate the
+full cost on any path attaining $c_u$. This argument allows the
+minimizing path to change with the unexposed bits.
+
+Applying \eqref{eq:sandwich} to both classes shows that $D_u=D_v$
+requires
+\begin{equation}\label{eq:forced}
+   \left|\eta_j\bigl(a_j(u)-a_j(v)\bigr)
+              -\frac{c_v-c_u}{\sigma}\right|\le\rho .
+\end{equation}
+When the word bits differ, the two values on the left before subtracting
+the fixed center are integers a unit apart. At most one choice of
+$\eta_j$ can satisfy \eqref{eq:forced}, because $2\rho<1$.
+
+Fix all mask bits at coordinates where the two words agree. If two
+completions both gave a tie, take their first differing mask bit.
+The prefixes through $j-1$ agree, so the center in \eqref{eq:forced}
+is the same for both completions, while the two choices of $\eta_j$
+cannot both satisfy it. Thus at most one completion ties the two
+class minima. There are $2^{\dist(a(u),a(v))}$ equiprobable
+completions, proving the bound.
+\end{proof}
+
+\section{Simultaneous isolation and unambiguous search}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+For every fixed distinct pair $u,v$, the difference
+$a(u)\oplus a(v)$ is uniform on $\F_2^k$. Indeed, let $i_*$ be the
+largest position where $x(u)$ and $x(v)$ differ. In row $j$ the
+difference uses $\tau_{j-1+i_*}$ with coefficient one, and its other
+effective indices are smaller. This bit is fresh relative to rows
+$1,\ldots,j-1$. The difference bits are therefore independent and uniform.
+
+Fix an endpoint pair and two feasible pivot vertices $u,v$. By
+Lemma~\ref{lem:mask}, averaging over the word table gives
+\[
+   \Pr_{\tau,\eta}[D_u=D_v]\le
+    \mathbb E_\tau[2^{-\dist(a(u),a(v))}]
+      =\left(\tfrac12+\tfrac12\cdot\tfrac12\right)^k=(3/4)^k.
+\]
+There are at most $N^4$ choices of the two endpoints and two pivot
+vertices. The probability of any such equality is at most
+$N^4(3/4)^{16L}\le N^{-2}$, since $(3/4)^{16}<2^{-6}$.
+
+Fix a seed outside this event. We prove uniqueness for every reachable
+pair by induction on layer separation. Pairs with no internal layer have
+a unique path by simplicity, including the trivial path from a vertex
+to itself. Otherwise, among feasible pivot vertices the values $D_v$
+are all distinct. Every minimum path uses the unique winning pivot.
+The subpaths on its two sides must each be minimum between their own
+endpoints, by replacement. Both are unique by induction.
+
+The seed has $2k+L-1$ bits. Every vertex weight is less than
+$B^{L+k}$, and any path uses at most $N$ vertices. To compute a weight
+one evaluates the word bits by XOR and uses binary shifts, since
+$B=16$. This takes $O(L)$ space.
+\end{proof}
+
+\begin{corollary}\label{cor:ul}
+$\NL=\UL$.
+\end{corollary}
+\begin{proof}
+Layered directed reachability is $\NL$-complete under deterministic
+logspace reductions~\cite[Proposition 3.4]{vMP}. One may time-unroll a
+logspace configuration graph for polynomially many steps, allow padding
+after acceptance, and merge parallel edges. The resulting graph has
+polynomially many vertices, and adjacency can be queried in logspace.
+
+Enumerate the seeds of Theorem~\ref{thm:main} in a fixed order.
+Use a total unambiguous check for min-isolation on each seed, and
+decide reachability with the first passing assignment. This is the
+isolation-to-unambiguity reduction of Reinhardt and Allender~\cite{RA}
+in the weighted form of van Melkebeek and Prakriya~\cite[Lemma 3.5
+and Section 3.2]{vMP}. Their space bound is $O(\log N+\log(W+1))$
+for an upper bound $W$ on path weights. One can add one to every
+vertex weight if positive weights are required; the number of vertices
+on a path is fixed by its endpoints. The seed counter, weight evaluation,
+and the check use $O(\log N)$ space, hence $O(\log n)$ for original
+input length $n$. There are polynomially many seeds. Theorem~\ref{thm:main}
+ensures a passing seed, and $\UL\subseteq\NL$ follows from the definition.
+\end{proof}
+
+\paragraph{Why failed seeds preserve unambiguity.}
+Here is a direct implementation of the check on layered graphs. Charge
+the vertices entered by a path, including its last vertex. For layer
+separation $j$, keep the number of reachable ordered pairs and the sum
+of their minimum distances. For $j=0$ the census is $(N,0)$.
+Given a correct census with unique minima at separation $j$, a lookup
+of any one distance has exactly one returning computation. Scan all
+pairs at that separation in fixed order. For each pair either skip it
+or guess a path between its endpoints, using a unique encoding of the
+vertex sequence. Abort unless the number of paths and their total
+weight match the census. The count forces a path for every reachable
+pair; the sum forces each path to be minimum. This also yields the
+requested distance, with infinity for an unreachable pair.
+
+For each pair at separation $j+1$, scan its possible last predecessors
+and use these lookups. Two different predecessors attaining a finite
+minimum certify failure of the seed, with a unique returning computation.
+If this never happens, accumulate the census for $j+1$ and continue.
+The designated reachability answer can be recorded on the way. The scan
+uses a constant number of $O(\log N)$-bit counters and vertex names.
+Thus a failing seed has a unique computation continuing to the next seed,
+and a passing seed has a unique computation returning the answer.
+
+\paragraph{Dependence on the graph.}
+The word and mask family itself is oblivious to the edges. The successful
+seed selected by the check depends on the particular graph. Hoza's
+lower bound concerns a single assignment that must work for all graphs
+of given width and length simultaneously~\cite{Hoza}.
+
+\begin{thebibliography}{9}
+\bibitem{Hoza} William M. Hoza. \emph{Deterministic, Oblivious Isolation for
+Space-Bounded Computation Requires Large Weights}. ECCC TR26-124, 2026.
+\url{https://eccc.weizmann.ac.il/report/2026/124/}
+\bibitem{RA} Klaus Reinhardt and Eric Allender. \emph{Making Nondeterminism
+Unambiguous}. SIAM Journal on Computing 29(4), 1118--1131, 2000.
+\href{https://doi.org/10.1137/S0097539798339041}{doi:10.1137/S0097539798339041}.
+\bibitem{vMP} Dieter van Melkebeek and Gautam Prakriya. \emph{Derandomizing
+Isolation in Space-Bounded Settings}. SIAM Journal on Computing 48(3),
+979--1021, 2019.
+\href{https://doi.org/10.1137/17M1130538}{doi:10.1137/17M1130538}.
+\end{thebibliography}
+\end{document}
