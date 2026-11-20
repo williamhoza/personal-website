@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<link href="/temml/Temml-Latin-Modern.css" rel="stylesheet"/>
+<script src="/temml/temml.min.js"></script>
+<script src="/temml/auto-render.min.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>
+NL = UL
+</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700&amp;display=swap" rel="stylesheet"/>
+<link href="/main.css" rel="stylesheet"/>
+<link href="/research/papers.css" rel="stylesheet"/>
+</head>
+<body>
+<main>
+<article>
+<p>
+<a href="/research/">
+            Back to list of papers
+          </a>
+</p>
+<hr/>
+<h1>
+NL = UL
+</h1>
+<p>
+By William M. Hoza
+</p>
+<hr/>
+<p>
+          Read the paper: <a href="https://eccc.weizmann.ac.il/report/2026/323/">ECCC</a>
+</p>
+<details>
+<summary>Abstract (for specialists)</summary>
+<div class="indent">
+<p>
+        We present an explicit weight assignment generator that uses a seed of length $O(\log(wn))$ to assign a polynomially-bounded integer weight to each vertex of any simple width-$w$ length-$n$ layered digraph. For each such digraph, there is at least one seed such that the weight function is min-isolating, i.e., the minimum-weight path from $s$ to $t$ is unique for every $s, t$ such that $t$ is reachable from $s$. The generator is computable using $O(\log(wn))$ bits of space. Thanks to work by Reinhardt and Allender (SICOMP 2000), it immediately follows that $\mathsf{NL} = \mathsf{UL}$, i.e., every nondeterministic log-space Turing machine can be simulated by an unambiguous log-space Turing machine. The construction and analysis of the min-isolating weight function are remarkably simple.
+    </p>
+</div>
+</details>
+<details>
+<summary>Not-so-abstract (for curious outsiders)</summary>
+<p>⚠️ <em>This summary might gloss over some important details.</em></p>
+<div class="indent" value="NOT-SO-ABSTRACT">
+<p>
+        A "nondeterministic algorithm" uses guesswork to try to prove some statement. If the algorithm outputs "yes" at the end, it means the statement is true, whereas if the algorithm outputs "no," it could mean the statement is false, or it could just mean that the algorithm made a poor sequence of guesses. We say that a nondeterministic algorithm is "unambiguous" if there is always at most one sequence of guesses that leads the algorithm to output "yes." In this paper, we prove that every nondeterministic algorithm can be converted into an unambiguous algorithm without significantly increasing the amount of memory that the algorithm uses.
+    </p>
+</div>
+</details>
+
+<p>
+
+    I posted the initial, AI-generated version of the proof in November 2026; see <a href="/research/ai-generated-proofs/">here</a>. I posted a manuscript online shortly afterward.
+
+</p>
+
+<hr/>
+
+
+
+</article>
+</main>
+<script src="/temml/call-auto-render.js"></script>
+<script async="" data-goatcounter="https://williamhoza.goatcounter.com/count" src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
